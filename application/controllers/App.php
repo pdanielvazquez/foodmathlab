@@ -14,5 +14,8 @@ class App extends CI_Controller {
 		$this->load->view('Login/login_view');
 	}
 
-	
+	public function getProductos(){
+		
+	}
+
 }

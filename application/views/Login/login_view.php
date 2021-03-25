@@ -45,15 +45,22 @@
           <div class="col-8">       
           </div>
           <!-- /.col -->
-          <div class="col-4">
+          <div class="col-12">
             <button type="submit" class="btn btn-primary btn-block">Entrar</button>
           </div>
           <!-- /.col -->
         </div>
       </form>
 
+      
+
       </div>
     <!-- /.card-body -->
+      <div class="card-footer">
+        <p class="mb-0">
+          <a href="register.html" class="text-center">Crear una cuenta</a>
+        </p>
+      </div>
   </div>
   <!-- /.card -->
 </div>
