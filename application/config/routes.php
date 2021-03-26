@@ -54,3 +54,6 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
 $route['login'] = 'App/index';
+
+/*Productos*/
+$route['productos'] = 'Productos/index';
