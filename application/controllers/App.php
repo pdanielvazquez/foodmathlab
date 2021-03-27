@@ -14,6 +14,14 @@ class App extends CI_Controller {
 		$this->load->view('Login/login_view');
 	}
 
+	public function login(){
+		redirect('productos');
+	}
+
+	public function logout(){
+		redirect(base_url());
+	}
+
 	public function plantilla(){
 		$this->load->view('Plantillas/vacia_view');
 	}

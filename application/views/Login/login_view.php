@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Food Math Lab</title>
-
+  <link rel="icon" type="img/icon" href="<?= base_url('vendor') ?>/dist/img/logos/nutrimotor-logo-bn.png">
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
@@ -24,7 +24,7 @@
     <div class="card-body">
       <p class="login-box-msg">Inicio de sesión</p>
 
-      <form action="<?= base_url() ?>" method="post">
+      <form action="<?= base_url('App/login') ?>" method="post">
         <div class="input-group mb-3">
           <input type="email" class="form-control" placeholder="Usuario">
           <div class="input-group-append">
