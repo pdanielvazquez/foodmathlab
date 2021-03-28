@@ -7,12 +7,19 @@ class Productos extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->helper('url');
+		
 	}
 
 	public function index(){
+
+		$menu = $this->fm->get('menu_opciones', array('activo'=>1), array(), '');
+		$submenu = $this->fm->get('submenu_opciones', array('activo_submenu'=>1), array(), '');
+
 		$config = array(
 			'titulo'	=>	'Productos',
 			'usuario'	=>	'Usuario',
+			'menu'		=>	$menu,
+			'submenu'	=>	$submenu,
 		);
 		$this->load->view('Plantillas/html_open_view', $config);
 		$this->load->view('Plantillas/head_view');

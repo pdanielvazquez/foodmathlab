@@ -23,35 +23,41 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-                Dashboard
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="../../index.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Dashboard v1</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../../index2.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Dashboard v2</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../../index3.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Dashboard v3</p>
-                </a>
-              </li>
-            </ul>
-          </li>
+
+          <?
+          if ($menu!=false) {
+            foreach ($menu->result() as $opcion) {
+              ?>
+                <li class="nav-item">
+                  <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                    <p>
+                      <?= $opcion->opcion ?>
+                      <i class="<?= $opcion->icono ?>"></i>
+                    </p>
+                  </a>
+                  <ul class="nav nav-treeview">
+                    <?
+                    if ($submenu!=false) {
+                      foreach ($submenu->result() as $subopcion) {
+                        ?>
+                          <li class="nav-item">
+                            <a href="<?= $subopcion->ruta ?>" class="nav-link">
+                              <i class="<?= $subopcion->icono_submenu ?>"></i>
+                              <p><?= $subopcion->opcion_submenu ?></p>
+                            </a>
+                          </li>
+                        <?
+                      }
+                    }
+                    ?>
+                    
+                  </ul>
+                </li>
+              <?
+            }
+          }
+          ?>
           
           <li class="nav-header">MULTI LEVEL EXAMPLE</li>
           <li class="nav-item">
