@@ -7,13 +7,13 @@ class Productos extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->helper('url');
-		
+		$this->load->model('General_model');
 	}
 
 	public function index(){
 
-		$menu = $this->fm->get('menu_opciones', array('activo'=>1), array(), '');
-		$submenu = $this->fm->get('submenu_opciones', array('activo_submenu'=>1), array(), '');
+		$menu = $this->General_model->get('menu_opciones', array('activo'=>1), array(), '');
+		$submenu = $this->General_model->get('submenu_opciones', array('activo_submenu'=>1), array(), '');
 
 		$config = array(
 			'titulo'	=>	'Productos',

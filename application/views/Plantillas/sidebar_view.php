@@ -27,23 +27,31 @@
           <?
           if ($menu!=false) {
             foreach ($menu->result() as $opcion) {
+              $activo = '';
+              $arbol_abierto = '';
+              $menu_abierto = '';
+              if ($opcion->opcion == $titulo) {
+                $activo = 'active';
+                $arbol_abierto = 'block';
+                $menu_abierto = 'menu-is-opening menu-open';
+              }
               ?>
-                <li class="nav-item">
-                  <a href="#" class="nav-link">
-                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                <li class="nav-item <?= $menu_abierto ?>">
+                  <a href="#" class="nav-link <?= $activo ?>">
+                    <i class="nav-icon <?= $opcion->icono ?>"></i>
                     <p>
+                      <i class="right fas fa-angle-left"></i>
                       <?= $opcion->opcion ?>
-                      <i class="<?= $opcion->icono ?>"></i>
                     </p>
                   </a>
-                  <ul class="nav nav-treeview">
+                  <ul class="nav nav-treeview" style="display: <?= $arbol_abierto ?>">
                     <?
                     if ($submenu!=false) {
                       foreach ($submenu->result() as $subopcion) {
                         ?>
-                          <li class="nav-item">
-                            <a href="<?= $subopcion->ruta ?>" class="nav-link">
-                              <i class="<?= $subopcion->icono_submenu ?>"></i>
+                          <li class="nav-item" style="margin-left: 1rem;">
+                            <a href="<?= $subopcion->ruta_submenu ?>" class="nav-link">
+                              <i class="fas fa-angle-right"></i>
                               <p><?= $subopcion->opcion_submenu ?></p>
                             </a>
                           </li>
@@ -58,72 +66,6 @@
             }
           }
           ?>
-          
-          <li class="nav-header">MULTI LEVEL EXAMPLE</li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="fas fa-circle nav-icon"></i>
-              <p>Level 1</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-circle"></i>
-              <p>
-                Level 1
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Level 2</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>
-                    Level 2
-                    <i class="right fas fa-angle-left"></i>
-                  </p>
-                </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Level 3</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Level 3</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Level 3</p>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Level 2</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="fas fa-circle nav-icon"></i>
-              <p>Level 1</p>
-            </a>
-          </li>
           
         </ul>
       </nav>
