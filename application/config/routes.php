@@ -58,3 +58,5 @@ $route['logout'] = 'App/logout';
 
 /*Productos*/
 $route['productos'] = 'Productos/index';
+$route['producto_nuevo'] = 'Productos/nuevo';
+$route['registrar_producto'] = 'Productos/registro';
