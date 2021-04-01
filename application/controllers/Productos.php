@@ -119,4 +119,73 @@ class Productos extends CI_Controller {
 		$this->General_model->set('informacion_productos100', $valores_informacion_nutrimental);
 		redirect(base_url('productos_registrados'));
 	}
+
+	public function registrados(){
+
+		/*Consultas generales*/
+		$marcas = $this->General_model->get('marcas', array(), array('marca'=>'asc'), 'marca');
+		$categorias = $this->General_model->get('categorias', array(), array('categoria'=>'asc'), 'categoria');
+		$productos = $this->General_model->get('productos', array(), array(), '');
+		$data = array(
+			'marcas'	=>	$marcas,
+			'categorias'=>	$categorias,
+			'productos'	=>	$productos,
+		);
+
+		/*Configuración de la vista*/
+		$menu = $this->General_model->get('menu_opciones', array('activo'=>1), array(), '');
+		$submenu = $this->General_model->get('submenu_opciones', array('activo_submenu'=>1), array(), '');
+
+		$config = array(
+			'titulo'	=>	'Productos',
+			'usuario'	=>	'Usuario',
+			'menu'		=>	$menu,
+			'submenu'	=>	$submenu,
+		);
+
+		$this->load->view('Plantillas/html_open_view', $config);
+		$this->load->view('Plantillas/head_view');
+		$this->load->view('Plantillas/body_open_view');
+		$this->load->view('Plantillas/wraper_open_view');
+		$this->load->view('Plantillas/navbar_view');
+		$this->load->view('Plantillas/sidebar_view');
+		$this->load->view('Plantillas/content_wraper_open_view');
+		$this->load->view('Plantillas/content_wraper_header_view');
+		
+		/*Aqui va el contenido*/
+		$this->load->view('Productos/productos_view', $data);
+		
+		$this->load->view('Plantillas/content_wraper_close_view');
+		$this->load->view('Plantillas/footer_view');
+		$this->load->view('Plantillas/wraper_close_view');
+		$this->load->view('Plantillas/scripts_view');
+
+		/*Script de configuracion de datatable*/
+		$this->load->view('Productos/productos_datatable_view');
+		$this->load->view('Productos/productos_js_view');
+
+		$this->load->view('Plantillas/body_close_view');
+		$this->load->view('Plantillas/html_close_view');
+	}
+
+	public function descripcion(){
+
+		/*Consultas generales*/
+		$id_producto = $this->input->post('id');
+		$productos = $this->General_model->get('productos', array('id_prod'=>$id_producto), array(), '');
+		$producto = ($productos!=false) ? $productos->row(0) : false;
+
+		$descripciones = $this->General_model->get('informacion_productos100', array('id_prod'=>$id_producto), array(), '');
+		$descripcion = ($descripciones!=false) ? $descripciones->row(0) : false;
+
+		$campos = array('Energía (kcal)'=>'energia', 'Calograsas'=>'calograsas', 'Lípidos'=>'lipidos', 'Ácidos grasas saturadas'=>'acidosgs', 'Ácidos gm'=>'acidosgm', 'Ácidos gp'=>'acidosgp', 'Grasas Transgénicas'=>'acidostrans', 'Colesterol'=>'colesterol', 'Sodio'=>'sodio', 'Hidratos'=>'hidratos', 'Fibra'=>'fibra', 'Azucares'=>'azucaresa', 'Proteinas'=>'proteina', 'Vitamina A'=>'vitaa', 'Ácidos Ascord'=>'acidoascord', 'Tiamina'=>'tiamina', 'Robifavlina'=>'riboflavina', 'Ácidos Pantotenico'=>'acidopanto', 'Vitamina D'=>'vitad', 'Niacina'=>'niacina', 'Piridoxina'=>'piridoxina', 'Ácidos fólico'=>'acidofolico', 'Cobalamina'=>'cobalamina', 'Vitamina E'=>'vitaminae', 'Tocoferol'=>'tocoferol', 'Vitak'=>'vitak', 'Calcio'=>'calcio', 'Fosforo'=>'fosforo', 'Hierro'=>'hierro', 'Magnesio'=>'magnesio', 'Potasio'=>'potasio', 'Zinc'=>'zinc', 'Ácido Linoleico'=>'acidolino');
+
+		$data = array(
+			'producto'	=>	$producto,
+			'descripcion'=>	$descripcion,
+			'campos'	=>	$campos,
+		);
+
+		$this->load->view('Productos/descripcion_producto_view', $data);
+	}
 }

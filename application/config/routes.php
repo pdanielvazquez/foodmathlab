@@ -60,3 +60,5 @@ $route['logout'] = 'App/logout';
 $route['productos'] = 'Productos/index';
 $route['producto_nuevo'] = 'Productos/nuevo';
 $route['registrar_producto'] = 'Productos/registro';
+$route['productos_registrados'] = 'Productos/registrados';
+$route['producto_descripcion'] = 'Productos/descripcion';
