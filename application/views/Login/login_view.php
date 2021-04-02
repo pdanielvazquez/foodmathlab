@@ -58,7 +58,7 @@
     <!-- /.card-body -->
       <div class="card-footer">
         <p class="mb-0">
-          <a href="register.html" class="text-center">Crear una cuenta</a>
+          <a href="registro" class="text-center">Crear una cuenta</a>
         </p>
       </div>
   </div>

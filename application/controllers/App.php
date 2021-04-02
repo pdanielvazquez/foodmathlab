@@ -7,6 +7,7 @@ class App extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->helper('url');
+		$this->load->model('General_model');
 	}
 
 	public function index()
@@ -20,6 +21,23 @@ class App extends CI_Controller {
 
 	public function logout(){
 		redirect(base_url());
+	}
+
+	public function registro(){
+		$this->load->view('Login/register_view');
+	}
+
+	public function nuevo(){
+		$nombre = $this->input->post('name');
+		$correo = $this->input->post('email');
+		$contra = $this->input->post('pass1');
+		$valores = array(
+			'id_user'	=>	'',
+			'nombre'	=>	$nombre,
+			'correo'	=>	$correo,
+			'password'	=>	password_hash($contra, PASSWORD_DEFAULT),
+		);
+		$this->General_model->set('usuarios', $valores);
 	}
 
 	public function plantilla(){

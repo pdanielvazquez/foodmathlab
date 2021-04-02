@@ -55,6 +55,8 @@ $route['translate_uri_dashes'] = FALSE;
 
 $route['login'] = 'App/index';
 $route['logout'] = 'App/logout';
+$route['registro'] = 'App/registro';
+$route['nuevo_usuario'] = 'App/nuevo';
 
 /*Productos*/
 $route['productos'] = 'Productos/index';
