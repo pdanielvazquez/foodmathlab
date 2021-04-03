@@ -13,8 +13,13 @@
   <link rel="stylesheet" href="<?= base_url('vendor') ?>/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="<?= base_url('vendor') ?>/dist/css/adminlte.min.css">
+  <!-- SweetAlert2 -->
+  <link rel="stylesheet" href="<?= base_url('vendor') ?>/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+  <!-- Toastr -->
+  <link rel="stylesheet" href="<?= base_url('vendor') ?>/plugins/toastr/toastr.min.css">
 </head>
 <body class="hold-transition login-page">
+
 <div class="login-box">
   <!-- /.login-logo -->
   <div class="card card-outline card-primary">
@@ -26,7 +31,7 @@
 
       <form action="<?= base_url('App/login') ?>" method="post">
         <div class="input-group mb-3">
-          <input type="email" class="form-control" placeholder="Usuario">
+          <input type="email" class="form-control" placeholder="Usuario" name="email" id="email">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-user"></span>
@@ -34,7 +39,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="password" class="form-control" placeholder="Contraseña">
+          <input type="password" class="form-control" placeholder="Contraseña" name="password" id="password">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
@@ -58,7 +63,7 @@
     <!-- /.card-body -->
       <div class="card-footer">
         <p class="mb-0">
-          <a href="registro" class="text-center">Crear una cuenta</a>
+          <a href="<?= base_url('registro') ?>" class="text-center">Crear una cuenta</a>
         </p>
       </div>
   </div>
@@ -72,5 +77,38 @@
 <script src="<?= base_url('vendor') ?>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="<?= base_url('vendor') ?>/dist/js/adminlte.min.js"></script>
+<!-- SweetAlert2 -->
+<script src="<?= base_url('vendor') ?>/plugins/sweetalert2/sweetalert2.min.js"></script>
+<!-- Toastr -->
+<script src="<?= base_url('vendor') ?>/plugins/toastr/toastr.min.js"></script>
+
+<script>
+  $(function() {
+    var Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      timerProgressBar: true,
+      showConfirmButton: false,
+      timer: 6000
+    });
+
+    var error = <?= $error ?>;
+    var tipo  = <?= $tipo ?>;
+    var mensaje = 'Acceso incorrecto';
+    if (error==1){
+      switch(tipo){
+        case 1: mensaje = 'El usuario no existe';
+          break;
+        case 2: mensaje = 'La contraseña es incorrecta';
+          break;
+      }
+      Toast.fire({
+        icon: 'error',
+        title: mensaje,
+      })  
+    }
+})
+</script>
+
 </body>
 </html>

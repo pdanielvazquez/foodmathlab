@@ -9,9 +9,14 @@ class Productos extends CI_Controller {
 		$this->load->helper('url');
 		$this->load->model('General_model');
 		$this->load->helper('Input_helper');
+		$this->load->library('session');
 	}
 
 	public function index(){
+
+		if (!isset($_SESSION['idUser'])) {
+			redirect('App/logout');
+		}
 
 		$menu = $this->General_model->get('menu_opciones', array('activo'=>1), array(), '');
 		$submenu = $this->General_model->get('submenu_opciones', array('activo_submenu'=>1), array(), '');
@@ -47,6 +52,10 @@ class Productos extends CI_Controller {
 	}
 
 	public function nuevo(){
+
+		if (!isset($_SESSION['idUser'])) {
+			redirect('App/logout');
+		}
 
 		/*Consultas generales*/
 		$marcas = $this->General_model->get('marcas', array(), array('marca'=>'asc'), 'marca');
@@ -90,6 +99,11 @@ class Productos extends CI_Controller {
 	}
 
 	public function registro(){
+
+		if (!isset($_SESSION['idUser'])) {
+			redirect('App/logout');
+		}
+
 		$valores_productos = array(
 			'id_prod'		=>	'',
 			'id_categoria'	=>	$this->input->post('producto_categoria'),
@@ -121,6 +135,10 @@ class Productos extends CI_Controller {
 	}
 
 	public function registrados(){
+
+		if (!isset($_SESSION['idUser'])) {
+			redirect('App/logout');
+		}
 
 		/*Consultas generales*/
 		$marcas = $this->General_model->get('marcas', array(), array('marca'=>'asc'), 'marca');
@@ -169,6 +187,10 @@ class Productos extends CI_Controller {
 	}
 
 	public function descripcion(){
+
+		if (!isset($_SESSION['idUser'])) {
+			redirect('App/logout');
+		}
 
 		/*Consultas generales*/
 		$id_producto = $this->input->post('id');

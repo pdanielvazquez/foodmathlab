@@ -7,19 +7,43 @@ class App extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->helper('url');
+		$this->load->helper('Mi_helper');
 		$this->load->model('General_model');
+		$this->load->library('session');
 	}
 
 	public function index()
 	{
-		$this->load->view('Login/login_view');
+		$error = ($this->uri->segment(2)=='error') ? 1 : 0;
+		$tipo = ($error==1) ? $this->uri->segment(3) : 0;
+		$data = array(
+			'error'	=>	$error,
+			'tipo'	=>	$tipo,
+			);
+		$this->load->view('Login/login_view', $data);
 	}
 
 	public function login(){
-		redirect('productos');
+		$email = $this->input->post('email');
+		$password = $this->input->post('password');
+		$usuarios = $this->General_model->get('usuarios', array('correo'=>$email), array(), '');
+		if ($usuarios!=false) {
+			$usuario = $usuarios->row(0);
+			if (password_verify($password, $usuario->password)) {
+				$this->session->idUser = $usuario->id_user;
+				redirect(base_url('productos_registrados'));
+			}
+			else{
+				redirect(base_url('login/error/2'));		
+			}
+		}
+		else{
+			redirect(base_url('login/error/1'));	
+		}
 	}
 
 	public function logout(){
+		session_destroy();
 		redirect(base_url());
 	}
 

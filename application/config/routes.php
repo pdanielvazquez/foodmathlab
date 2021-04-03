@@ -53,7 +53,7 @@ $route['default_controller'] = 'App';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
-$route['login'] = 'App/index';
+$route['login/(:any)/(:num)'] = 'App/index';
 $route['logout'] = 'App/logout';
 $route['registro'] = 'App/registro';
 $route['nuevo_usuario'] = 'App/nuevo';
