@@ -143,7 +143,7 @@ class Productos extends CI_Controller {
 		/*Consultas generales*/
 		$marcas = $this->General_model->get('marcas', array(), array('marca'=>'asc'), 'marca');
 		$categorias = $this->General_model->get('categorias', array(), array('categoria'=>'asc'), 'categoria');
-		$productos = $this->General_model->get('productos', array(), array(), '');
+		$productos = $this->General_model->get('productos', array('id_usuario'=>$_SESSION['idUser']), array(), '');
 		$data = array(
 			'marcas'	=>	$marcas,
 			'categorias'=>	$categorias,
@@ -153,10 +153,12 @@ class Productos extends CI_Controller {
 		/*Configuración de la vista*/
 		$menu = $this->General_model->get('menu_opciones', array('activo'=>1), array(), '');
 		$submenu = $this->General_model->get('submenu_opciones', array('activo_submenu'=>1), array(), '');
+		$usuarios = $this->General_model->get('usuarios', array('id_user'=>$this->session->idUser), array(), '');
+		$usuario = ($usuarios!=false)? $usuarios->row(0) : false ;
 
 		$config = array(
 			'titulo'	=>	'Productos',
-			'usuario'	=>	'Usuario',
+			'usuario'	=>	$usuario->nombre,
 			'menu'		=>	$menu,
 			'submenu'	=>	$submenu,
 		);

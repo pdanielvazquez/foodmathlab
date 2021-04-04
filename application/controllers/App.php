@@ -14,6 +14,11 @@ class App extends CI_Controller {
 
 	public function index()
 	{
+
+		if (isset($_SESSION['idUser'])) {
+			redirect(base_url('productos_registrados'));
+		}
+
 		$error = ($this->uri->segment(2)=='error') ? 1 : 0;
 		$tipo = ($error==1) ? $this->uri->segment(3) : 0;
 		$data = array(
