@@ -60,7 +60,7 @@ class Productos extends CI_Controller {
 		/*Consultas generales*/
 		$marcas = $this->General_model->get('marcas', array(), array('marca'=>'asc'), 'marca');
 		$categorias = $this->General_model->get('categorias', array(), array('categoria'=>'asc'), 'categoria');
-		$campos = array('Energía (kcal)'=>'energia', 'Calograsas'=>'calograsas', 'Lípidos'=>'lipidos', 'Ácidos grasas saturadas'=>'acidosgs', 'Ácidos gm'=>'acidosgm', 'Ácidos gp'=>'acidosgp', 'Grasas Transgénicas'=>'acidostrans', 'Colesterol'=>'colesterol', 'Sodio'=>'sodio', 'Hidratos'=>'hidratos', 'Fibra'=>'fibra', 'Azucares'=>'azucaresa', 'Proteinas'=>'proteina', 'Vitamina A'=>'vitaa', 'Ácidos Ascord'=>'acidoascord', 'Tiamina'=>'tiamina', 'Robifavlina'=>'riboflavina', 'Ácidos Pantotenico'=>'acidopanto', 'Vitamina D'=>'vitad', 'Niacina'=>'niacina', 'Piridoxina'=>'piridoxina', 'Ácidos fólico'=>'acidofolico', 'Cobalamina'=>'cobalamina', 'Vitamina E'=>'vitaminae', 'Tocoferol'=>'tocoferol', 'Vitak'=>'vitak', 'Calcio'=>'calcio', 'Fosforo'=>'fosforo', 'Hierro'=>'hierro', 'Magnesio'=>'magnesio', 'Potasio'=>'potasio', 'Zinc'=>'zinc', 'Ácido Linoleico'=>'acidolino');
+		$campos = array('Energía'=>'energia', 'Calograsas'=>'calograsas', 'Lípidos'=>'lipidos', 'Ácidos grasas saturadas'=>'acidosgs', 'Ácidos gm'=>'acidosgm', 'Ácidos gp'=>'acidosgp', 'Grasas Transgénicas'=>'acidostrans', 'Colesterol'=>'colesterol', 'Sodio'=>'sodio', 'Hidratos'=>'hidratos', 'Fibra'=>'fibra', 'Azucares'=>'azucaresa', 'Proteinas'=>'proteina', 'Vitamina A'=>'vitaa', 'Ácidos Ascord'=>'acidoascord', 'Tiamina'=>'tiamina', 'Robifavlina'=>'riboflavina', 'Ácidos Pantotenico'=>'acidopanto', 'Vitamina D'=>'vitad', 'Niacina'=>'niacina', 'Piridoxina'=>'piridoxina', 'Ácidos fólico'=>'acidofolico', 'Cobalamina'=>'cobalamina', 'Vitamina E'=>'vitaminae', 'Tocoferol'=>'tocoferol', 'Vitak'=>'vitak', 'Calcio'=>'calcio', 'Fosforo'=>'fosforo', 'Hierro'=>'hierro', 'Magnesio'=>'magnesio', 'Potasio'=>'potasio', 'Zinc'=>'zinc', 'Ácido Linoleico'=>'acidolino');
 		$data = array(
 			'marcas'	=>	$marcas,
 			'categorias'=>	$categorias,
@@ -94,6 +94,10 @@ class Productos extends CI_Controller {
 		$this->load->view('Plantillas/footer_view');
 		$this->load->view('Plantillas/wraper_close_view');
 		$this->load->view('Plantillas/scripts_view');
+
+		/*funcionalidad Javascript*/
+		$this->load->view('Productos/nuevo_producto_js_view');
+
 		$this->load->view('Plantillas/body_close_view');
 		$this->load->view('Plantillas/html_close_view');
 	}
@@ -108,14 +112,14 @@ class Productos extends CI_Controller {
 			'id_prod'		=>	'',
 			'id_categoria'	=>	$this->input->post('producto_categoria'),
 			'id_marca'		=>	$this->input->post('producto_marca'),
-			'id_provedor'	=>	201,
+			'id_usuario'	=>	$this->session->idUser,
 			'ean'			=>	'',
 			'nombre'		=>	$this->input->post('producto_nombre'),
 			'numImagen'		=>	'',
 			'fecha'			=>	date("Y-m-d H:i:s"),
 			'rotula'		=>	0,
 		);
-		print_r($valores_productos);
+		//print_r($valores_productos);
 		$this->General_model->set('productos', $valores_productos);
 		$id_producto = $this->General_model->index('productos', 'id_prod');
 
@@ -125,8 +129,21 @@ class Productos extends CI_Controller {
 			'tamano_porcion'=>	'100 g',
 		);
 		foreach ($_POST as $campo => $valor) {
-			if (strpos($campo, 'producto_')<-1) {
+			if ((strpos($campo, 'producto_')<-1) && (strpos($campo, 'um_')<-1)) {
+				switch($this->input->post('um_'.$campo)){
+					case 'mg':
+						$valor = $valor/1000;
+						break;
+					case 'mcg':
+						$valor = $valor/1000000;
+						break;
+					case '%':
+						$valor = 100*($this->input->post($campo)/100);
+						break;
+
+				}
 				$valores_informacion_nutrimental[$campo] = $valor;
+				//echo "$campo -> $valor <br>";
 			}
 		}
 		print_r($valores_informacion_nutrimental);

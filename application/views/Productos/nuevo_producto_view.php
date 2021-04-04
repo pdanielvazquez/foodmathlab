@@ -77,13 +77,21 @@
                         <?= $input->Text(array(
                           'name'=>$nombre, 
                           'id'=>$nombre, 
-                          'class'=>'form-control',
+                          'class'=>'form-control valor-ingrediente',
                           'placeholder'=>'0',
                           'step'=>'0.01',
                           'style'=>'text-align:center',
                         ), 'number') ?>
                         <div class="input-group-append">
-                          <span class="input-group-text"><i class="fab fa-goodreads-g" style="font-size: 12px;"></i></span>
+                          <span class="input-group-text">
+                            <select name="um_<?= $nombre ?>" id="um_<?= $nombre ?>" >
+                              <option value="">-</option>
+                              <option>g</option>
+                              <option>mg</option>
+                              <option>mcg</option>
+                              <option>%</option>
+                            </select>
+                          </span>
                         </div>
                       </div>
                     </div>
