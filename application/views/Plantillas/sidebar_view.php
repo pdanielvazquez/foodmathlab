@@ -48,18 +48,20 @@
                     <?
                     if ($submenu!=false) {
                       foreach ($submenu->result() as $subopcion) {
-                        $active = '';
-                        if ($this->uri->segment(1) == $subopcion->ruta_submenu) {
-                          $active= 'active';
+                        if ($subopcion->id_opcion == $opcion->id_opcion) {
+                          $active = '';
+                          if ($this->uri->segment(1) == $subopcion->ruta_submenu) {
+                            $active= 'active';
+                          }
+                          ?>
+                            <li class="nav-item" style="margin-left: 1rem;">
+                              <a href="<?= $subopcion->ruta_submenu ?>" class="nav-link <?= $active ?>">
+                                <i class="fas fa-angle-right"></i>
+                                <p><?= $subopcion->opcion_submenu ?></p>
+                              </a>
+                            </li>
+                          <?
                         }
-                        ?>
-                          <li class="nav-item" style="margin-left: 1rem;">
-                            <a href="<?= $subopcion->ruta_submenu ?>" class="nav-link <?= $active ?>">
-                              <i class="fas fa-angle-right"></i>
-                              <p><?= $subopcion->opcion_submenu ?></p>
-                            </a>
-                          </li>
-                        <?
                       }
                     }
                     ?>
