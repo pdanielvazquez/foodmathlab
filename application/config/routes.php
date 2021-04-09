@@ -64,3 +64,7 @@ $route['producto_nuevo'] = 'Productos/nuevo';
 $route['registrar_producto'] = 'Productos/registro';
 $route['productos_registrados'] = 'Productos/registrados';
 $route['producto_descripcion'] = 'Productos/descripcion';
+
+/*Reportes*/
+$route['reporte_estadistico'] = 'Reportes/index';
+
