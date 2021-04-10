@@ -14,10 +14,9 @@
           <table id="example1" class="table table-bordered table-striped table-hover">
             <thead>
               <tr>
-                <th>Categoría</th>
-                <th>Marca</th>
                 <th>Producto</th>
-                <th>Precio</th>
+                <th>Cantidad neta</th>
+                <th>Cantidad de la porción</th>
               </tr>
             </thead>
             <tbody>
@@ -27,39 +26,12 @@
                     ?>
                     <tr>
                       <td>
-                        <?
-                        $txt_categoria = '-';
-                        if ($categorias!=false) {
-                          foreach ($categorias->result() as $categoria) {
-                            if ($categoria->id_categoria == $producto->id_categoria){
-                              $txt_categoria = $categoria->categoria;
-                              break;
-                            }
-                          }
-                        }
-                        echo $txt_categoria;
-                        ?>
-                      </td>
-                      <td>
-                        <?
-                        $txt_marca ='-';
-                        if ($marcas!=false) {
-                          foreach ($marcas->result() as $marca) {
-                            if ($marca->id_marca == $producto->id_marca){
-                              $txt_marca = $marca->marca;
-                              break;
-                            }
-                          }
-                        }
-                        echo $txt_marca;
-                        ?>
-                      </td>
-                      <td>
                         <a href="" data-id="<?= $producto->id_prod ?>" data-toggle="modal" data-target="#descripcion" class="btn-descripcion">
                         <?= $producto->nombre ?>
                         </a>
                       </td>
-                      <td><?= $producto->precio ?></td>
+                      <td><?= number_format($producto->cantidad_neta, 1) ?> g</td>
+                      <td><?= number_format($producto->cantidad_porcion, 1) ?> g</td>
                     </tr>
                     <?
                   }
@@ -68,10 +40,9 @@
             </tbody>
             <tfoot>
               <tr>
-                <th>Categoría</th>
-                <th>Marca</th>
                 <th>Producto</th>
-                <th>Precio</th>
+                <th>Cantidad neta</th>
+                <th>Cantidad de la porción</th>
               </tr>
             </tfoot>
           </table>

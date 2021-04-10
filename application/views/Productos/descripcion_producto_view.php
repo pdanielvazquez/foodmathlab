@@ -11,8 +11,12 @@
     <div class="modal-body" id="descripcionBody">
       <div class="row">
         <?
-        if ($descripcion!=false) {
+        if ($producto!=false) {
           foreach ($campos as $etiqueta=>$nombre) {
+            $bg = '';
+            if ($producto->$nombre>0) {
+              $bg = 'background-color: #8fff87; ';
+            }
             ?>
             <div class="col-xs-12 col-md-4 col-lg-2">
               <div class="form-group">
@@ -24,8 +28,8 @@
                     'class'=>'form-control',
                     'placeholder'=>'0',
                     'step'=>'0.01',
-                    'style'=>'text-align:center',
-                    'value'=>$descripcion->$nombre,
+                    'style'=>'text-align:center; '.$bg,
+                    'value'=> ($producto->$nombre>0) ? (float)$producto->$nombre : '0',
                   ), 'number') ?>
                   <div class="input-group-append">
                     <span class="input-group-text"><i class="fab fa-goodreads-g" style="font-size: 12px;"></i></span>

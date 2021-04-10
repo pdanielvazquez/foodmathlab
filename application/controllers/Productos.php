@@ -60,7 +60,42 @@ class Productos extends CI_Controller {
 		/*Consultas generales*/
 		$marcas = $this->General_model->get('marcas', array(), array('marca'=>'asc'), 'marca');
 		$categorias = $this->General_model->get('categorias', array(), array('categoria'=>'asc'), 'categoria');
-		$campos = array('Energía'=>'energia', 'Calograsas'=>'calograsas', 'Lípidos'=>'lipidos', 'Ácidos grasas saturadas'=>'acidosgs', 'Ácidos gm'=>'acidosgm', 'Ácidos gp'=>'acidosgp', 'Grasas Transgénicas'=>'acidostrans', 'Colesterol'=>'colesterol', 'Sodio'=>'sodio', 'Hidratos'=>'hidratos', 'Fibra'=>'fibra', 'Azucares'=>'azucaresa', 'Proteinas'=>'proteina', 'Vitamina A'=>'vitaa', 'Ácidos Ascord'=>'acidoascord', 'Tiamina'=>'tiamina', 'Robifavlina'=>'riboflavina', 'Ácidos Pantotenico'=>'acidopanto', 'Vitamina D'=>'vitad', 'Niacina'=>'niacina', 'Piridoxina'=>'piridoxina', 'Ácidos fólico'=>'acidofolico', 'Cobalamina'=>'cobalamina', 'Vitamina E'=>'vitaminae', 'Tocoferol'=>'tocoferol', 'Vitak'=>'vitak', 'Calcio'=>'calcio', 'Fosforo'=>'fosforo', 'Hierro'=>'hierro', 'Magnesio'=>'magnesio', 'Potasio'=>'potasio', 'Zinc'=>'zinc', 'Ácido Linoleico'=>'acidolino');
+		$campos = array(
+			'Contenido energético <small>(Energía, calorias)</small>'=>'energia', 
+			'Calorias de grasa <small>(Energía de grasa)</small>'=>'calograsas', 
+			'Grasas totales <small>(Grasa total, lípidos, grasa, grasas totales)</small>'=>'lipidos', 
+			'Grasas saturadas <small>(Grasa sat, ácidos grasos saturados)</small>'=>'acidosgs', 
+			'Sodio <small><br>(Sal, Na)</small>'=>'sodio', 
+			'Carbohidratos <small>(Carbohidratos totales, Hidratos de carbono)</small>'=>'hidratos', 
+			'Azucares <small><br>(Azucares añadidos)</small>'=>'azucaresa', 
+			'Proteinas <small><br>(Proteinas totales)</small>'=>'proteina', 
+			'Grasas monoinsaturadas <small>(Ácidos gm)</small>'=>'acidosgm', 
+			'Grasas poliinsaturadas <small>(Ácidos gp)</small>'=>'acidosgp', 
+			'Grasas Trans <small><br>(Ácidos grasos trans)</small>'=>'acidostrans', 
+			'Fibra <small><br>(Fibra dietética)</small>'=>'fibra', 
+			'Colesterol'=>'colesterol', 
+			'Vitamina A'=>'vitaa', 
+			'Ácidos Ascord'=>'acidoascord', 
+			'Tiamina'=>'tiamina', 
+			'Robifavlina'=>'riboflavina', 
+			'Ácidos Pantotenico'=>'acidopanto', 
+			'Vitamina D'=>'vitad', 
+			'Niacina'=>'niacina', 
+			'Piridoxina'=>'piridoxina', 
+			'Ácidos fólico'=>'acidofolico', 
+			'Cobalamina'=>'cobalamina', 
+			'Vitamina E'=>'vitaminae', 
+			'Tocoferol'=>'tocoferol', 
+			'Vitak'=>'vitak', 
+			'Calcio'=>'calcio', 
+			'Fosforo'=>'fosforo', 
+			'Hierro'=>'hierro', 
+			'Magnesio'=>'magnesio', 
+			'Potasio'=>'potasio', 
+			'Zinc'=>'zinc', 
+			'Ácido Linoleico'=>'acidolino'
+		);
+
 		$data = array(
 			'marcas'	=>	$marcas,
 			'categorias'=>	$categorias,
@@ -91,6 +126,7 @@ class Productos extends CI_Controller {
 		
 		/*Aqui va el contenido*/
 		$this->load->view('Productos/nuevo_producto_view', $data);
+		$this->load->view('Productos/nuevo_producto_modales_view', $data);
 
 		$this->load->view('Plantillas/content_wraper_close_view');
 		$this->load->view('Plantillas/footer_view');
@@ -112,24 +148,14 @@ class Productos extends CI_Controller {
 
 		$valores_productos = array(
 			'id_prod'		=>	'',
-			'id_categoria'	=>	$this->input->post('producto_categoria'),
-			'id_marca'		=>	$this->input->post('producto_marca'),
-			'id_usuario'	=>	$this->session->idUser,
-			'ean'			=>	'',
+			'id_user'	=>	$this->session->idUser,
 			'nombre'		=>	$this->input->post('producto_nombre'),
-			'numImagen'		=>	'',
+			'cantidad_neta'	=>	$this->input->post('producto_cantidad_neta'),
+			'cantidad_porcion'	=>	$this->input->post('producto_cantidad_porcion'),
 			'fecha'			=>	date("Y-m-d H:i:s"),
-			'rotula'		=>	0,
 		);
 		//print_r($valores_productos);
-		$this->General_model->set('productos', $valores_productos);
-		$id_producto = $this->General_model->index('productos', 'id_prod');
 
-		$valores_informacion_nutrimental = array(
-			'id_info100'	=>	'',
-			'id_prod'		=>	$id_producto,
-			'tamano_porcion'=>	'100 g',
-		);
 		foreach ($_POST as $campo => $valor) {
 			if ((strpos($campo, 'producto_')<-1) && (strpos($campo, 'um_')<-1)) {
 				switch($this->input->post('um_'.$campo)){
@@ -139,17 +165,12 @@ class Productos extends CI_Controller {
 					case 'mcg':
 						$valor = $valor/1000000;
 						break;
-					case '%':
-						$valor = 100*($this->input->post($campo)/100);
-						break;
-
 				}
-				$valores_informacion_nutrimental[$campo] = $valor;
-				//echo "$campo -> $valor <br>";
+				$valores_productos[$campo] = $valor;
 			}
 		}
-		print_r($valores_informacion_nutrimental);
-		$this->General_model->set('informacion_productos100', $valores_informacion_nutrimental);
+		print_r($valores_productos);
+		$this->General_model->set('productos_foodmathlab', $valores_productos);
 		redirect(base_url('productos_registrados'));
 	}
 
@@ -160,12 +181,8 @@ class Productos extends CI_Controller {
 		}
 
 		/*Consultas generales*/
-		$marcas = $this->General_model->get('marcas', array(), array('marca'=>'asc'), 'marca');
-		$categorias = $this->General_model->get('categorias', array(), array('categoria'=>'asc'), 'categoria');
-		$productos = $this->General_model->get('productos', array('id_usuario'=>$_SESSION['idUser']), array(), '');
+		$productos = $this->General_model->get('productos_foodmathlab', array('id_user'=>$_SESSION['idUser']), array(), '');
 		$data = array(
-			'marcas'	=>	$marcas,
-			'categorias'=>	$categorias,
 			'productos'	=>	$productos,
 		);
 
@@ -215,17 +232,47 @@ class Productos extends CI_Controller {
 
 		/*Consultas generales*/
 		$id_producto = $this->input->post('id');
-		$productos = $this->General_model->get('productos', array('id_prod'=>$id_producto), array(), '');
+		$productos = $this->General_model->get('productos_foodmathlab', array('id_prod'=>$id_producto), array(), '');
 		$producto = ($productos!=false) ? $productos->row(0) : false;
 
-		$descripciones = $this->General_model->get('informacion_productos100', array('id_prod'=>$id_producto), array(), '');
-		$descripcion = ($descripciones!=false) ? $descripciones->row(0) : false;
-
-		$campos = array('Energía (kcal)'=>'energia', 'Calograsas'=>'calograsas', 'Lípidos'=>'lipidos', 'Ácidos grasas saturadas'=>'acidosgs', 'Ácidos gm'=>'acidosgm', 'Ácidos gp'=>'acidosgp', 'Grasas Transgénicas'=>'acidostrans', 'Colesterol'=>'colesterol', 'Sodio'=>'sodio', 'Hidratos'=>'hidratos', 'Fibra'=>'fibra', 'Azucares'=>'azucaresa', 'Proteinas'=>'proteina', 'Vitamina A'=>'vitaa', 'Ácidos Ascord'=>'acidoascord', 'Tiamina'=>'tiamina', 'Robifavlina'=>'riboflavina', 'Ácidos Pantotenico'=>'acidopanto', 'Vitamina D'=>'vitad', 'Niacina'=>'niacina', 'Piridoxina'=>'piridoxina', 'Ácidos fólico'=>'acidofolico', 'Cobalamina'=>'cobalamina', 'Vitamina E'=>'vitaminae', 'Tocoferol'=>'tocoferol', 'Vitak'=>'vitak', 'Calcio'=>'calcio', 'Fosforo'=>'fosforo', 'Hierro'=>'hierro', 'Magnesio'=>'magnesio', 'Potasio'=>'potasio', 'Zinc'=>'zinc', 'Ácido Linoleico'=>'acidolino');
+		$campos = array(
+			'Contenido energético <small>(Energía, calorias)</small>'=>'energia', 
+			'Calorias de grasa <small>(Energía de grasa)</small>'=>'calograsas', 
+			'Grasas totales <small>(Grasa total, lípidos, grasa, grasas totales)</small>'=>'lipidos', 
+			'Grasas saturadas <small>(Grasa sat, ácidos grasos saturados)</small>'=>'acidosgs', 
+			'Sodio <small><br>(Sal, Na)</small>'=>'sodio', 
+			'Carbohidratos <small>(Carbohidratos totales, Hidratos de carbono)</small>'=>'hidratos', 
+			'Azucares <small><br>(Azucares añadidos)</small>'=>'azucaresa', 
+			'Proteinas <small><br>(Proteinas totales)</small>'=>'proteina', 
+			'Grasas monoinsaturadas <small>(Ácidos gm)</small>'=>'acidosgm', 
+			'Grasas poliinsaturadas <small>(Ácidos gp)</small>'=>'acidosgp', 
+			'Grasas Trans <small><br>(Ácidos grasos trans)</small>'=>'acidostrans', 
+			'Fibra <small><br>(Fibra dietética)</small>'=>'fibra', 
+			'Colesterol'=>'colesterol', 
+			'Vitamina A'=>'vitaa', 
+			'Ácidos Ascord'=>'acidoascord', 
+			'Tiamina'=>'tiamina', 
+			'Robifavlina'=>'riboflavina', 
+			'Ácidos Pantotenico'=>'acidopanto', 
+			'Vitamina D'=>'vitad', 
+			'Niacina'=>'niacina', 
+			'Piridoxina'=>'piridoxina', 
+			'Ácidos fólico'=>'acidofolico', 
+			'Cobalamina'=>'cobalamina', 
+			'Vitamina E'=>'vitaminae', 
+			'Tocoferol'=>'tocoferol', 
+			'Vitak'=>'vitak', 
+			'Calcio'=>'calcio', 
+			'Fosforo'=>'fosforo', 
+			'Hierro'=>'hierro', 
+			'Magnesio'=>'magnesio', 
+			'Potasio'=>'potasio', 
+			'Zinc'=>'zinc', 
+			'Ácido Linoleico'=>'acidolino'
+		);
 
 		$data = array(
 			'producto'	=>	$producto,
-			'descripcion'=>	$descripcion,
 			'campos'	=>	$campos,
 		);
 
