@@ -22,5 +22,10 @@
 <!-- Toastr -->
 <script src="<?= base_url('vendor') ?>/plugins/toastr/toastr.min.js"></script>
 
+<!-- Chats.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.1.0/dist/chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/combine/npm/pdfjs-dist@2.6.347,npm/chart.js@3.1.0"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
+
 <!-- AdminLTE App -->
 <script src="<?= base_url('vendor') ?>/dist/js/adminlte.min.js"></script>

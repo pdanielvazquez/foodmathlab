@@ -76,12 +76,12 @@
 			        				?>
 			        				<tr>
 			        					<td><?= $etiqueta ?></td>
-			        					<td><?= $campo['media'] ?></td>
-			        					<td><?= $campo['de'] ?></td>
-			        					<td><?= $campo['moda'] ?></td>
-			        					<td><?= $campo['mediana'] ?></td>
-			        					<td><?= $campo['minimo'] ?></td>
-			        					<td><?= $campo['maximo'] ?></td>
+			        					<td><?= number_format($campo['media'], 2) ?></td>
+			        					<td><?= number_format($campo['de'], 2) ?></td>
+			        					<td><?= number_format($campo['moda'], 2) ?></td>
+			        					<td><?= number_format($campo['mediana'], 2) ?></td>
+			        					<td><?= number_format($campo['minimo'], 2) ?></td>
+			        					<td><?= number_format($campo['maximo'], 2) ?></td>
 			        				</tr>
 			        				<?
 			        			}
@@ -91,8 +91,45 @@
 		        	</table>
 		        </div>
 		    </div>
+
+		    <!-- Gráficos -->
+		    <div class="row">
+
+		    	<?
+			    if ($campos!=false) {
+			    	$labels = 'Energías,Azucares,Grasas sat,Grasa total,Sodio,Hidratos,Fibra,Proteinas';
+			    	foreach ($campos as $etiqueta => $campo) {
+			    		$data = number_format($campo['media'], 2).',';
+			    		$data .= number_format($campo['de'], 2).',';
+			    		$data .= number_format($campo['moda'], 2).',';
+			    		$data .= number_format($campo['mediana'], 2).',';
+			    		$data .= number_format($campo['minimo'], 2).',';
+			    		$data .= number_format($campo['maximo'], 2);
+			    	?>
+				    	<!-- Card con gráfica incluida -->
+				    	<div class="col-xs-12 col-md-6 col-lg-4">
+				    		<div class="card card-danger">
+				    			<div class="card-header">
+				    				<h3 class="card-title">
+				    					<i class="fas fa-chart-area"></i>
+				    					<?= $etiqueta ?> general 
+				    				</h3>
+				    			</div>
+				    			<div class="card-body">
+									<canvas id="<?= $campo['campo'] ?>Chart" style="width: 100%;" data-values="<?= $data ?>" data-labels="<?= $labels ?>"></canvas>
+				    			</div>
+				    		</div>
+				    	</div>
+			    	<?
+			    	}
+			    }
+			    ?>
+
+		    </div>
+
 		</div>
 		<!-- /.Tabla estadística y etiquetados -->
+
 
 	</div>
 

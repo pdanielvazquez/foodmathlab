@@ -20,14 +20,7 @@ class Reportes extends CI_Controller {
 		}
 
 		/*Consultas generales*/
-		$productos = $this->General_model->get('productos', array('id_usuario'=>$_SESSION['idUser']), array(), '');
-		$ids_productos = array();
-		if ($productos!=false) {
-			foreach ($productos->result() as $producto) {
-				array_push($ids_productos, $producto->id_prod);
-			}
-		}
-		$ingredientes = $this->General_model->query('SELECT * FROM informacion_productos100 WHERE id_prod IN ('. implode(',', $ids_productos) .')');
+		$productos = $this->General_model->get('productos_foodmathlab', array('id_user'=>$_SESSION['idUser']), array(), '');
 
 		$campos = array(
 			'Energía'			=> 	array('campo'=>'energia'), 
@@ -41,13 +34,13 @@ class Reportes extends CI_Controller {
 		);
 
 		foreach ($campos as $cve => $val) {
-			$stats = new Estadisticas($ingredientes, $val['campo']);
+			$stats = new Estadisticas($productos, $val['campo']);
 			$campos[$cve]['media'] 	= $stats->getMedia();
-		    $campos[$cve]['de'] 		= $stats->getDE();
+		    $campos[$cve]['de'] 	= $stats->getDE();
 		    $campos[$cve]['moda'] 	= $stats->getModa();
 		    $campos[$cve]['mediana'] = $stats->getMediana();
-		    $campos[$cve]['minimo'] 	= $stats->getMinimo();
-		    $campos[$cve]['maximo'] 	= $stats->getMaximo();
+		    $campos[$cve]['minimo'] = $stats->getMinimo();
+		    $campos[$cve]['maximo'] = $stats->getMaximo();
 		    unset($stats);
 		}
 
@@ -88,7 +81,7 @@ class Reportes extends CI_Controller {
 		$this->load->view('Plantillas/scripts_view');
 
 		/*Script de configuracion de datatable*/
-		//$this->load->view('Productos/productos_datatable_view');
+		$this->load->view('Reportes/resumen_js_view');
 
 		$this->load->view('Plantillas/body_close_view');
 		$this->load->view('Plantillas/html_close_view');

@@ -27,29 +27,20 @@ class Estadisticas
 			/*Variables generales*/
 			$datos 		= array();
 			$acumulador = 0;
-			$tamano 	= count($this->conjunto->result());
+			$tamano 	= 0;
 
 			/*Ciclo para recorrer todos los datos*/
 			foreach ($this->conjunto->result() as $dato) {
-				
-				$valor = str_replace('mcg', '', $dato->$campo);
-				$valor = str_replace('mg', '', $valor);
-				$valor = str_replace('g', '', $valor);
-				$valor = str_replace('kcal', '', $valor);
-				$valor = str_replace('%', '', $valor);
-				$valor = str_replace('ramo', '', $valor);
-				$valor = str_replace('NULL', '', $valor);
-				$valor = str_replace('INF', '', $valor);
-				$valor = str_replace(' ', '', $valor);
-
-				$acumulador	+= $valor;
-				array_push($datos, $valor);
-				/*Mínimo*/
-				if ($valor < $this->minimo)
-					$this->minimo = $valor;
-				/*Máximo*/
-				if ($valor > $this->maximo)
-					$this->maximo = $valor;
+				$valor = $dato->$campo;
+					$tamano++;
+					$acumulador	+= $valor;
+					array_push($datos, $valor);
+					/*Mínimo*/
+					if ($valor < $this->minimo)
+						$this->minimo = $valor;
+					/*Máximo*/
+					if ($valor > $this->maximo)
+						$this->maximo = $valor;
 			}
 
 			/*Media*/
