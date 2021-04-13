@@ -9,13 +9,14 @@
         var ctx = document.getElementById(id);
         var valores = ctx.getAttribute('data-values').split(',');
         var etiquetas = ctx.getAttribute('data-labels').split(',');
+        var unidad = ctx.getAttribute('data-unit');
         var myChart = new Chart(ctx, {
             type: 'radar',
             data: {
                 /*labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],*/
                 labels: etiquetas,
                 datasets: [{
-                    /*label: '# of Votes',*/
+                    label: unidad,
                     /*data: [12, 19, 13, 15, 12, 3],*/
                     data: valores,
                     backgroundColor: [
@@ -34,7 +35,7 @@
                         'rgba(153, 102, 255, 1)',
                         'rgba(255, 159, 64, 1)'
                     ],
-                    borderWidth: 1
+                    borderWidth: 2
                 }]
             },
             options: {
@@ -43,7 +44,11 @@
                         beginAtZero: true
                     }
                 },*/
+                responsive: true,
                 plugins: {
+                    title:{
+                        display: false,
+                    },
                     filler: {
                     propagate: false
                   },
@@ -53,7 +58,8 @@
                 },
                 interaction: {
                   intersect: false
-                }
+                },
+
             }
         });
     }

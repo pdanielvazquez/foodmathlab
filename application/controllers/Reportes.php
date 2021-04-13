@@ -11,6 +11,7 @@ class Reportes extends CI_Controller {
 		$this->load->model('General_model');
 		$this->load->helper('Input_helper');
 		$this->load->helper('Estadisticas_helper');
+		$this->load->helper('Etiquetado_helper');
 		$this->load->library('session');
 	}
 

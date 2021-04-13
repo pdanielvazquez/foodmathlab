@@ -20,4 +20,8 @@
   <link rel="stylesheet" href="<?= base_url('vendor') ?>/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
   <!-- Toastr -->
   <link rel="stylesheet" href="<?= base_url('vendor') ?>/plugins/toastr/toastr.min.css">
+
+  <!-- Own stylesheets -->
+  <link rel="stylesheet" href="<?= base_url('vendor') ?>/dist/css/foodmathlab.css">
+
 </head>

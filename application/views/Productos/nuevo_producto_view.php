@@ -45,7 +45,7 @@
                 ), 'number') ?>
                 <div class="input-group-append">
                   <span class="input-group-text">
-                    <select name="um_<?= $nombre ?>" id="um_<?= $nombre ?>" >
+                    <select name="um_neta" id="um_neta" >
                       <option>g</option>
                       <option>ml</option>
                       <option>kg</option>
@@ -76,11 +76,9 @@
                 ), 'number') ?>
                 <div class="input-group-append">
                   <span class="input-group-text">
-                    <select name="um_<?= $nombre ?>" id="um_<?= $nombre ?>" >
+                    <select name="um_porcion" id="um_porcion" >
                       <option>g</option>
                       <option>ml</option>
-                      <option>kg</option>
-                      <option>l</option>
                     </select>
                   </span>
                 </div>

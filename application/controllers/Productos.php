@@ -153,6 +153,7 @@ class Productos extends CI_Controller {
 			'cantidad_neta'	=>	$this->input->post('producto_cantidad_neta'),
 			'cantidad_porcion'	=>	$this->input->post('producto_cantidad_porcion'),
 			'fecha'			=>	date("Y-m-d H:i:s"),
+			'tipo'			=>	($this->input->post('um_porcion')=='g') ? 'solido' : 'liquido',
 		);
 		//print_r($valores_productos);
 
