@@ -150,7 +150,8 @@ class Productos extends CI_Controller {
 
 		$valores_productos = array(
 			'id_prod'		=>	'',
-			'id_user'	=>	$this->session->idUser,
+			'id_user'		=>	$this->session->idUser,
+			'id_categoria'	=>	$this->input->post('producto_categoria'),
 			'nombre'		=>	$this->input->post('producto_nombre'),
 			'cantidad_neta'	=>	$this->input->post('producto_cantidad_neta'),
 			'cantidad_porcion'	=>	$this->input->post('producto_cantidad_porcion'),

@@ -673,6 +673,7 @@ class NutriScore
 			case ($sodio>0.90): $puntos = 10;
 				break;
 		}
+		$this->d = $puntos;
 	}
 
 }

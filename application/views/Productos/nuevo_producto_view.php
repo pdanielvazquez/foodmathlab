@@ -14,7 +14,7 @@
       <div class="card-body">
         
         <div class="row">
-          <div class="col-xs-12 col-md-4 col-lg-4">
+          <div class="col-xs-12 col-md-4 col-lg-3">
             <div class="form-group">
               <label>Nombre del producto</label>
               <?= $input->Text(array(
@@ -26,7 +26,18 @@
               ), 'text') ?>
             </div>
           </div>
-          <div class="col-xs-12 col-md-4 col-lg-4">
+          <div class="col-xs-12 col-md-4 col-lg-3">
+            <div class="form-group">
+              <label>Categoria</label>
+              <?= $input->Select(array(
+                'name'=>'producto_categoria', 
+                'id'=>'producto_categoria', 
+                'class'=>'form-control',
+                'required'=>'required',
+              ), $categorias, 'id_categoria', 'categoria', 0) ?>
+            </div>
+          </div>
+          <div class="col-xs-12 col-md-4 col-lg-3">
             <div class="form-group">
               <label>Cantidad neta</label> 
               <a href="" data-toggle="modal" data-target="#cantidad_neta">
@@ -57,7 +68,7 @@
               
             </div>
           </div>
-          <div class="col-xs-12 col-md-4 col-lg-4">
+          <div class="col-xs-12 col-md-4 col-lg-3">
             <div class="form-group">
               <label>Cantidad por porción</label> 
               <a href="" data-toggle="modal" data-target="#cantidad_porcion">
@@ -86,18 +97,8 @@
               
             </div>
           </div>
+          
           <!-- <div class="col-xs-12 col-md-4 col-lg-3">
-            <div class="form-group">
-              <label>Tamaño neto</label>
-              <?= $input->Select(array(
-                'name'=>'producto_categoria', 
-                'id'=>'producto_categoria', 
-                'class'=>'form-control',
-                'required'=>'required',
-              ), $categorias, 'id_categoria', 'categoria', 0) ?>
-            </div>
-          </div>
-          <div class="col-xs-12 col-md-4 col-lg-3">
             <div class="form-group">
               <label>Marca</label>
               <?= $input->Select(array(
