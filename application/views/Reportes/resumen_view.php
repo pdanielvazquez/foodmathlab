@@ -3,8 +3,6 @@
 
 	<div class="row">
 		
-		
-
 		<!-- Tabla estadística, graficas y etiquetados -->
 		<div class="col-12">
 			<div class="card card-danger">
@@ -156,6 +154,7 @@
 				</div>
 				<!-- /.Opciones de etiquetado -->
 
+				<!-- Etiquetado Chile -->
 				<div class="col-xs-12 col-md-6 col-lg-6">
 					<div class="card card-secondary">
 					    <div class="card-header">
@@ -275,6 +274,460 @@
 					    </div>
 					</div>
 				</div>
+				<!-- /.Etiquetado Chile -->
+
+				<!-- Etiquetado Ecuador -->
+				<div class="col-xs-12 col-md-6 col-lg-6">
+					<div class="card card-secondary">
+					    <div class="card-header">
+					    	<h3 class="card-title">
+					    		<img src="<?= base_url('uploads/flags/ecuador.jpg') ?>" style="width: 40px;">
+					    		Ecuador 
+					    	</h3>
+					    	<div class="card-tools">
+			                  <button type="button" class="btn btn-tool" data-card-widget="maximize">
+			                    <i class="fas fa-expand"></i>
+			                  </button>
+			                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+			                    <i class="fas fa-minus"></i>
+			                  </button>
+			                  <button type="button" class="btn btn-tool" data-card-widget="remove">
+			                    <i class="fas fa-times"></i>
+			                  </button>
+			                </div>
+					    </div>
+					    <div class="card-body">
+							<fieldset>
+								<legend>Promedios</legend>
+								<table class="table table-bordered table-striped">
+									<thead>
+										<tr class="txt-centrado bg-black">
+											<th>Grasas Totales</th>
+											<th>Azucares</th>
+											<th>Sodio</th>
+										</tr>
+									</thead>
+									<tbody>
+										<?
+										$prom_grasas_tot = $prom_azucar = $prom_sodio = 0;
+										if ($campos!=false) {
+											$prom_grasas_tot = $campos['Grasa total']['media'];
+											$prom_azucar = $campos['Azucares']['media'];
+											$prom_sodio = $campos['Sodio']['media'];
+											/*$prom_energia = 350;
+											$prom_sodio = 0.5;
+											$prom_azucar = 15;
+											$prom_grasas_sat = 8;*/
+										}
+										$ecuadorLabel = new Etiquetado_ecuador($prom_grasas_tot, $prom_azucar, $prom_sodio, 'solido');
+										?>										
+										<tr class="txt-centrado">
+											<th><?= $prom_grasas_tot ?> g</th>
+											<th><?= $prom_azucar ?> g</th>
+											<th><?= $prom_sodio ?> g</th>
+										</tr>
+										<tr class="txt-centrado">
+											<td>
+												<?
+												switch($ecuadorLabel->getGrasaTotal()){
+													case 0:
+														?>
+														<img src="<?= base_url('uploads/labels-ecuador/bajo.png') ?>" style="width: 150px;">
+														<?
+														break;
+													case 1:
+														?>
+														<img src="<?= base_url('uploads/labels-ecuador/medio.png') ?>" style="width: 150px;">
+														<?
+														break;
+													case 2:
+														?>
+														<img src="<?= base_url('uploads/labels-ecuador/alto.png') ?>" style="width: 150px;">
+														<?
+														break;
+												}
+												?>
+											</td>
+											<td>
+												<?
+												switch($ecuadorLabel->getAzucar()){
+													case 0:
+														?>
+														<img src="<?= base_url('uploads/labels-ecuador/bajo.png') ?>" style="width: 150px;">
+														<?
+														break;
+													case 1:
+														?>
+														<img src="<?= base_url('uploads/labels-ecuador/medio.png') ?>" style="width: 150px;">
+														<?
+														break;
+													case 2:
+														?>
+														<img src="<?= base_url('uploads/labels-ecuador/alto.png') ?>" style="width: 150px;">
+														<?
+														break;
+												}
+												?>
+											</td>
+											<td>
+												<?
+												switch($ecuadorLabel->getSodio()){
+													case 0:
+														?>
+														<img src="<?= base_url('uploads/labels-ecuador/bajo.png') ?>" style="width: 150px;">
+														<?
+														break;
+													case 1:
+														?>
+														<img src="<?= base_url('uploads/labels-ecuador/medio.png') ?>" style="width: 150px;">
+														<?
+														break;
+													case 2:
+														?>
+														<img src="<?= base_url('uploads/labels-ecuador/alto.png') ?>" style="width: 150px;">
+														<?
+														break;
+												}
+												?>
+											</td>
+										</tr>
+										<?
+										unset($ecuadorLabel);
+										?>
+									</tbody>
+								</table>
+							</fieldset>
+					    </div>
+					</div>
+				</div>
+				<!-- /.Etiquetado Ecuador -->
+
+				<!-- Etiquetado Perú -->
+				<div class="col-xs-12 col-md-6 col-lg-6">
+					<div class="card card-secondary">
+					    <div class="card-header">
+					    	<h3 class="card-title">
+					    		<img src="<?= base_url('uploads/flags/peru.jpg') ?>" style="width: 40px;">
+					    		Perú <small> (<?= (strtotime(date("Y-m-d")) >= strtotime("2021-10-27")) ? "Segunda fase": "Primera fase" ?>)</small>
+					    	</h3>
+					    	<div class="card-tools">
+			                  <button type="button" class="btn btn-tool" data-card-widget="maximize">
+			                    <i class="fas fa-expand"></i>
+			                  </button>
+			                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+			                    <i class="fas fa-minus"></i>
+			                  </button>
+			                  <button type="button" class="btn btn-tool" data-card-widget="remove">
+			                    <i class="fas fa-times"></i>
+			                  </button>
+			                </div>
+					    </div>
+					    <div class="card-body">
+							<fieldset>
+								<legend>Promedios</legend>
+								<table class="table table-bordered table-striped">
+									<thead>
+										<tr class="txt-centrado bg-black">
+											<th>Azucar</th>
+											<th>Sodio</th>
+											<th>Grasas Saturadas</th>
+											<th>Grasas Trans</th>
+										</tr>
+									</thead>
+									<tbody>
+										<?
+										$prom_grasas_sat = $prom_grasas_trans = $prom_azucar = $prom_sodio = 0;
+										if ($campos!=false) {
+											$prom_azucar = $campos['Azucares']['media'];
+											$prom_sodio = $campos['Sodio']['media'];
+											$prom_grasas_sat = $campos['Grasas saturadas']['media'];
+											$prom_grasas_trans = $campos['Grasa total']['media'];
+										}
+
+										if (strtotime(date("Y-m-d")) >= strtotime("2021-10-27")){
+											$peruLabel = new Etiquetado_peru_2a_fase($prom_azucar, $prom_sodio, $prom_grasas_sat, $prom_grasas_trans, 'solido');
+										}
+										else{
+											$peruLabel = new Etiquetado_peru_1a_fase($prom_azucar, $prom_sodio, $prom_grasas_sat, $prom_grasas_trans, 'solido');
+										}
+
+										?>										
+										<tr class="txt-centrado">
+											<th><?= $prom_azucar ?> g</th>
+											<th><?= $prom_sodio ?> g</th>
+											<th><?= $prom_grasas_sat ?> g</th>
+											<th><?= $prom_grasas_trans ?> g</th>
+										</tr>
+										<tr class="txt-centrado">
+											<td>
+												<?
+												if ($peruLabel->getAzucares()==1) {
+													?>
+													<img src="<?= base_url('uploads/labels-peru-1a/azucar.jpg') ?>" style="width: 100px;">
+													<?
+												}
+												else{
+													?>
+													<img src="<?= base_url('uploads/labels/empty.jpg') ?>" style="width: 100px;">
+													<?
+												}
+												?>
+											</td>
+											<td>
+												<?
+												if ($peruLabel->getSodio()==1) {
+													?>
+													<img src="<?= base_url('uploads/labels-peru-1a/sodio.jpg') ?>" style="width: 100px;">
+													<?
+												}
+												else{
+													?>
+													<img src="<?= base_url('uploads/labels/empty.jpg') ?>" style="width: 100px;">
+													<?
+												}
+												?>
+											</td>
+											<td>
+												<?
+												if ($peruLabel->getGrasasSat()==1) {
+													?>
+													<img src="<?= base_url('uploads/labels-peru-1a/grasas_sat.jpg') ?>" style="width: 100px;">
+													<?
+												}
+												else{
+													?>
+													<img src="<?= base_url('uploads/labels/empty.jpg') ?>" style="width: 100px;">
+													<?
+												}
+												?>
+											</td>
+											<td>
+												<?
+												if ($peruLabel->getGrasasTrans('otros')==1) {
+													?>
+													<img src="<?= base_url('uploads/labels-peru-1a/grasas_trans.jpg') ?>" style="width: 100px;">
+													<?
+												}
+												else{
+													?>
+													<img src="<?= base_url('uploads/labels/empty.jpg') ?>" style="width: 100px;">
+													<?
+												}
+												?>
+											</td>
+										</tr>
+										<?
+										unset($peruLabel);
+										?>
+									</tbody>
+								</table>
+							</fieldset>
+					    </div>
+					</div>
+				</div>
+				<!-- /.Etiquetado Perú -->
+
+				<!-- Etiquetado UK -->
+				<div class="col-xs-12 col-md-6 col-lg-6">
+					<div class="card card-secondary">
+					    <div class="card-header">
+					    	<h3 class="card-title">
+					    		<img src="<?= base_url('uploads/flags/uk.jpg') ?>" style="width: 40px;">
+					    		Reino Unido
+					    	</h3>
+					    	<div class="card-tools">
+			                  <button type="button" class="btn btn-tool" data-card-widget="maximize">
+			                    <i class="fas fa-expand"></i>
+			                  </button>
+			                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+			                    <i class="fas fa-minus"></i>
+			                  </button>
+			                  <button type="button" class="btn btn-tool" data-card-widget="remove">
+			                    <i class="fas fa-times"></i>
+			                  </button>
+			                </div>
+					    </div>
+					    <div class="card-body">
+							<fieldset>
+								<legend>Promedios</legend>
+								<table class="table table-bordered table-striped">
+									<thead>
+										<tr class="txt-centrado bg-black">
+											<th>Energía</th>
+											<th>Grasas Totales</th>
+											<th>Grasas Saturadas</th>
+											<th>Azucares</th>
+											<th>Sodio</th>
+										</tr>
+									</thead>
+									<tbody>
+										<?
+										$prom_grasas_sat = $prom_grasas_tot = $prom_azucar = $prom_sodio = $prom_energia = 0;
+										if ($campos!=false) {
+											$prom_energia = $campos['Energía']['media'];
+											$prom_grasas_tot = $campos['Grasa total']['media'];
+											$prom_grasas_sat = $campos['Grasas saturadas']['media'];
+											$prom_azucar = $campos['Azucares']['media'];
+											$prom_sodio = $campos['Sodio']['media'];
+										}
+										$UkLabel = new Etiquetado_UK($prom_sodio, $prom_azucar, $prom_grasas_sat, $prom_grasas_tot, 'solido');
+										?>										
+										<tr class="txt-centrado">
+											<th><?= $prom_energia ?> g</th>
+											<th><?= $prom_grasas_tot ?> g</th>
+											<th><?= $prom_grasas_sat ?> g</th>
+											<th><?= $prom_azucar ?> g</th>
+											<th><?= $prom_sodio ?> g</th>
+										</tr>
+										<tr class="txt-centrado">
+											<td>
+												<?
+												$color = '#EDEDED';
+												$txt = 'ENERGÍA';
+												?>
+												<div class="label_UK" style="background-color: <?= $color ?>;">
+													<p class="label_UK_title"><?= $txt ?></p>
+													<p class="label_UK_txt">
+														Calorías
+														<span class="label_UK_value">
+															<?= number_format($prom_energia, 1) ?> kcal
+														</span>
+													</p>
+													<p class="label_UK_ptc">00%</p>
+												</div>
+											</td>
+											<td>
+												<?
+												$color = '';
+												$txt = '';
+												switch($UkLabel->getGrasaTotal()) {
+													case 2:
+														$color = '#f65627';
+														$txt = 'ALTO';
+														break;
+													case 1:
+														$color = '#f9b03f';
+														$txt = 'MEDIO';
+														break;
+													case 0:
+														$color = '#78c758';
+														$txt = 'BAJO';
+														break;
+												}
+												?>
+												<div class="label_UK" style="background-color: <?= $color ?>;">
+													<p class="label_UK_title"><?= $txt ?></p>
+													<p class="label_UK_txt">
+														Grasa
+														<span class="label_UK_value">
+															<?= number_format($prom_grasas_tot, 1) ?> g
+														</span>
+													</p>
+													<p class="label_UK_ptc">00%</p>
+												</div>
+											</td>
+											<td>
+												<?
+												$color = '';
+												$txt = '';
+												switch($UkLabel->getGrasasSat()) {
+													case 2:
+														$color = '#f65627';
+														$txt = 'ALTO';
+														break;
+													case 1:
+														$color = '#f9b03f';
+														$txt = 'MEDIO';
+														break;
+													case 0:
+														$color = '#78c758';
+														$txt = 'BAJO';
+														break;
+												}
+												?>
+												<div class="label_UK" style="background-color: <?= $color ?>;">
+													<p class="label_UK_title"><?= $txt ?></p>
+													<p class="label_UK_txt">
+														Grasa Sat
+														<span class="label_UK_value">
+															<?= number_format($prom_grasas_sat, 1) ?> g
+														</span>
+													</p>
+													<p class="label_UK_ptc">00%</p>
+												</div>
+											</td>
+											<td>
+												<?
+												$color = '';
+												$txt = '';
+												switch($UkLabel->getAzucares()) {
+													case 2:
+														$color = '#f65627';
+														$txt = 'ALTO';
+														break;
+													case 1:
+														$color = '#f9b03f';
+														$txt = 'MEDIO';
+														break;
+													case 0:
+														$color = '#78c758';
+														$txt = 'BAJO';
+														break;
+												}
+												?>
+												<div class="label_UK" style="background-color: <?= $color ?>;">
+													<p class="label_UK_title"><?= $txt ?></p>
+													<p class="label_UK_txt">
+														Azúcar
+														<span class="label_UK_value">
+															<?= number_format($prom_azucar, 1) ?> g
+														</span>
+													</p>
+													<p class="label_UK_ptc">00%</p>
+												</div>
+											</td>
+											<td>
+												<?
+												$color = '';
+												$txt = '';
+												switch($UkLabel->getSodio()) {
+													case 2:
+														$color = '#f65627';
+														$txt = 'ALTO';
+														break;
+													case 1:
+														$color = '#f9b03f';
+														$txt = 'MEDIO';
+														break;
+													case 0:
+														$color = '#78c758';
+														$txt = 'BAJO';
+														break;
+												}
+												?>
+												<div class="label_UK" style="background-color: <?= $color ?>;">
+													<p class="label_UK_title"><?= $txt ?></p>
+													<p class="label_UK_txt">
+														Sodio
+														<span class="label_UK_value">
+															<?= number_format($prom_sodio, 1) ?> g
+														</span>
+													</p>
+													<p class="label_UK_ptc">00%</p>
+												</div>
+											</td>
+										</tr>
+										<?
+										unset($UkLabel);
+										?>
+									</tbody>
+								</table>
+							</fieldset>
+					    </div>
+					</div>
+				</div>
+				<!-- /.Etiquetado Perú -->
+
 			</div>
 			<!-- /.Etiquetados -->
 

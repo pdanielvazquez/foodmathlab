@@ -23,6 +23,7 @@ class Productos extends CI_Controller {
 
 		$config = array(
 			'titulo'	=>	'Productos',
+			'subtitulo'	=>	'',
 			'usuario'	=>	'Usuario',
 			'menu'		=>	$menu,
 			'submenu'	=>	$submenu,
@@ -110,6 +111,7 @@ class Productos extends CI_Controller {
 
 		$config = array(
 			'titulo'	=>	'Productos',
+			'subtitulo'	=>	'',
 			'usuario'	=>	$usuario->nombre,
 			'menu'		=>	$menu,
 			'submenu'	=>	$submenu,
@@ -195,6 +197,7 @@ class Productos extends CI_Controller {
 
 		$config = array(
 			'titulo'	=>	'Productos',
+			'subtitulo'	=>	'',
 			'usuario'	=>	$usuario->nombre,
 			'menu'		=>	$menu,
 			'submenu'	=>	$submenu,

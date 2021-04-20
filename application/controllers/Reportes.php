@@ -20,8 +20,10 @@ class Reportes extends CI_Controller {
 			redirect('App/logout');
 		}
 
+		$tipo = $this->uri->segment(2);
+
 		/*Consultas generales*/
-		$productos = $this->General_model->get('productos_foodmathlab', array('id_user'=>$_SESSION['idUser']), array(), '');
+		$productos = $this->General_model->get('productos_foodmathlab', array('id_user'=>$_SESSION['idUser'], 'tipo'=>$tipo), array(), '');
 
 		$campos = array(
 			'Energía'			=> 	array('campo'=>'energia'), 
@@ -59,6 +61,7 @@ class Reportes extends CI_Controller {
 
 		$config = array(
 			'titulo'	=>	'Reportes',
+			'subtitulo'	=>	$tipo,
 			'usuario'	=>	$usuario->nombre,
 			'menu'		=>	$menu,
 			'submenu'	=>	$submenu,

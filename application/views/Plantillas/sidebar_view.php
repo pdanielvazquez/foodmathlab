@@ -55,7 +55,7 @@
                           }
                           ?>
                             <li class="nav-item" style="margin-left: 1rem;">
-                              <a href="<?= $subopcion->ruta_submenu ?>" class="nav-link <?= $active ?>">
+                              <a href="<?= base_url($subopcion->ruta_submenu) ?>" class="nav-link <?= $active ?>">
                                 <i class="fas fa-angle-right"></i>
                                 <p><?= $subopcion->opcion_submenu ?></p>
                               </a>
