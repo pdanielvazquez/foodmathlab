@@ -451,15 +451,19 @@ class Etiquetado_UK
  */
 class NutriScore
 {
-	private $energia, $azucares, $grasas_sat, $lipidos, $sodio, $puntos, $a, $b, $c, $d, $e, $f, $g;
+	private $energia, $azucares, $grasas_sat, $lipidos, $sodio, $puntos, $a, $b, $c, $d, $e, $f, $g, $verduras, $fibra, $proteinas, $categoria;
 	
-	function __construct($energia_kcal, $azucares_g, $grasas_sat_g, $lipidos_g, $sodio_g, $tipo)
+	function __construct($energia_kcal, $azucares_g, $grasas_sat_g, $lipidos_g, $sodio_g, $verduras_g, $fibra_g, $proteinas_g, $categoria, $tipo)
 	{
 		$this->energia 		= $energia_kcal;
 		$this->azucares 	= $azucares_g;
 		$this->grasas_sat 	= $grasas_sat_g;
 		$this->lipidos 		= $lipidos_g;
 		$this->sodio 		= $sodio_g;
+		$this->verduras 	= $verduras_g;
+		$this->fibra 		= $fibra_g;
+		$this->proteinas 	= $proteinas_g;
+		$this->categoria 	= $categoria;
 		$this->tipo			= $tipo;
 		$this->puntos 		= 0;
 		$this->a 			= 0;
@@ -616,7 +620,8 @@ class NutriScore
 					break;
 			}
 		}
-		else {
+		
+		if(in_array($this->categoria, array(37, 38, 42, 43, 34, 36, 39, 41, 35, 40, 50, 53))) {
 			$grasas = ($this->lipidos>0) ? ($this->grasas_sat / $this->lipidos)*100 : 0;
 			switch(true){
 				case ($grasas<10): $puntos = 0;
@@ -674,6 +679,67 @@ class NutriScore
 				break;
 		}
 		$this->d = $puntos;
+	}
+
+	public function puntos_e(){
+		$puntos = 0;
+		if ($verduras!=false) {
+			$valor = $this->grasas_sat;
+			if ($this->tipo=='solido') {
+				switch(true){
+					case ($grasas<=1): $puntos = 0;
+						break;
+					case ($grasas>1): $puntos = 1;
+						break;
+					case ($grasas>2): $puntos = 2;
+						break;
+					case ($grasas>3): $puntos = 3;
+						break;
+					case ($grasas>4): $puntos = 4;
+						break;
+					case ($grasas>5): $puntos = 5;
+						break;
+					case ($grasas>6): $puntos = 6;
+						break;
+					case ($grasas>7): $puntos = 7;
+						break;
+					case ($grasas>8): $puntos = 8;
+						break;
+					case ($grasas>9): $puntos = 9;
+						break;
+					case ($grasas>10): $puntos = 10;
+						break;
+				}
+			}
+			else {
+				$grasas = ($this->lipidos>0) ? ($this->grasas_sat / $this->lipidos)*100 : 0;
+				switch(true){
+					case ($grasas<10): $puntos = 0;
+						break;
+					case ($grasas<16): $puntos = 1;
+						break;
+					case ($grasas<22): $puntos = 2;
+						break;
+					case ($grasas<28): $puntos = 3;
+						break;
+					case ($grasas<34): $puntos = 4;
+						break;
+					case ($grasas<40): $puntos = 5;
+						break;
+					case ($grasas<46): $puntos = 6;
+						break;
+					case ($grasas<52): $puntos = 7;
+						break;
+					case ($grasas<58): $puntos = 8;
+						break;
+					case ($grasas<64): $puntos = 9;
+						break;
+					case ($grasas>=64): $puntos = 10;
+						break;
+				}
+			}
+		}
+		$this->e = $puntos;
 	}
 
 }

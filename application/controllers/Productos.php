@@ -74,6 +74,8 @@ class Productos extends CI_Controller {
 			'Grasas poliinsaturadas <small>(Ácidos gp)</small>'=>'acidosgp', 
 			'Grasas Trans <small><br>(Ácidos grasos trans)</small>'=>'acidostrans', 
 			'Fibra <small><br>(Fibra dietética)</small>'=>'fibra', 
+			'Fruta <small><br>(Cantidad de fruta)</small>'=>'fruta',
+			'Verdura <small><br>(Cantidad de verdura)</small>'=>'verdura',
 			'Colesterol'=>'colesterol', 
 			'Vitamina A'=>'vitaa', 
 			'Ácidos Ascord'=>'acidoascord', 
@@ -94,7 +96,7 @@ class Productos extends CI_Controller {
 			'Magnesio'=>'magnesio', 
 			'Potasio'=>'potasio', 
 			'Zinc'=>'zinc', 
-			'Ácido Linoleico'=>'acidolino'
+			'Ácido Linoleico'=>'acidolino',
 		);
 
 		$data = array(
