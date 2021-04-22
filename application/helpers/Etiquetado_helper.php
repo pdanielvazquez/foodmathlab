@@ -808,3 +808,46 @@ class NutriScore
 }
 
 
+/**
+ * Clase para el etiquetado de alimentos en México
+ * Escalas: 0 - No tiene etiqueta, 1 - Tiene etiqueta
+ */
+class Etiquetado_mexico
+{
+	private $energia, $azucares, $grasas_sat, $grasas_trans, $sodio, $tipo;
+	
+	function __construct($energia_kcal, $azucares_g, $grasas_sat_g, $grasas_trans_g, $sodio_g, $tipo)
+	{
+		$this->energia 		= $energia_kcal;
+		$this->azucares		= $azucares_g;
+		$this->grasas_sat	= $grasas_sat_g;
+		$this->grasas_trans	= $grasas_trans_g;
+		$this->sodio		= $sodio_g;
+		$this->tipo 		= $tipo;
+	}
+
+	public function getExcesoCalorias(){
+		if ($this->tipo=='solido') {
+			return ($this->energia>=275) ? 1 : 0;
+		}
+		else if($this->tipo=='liquido'){
+			return ($this->energia>=70) ? 1 : 0;
+		}
+	}
+
+	public function getExcesoAzucares(){
+		return (($this->azucares*4)>= ($this->energia*0.1)) ? 1 : 0;
+	}
+
+	public function getExcesoGrasasTrans(){
+		return (($this->grasas_trans*9) >= ($this->energia*0.1)) ? 1 : 0;
+	}
+
+	public function getExcesoGrasasSat(){
+		return (($this->grasas_sat*9) >= ($this->energia*0.1)) ? 1 : 0;
+	}
+
+	public function getExcesoSodio(){
+		return ( (($this->sodio/$this->energia) >= 1) || ($this->sodio >= 0.3)) ? 1 : 0;
+	}
+}

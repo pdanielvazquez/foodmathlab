@@ -840,7 +840,144 @@
 				</div>
 				<!-- /.Etiquetado Francia -->
 
-				
+				<!-- Etiquetado México -->
+				<div class="col-xs-12 col-md-6 col-lg-6">
+					<div class="card card-secondary">
+					    <div class="card-header">
+					    	<h3 class="card-title">
+					    		<img src="<?= base_url('uploads/flags/mexico.jpg') ?>" style="width: 40px;">
+					    		México
+					    	</h3>
+					    	<div class="card-tools">
+			                  <button type="button" class="btn btn-tool" data-card-widget="maximize">
+			                    <i class="fas fa-expand"></i>
+			                  </button>
+			                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+			                    <i class="fas fa-minus"></i>
+			                  </button>
+			                  <button type="button" class="btn btn-tool" data-card-widget="remove">
+			                    <i class="fas fa-times"></i>
+			                  </button>
+			                </div>
+					    </div>
+					    <div class="card-body">
+							<fieldset>
+								<legend>Promedios</legend>
+								<table class="table table-bordered table-striped table-responsive">
+									<thead>
+										<tr class="txt-centrado bg-black">
+											<th>Energía</th>
+											<th>Azucares</th>
+											<th>Grasas Saturadas</th>
+											<th>Grasas Trans</th>
+											<th>Sodio</th>
+										</tr>
+									</thead>
+									<tbody>
+										<?
+										$prom_energia = 
+										$prom_grasas_trans = 
+										$prom_grasas_sat = 
+										$prom_azucar = 
+										$prom_sodio = 0;
+										if ($campos!=false) {
+											$prom_energia = $campos['Energía']['media'];
+											$prom_grasas_trans = $campos['Grasas trans']['media'];
+											$prom_grasas_sat = $campos['Grasas saturadas']['media'];
+											$prom_azucar = $campos['Azucares']['media'];
+											$prom_sodio = $campos['Sodio']['media'];
+										}
+										$MexLabel = new Etiquetado_mexico($prom_energia, $prom_azucar, $prom_grasas_sat, $prom_grasas_trans, $prom_sodio, 'solido');
+										?>										
+										<tr class="txt-centrado">
+											<th><?= $prom_energia ?> g</th>
+											<th><?= $prom_azucar ?> g</th>
+											<th><?= $prom_grasas_sat ?> g</th>
+											<th><?= $prom_grasas_trans ?> g</th>
+											<th><?= $prom_sodio ?> g</th>
+										</tr>
+										<tr class="txt-centrado">
+											<td class="txt-centrado">
+												<?
+												if ($MexLabel->getExcesoCalorias()==1) {
+													?>
+													<img src="<?= base_url('uploads/labels-mexico/exceso-calorias.jpg') ?>" style="width: 100px;">
+													<?
+												}
+												else{
+													?>
+													<img src="<?= base_url('uploads/labels/empty.jpg') ?>" style="width: 100px;">
+													<?
+												}
+												?>
+											</td>
+											<td class="txt-centrado">
+												<?
+												if ($MexLabel->getExcesoAzucares()==1) {
+													?>
+													<img src="<?= base_url('uploads/labels-mexico/exceso-azucares.jpg') ?>" style="width: 100px;">
+													<?
+												}
+												else{
+													?>
+													<img src="<?= base_url('uploads/labels/empty.jpg') ?>" style="width: 100px;">
+													<?
+												}
+												?>
+											</td>
+											<td class="txt-centrado">
+												<?
+												if ($MexLabel->getExcesoGrasasTrans()==1) {
+													?>
+													<img src="<?= base_url('uploads/labels-mexico/exceso-grasas-trans.jpg') ?>" style="width: 100px;">
+													<?
+												}
+												else{
+													?>
+													<img src="<?= base_url('uploads/labels/empty.jpg') ?>" style="width: 100px;">
+													<?
+												}
+												?>
+											</td>
+											<td class="txt-centrado">
+												<?
+												if ($MexLabel->getExcesoGrasasSat()==1) {
+													?>
+													<img src="<?= base_url('uploads/labels-mexico/exceso-grasas-sat.jpg') ?>" style="width: 100px;">
+													<?
+												}
+												else{
+													?>
+													<img src="<?= base_url('uploads/labels/empty.jpg') ?>" style="width: 100px;">
+													<?
+												}
+												?>
+											</td>
+											<td class="txt-centrado">
+												<?
+												if ($MexLabel->getExcesoSodio()==1) {
+													?>
+													<img src="<?= base_url('uploads/labels-mexico/exceso-sodio.jpg') ?>" style="width: 100px;">
+													<?
+												}
+												else{
+													?>
+													<img src="<?= base_url('uploads/labels/empty.jpg') ?>" style="width: 100px;">
+													<?
+												}
+												?>
+											</td>
+										</tr>
+										<?
+										unset($MexLabel);
+										?>
+									</tbody>
+								</table>
+							</fieldset>
+					    </div>
+					</div>
+				</div>
+				<!-- /.Etiquetado México -->
 
 			</div>
 			<!-- /.Etiquetados -->
