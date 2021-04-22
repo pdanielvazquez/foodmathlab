@@ -29,11 +29,14 @@ class Reportes extends CI_Controller {
 			'Energía'			=> 	array('campo'=>'energia'), 
 			'Azucares'			=>	array('campo'=>'azucaresa'), 
 			'Grasas saturadas'	=>	array('campo'=>'acidosgs'), 
+			'Grasas trans'		=>	array('campo'=>'acidostrans'), 
 			'Grasa total'		=>	array('campo'=>'lipidos'), 
 			'Sodio'				=>	array('campo'=>'sodio'), 
 			'Hidratos'			=>	array('campo'=>'hidratos'), 
 			'Fibra'				=>	array('campo'=>'fibra'), 
-			'Proteinas'			=>	array('campo'=>'proteina')
+			'Proteinas'			=>	array('campo'=>'proteina'),
+			'Fruta'				=>	array('campo'=>'fruta'),
+			'Verdura'			=>	array('campo'=>'verdura'),
 		);
 
 		foreach ($campos as $cve => $val) {

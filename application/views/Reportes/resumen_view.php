@@ -726,7 +726,121 @@
 					    </div>
 					</div>
 				</div>
-				<!-- /.Etiquetado Perú -->
+				<!-- /.Etiquetado Uk -->
+
+				<!-- Etiquetado Francia -->
+				<div class="col-xs-12 col-md-6 col-lg-6">
+					<div class="card card-secondary">
+					    <div class="card-header">
+					    	<h3 class="card-title">
+					    		<img src="<?= base_url('uploads/flags/francia.jpg') ?>" style="width: 40px;">
+					    		Francia
+					    	</h3>
+					    	<div class="card-tools">
+			                  <button type="button" class="btn btn-tool" data-card-widget="maximize">
+			                    <i class="fas fa-expand"></i>
+			                  </button>
+			                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+			                    <i class="fas fa-minus"></i>
+			                  </button>
+			                  <button type="button" class="btn btn-tool" data-card-widget="remove">
+			                    <i class="fas fa-times"></i>
+			                  </button>
+			                </div>
+					    </div>
+					    <div class="card-body">
+							<fieldset>
+								<legend>Promedios</legend>
+								<table class="table table-bordered table-striped table-responsive">
+									<thead>
+										<tr class="txt-centrado bg-black">
+											<th>Energía</th>
+											<th>Grasas Totales</th>
+											<th>Grasas Saturadas</th>
+											<th>Azucares</th>
+											<th>Sodio</th>
+											<th>Fibra</th>
+											<th>Proteina</th>
+											<th>Frutas y Verduras</th>
+										</tr>
+									</thead>
+									<tbody>
+										<?
+										$prom_energia = 
+										$prom_grasas_tot = 
+										$prom_grasas_sat = 
+										$prom_azucar = 
+										$prom_sodio = 
+										$prom_fibra = 
+										$prom_proteina = 
+										$prom_frut_ver = 0;
+										if ($campos!=false) {
+											$prom_energia = $campos['Energía']['media'];
+											$prom_grasas_tot = $campos['Grasa total']['media'];
+											$prom_grasas_sat = $campos['Grasas saturadas']['media'];
+											$prom_azucar = $campos['Azucares']['media'];
+											$prom_sodio = $campos['Sodio']['media'];
+											$prom_fibra = $campos['Fibra']['media'];
+											$prom_proteina = $campos['Proteinas']['media'];
+											$prom_frut_ver = ($campos['frutas']['media'] + $campos['verduras']['media'])/2;
+										}
+										$NutriScoreLabel = new NutriScore($prom_energia, $prom_azucar, $prom_grasas_sat, $prom_grasas_tot, $prom_sodio, $prom_frut_ver, $prom_fibra, $prom_proteina, 0, 100, 'solido');
+										?>										
+										<tr class="txt-centrado">
+											<th><?= $prom_energia ?> g</th>
+											<th><?= $prom_grasas_tot ?> g</th>
+											<th><?= $prom_grasas_sat ?> g</th>
+											<th><?= $prom_azucar ?> g</th>
+											<th><?= $prom_sodio ?> g</th>
+											<th><?= $prom_fibra ?> g</th>
+											<th><?= $prom_proteina ?> g</th>
+											<th><?= $prom_frut_ver ?> g</th>
+										</tr>
+										<tr class="txt-centrado">
+											<td colspan="8">
+												<?
+												switch ($NutriScoreLabel->getClase()) {
+													case 'A':
+														?>
+														<img src="<?= base_url('uploads/labels-francia/nutri-score-a.jpg') ?>" style="width: 40%;">
+														<?
+														break;
+													case 'B':
+														?>
+														<img src="<?= base_url('uploads/labels-francia/nutri-score-b.jpg') ?>" style="width: 40%;">
+														<?
+														break;
+													case 'C':
+														?>
+														<img src="<?= base_url('uploads/labels-francia/nutri-score-c.jpg') ?>" style="width: 40%;">
+														<?
+														break;
+													case 'D':
+														?>
+														<img src="<?= base_url('uploads/labels-francia/nutri-score-d.jpg') ?>" style="width: 40%;">
+														<?
+														break;
+													case 'E':
+														?>
+														<img src="<?= base_url('uploads/labels-francia/nutri-score-e.jpg') ?>" style="width:40%;">
+														<?
+														break;
+												}
+												?>
+											</td>
+										</tr>
+										<?
+										unset($NutriScoreLabel);
+										?>
+									</tbody>
+								</table>
+							</fieldset>
+					    </div>
+					</div>
+				</div>
+				<!-- /.Etiquetado Francia -->
+
+				
 
 			</div>
 			<!-- /.Etiquetados -->
