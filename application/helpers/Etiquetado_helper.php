@@ -851,3 +851,91 @@ class Etiquetado_mexico
 		return ( (($this->sodio/$this->energia) >= 1) || ($this->sodio >= 0.3)) ? 1 : 0;
 	}
 }
+
+/**
+ * Clase para el etiquetado de alimentos en Colombia
+ * Escalas: 0 - No tiene etiqueta, 1 - Tiene etiqueta
+ */
+class Etiquetado_colombia
+{
+	private $sodio, $azucares, $grasas_sat, $tipo;
+	
+	function __construct($sodio_g, $azucares_g, $grasas_sat_g, $tipo)
+	{
+		$this->sodio 		= $sodio_g;
+		$this->azucares 	= $azucares_g;
+		$this->grasas_sat 	= $grasas_sat_g;
+		$this->tipo 		= $tipo;
+	}
+
+	public function getSodio(){
+		if ($this->tipo == 'solido') {
+			return ($this->sodio > 0.4) ? 1:0;
+		}
+		else if($this->tipo == 'liquido'){
+			return ($this->sodio > 0.15) ? 1:0;
+		}
+	}
+
+	public function getAzucares(){
+		if ($this->tipo == 'solido') {
+			return ($this->azucares > 10) ? 1:0;
+		}
+		else if($this->tipo == 'liquido'){
+			return ($this->azucares > 5) ? 1:0;
+		}
+	}
+
+	public function getGrasasSat(){
+		if ($this->tipo == 'solido') {
+			return ($this->grasas_sat > 4) ? 1:0;
+		}
+		else if($this->tipo == 'liquido'){
+			return ($this->grasas_sat > 3.5) ? 1:0;
+		}
+	}
+}
+
+/**
+ * Clase para el etiquetado de alimentos en Israel
+ * Escalas: 0 - No tiene etiqueta, 1 - Tiene etiqueta
+ */
+class Etiquetado_israel
+{
+	private $sodio, $azucares, $grasas_sat, $tipo;
+	
+	function __construct($sodio_g, $azucares_g, $grasas_sat_g, $tipo)
+	{
+		$this->sodio 		= $sodio_g;
+		$this->azucares 	= $azucares_g;
+		$this->grasas_sat 	= $grasas_sat_g;
+		$this->tipo 		= $tipo;
+	}
+
+	public function getSodio(){
+		if ($this->tipo == 'solido') {
+			return ($this->sodio > 0.4) ? 1:0;
+		}
+		else if($this->tipo == 'liquido'){
+			return ($this->sodio > 0.3) ? 1:0;
+		}
+	}
+
+	public function getAzucares(){
+		if ($this->tipo == 'solido') {
+			return ($this->azucares > 10) ? 1:0;
+		}
+		else if($this->tipo == 'liquido'){
+			return ($this->azucares > 5) ? 1:0;
+		}
+	}
+
+	public function getGrasasSat(){
+		if ($this->tipo == 'solido') {
+			return ($this->grasas_sat > 4) ? 1:0;
+		}
+		else if($this->tipo == 'liquido'){
+			return ($this->grasas_sat > 3) ? 1:0;
+		}
+	}
+}

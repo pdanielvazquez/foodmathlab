@@ -979,6 +979,212 @@
 				</div>
 				<!-- /.Etiquetado México -->
 
+				<!-- Etiquetado Colombia -->
+				<div class="col-xs-12 col-md-6 col-lg-6">
+					<div class="card card-secondary">
+					    <div class="card-header">
+					    	<h3 class="card-title">
+					    		<img src="<?= base_url('uploads/flags/colombia.jpg') ?>" style="width: 40px;">
+					    		Colombia
+					    	</h3>
+					    	<div class="card-tools">
+			                  <button type="button" class="btn btn-tool" data-card-widget="maximize">
+			                    <i class="fas fa-expand"></i>
+			                  </button>
+			                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+			                    <i class="fas fa-minus"></i>
+			                  </button>
+			                  <button type="button" class="btn btn-tool" data-card-widget="remove">
+			                    <i class="fas fa-times"></i>
+			                  </button>
+			                </div>
+					    </div>
+					    <div class="card-body">
+							<fieldset>
+								<legend>Promedios</legend>
+								<table class="table table-bordered table-striped">
+									<thead>
+										<tr class="txt-centrado bg-black">
+											<th>Sodio</th>
+											<th>Azucares</th>
+											<th>Grasas Saturadas</th>
+										</tr>
+									</thead>
+									<tbody>
+										<?
+										$prom_grasas_sat = 
+										$prom_azucar = 
+										$prom_sodio = 0;
+										if ($campos!=false) {
+											$prom_grasas_sat = $campos['Grasas saturadas']['media'];
+											$prom_azucar = $campos['Azucares']['media'];
+											$prom_sodio = $campos['Sodio']['media'];
+										}
+										$ColombiaLabel = new Etiquetado_colombia($prom_sodio, $prom_azucar, $prom_grasas_sat, 'solido');
+										?>										
+										<tr class="txt-centrado">
+											<th><?= $prom_sodio ?> g</th>
+											<th><?= $prom_azucar ?> g</th>
+											<th><?= $prom_grasas_sat ?> g</th>
+										</tr>
+										<tr class="txt-centrado">
+											<td class="txt-centrado">
+												<?
+												if ($ColombiaLabel->getSodio()==1) {
+													?>
+													<img src="<?= base_url('uploads/labels-colombia/sodio.jpg') ?>" style="width: 100px;">
+													<?
+												}
+												else{
+													?>
+													<img src="<?= base_url('uploads/labels/empty.jpg') ?>" style="width: 100px;">
+													<?
+												}
+												?>
+											</td>
+											<td class="txt-centrado">
+												<?
+												if ($ColombiaLabel->getAzucares()==1) {
+													?>
+													<img src="<?= base_url('uploads/labels-colombia/azucares.jpg') ?>" style="width: 100px;">
+													<?
+												}
+												else{
+													?>
+													<img src="<?= base_url('uploads/labels/empty.jpg') ?>" style="width: 100px;">
+													<?
+												}
+												?>
+											</td>
+											<td class="txt-centrado">
+												<?
+												if ($ColombiaLabel->getGrasasSat()==1) {
+													?>
+													<img src="<?= base_url('uploads/labels-colombia/grasas-sat.jpg') ?>" style="width: 100px;">
+													<?
+												}
+												else{
+													?>
+													<img src="<?= base_url('uploads/labels/empty.jpg') ?>" style="width: 100px;">
+													<?
+												}
+												?>
+											</td>
+										</tr>
+										<?
+										unset($ColombiaLabel);
+										?>
+									</tbody>
+								</table>
+							</fieldset>
+					    </div>
+					</div>
+				</div>
+				<!-- /.Etiquetado Colombia -->
+
+				<!-- Etiquetado Israel -->
+				<div class="col-xs-12 col-md-6 col-lg-6">
+					<div class="card card-secondary">
+					    <div class="card-header">
+					    	<h3 class="card-title">
+					    		<img src="<?= base_url('uploads/flags/israel.jpg') ?>" style="width: 40px;">
+					    		Israel
+					    	</h3>
+					    	<div class="card-tools">
+			                  <button type="button" class="btn btn-tool" data-card-widget="maximize">
+			                    <i class="fas fa-expand"></i>
+			                  </button>
+			                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+			                    <i class="fas fa-minus"></i>
+			                  </button>
+			                  <button type="button" class="btn btn-tool" data-card-widget="remove">
+			                    <i class="fas fa-times"></i>
+			                  </button>
+			                </div>
+					    </div>
+					    <div class="card-body">
+							<fieldset>
+								<legend>Promedios</legend>
+								<table class="table table-bordered table-striped">
+									<thead>
+										<tr class="txt-centrado bg-black">
+											<th>Sodio</th>
+											<th>Azucares</th>
+											<th>Grasas Saturadas</th>
+										</tr>
+									</thead>
+									<tbody>
+										<?
+										$prom_grasas_sat = 
+										$prom_azucar = 
+										$prom_sodio = 0;
+										if ($campos!=false) {
+											$prom_grasas_sat = $campos['Grasas saturadas']['media'];
+											$prom_azucar = $campos['Azucares']['media'];
+											$prom_sodio = $campos['Sodio']['media'];
+										}
+										$IsraelLabel = new Etiquetado_israel($prom_sodio, $prom_azucar, $prom_grasas_sat, 'solido');
+										?>										
+										<tr class="txt-centrado">
+											<th><?= $prom_sodio ?> g</th>
+											<th><?= $prom_azucar ?> g</th>
+											<th><?= $prom_grasas_sat ?> g</th>
+										</tr>
+										<tr class="txt-centrado">
+											<td class="txt-centrado">
+												<?
+												if ($IsraelLabel->getSodio()==1) {
+													?>
+													<img src="<?= base_url('uploads/labels-colombia/sodio.jpg') ?>" style="width: 100px;">
+													<?
+												}
+												else{
+													?>
+													<img src="<?= base_url('uploads/labels/empty.jpg') ?>" style="width: 100px;">
+													<?
+												}
+												?>
+											</td>
+											<td class="txt-centrado">
+												<?
+												if ($IsraelLabel->getAzucares()==1) {
+													?>
+													<img src="<?= base_url('uploads/labels-colombia/azucares.jpg') ?>" style="width: 100px;">
+													<?
+												}
+												else{
+													?>
+													<img src="<?= base_url('uploads/labels/empty.jpg') ?>" style="width: 100px;">
+													<?
+												}
+												?>
+											</td>
+											<td class="txt-centrado">
+												<?
+												if ($IsraelLabel->getGrasasSat()==1) {
+													?>
+													<img src="<?= base_url('uploads/labels-colombia/grasas-sat.jpg') ?>" style="width: 100px;">
+													<?
+												}
+												else{
+													?>
+													<img src="<?= base_url('uploads/labels/empty.jpg') ?>" style="width: 100px;">
+													<?
+												}
+												?>
+											</td>
+										</tr>
+										<?
+										unset($IsraelLabel);
+										?>
+									</tbody>
+								</table>
+							</fieldset>
+					    </div>
+					</div>
+				</div>
+				<!-- /.Etiquetado Israel -->
+
 			</div>
 			<!-- /.Etiquetados -->
 
