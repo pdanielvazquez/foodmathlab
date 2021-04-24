@@ -81,7 +81,7 @@ class Reportes extends CI_Controller {
 		$this->load->view('Plantillas/content_wraper_header_view');
 		
 		/*Aqui va el contenido*/
-		$this->load->view('Reportes/resumen_view', $data);
+		$this->load->view('Reportes/resumen_v2_view', $data);
 
 		$this->load->view('Plantillas/content_wraper_close_view');
 		$this->load->view('Plantillas/footer_view');

@@ -78,6 +78,22 @@
             return false;
         });
 
+        $('.btn-summary').on('click', function(){
+            var summary = $(this).attr('data');
+            var display = $('#'+summary).css('display');
+            if (display=='none') {
+                $('#'+summary).show(200);
+            }
+            else{
+                $('#'+summary).hide(200);
+            }
+            return false;
+        });
+
+        $('.btn-remove').on('click', function(){
+            $(this).parent().parent().parent().parent().hide(200);
+        });
+
     })
 
 </script>
