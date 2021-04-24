@@ -37,6 +37,7 @@ class Reportes extends CI_Controller {
 			'Proteinas'			=>	array('campo'=>'proteina'),
 			'Fruta'				=>	array('campo'=>'fruta'),
 			'Verdura'			=>	array('campo'=>'verdura'),
+			'Calcio'			=>	array('campo'=>'calcio'),
 		);
 
 		foreach ($campos as $cve => $val) {

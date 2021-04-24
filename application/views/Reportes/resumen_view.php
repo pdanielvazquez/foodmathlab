@@ -20,9 +20,9 @@
 		          </h3>
 		        </div>
 		        <!-- /.card-header -->
-		        <div class="card-body">
-		        	<table class="table table-bordered table-hover table-striped">
-		        		<thead>
+		        <div class="card-body table-responsive" style="height: 300px;">
+		        	<table class="table table-bordered table-hover table-striped" >
+		        		<thead style="width: 100%;">
 		        			<tr>
 			        			<th>Concepto</th>
 			        			<th>Media</th>
@@ -39,7 +39,12 @@
 			        			foreach ($campos as $etiqueta => $campo) {
 			        				?>
 			        				<tr>
-			        					<td><?= $etiqueta ?></td>
+			        					<td>
+			        						<a href="" title="Ver gráfica de <?= $etiqueta ?>" data="graph-<?= $campo['campo'] ?>" class="btn-graph" style="margin-right: 5px;">
+			        							<i class="fas fa-chart-area"></i>
+			        						</a>
+			        						<?= $etiqueta ?>
+			        					</td>
 			        					<td><?= number_format($campo['media'], 2) ?></td>
 			        					<td><?= number_format($campo['de'], 2) ?></td>
 			        					<td><?= number_format($campo['moda'], 2) ?></td>
@@ -74,7 +79,7 @@
 			    		}
 			    	?>
 				    	<!-- Card con gráfica incluida -->
-				    	<div class="col-xs-12 col-md-6 col-lg-4">
+				    	<div class="col-xs-12 col-md-6 col-lg-4" id="graph-<?= $campo['campo'] ?>" style="display: none;">
 				    		<div class="card card-danger">
 				    			<div class="card-header">
 				    				<h3 class="card-title">

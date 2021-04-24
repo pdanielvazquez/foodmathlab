@@ -939,3 +939,88 @@ class Etiquetado_israel
 		}
 	}
 }
+
+/**
+ * Etiquetado de alimentos para México (anterior)
+ */
+class Etiquetado_mexico_old
+{
+	private $energia, $grasas_tot, $grasas_sat, $azucares, $sodio;
+	private $ref_energia, $ref_grasas_tot, $ref_grasas_sat, $ref_azucares, $ref_sodio;
+	
+	function __construct($energia_kcal, $grasas_tot_g, $grasas_sat_g, $azucares_g, $sodio_g)
+	{
+		/*Valores de referencia*/
+		$this->ref_energia 	=	2000;
+		$this->ref_grasas_tot =	70;
+		$this->ref_grasas_sat =	20;
+		$this->ref_azucares = 90;
+		$this->ref_azucares = 0.1;
+
+		/*Valores para comparacion*/
+		$this->energia 		=	$energia_kcal;
+		$this->grasas_tot 	=	$grasas_tot_g;
+		$this->grasas_sat 	=	$grasas_sat_g;
+		$this->azucares 	=	$azucares_g;
+		$this->sodio 		=	$sodio_g;
+	}
+
+	public function getEnergia(){
+		return ($this->energia / $this->ref_energia)*100;
+	}
+
+	public function getGrasaTot(){
+		return (20 * $this->grasas_tot) / $this->ref_grasas_tot;
+	}
+
+	public function getGrasasSat(){
+		return (10 * $this->grasas_sat) / $this->ref_grasas_sat;
+	}
+
+	public function getAzucares(){
+		return (18 * $this->azucares) / $this->ref_azucares;
+	}
+}
+
+/**
+ * 
+ */
+class Etiquetado_Australia_Nueva_Zelanda
+{
+	private $energia, $grasas_sat, $sodio, $azucares, $calcio, $categoria, $tipo;
+	
+	function __construct($energia_kcal, $grasas_sat_g, $sodio_g, $azucares_g, $calcio_g, $categoria, $tipo)
+	{
+		$this->energia 		= $energia_kcal;
+		$this->grasas_sat 	= $grasas_sat_g;
+		$this->sodio 		= $sodio_g;
+		$this->azucares 	= $azucares_g;
+		$this->calcio 		= $calcio_g;
+		$this->categoria 	= $categoria;
+		$this->tipo 		= $tipo;
+		$this->setCategoria();
+	}
+
+	private function setCategoria(){
+		if (in_array($this->categoria, array(48, 49, 50, 51, 52, 53, 62)) ||  $this->calcio >= 0.125) {
+			if ($this->tipo=='liquido' && $this->calcio>=0.125) {
+				$this->categoria = '1D';
+			}
+			else if(in_array($this->categoria, array(48, 49))){
+				$this->categoria = '3D';
+			}
+			else{
+				$this->categoria = '2D';
+			}
+		}
+		else if($this->tipo=='liquido'){
+			$this->categoria = '1';
+		}
+		else if(in_array($this->categoria, array(34, 36, 37, 38, 39, 41, 42, 43, 52, 53, 62))){
+			$this->categoria = '3';	
+		}
+		else{
+			$this->categoria = '2';		
+		}
+	}
+}

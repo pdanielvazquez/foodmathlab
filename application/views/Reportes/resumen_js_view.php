@@ -64,4 +64,20 @@
         });
     }
 
+    $(function(){
+
+        $('.btn-graph').on('click', function(){
+            var graph = $(this).attr('data');
+            var display = $('#'+graph).css('display');
+            if (display=='none') {
+                $('#'+graph).show(200);
+            }
+            else{
+                $('#'+graph).hide(200);
+            }
+            return false;
+        });
+
+    })
+
 </script>
