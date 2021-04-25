@@ -970,15 +970,15 @@ class Etiquetado_mexico_old
 	}
 
 	public function getGrasaTot(){
-		return (20 * $this->grasas_tot) / $this->ref_grasas_tot;
+		return ($this->grasas_tot *100) / $this->ref_grasas_tot;
 	}
 
 	public function getGrasasSat(){
-		return (10 * $this->grasas_sat) / $this->ref_grasas_sat;
+		return ($this->grasas_sat * 100) / $this->ref_grasas_sat;
 	}
 
 	public function getAzucares(){
-		return (18 * $this->azucares) / $this->ref_azucares;
+		return ($this->azucares * 100) / $this->ref_azucares;
 	}
 }
 
