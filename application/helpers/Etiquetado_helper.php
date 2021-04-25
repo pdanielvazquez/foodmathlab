@@ -955,7 +955,7 @@ class Etiquetado_mexico_old
 		$this->ref_grasas_tot =	70;
 		$this->ref_grasas_sat =	20;
 		$this->ref_azucares = 90;
-		$this->ref_azucares = 0.1;
+		$this->ref_sodio = 0.1;
 
 		/*Valores para comparacion*/
 		$this->energia 		=	$energia_kcal;
@@ -1022,5 +1022,51 @@ class Etiquetado_Australia_Nueva_Zelanda
 		else{
 			$this->categoria = '2';		
 		}
+	}
+}
+
+/**
+ * Etiquetado de alimentos para Italia
+ */
+class Etiquetado_italia
+{
+	private $energia, $grasas_tot, $grasas_sat, $azucares, $sodio;
+	private $ref_energia, $ref_grasas_tot, $ref_grasas_sat, $ref_azucares, $ref_sodio;
+	
+	function __construct($energia_kcal, $grasas_tot_g, $grasas_sat_g, $azucares_g, $sodio_g)
+	{
+		/*Valores de referencia*/
+		$this->ref_energia 	=	2000;
+		$this->ref_grasas_tot =	70;
+		$this->ref_grasas_sat =	20;
+		$this->ref_azucares = 90;
+		$this->ref_sodio = 2.4;
+
+		/*Valores para comparacion*/
+		$this->energia 		=	$energia_kcal;
+		$this->grasas_tot 	=	$grasas_tot_g;
+		$this->grasas_sat 	=	$grasas_sat_g;
+		$this->azucares 	=	$azucares_g;
+		$this->sodio 		=	$sodio_g;
+	}
+
+	public function getEnergia(){
+		return ($this->energia / $this->ref_energia)*100;
+	}
+
+	public function getGrasaTot(){
+		return ($this->grasas_tot *100) / $this->ref_grasas_tot;
+	}
+
+	public function getGrasasSat(){
+		return ($this->grasas_sat * 100) / $this->ref_grasas_sat;
+	}
+
+	public function getAzucares(){
+		return ($this->azucares * 100) / $this->ref_azucares;
+	}
+
+	public function getSodio(){
+		return ($this->azucares * 100) / $this->ref_azucares;
 	}
 }

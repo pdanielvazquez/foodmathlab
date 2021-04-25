@@ -63,6 +63,12 @@
 				       		Reino Unido
 				       	</p>
 				       	<p style="margin: 0;">
+				       		<a href="" title="Ver etiquetado" data="summary-italia" class="btn-summary">
+				       			<i class="fas fa-tag"></i>
+				       		</a>
+				       		Italia
+				       	</p>
+				       	<p style="margin: 0;">
 				       		<a href="" title="Ver etiquetado" data="summary-israel" class="btn-summary">
 				       			<i class="fas fa-tag"></i>
 				       		</a>
@@ -1219,6 +1225,129 @@
 										</tr>
 										<?
 										unset($IsraelLabel);
+										?>
+									</tbody>
+								</table>
+							</fieldset>
+					    </div>
+					</div>
+				</div>
+				<!-- /.Etiquetado Israel -->
+
+				<!-- Etiquetado Italia -->
+				<div class="col-xs-12 col-md-6 col-lg-6" id="summary-italia" style="display: none;">
+					<div class="card card-secondary">
+					    <div class="card-header">
+					    	<h3 class="card-title">
+					    		<img src="<?= base_url('uploads/flags/italia.jpg') ?>" style="width: 40px;">
+					    		Italia
+					    	</h3>
+					    	<div class="card-tools">
+			                  <button type="button" class="btn btn-tool" data-card-widget="maximize">
+			                    <i class="fas fa-expand"></i>
+			                  </button>
+			                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+			                    <i class="fas fa-minus"></i>
+			                  </button>
+			                  <button type="button" class="btn btn-tool btn-remove">
+			                    <i class="fas fa-times"></i>
+			                  </button>
+			                </div>
+					    </div>
+					    <div class="card-body">
+							<fieldset>
+								<legend>Promedios</legend>
+								<table class="table table-bordered table-striped">
+									<thead>
+										<tr class="txt-centrado bg-black">
+											<th style="width: 20%;">Energia</th>
+											<th style="width: 20%;">Grasa total</th>
+											<th style="width: 20%;">Grasas Saturadas</th>
+											<th style="width: 20%;">Azucares</th>
+											<th style="width: 20%;">Sodio</th>
+										</tr>
+									</thead>
+									<tbody>
+										<?
+										$prom_energia = 
+										$prom_grasas_tot = 
+										$prom_grasas_sat = 
+										$prom_azucar = 
+										$prom_sodio = 0;
+										if ($campos!=false) {
+											$prom_energia = $campos['Energía']['media'];
+											$prom_grasas_tot = $campos['Grasa total']['media'];
+											$prom_grasas_sat = $campos['Grasas saturadas']['media'];
+											$prom_azucar = $campos['Azucares']['media'];
+											$prom_sodio = $campos['Sodio']['media'];
+										}
+										$ItaliaLabel = new Etiquetado_italia($prom_energia, $prom_grasas_tot, $prom_grasas_sat, $prom_azucar, $prom_sodio);
+										?>										
+										<tr class="txt-centrado">
+											<th><?= $prom_energia ?> kcal</th>
+											<th><?= $prom_grasas_tot ?> g</th>
+											<th><?= $prom_grasas_sat ?> g</th>
+											<th><?= $prom_azucar ?> g</th>
+											<th><?= $prom_sodio ?> g</th>
+										</tr>
+										<tr class="txt-centrado">
+											<td class="txt-centrado">
+												<div class="baterry-title-1">
+													<p><strong>ENERGIA</strong></p>
+													<p><?= number_format($prom_energia*4.184) ?> kJ</p>
+													<p><?= number_format($prom_energia) ?> kcal</p>
+												</div>
+												<div class="battery-body" style="background-size: <?= number_format($ItaliaLabel->getEnergia()) ?>% 100%">
+													<?= number_format($ItaliaLabel->getEnergia()) ?>%
+												</div>
+												<span class="battery-head">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+											</td>
+											<td class="txt-centrado">
+												<div class="baterry-title-2">
+													<p><strong>GRASSI</strong></p>
+													<p><?= number_format($prom_grasas_tot, 2) ?> g</p>
+													<p>&nbsp;</p>
+												</div>
+												<div class="battery-body" style="background-size: <?= number_format($ItaliaLabel->getGrasaTot()) ?>% 100%">
+													<?= number_format($ItaliaLabel->getGrasaTot()) ?>%
+												</div>
+												<span class="battery-head">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+											</td>
+											<td class="txt-centrado">
+												<div class="baterry-title-2">
+													<p><strong>GRASSI<br>SATURI</strong></p>
+													<p><?= number_format($prom_grasas_sat, 2) ?> g</p>
+												</div>
+												<div class="battery-body" style="background-size: <?= number_format($ItaliaLabel->getGrasasSat()) ?>% 100%">
+													<?= number_format($ItaliaLabel->getGrasasSat()) ?>%
+												</div>
+												<span class="battery-head">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+											</td>
+											<td class="txt-centrado">
+												<div class="baterry-title-2">
+													<p><strong>ZUCCHERI</strong></p>
+													<p><?= number_format($prom_azucar, 2) ?> g</p>
+													<p>&nbsp;</p>
+												</div>
+												<div class="battery-body" style="background-size: <?= number_format($ItaliaLabel->getAzucares()) ?>% 100%">
+													<?= number_format($ItaliaLabel->getAzucares()) ?>%
+												</div>
+												<span class="battery-head">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+											</td>
+											<td class="txt-centrado">
+												<div class="baterry-title-2">
+													<p><strong>SALE</strong></p>
+													<p><?= number_format($prom_sodio, 2) ?> g</p>
+													<p>&nbsp;</p>
+												</div>
+												<div class="battery-body" style="background-size: <?= number_format($ItaliaLabel->getSodio()) ?>% 100%">
+													<?= number_format($ItaliaLabel->getSodio()) ?>%
+												</div>
+												<span class="battery-head">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+											</td>
+										</tr>
+										<?
+										unset($ItaliaLabel);
 										?>
 									</tbody>
 								</table>
