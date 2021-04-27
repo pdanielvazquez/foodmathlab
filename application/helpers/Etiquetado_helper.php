@@ -987,15 +987,19 @@ class Etiquetado_mexico_old
  */
 class Etiquetado_Australia_Nueva_Zelanda
 {
-	private $energia, $grasas_sat, $sodio, $azucares, $calcio, $categoria, $tipo;
+	private $energia, $grasas_sat, $sodio, $azucares, $calcio, $verduras, $proteinas, $fibra, $categoria, $tipo;
 	
-	function __construct($energia_kcal, $grasas_sat_g, $sodio_g, $azucares_g, $calcio_g, $categoria, $tipo)
+	function __construct($energia_kcal, $grasas_sat_g, $sodio_g, $azucares_g, $calcio_g, $verduras_g, $proteinas_g, $fibra_g, $categoria, $tipo)
 	{
 		$this->energia 		= $energia_kcal;
 		$this->grasas_sat 	= $grasas_sat_g;
 		$this->sodio 		= $sodio_g;
 		$this->azucares 	= $azucares_g;
 		$this->calcio 		= $calcio_g;
+		$this->verduras		= $verduras_g;
+		$this->proteinas	= $proteinas_g;
+		$this->fibra 		= $fibra_g;
+
 		$this->categoria 	= $categoria;
 		$this->tipo 		= $tipo;
 		$this->setCategoria();
@@ -1022,6 +1026,305 @@ class Etiquetado_Australia_Nueva_Zelanda
 		else{
 			$this->categoria = '2';		
 		}
+	}
+
+	public function getCategoria(){
+		/*Contadores generales*/
+		$baseline_energia =
+		$baseline_grasas_sat =
+		$baseline_sodio =
+		$baseline_azucares =
+		$p = $v = $f = -1;
+		/*Baselines globales*/
+		$baseline_pts_energia = 
+		$baseline_pts_grasas_sat =
+		$baseline_pts_sodio =
+		$baseline_pts_azucares = array();
+		
+
+		switch ($this->categoria) {
+			case '1':
+			case '1D':
+			case '2':
+			case '2D':
+
+				$baseline_pts_energia = array(3685, 3350, 3015, 2680, 2345, 2010, 1675, 1340, 1005, 670, 335);
+				
+				$baseline_pts_grasas_sat = array(90, 80.6, 72.3, 64.7, 58, 52, 46.6, 41.7, 37.4, 33.5, 30, 26.9, 24.1, 21.6, 19.3, 17.3, 15.5, 13.9, 12.5, 11.2, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1);
+				
+				$baseline_pts_azucares = array(99, 94, 90, 85, 81, 76, 72, 67, 63, 58, 54, 49, 45, 40, 36, 31, 27, 22.5, 18, 13.5, 9, 5);
+				
+				$baseline_pts_sodio = array(8.106, 7.262, 6.506, 5.829, 5.223, 4.679, 4.192, 3.756, 3.365, 3.015, 2.701, 2.42, 2.168, 1.942, 1.74, 1.559, 1.397, 1.251, 1.121, 1.005, 0.9, 0.81, 0.72, 0.63, 0.54, 0.45, 0.36, 0.27, 0.18, 0.09); 
+
+				break;
+			
+			case '3':
+			case '3D':
+				
+				$baseline_pts_energia = array(3685, 3350, 3015, 2680, 2345, 2010, 1675, 1340, 1005, 670, 335);
+
+				$baseline_pts_grasas_sat = array(30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1);
+
+				$baseline_azucares = array(45, 40, 36, 31, 27, 22.5, 18, 13.5, 9, 5);
+
+				$baseline_pts_sodio = array(2.7, 2.61, 2.52, 2.43, 2.34, 2.25, 2.16, 2.07, 1.98, 1.89, 1.8, 1.71, 1.62, 1.53, 1.44, 1.35, 1.26, 1.17, 1.08, 0.99, 0.9, 0.81, 0.72, 0.63, 0.54, 0.45, 0.36, 0.27, 0.18, 0.09);
+
+				break;
+		}
+
+		/*Clasifica la energía*/
+		/*Conversión kcal a kJ*/
+		$energia = $this->energia * 4.184;
+		foreach ($baseline_pts_energia as $i=>$pt) {
+			if ($this->energia>$pt) {
+				$baseline_energia = count($baseline_pts_energia)-$i;
+			}
+		}
+		$baseline_energia = ($baseline_energia == -1) ? 0 : $baseline_energia;
+
+		/*Clasifica las grasas saturadas*/
+		foreach ($baseline_pts_grasas_sat as $i=>$pt) {
+			if ($this->grasas_sat>$pt) {
+				$baseline_grasas_sat = count($baseline_grasas_sat)-$i;
+			}
+		}
+		$baseline_grasas_sat = ($baseline_grasas_sat == -1) ? 0 : $baseline_grasas_sat;
+
+		/*Clasifica el sodio*/
+		foreach ($baseline_pts_sodio as $i=>$pt) {
+			if ($this->sodio>$pt) {
+				$baseline_sodio = count($baseline_pts_sodio)-$i;
+			}
+		}
+		$baseline_sodio = ($baseline_sodio == -1) ? 0 : $baseline_sodio;
+
+		/*Clasifica los azucares*/
+		foreach ($baseline_pts_azucares as $i=>$pt) {
+			if ($this->azucares>$pt) {
+				$baseline_azucares = count($baseline_pts_azucares)-$i;
+			}
+		}
+		$baseline_azucares = ($baseline_azucares == -1) ? 0 : $baseline_azucares;
+
+		/*Clasifica las frutas y verduras*/
+		$baseline_pts_verduras = array(100, 90, 80, 67, 63, 52, 43, 25);
+		foreach ($baseline_pts_verduras as $i=>$pt) {
+			if ($this->verduras>$pt) {
+				$v = count($baseline_pts_verduras)-$i;
+			}
+		}
+		$v = ($v == -1) ? 0 : $v;
+
+		/*Clasifica las proteinas*/
+		$baseline_pts_proteinas = array(50, 41.6, 34.7, 28.9, 24, 20, 16.7, 13.9, 11.6, 9.6, 8, 6.4, 4.8, 3.2, 1.6);
+		foreach ($baseline_pts_proteinas as $i=>$pt) {
+			if ($this->proteinas>$pt) {
+				$p = count($baseline_pts_proteinas)-$i;
+			}
+		}
+		$p = ($p == -1) ? 0 : $p;
+
+		/*Clasifica las proteinas*/
+		$baseline_pts_fibra = array(20, 17.3, 15, 13, 11.2, 9.7, 8.4, 7.3, 6.3, 5.4, 4.7, 3.7, 2.8, 1.9, 0.9);
+		foreach ($baseline_pts_fibra as $i=>$pt) {
+			if ($this->fibra>$pt) {
+				$f = count($baseline_pts_fibra)-$i;
+			}
+		}
+		$f = ($f == -1) ? 0 : $f;
+
+		/*Calculo del puntaje total*/
+
+		$condicion_1 = ($puntaje_total>=13) && ($v>=5);
+		if(!$condicion_1){
+			$p = 0;
+		}
+
+		$condicion_2 = ($this->categoria!='2') && ($this->categoria!='3');
+		if (!$condicion_2) {
+			$f = 0;
+		}
+
+		$puntaje_total = $baseline_energia + $baseline_grasas_sat + $baseline_sodio + $baseline_azucares - $v - $p - $f;
+
+		$estrellas = 0;
+
+		switch ($this->categoria) {
+			case '1':
+				switch (true) {
+					case $puntaje_total<=-6:
+						$estrellas = 5;
+						break;
+					case $puntaje_total=-5:
+						$estrellas = 4.5;
+						break;
+					case $puntaje_total=-4:
+						$estrellas = 4;
+						break;
+					case $puntaje_total=-3:
+						$estrellas = 3.5;
+						break;
+					case $puntaje_total=-2:
+						$estrellas = 3;
+						break;
+					case $puntaje_total=-1:
+						$estrellas = 2.5;
+						break;
+					case $puntaje_total=0:
+						$estrellas = 2;
+						break;
+					case $puntaje_total=1:
+						$estrellas = 1.5;
+						break;
+					case $puntaje_total=2:
+						$estrellas = 1;
+						break;
+					case $puntaje_total>=3:
+						$estrellas = 0.5;
+						break;
+				}
+				break;
+			case '1D':
+			case '2D':
+				switch (true) {
+					case $puntaje_total<=-2:
+						$estrellas = 5;
+						break;
+					case $puntaje_total=-1:
+						$estrellas = 4.5;
+						break;
+					case $puntaje_total=0:
+						$estrellas = 4;
+						break;
+					case $puntaje_total=1:
+						$estrellas = 3.5;
+						break;
+					case $puntaje_total=2:
+						$estrellas = 3;
+						break;
+					case $puntaje_total=3:
+						$estrellas = 2.5;
+						break;
+					case $puntaje_total=4:
+						$estrellas = 2;
+						break;
+					case $puntaje_total=5:
+						$estrellas = 1.5;
+						break;
+					case $puntaje_total=6:
+						$estrellas = 1;
+						break;
+					case $puntaje_total>=7:
+						$estrellas = 0.5;
+						break;
+				}
+				break;
+			case '2':
+				switch (true) {
+					case $puntaje_total<=-11:
+						$estrellas = 5;
+						break;
+					case $puntaje_total<=-7:
+						$estrellas = 4.5;
+						break;
+					case $puntaje_total<=-2:
+						$estrellas = 4;
+						break;
+					case $puntaje_total<=2:
+						$estrellas = 3.5;
+						break;
+					case $puntaje_total<=6:
+						$estrellas = 3;
+						break;
+					case $puntaje_total<=11:
+						$estrellas = 2.5;
+						break;
+					case $puntaje_total<=15:
+						$estrellas = 2;
+						break;
+					case $puntaje_total<=20:
+						$estrellas = 1.5;
+						break;
+					case $puntaje_total<=24:
+						$estrellas = 1;
+						break;
+					case $puntaje_total>=25:
+						$estrellas = 0.5;
+						break;
+				}
+				break;
+			case '3':
+				switch (true) {
+					case $puntaje_total<=13:
+						$estrellas = 5;
+						break;
+					case $puntaje_total<=16:
+						$estrellas = 4.5;
+						break;
+					case $puntaje_total<=20:
+						$estrellas = 4;
+						break;
+					case $puntaje_total<=23:
+						$estrellas = 3.5;
+						break;
+					case $puntaje_total<=27:
+						$estrellas = 3;
+						break;
+					case $puntaje_total<=30:
+						$estrellas = 2.5;
+						break;
+					case $puntaje_total<=34:
+						$estrellas = 2;
+						break;
+					case $puntaje_total<=37:
+						$estrellas = 1.5;
+						break;
+					case $puntaje_total<=42:
+						$estrellas = 1;
+						break;
+					case $puntaje_total>42:
+						$estrellas = 0.5;
+						break;
+				}
+				break;
+			case '3D':
+				switch (true) {
+					case $puntaje_total<=22:
+						$estrellas = 5;
+						break;
+					case $puntaje_total<=24:
+						$estrellas = 4.5;
+						break;
+					case $puntaje_total<=26:
+						$estrellas = 4;
+						break;
+					case $puntaje_total<=28:
+						$estrellas = 3.5;
+						break;
+					case $puntaje_total<=30:
+						$estrellas = 3;
+						break;
+					case $puntaje_total<=32:
+						$estrellas = 2.5;
+						break;
+					case $puntaje_total<=34:
+						$estrellas = 2;
+						break;
+					case $puntaje_total<=36:
+						$estrellas = 1.5;
+						break;
+					case $puntaje_total<=39:
+						$estrellas = 1;
+						break;
+					case $puntaje_total>39:
+						$estrellas = 0.5;
+						break;
+				}
+				break;
+		}
+
+		return $estrellas;
+
 	}
 }
 

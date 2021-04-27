@@ -69,6 +69,12 @@
 				       		Italia
 				       	</p>
 				       	<p style="margin: 0;">
+				       		<a href="" title="Ver etiquetado" data="summary-australia" class="btn-summary">
+				       			<i class="fas fa-tag"></i>
+				       		</a>
+				       		Australia & Nueva Zelanda
+				       	</p>
+				       	<p style="margin: 0;">
 				       		<a href="" title="Ver etiquetado" data="summary-israel" class="btn-summary">
 				       			<i class="fas fa-tag"></i>
 				       		</a>
@@ -1355,7 +1361,100 @@
 					    </div>
 					</div>
 				</div>
-				<!-- /.Etiquetado Israel -->
+				<!-- /.Etiquetado Italia -->
+
+				<!-- Etiquetado Italia -->
+				<div class="col-xs-12 col-md-6 col-lg-6" id="summary-australia" style="display: none;">
+					<div class="card card-secondary">
+					    <div class="card-header">
+					    	<h3 class="card-title">
+					    		<img src="<?= base_url('uploads/flags/australia.jpg') ?>" style="width: 40px;">
+					    		Australia <img src="<?= base_url('uploads/flags/nueva-zelanda.jpg') ?>" style="width: 40px;"> Nueva Zelanda
+					    	</h3>
+					    	<div class="card-tools">
+			                  <button type="button" class="btn btn-tool" data-card-widget="maximize">
+			                    <i class="fas fa-expand"></i>
+			                  </button>
+			                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+			                    <i class="fas fa-minus"></i>
+			                  </button>
+			                  <button type="button" class="btn btn-tool btn-remove">
+			                    <i class="fas fa-times"></i>
+			                  </button>
+			                </div>
+					    </div>
+					    <div class="card-body">
+							<fieldset>
+								<legend>Promedios</legend>
+								<table class="table table-bordered table-striped">
+									<thead>
+										<tr class="txt-centrado bg-black">
+											<th style="width: 12%;">Energia</th>
+											<th style="width: 12%;">Grasas Saturadas</th>
+											<th style="width: 12%;">Azucares</th>
+											<th style="width: 12%;">Sodio</th>
+										</tr>
+									</thead>
+									<tbody>
+										<?
+										$prom_energia = 
+										$prom_grasas_sat = 
+										$prom_azucar = 
+										$prom_sodio =
+										$prom_calcio =
+										$prom_verduras =
+										$prom_proteinas =
+										$prom_fibra = 0;
+										if ($campos!=false) {
+											$prom_energia = $campos['Energía']['media'];
+											$prom_grasas_sat = $campos['Grasas saturadas']['media'];
+											$prom_azucar = $campos['Azucares']['media'];
+											$prom_sodio = $campos['Sodio']['media'];
+											$prom_calcio = $campos['Calcio']['media'];
+											$prom_verduras = $campos['Verdura']['media'] + $campos['Fruta']['media'];
+											$prom_proteinas = $campos['Proteinas']['media'];
+											$prom_fibra = $campos['Fibra']['media'];
+										}
+										$AustraliaLabel = new Etiquetado_Australia_Nueva_Zelanda($prom_energia, $prom_grasas_sat, $prom_sodio, $prom_azucar, $prom_calcio, $prom_verduras, $prom_proteinas, $prom_fibra, 0, 'solido');
+										?>										
+										<tr class="txt-centrado">
+											<th><?= $prom_energia ?> kcal</th>
+											<th><?= $prom_grasas_sat ?> g</th>
+											<th><?= $prom_azucar ?> g</th>
+											<th><?= $prom_sodio ?> g</th>
+										</tr>
+										<tr class="txt-centrado">
+											<td class="txt-centrado" colspan="4">
+												
+												<img src="<?= base_url("uploads/labels-australia/".$AustraliaLabel->getCategoria()."-estrellas.png") ?>" class="australia-img">
+												<div class="australia-value">
+													<p class="title">ENERGY</p>
+													<p class="val"><?= number_format($prom_energia * 4.184, 1) ?> kJ</p>
+												</div>
+												<div class="australia-value">
+													<p class="title">SAT FAT</p>
+													<p class="val"><?= number_format($prom_grasas_sat, 1) ?> g</p>
+												</div>
+												<div class="australia-value">
+													<p class="title">SUGARS</p>
+													<p class="val"><?= number_format($prom_azucar, 1) ?> g</p>
+												</div>
+												<div class="australia-value">
+													<p class="title">SODIUM</p>
+													<p class="val"><?= number_format($prom_sodio, 1) ?> g</p>
+												</div>
+											</td>
+										</tr>
+										<?
+										unset($AustraliaLabel);
+										?>
+									</tbody>
+								</table>
+							</fieldset>
+					    </div>
+					</div>
+				</div>
+				<!-- /.Etiquetado Italia -->
 
 			</div>
 			<!-- /.Etiquetados -->
