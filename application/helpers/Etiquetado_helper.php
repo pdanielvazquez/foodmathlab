@@ -1330,6 +1330,7 @@ class Etiquetado_Australia_Nueva_Zelanda
 
 /**
  * Etiquetado de alimentos para Italia
+ * Escalas: Porcentajes por nutrientes
  */
 class Etiquetado_italia
 {
@@ -1371,5 +1372,40 @@ class Etiquetado_italia
 
 	public function getSodio(){
 		return ($this->azucares * 100) / $this->ref_azucares;
+	}
+}
+
+/**
+ * Etiquetado de alimentos para Uruguay
+ * Escalas: 1 - Etiqueta, 0 - Sin etiqueta
+ */
+class Etiquetado_uruguay
+{
+	private $grasas_tot, $grasas_sat, $sodio, $azucares, $tipo;
+	
+	function __construct($energia_kcal, $grasas_tot_g, $grasas_sat_g, $sodio_g, $azucares_g, $tipo)
+	{
+		$this->energia 		=	$energia_kcal;
+		$this->grasas_tot 	=	$grasas_tot_g;
+		$this->grasas_sat 	=	$grasas_sat_g;
+		$this->sodio  		=	$sodio_g;
+		$this->azucares 	=	$azucares_g;
+	}
+
+	public function getGrasasSat(){
+		return ((9 * $this->grasas_sat) >= ($this->energia*0.12)) ? 1 : 0;
+	}
+
+	public function getGrasaTot(){
+		return ((9 * $this->grasas_tot) >= ($this->energia*0.35)) ? 1 : 0;
+	}
+
+	public function getSodio(){
+		/*en miligramos*/
+		return ( ((($this->sodio*1000)/$this->energia)>8) || ( (($this->sodio*1000)/$this->energia)>= 500 ) ) ? 1 : 0;
+	}
+
+	public function getAzucares(){
+		return ( ((4*$this->azucares)>=($this->energia*0.2)) || ((4*$this->azucares)>=3) ) ? 1 : 0;
 	}
 }

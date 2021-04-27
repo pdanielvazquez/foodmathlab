@@ -46,6 +46,12 @@
 				       		</a>
 				       		Colombia
 				       	</p>
+				       	<p style="margin: 0;">
+				       		<a href="" title="Ver etiquetado" data="summary-uruguay" class="btn-summary">
+				       			<i class="fas fa-tag"></i>
+				       		</a>
+				       		Uruguay
+				       	</p>
 				    </fieldset>
 
 		        	<fieldset>
@@ -1447,6 +1453,129 @@
 										</tr>
 										<?
 										unset($AustraliaLabel);
+										?>
+									</tbody>
+								</table>
+							</fieldset>
+					    </div>
+					</div>
+				</div>
+				<!-- /.Etiquetado Italia -->
+
+				<!-- Etiquetado Uruguay -->
+				<div class="col-xs-12 col-md-6 col-lg-6" id="summary-uruguay" style="display: none;">
+					<div class="card card-secondary">
+					    <div class="card-header">
+					    	<h3 class="card-title">
+					    		<img src="<?= base_url('uploads/flags/uruguay.jpg') ?>" style="width: 40px;">
+					    		Uruguay
+					    	</h3>
+					    	<div class="card-tools">
+			                  <button type="button" class="btn btn-tool" data-card-widget="maximize">
+			                    <i class="fas fa-expand"></i>
+			                  </button>
+			                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+			                    <i class="fas fa-minus"></i>
+			                  </button>
+			                  <button type="button" class="btn btn-tool btn-remove">
+			                    <i class="fas fa-times"></i>
+			                  </button>
+			                </div>
+					    </div>
+					    <div class="card-body">
+							<fieldset>
+								<legend>Promedios</legend>
+								<table class="table table-bordered table-striped">
+									<thead>
+										<tr class="txt-centrado bg-black">
+											<th style="width: 20%;">Grasas</th>
+											<th style="width: 20%;">Grasas Sat</th>
+											<th style="width: 20%;">Sodio</th>
+											<th style="width: 20%;">Azucares</th>
+										</tr>
+									</thead>
+									<tbody>
+										<?
+										$prom_energia = 
+										$prom_grasas_tot = 
+										$prom_grasas_sat = 
+										$prom_azucar = 
+										$prom_sodio = 0;
+										if ($campos!=false) {
+											$prom_energia = $campos['Energía']['media'];
+											$prom_grasas_tot = $campos['Grasa total']['media'];
+											$prom_grasas_sat = $campos['Grasas saturadas']['media'];
+											$prom_azucar = $campos['Azucares']['media'];
+											$prom_sodio = $campos['Sodio']['media'];
+										}
+										$UruguayLabel = new Etiquetado_uruguay($prom_energia, $prom_grasas_tot, $prom_grasas_sat, $prom_sodio, $prom_azucar, 'solido');
+										?>										
+										<tr class="txt-centrado">
+											<th><?= number_format($prom_grasas_tot, 1) ?> g</th>
+											<th><?= number_format($prom_grasas_sat, 1) ?> g</th>
+											<th><?= number_format($prom_sodio, 1) ?> g</th>
+											<th><?= number_format($prom_azucar, 1) ?> g</th>
+										</tr>
+										<tr class="txt-centrado">
+											<td>
+												<?
+												if ($UruguayLabel->getGrasaTot()==1) {
+													?>
+													<img src="<?= base_url('uploads/labels-uruguay/grasas_tot.jpg') ?>" style="width: 100px;">
+													<?
+												}
+												else{
+													?>
+													<img src="<?= base_url('uploads/labels/empty.jpg') ?>" style="width: 100px;">
+													<?
+												}
+												?>
+											</td>
+											<td>
+												<?
+												if ($UruguayLabel->getGrasasSat()==1) {
+													?>
+													<img src="<?= base_url('uploads/labels-uruguay/grasas_sat.jpg') ?>" style="width: 100px;">
+													<?
+												}
+												else{
+													?>
+													<img src="<?= base_url('uploads/labels/empty.jpg') ?>" style="width: 100px;">
+													<?
+												}
+												?>
+											</td>
+											<td>
+												<?
+												if ($UruguayLabel->getSodio()==1) {
+													?>
+													<img src="<?= base_url('uploads/labels-uruguay/sodio.jpg') ?>" style="width: 100px;">
+													<?
+												}
+												else{
+													?>
+													<img src="<?= base_url('uploads/labels/empty.jpg') ?>" style="width: 100px;">
+													<?
+												}
+												?>
+											</td>
+											<td>
+												<?
+												if ($UruguayLabel->getAzucares()==1) {
+													?>
+													<img src="<?= base_url('uploads/labels-uruguay/azucares.jpg') ?>" style="width: 100px;">
+													<?
+												}
+												else{
+													?>
+													<img src="<?= base_url('uploads/labels/empty.jpg') ?>" style="width: 100px;">
+													<?
+												}
+												?>
+											</td>
+										</tr>
+										<?
+										unset($UruguayLabel);
 										?>
 									</tbody>
 								</table>

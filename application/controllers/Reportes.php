@@ -51,9 +51,34 @@ class Reportes extends CI_Controller {
 		    unset($stats);
 		}
 
+		$campos_hidden = array(
+			'proteinas'			=> 	array('campo'=>'proteinas'), 
+			'fibras'			=>	array('campo'=>'fibra'), 
+			'vitamina_C'		=>	array('campo'=>'acidoascord'), 
+			'vitamina_E'		=>	array('campo'=>'vitaminae'), 
+			'vitamina_B1'		=>	array('campo'=>'tiamina'), 
+			'vitamina_B2'		=>	array('campo'=>'riboflavina'), 
+			/*'vitamina_B6'		=>	array('campo'=>'hidratos'), */
+			'vitamina_B9'		=>	array('campo'=>'fibra'), 
+			'calcio'			=>	array('campo'=>'calcio'),
+			'hierro'			=>	array('campo'=>'hierro'),
+			'magnesio'			=>	array('campo'=>'magnesio'),
+			'zinc'				=>	array('campo'=>'zinc'),
+			'potasio'			=>	array('campo'=>'potasio'),
+			'acido_linoleico'	=>	array('campo'=>'acidolino'),
+			/*'dha'				=>	array('campo'=>'dha'),*/
+		);
+
+		foreach ($campos_hidden as $cve => $val) {
+			$stats = new Estadisticas($productos, $val['campo']);
+			$campos_hidden[$cve]['media'] 	= $stats->getMedia();
+		    unset($stats);
+		}
+
 		$data = array(
 			'productos'		=>	$productos,
 			'campos'		=>	$campos,
+			'indices'		=>	$campos_hidden,
 			'ingredientes'	=>	$ingredientes,
 		);
 
