@@ -12,6 +12,8 @@ class Reportes extends CI_Controller {
 		$this->load->helper('Input_helper');
 		$this->load->helper('Estadisticas_helper');
 		$this->load->helper('Etiquetado_helper');
+		$this->load->helper('SainLim_helper');
+		$this->load->helper('NRF93_helper');
 		$this->load->library('session');
 	}
 
@@ -59,7 +61,7 @@ class Reportes extends CI_Controller {
 			'vitamina_B1'		=>	array('campo'=>'tiamina'), 
 			'vitamina_B2'		=>	array('campo'=>'riboflavina'), 
 			/*'vitamina_B6'		=>	array('campo'=>'hidratos'), */
-			'vitamina_B9'		=>	array('campo'=>'fibra'), 
+			/*'vitamina_B9'		=>	array('campo'=>'folatos'), */
 			'calcio'			=>	array('campo'=>'calcio'),
 			'hierro'			=>	array('campo'=>'hierro'),
 			'magnesio'			=>	array('campo'=>'magnesio'),
@@ -67,6 +69,11 @@ class Reportes extends CI_Controller {
 			'potasio'			=>	array('campo'=>'potasio'),
 			'acido_linoleico'	=>	array('campo'=>'acidolino'),
 			/*'dha'				=>	array('campo'=>'dha'),*/
+			'sodio'				=>	array('campo'=>'sodio'), 
+			'energia'			=>	array('campo'=>'energia'), 
+			'grasas_sat'		=>	array('campo'=>'acidosgs'), 
+			'grasas_tot'		=>	array('campo'=>'lipidos'), 
+			'azucares'			=>	array('campo'=>'azucaresa'), 
 		);
 
 		foreach ($campos_hidden as $cve => $val) {
@@ -115,6 +122,8 @@ class Reportes extends CI_Controller {
 
 		/*Script de configuracion de datatable*/
 		$this->load->view('Reportes/resumen_js_view');
+		$this->load->view('Reportes/scatter_js_view');
+		$this->load->view('Reportes/nrf93_js_view');
 
 		$this->load->view('Plantillas/body_close_view');
 		$this->load->view('Plantillas/html_close_view');

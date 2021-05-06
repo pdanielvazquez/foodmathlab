@@ -90,8 +90,17 @@
 
 				    <fieldset>
 			    		<legend>INDICES</legend>
-		        		<p style="margin: 0;"><input type="checkbox" name="et_chile" id="et_chile" value="1"> NRF 9.3</p>
-		        		<p style="margin: 0;"><input type="checkbox" name="et_chile" id="et_chile" value="1"> SAIN-LIM</p>
+		        		<p style="margin: 0;">
+				       		<a href="" title="Ver Indice" data="index-nrf93" class="btn-summary">
+				       			<i class="fas fa-tag"></i>
+				       		</a>
+				       		NRF9.3
+				       	</p><p style="margin: 0;">
+				       		<a href="" title="Ver Indice" data="index-sain-lim" class="btn-summary">
+				       			<i class="fas fa-tag"></i>
+				       		</a>
+				       		SAIN-LIM
+				       	</p>
 		        	</fieldset>
 
 		        </div>
@@ -1583,10 +1592,108 @@
 					    </div>
 					</div>
 				</div>
-				<!-- /.Etiquetado Italia -->
+				<!-- /.Etiquetado Uruguay -->
 
 			</div>
 			<!-- /.Etiquetados -->
+
+			<!-- Indices -->
+			<div class="row">
+
+				<!-- Indice NRF 9.3 -->
+				<div class="col-xs-12 col-md-6 col-lg-6" id="index-nrf93" style="display: block;">
+					<div class="card card-secondary">
+					    <div class="card-header">
+					    	<h3 class="card-title">
+					    		NRF 9.3
+					    	</h3>
+					    	<div class="card-tools">
+			                  <button type="button" class="btn btn-tool" data-card-widget="maximize">
+			                    <i class="fas fa-expand"></i>
+			                  </button>
+			                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+			                    <i class="fas fa-minus"></i>
+			                  </button>
+			                  <button type="button" class="btn btn-tool btn-remove">
+			                    <i class="fas fa-times"></i>
+			                  </button>
+			                </div>
+					    </div>
+					    <div class="card-body">
+							<?
+							$dataX = array();
+							$dataY = array();
+							$label = array();
+						    if ($productos!=false) {
+						    	foreach ($productos->result() as $producto) {
+						    		$valores = array();
+						    		foreach ($indices as $etiqueta => $campo) {
+						    			$atributo = $campo['campo'];
+						    			$valores[$atributo] = number_format($producto->$atributo, 2);
+						    		}
+						    		$nrf93 = new NRF93($valores);
+						    		array_push($dataX, number_format($nrf93->getNRF9(), 1));
+						    		array_push($dataY, number_format($nrf93->getNRF3(), 1));
+						    		array_push($label, $producto->nombre);
+						    		unset($nrf93);
+						    	}
+						    }
+						    ?>
+
+						    <canvas id="nrf93Chart" style="width: 100%;" data-x="<?= implode(',', $dataX) ?>" data-y="<?= implode(',', $dataY) ?>" data-labels="<?= implode(',', $labels) ?>" data-unit="<?= $unidad ?>"></canvas>
+					    </div>
+					</div>
+				</div>
+				<!-- /.Indice NRF 9.3 -->
+
+				<!-- Indice Sain-Lim -->
+				<div class="col-xs-12 col-md-6 col-lg-6" id="index-sain-lim" style="display: none;">
+					<div class="card card-secondary">
+					    <div class="card-header">
+					    	<h3 class="card-title">
+					    		SAIN-LIM
+					    	</h3>
+					    	<div class="card-tools">
+			                  <button type="button" class="btn btn-tool" data-card-widget="maximize">
+			                    <i class="fas fa-expand"></i>
+			                  </button>
+			                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+			                    <i class="fas fa-minus"></i>
+			                  </button>
+			                  <button type="button" class="btn btn-tool btn-remove">
+			                    <i class="fas fa-times"></i>
+			                  </button>
+			                </div>
+					    </div>
+					    <div class="card-body">
+							<?
+							$dataX = array();
+							$dataY = array();
+							$label = array();
+						    if ($productos!=false) {
+						    	foreach ($productos->result() as $producto) {
+						    		$valores = array();
+						    		foreach ($indices as $etiqueta => $campo) {
+						    			$atributo = $campo['campo'];
+						    			$valores[$atributo] = number_format($producto->$atributo, 2);
+						    		}
+						    		$sainlim = new SainLim($valores);
+						    		array_push($dataX, number_format($sainlim->getSain(), 1));
+						    		array_push($dataY, number_format($sainlim->getLim(), 1));
+						    		array_push($label, $producto->nombre);
+						    		unset($sainlim);
+						    	}
+						    }
+						    ?>
+
+						    <canvas id="saimlimChart" style="width: 100%;" data-x="<?= implode(',', $dataX) ?>" data-y="<?= implode(',', $dataY) ?>" data-labels="<?= implode(',', $labels) ?>" data-unit="<?= $unidad ?>"></canvas>
+					    </div>
+					</div>
+				</div>
+				<!-- /.Indice Sain-Lim -->
+
+			</div>
+			<!-- /.Indices -->
 
 </section>
 <!-- /.content -->
