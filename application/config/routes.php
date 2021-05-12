@@ -64,6 +64,10 @@ $route['producto_nuevo'] = 'Productos/nuevo';
 $route['registrar_producto'] = 'Productos/registro';
 $route['productos_registrados'] = 'Productos/registrados';
 $route['producto_descripcion'] = 'Productos/descripcion';
+$route['productos_grupos']	= 'Productos/grupos';
+$route['productos_grupos_nuevo']	= 'Productos/grupo_nuevo';
+$route['productos_grupos_quitar/(:any)']	= 'Productos/grupo_eliminar';
 
 /*Reportes*/
 $route['reporte/(:any)'] = 'Reportes/index';
+$route['reporte_grupos'] = 'Reportes/grupos';

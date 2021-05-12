@@ -9,6 +9,7 @@ class Productos extends CI_Controller {
 		$this->load->helper('url');
 		$this->load->model('General_model');
 		$this->load->helper('Input_helper');
+		$this->load->helper('Mi_helper');
 		$this->load->library('session');
 	}
 
@@ -284,5 +285,91 @@ class Productos extends CI_Controller {
 		);
 
 		$this->load->view('Productos/descripcion_producto_view', $data);
+	}
+
+	public function grupos(){
+
+		if (!isset($_SESSION['idUser'])) {
+			redirect('App/logout');
+		}
+
+		/*Consultas generales*/
+		$grupos = $this->General_model->get('grupos', array('id_usuario'=>$_SESSION['idUser']), array(), '');
+		$data = array(
+			'grupos'	=> $grupos,
+		);
+
+		/*Configuración de la vista*/
+		$menu = $this->General_model->get('menu_opciones', array('activo'=>1), array(), '');
+		$submenu = $this->General_model->get('submenu_opciones', array('activo_submenu'=>1), array(), '');
+		$usuarios = $this->General_model->get('usuarios', array('id_user'=>$this->session->idUser), array(), '');
+		$usuario = ($usuarios!=false)? $usuarios->row(0) : false ;
+
+		$config = array(
+			'titulo'	=>	'Productos',
+			'subtitulo'	=>	'Grupos',
+			'usuario'	=>	$usuario->nombre,
+			'menu'		=>	$menu,
+			'submenu'	=>	$submenu,
+		);
+
+		$this->load->view('Plantillas/html_open_view', $config);
+		$this->load->view('Plantillas/head_view');
+		$this->load->view('Plantillas/body_open_view');
+		$this->load->view('Plantillas/wraper_open_view');
+		$this->load->view('Plantillas/navbar_view');
+		$this->load->view('Plantillas/sidebar_view');
+		$this->load->view('Plantillas/content_wraper_open_view');
+		$this->load->view('Plantillas/content_wraper_header_view');
+		
+		/*Aqui va el contenido*/
+		$this->load->view('Productos/productos_grupos_view', $data);
+		
+		$this->load->view('Plantillas/content_wraper_close_view');
+		$this->load->view('Plantillas/footer_view');
+		$this->load->view('Plantillas/wraper_close_view');
+		$this->load->view('Plantillas/scripts_view');
+
+		/*Script de configuracion de datatable*/
+		$this->load->view('Productos/productos_datatable_view');
+		$this->load->view('Productos/productos_js_view');
+
+		$this->load->view('Plantillas/body_close_view');
+		$this->load->view('Plantillas/html_close_view');
+	}
+
+	public function grupo_nuevo(){
+		if (!isset($_SESSION['idUser'])) {
+			redirect('App/logout');
+		}
+
+		if (isset($_POST['aceptar'])) {
+			$valores = array(
+				'id_grupo'	=> '',
+				'id_usuario'=>	$_SESSION['idUser'],
+				'descripcion'=>	$this->input->post('grupo_descripcion'),
+				'nombre'	=>	$this->input->post('grupo_nombre'),
+				'tipo'		=>	$this->input->post('grupo_tipo'),
+			);
+			$this->General_model->set('grupos', $valores);
+		}
+
+		redirect(base_url('productos_grupos'));
+	}
+
+	public function grupo_eliminar(){
+		if (!isset($_SESSION['idUser'])) {
+			redirect('App/logout');
+		}
+
+		/*Id del grupo a eliminar*/
+		$id_grupo = $this->uri->segment(2);
+
+		$valores = array(
+			'id_grupo'	=> desencripta($id_grupo),
+		);
+		$this->General_model->delete('grupos', $valores);
+
+		redirect(base_url('productos_grupos'));
 	}
 }

@@ -1313,7 +1313,7 @@
 										</tr>
 										<tr class="txt-centrado">
 											<td class="txt-centrado">
-												<div class="baterry-title-1">
+												<div class="battery-title-1">
 													<p><strong>ENERGIA</strong></p>
 													<p><?= number_format($prom_energia*4.184) ?> kJ</p>
 													<p><?= number_format($prom_energia) ?> kcal</p>
@@ -1324,7 +1324,7 @@
 												<span class="battery-head">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 											</td>
 											<td class="txt-centrado">
-												<div class="baterry-title-2">
+												<div class="battery-title-2">
 													<p><strong>GRASSI</strong></p>
 													<p><?= number_format($prom_grasas_tot, 2) ?> g</p>
 													<p>&nbsp;</p>
@@ -1335,7 +1335,7 @@
 												<span class="battery-head">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 											</td>
 											<td class="txt-centrado">
-												<div class="baterry-title-2">
+												<div class="battery-title-2">
 													<p><strong>GRASSI<br>SATURI</strong></p>
 													<p><?= number_format($prom_grasas_sat, 2) ?> g</p>
 												</div>
@@ -1345,7 +1345,7 @@
 												<span class="battery-head">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 											</td>
 											<td class="txt-centrado">
-												<div class="baterry-title-2">
+												<div class="battery-title-2">
 													<p><strong>ZUCCHERI</strong></p>
 													<p><?= number_format($prom_azucar, 2) ?> g</p>
 													<p>&nbsp;</p>
@@ -1356,7 +1356,7 @@
 												<span class="battery-head">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 											</td>
 											<td class="txt-centrado">
-												<div class="baterry-title-2">
+												<div class="battery-title-2">
 													<p><strong>SALE</strong></p>
 													<p><?= number_format($prom_sodio, 2) ?> g</p>
 													<p>&nbsp;</p>
@@ -1378,7 +1378,7 @@
 				</div>
 				<!-- /.Etiquetado Italia -->
 
-				<!-- Etiquetado Italia -->
+				<!-- Etiquetado Australia -->
 				<div class="col-xs-12 col-md-6 col-lg-6" id="summary-australia" style="display: none;">
 					<div class="card card-secondary">
 					    <div class="card-header">
@@ -1469,7 +1469,7 @@
 					    </div>
 					</div>
 				</div>
-				<!-- /.Etiquetado Italia -->
+				<!-- /.Etiquetado Australia -->
 
 				<!-- Etiquetado Uruguay -->
 				<div class="col-xs-12 col-md-6 col-lg-6" id="summary-uruguay" style="display: none;">

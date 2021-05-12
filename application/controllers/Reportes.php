@@ -10,6 +10,7 @@ class Reportes extends CI_Controller {
 		$this->load->helper('url');
 		$this->load->model('General_model');
 		$this->load->helper('Input_helper');
+		$this->load->helper('Mi_helper');
 		$this->load->helper('Estadisticas_helper');
 		$this->load->helper('Etiquetado_helper');
 		$this->load->helper('SainLim_helper');
@@ -129,4 +130,78 @@ class Reportes extends CI_Controller {
 		$this->load->view('Plantillas/html_close_view');
 	}
 
+	public function grupos(){
+		if (!isset($_SESSION['idUser'])) {
+			redirect('App/logout');
+		}
+
+		/*Consultas*/
+
+		$grupos = $this->General_model->get('grupos', array('id_usuario'=>$_SESSION['idUser']), array(), '');
+		$productos = $this->General_model->get('productos_foodmathlab', array('id_user'=>$_SESSION['idUser']), array(), '');
+
+		$campos = array(
+			'energia'			=> 	array('etiqueta'=>'Energía'), 
+			'azucaresa'			=>	array('etiqueta'=>'Azucares'), 
+			'acidosgs'			=>	array('etiqueta'=>'Grasas saturadas'), 
+			'acidostrans'		=>	array('etiqueta'=>'Grasas trans'), 
+			'lipidos'			=>	array('etiqueta'=>'Grasa total'), 
+			'sodio'				=>	array('etiqueta'=>'Sodio'), 
+		);
+
+		$atributos = array(
+			'energia'			=> 	array('etiqueta'=>'Energía'), 
+			'azucaresa'			=>	array('etiqueta'=>'Azucares'), 
+			'acidosgs'			=>	array('etiqueta'=>'Grasas saturadas'), 
+			'acidostrans'		=>	array('etiqueta'=>'Grasas trans'), 
+			'lipidos'			=>	array('etiqueta'=>'Grasa total'), 
+			'sodio'				=>	array('etiqueta'=>'Sodio'), 
+		);
+
+
+		$data = array(
+			'grupos'	=>	$grupos,
+			'productos'	=>	$productos,
+			'campos'	=>	$campos,
+			'atributos'	=>	$atributos,
+		);
+
+		/*Configuración de la vista*/
+		$menu = $this->General_model->get('menu_opciones', array('activo'=>1), array(), '');
+		$submenu = $this->General_model->get('submenu_opciones', array('activo_submenu'=>1), array(), '');
+		$usuarios = $this->General_model->get('usuarios', array('id_user'=>$this->session->idUser), array(), '');
+		$usuario = ($usuarios!=false)? $usuarios->row(0) : false ;
+
+		$config = array(
+			'titulo'	=>	'Reportes',
+			'subtitulo'	=>	$tipo,
+			'usuario'	=>	$usuario->nombre,
+			'menu'		=>	$menu,
+			'submenu'	=>	$submenu,
+		);
+
+		$this->load->view('Plantillas/html_open_view', $config);
+		$this->load->view('Plantillas/head_view');
+		$this->load->view('Plantillas/body_open_view');
+		$this->load->view('Plantillas/wraper_open_view');
+		$this->load->view('Plantillas/navbar_view');
+		$this->load->view('Plantillas/sidebar_view');
+		$this->load->view('Plantillas/content_wraper_open_view');
+		$this->load->view('Plantillas/content_wraper_header_view');
+		
+		/*Aqui va el contenido*/
+		$this->load->view('Reportes/grupos_view', $data);
+
+		$this->load->view('Plantillas/content_wraper_close_view');
+		$this->load->view('Plantillas/footer_view');
+		$this->load->view('Plantillas/wraper_close_view');
+		$this->load->view('Plantillas/scripts_view');
+
+		/*Script de configuracion de datatable*/
+		$this->load->view('Reportes/resumen_js_view');
+
+		$this->load->view('Plantillas/body_close_view');
+		$this->load->view('Plantillas/html_close_view');
+
+	}
 }

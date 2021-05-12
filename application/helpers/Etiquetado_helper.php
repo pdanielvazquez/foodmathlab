@@ -326,9 +326,17 @@ class Etiquetado_peru_2a_fase
 class Etiquetado_UK
 {
 	private $sodio, $azucares, $grasas_sat, $grasas_tot;
+	private $ref_energia, $ref_grasas_tot, $ref_grasas_sat, $ref_azucares, $ref_sodio;
 	
 	function __construct($sodio_g, $azucares_g, $grasas_sat_g, $grasas_tot_g, $tipo)
 	{
+		/*Valores de referencia*/
+		$this->ref_energia 	=	2000;
+		$this->ref_grasas_tot =	70;
+		$this->ref_grasas_sat =	20;
+		$this->ref_azucares = 90;
+		$this->ref_sodio = 2.4;
+
 		$this->sodio 		= $sodio_g;
 		$this->azucares 	= $azucares_g;
 		$this->grasas_sat 	= $grasas_sat_g;
@@ -363,6 +371,10 @@ class Etiquetado_UK
 		return $sodio;
 	}
 
+	public function getSodioPtc(){
+		return ($this->sodio * 100) / $this->ref_sodio;
+	}
+
 	public function getAzucares(){
 		$azucar = 0;
 		if ($this->tipo=='solido') {
@@ -388,6 +400,10 @@ class Etiquetado_UK
 			}
 		}
 		return $azucar;
+	}
+
+	public function getAzucaresPtc(){
+		return ($this->azucares * 100) / $this->ref_azucares;
 	}
 
 	public function getGrasasSat(){
@@ -417,6 +433,10 @@ class Etiquetado_UK
 		return $grasas;
 	}
 
+	public function getGrasasSatPtc(){
+		return ($this->grasas_sat * 100) / $this->ref_grasas_sat;
+	}
+
 	public function getGrasaTotal(){
 		$grasas = 0;
 		if ($this->tipo=='solido') {
@@ -442,6 +462,10 @@ class Etiquetado_UK
 			}
 		}
 		return $grasas;
+	}
+
+	public function getGrasaTotalPtc(){
+		return ($this->grasas_tot * 100) / $this->ref_grasas_tot;
 	}
 }
 

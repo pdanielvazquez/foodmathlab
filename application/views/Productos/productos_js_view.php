@@ -19,6 +19,13 @@
 			})
 		});
 
+		$('.btn-quitar-grupo').on('click', function(){
+			var identificador = $(this).attr(data);
+			if (!confirm('\u00BFDesea borrar el grupo No. '+identificador+'?')) {
+				return false;
+			}
+		});
+
 	})
 
 </script>
