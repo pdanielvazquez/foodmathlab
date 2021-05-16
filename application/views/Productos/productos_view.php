@@ -13,18 +13,22 @@
         <div class="card-body">
           <table id="example1" class="table table-bordered table-striped table-hover">
             <thead>
-              <tr>
+              <tr class="bg-secondary">
+                <th>&nbsp;</th>
                 <th>Producto</th>
                 <th>Cantidad neta</th>
                 <th>Cantidad de la porción</th>
+                <th>&nbsp;</th>
               </tr>
             </thead>
             <tbody>
               <?
                 if ($productos) {
+                  $conta = 0;
                   foreach ($productos->result() as $producto) {
                     ?>
                     <tr>
+                      <td><?= ++$conta ?></td>
                       <td>
                         <a href="" data-id="<?= $producto->id_prod ?>" data-toggle="modal" data-target="#descripcion" class="btn-descripcion">
                         <?= $producto->nombre ?>
@@ -32,6 +36,7 @@
                       </td>
                       <td><?= number_format($producto->cantidad_neta, 1) ?> g</td>
                       <td><?= number_format($producto->cantidad_porcion, 1) ?> g</td>
+                      <td><a href="<?= base_url('productos_quitar/'.encripta($producto->id_prod)) ?>" class="btn btn-warning btn-quitar-producto" data="<?= $conta ?>">Quitar</a></td>
                     </tr>
                     <?
                   }
@@ -40,9 +45,11 @@
             </tbody>
             <tfoot>
               <tr>
+                <th>&nbsp;</th>
                 <th>Producto</th>
                 <th>Cantidad neta</th>
                 <th>Cantidad de la porción</th>
+                <th>&nbsp;</th>
               </tr>
             </tfoot>
           </table>

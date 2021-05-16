@@ -62,6 +62,7 @@ $route['nuevo_usuario'] = 'App/nuevo';
 $route['productos'] = 'Productos/index';
 $route['producto_nuevo'] = 'Productos/nuevo';
 $route['registrar_producto'] = 'Productos/registro';
+$route['productos_quitar/(:any)']	= 'Productos/eliminar';
 $route['productos_registrados'] = 'Productos/registrados';
 $route['producto_descripcion'] = 'Productos/descripcion';
 $route['productos_grupos']	= 'Productos/grupos';
@@ -71,3 +72,4 @@ $route['productos_grupos_quitar/(:any)']	= 'Productos/grupo_eliminar';
 /*Reportes*/
 $route['reporte/(:any)'] = 'Reportes/index';
 $route['reporte_grupos'] = 'Reportes/grupos';
+$route['reporte_tipos'] = 'Reportes/tipos';

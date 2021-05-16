@@ -1,5 +1,5 @@
 <script>
-    var canvasIndex = ['saimlimChart'];
+    var canvasIndex = ['saimlimChart', 'saimlimChartLiquido'];
 
     for(i in canvasIndex){
         generaGraficaScatter(canvasIndex[i]);

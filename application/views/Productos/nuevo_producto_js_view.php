@@ -1,8 +1,6 @@
 <script>
 	$(function(){
 
-		$('#um_energia').html('<option>kcal</option>');
-
 		$('.valor-ingrediente').on('change', function(){
 			var name = $(this).attr('name');
 			var value = $(this).val();

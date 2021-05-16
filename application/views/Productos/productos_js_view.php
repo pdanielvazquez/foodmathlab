@@ -26,6 +26,13 @@
 			}
 		});
 
+		$('.btn-quitar-producto').on('click', function(){
+			var identificador = $(this).attr(data);
+			if (!confirm('\u00BFDesea borrar el producto No. '+identificador+'?')) {
+				return false;
+			}
+		});
+
 	})
 
 </script>

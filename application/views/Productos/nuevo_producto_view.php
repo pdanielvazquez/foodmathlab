@@ -28,6 +28,17 @@
           </div>
           <div class="col-xs-12 col-md-4 col-lg-3">
             <div class="form-group">
+              <label>Grupo</label>
+              <?= $input->Select(array(
+                'name'=>'producto_grupo', 
+                'id'=>'producto_grupo', 
+                'class'=>'form-control',
+                'required'=>'required',
+              ), $grupos, 'id_grupo', 'nombre', 0) ?>
+            </div>
+          </div>
+          <div class="col-xs-12 col-md-4 col-lg-3">
+            <div class="form-group">
               <label>Categoria</label>
               <?= $input->Select(array(
                 'name'=>'producto_categoria', 
@@ -98,29 +109,6 @@
             </div>
           </div>
           
-          <!-- <div class="col-xs-12 col-md-4 col-lg-3">
-            <div class="form-group">
-              <label>Marca</label>
-              <?= $input->Select(array(
-                'name'=>'producto_marca', 
-                'id'=>'producto_marca', 
-                'class'=>'form-control',
-                'required'=>'required',
-              ), $marcas, 'id_marca', 'marca', 0) ?>
-            </div>
-          </div>
-          <div class="col-xs-12 col-md-4 col-lg-3">
-            <div class="form-group">
-              <label>Precio</label>
-              <?= $input->Text(array(
-                'name'=>'producto_precio', 
-                'id'=>'producto_precio', 
-                'class'=>'form-control',
-                'placeholder'=>'0',  
-                'min'=>1
-              ), 'number') ?>
-            </div>
-          </div> -->
         </div>
 
         <div class="row">
@@ -129,15 +117,15 @@
               <legend>Información nutrimental</legend>
               <div class="row">
                 <?
-                foreach ($campos as $etiqueta=>$nombre) {
+                foreach ($campos as $campo) {
                   ?>
                   <div class="col-xs-12 col-md-4 col-lg-2">
                     <div class="form-group">
-                      <label><?= $etiqueta ?></label>
+                      <label><?= $campo['etiqueta'] ?></label>
                       <div class="input-group">
                         <?= $input->Text(array(
-                          'name'=>$nombre, 
-                          'id'=>$nombre, 
+                          'name'=>$campo['atributo'], 
+                          'id'=>$campo['atributo'], 
                           'class'=>'form-control valor-ingrediente',
                           'placeholder'=>'0',
                           'step'=>'0.01',
@@ -145,10 +133,11 @@
                         ), 'number') ?>
                         <div class="input-group-append">
                           <span class="input-group-text">
-                            <select name="um_<?= $nombre ?>" id="um_<?= $nombre ?>" >
-                              <option>g</option>
-                              <option>mg</option>
-                              <option>mcg</option>
+                            <select name="um_<?= $campo['atributo'] ?>" id="um_<?= $campo['atributo'] ?>" >
+                              <option <?= ($campo['unidad']=='g') ? 'selected' :  '' ?> >g</option>
+                              <option <?= ($campo['unidad']=='mg') ? 'selected' :  '' ?> >mg</option>
+                              <option <?= ($campo['unidad']=='mcg') ? 'selected' :  '' ?> >mcg</option>
+                              <option <?= ($campo['unidad']=='kcal') ? 'selected' :  '' ?> >kcal</option>
                             </select>
                           </span>
                         </div>

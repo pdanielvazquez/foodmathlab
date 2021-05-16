@@ -1,17 +1,17 @@
 <script>
-    var canvas = ['energiaChart', 'azucaresaChart', 'acidosgsChart', 'lipidosChart', 'sodioChart', 'hidratosChart', 'fibraChart', 'proteinaChart', 'energiaChartLiquido', 'azucaresaChartLiquido', 'acidosgsChartLiquido', 'lipidosChartLiquido', 'sodioChartLiquido', 'hidratosChartLiquido', 'fibraChartLiquido', 'proteinaChartLiquido'];
+    var canvas = ['energiaBarChart', 'azucaresaBarChart', 'acidosgsBarChart', 'lipidosBarChart', 'sodioBarChart', 'hidratosBarChart', 'fibraBarChart', 'proteinaBarChart', 'energiaBarChartLiquido', 'azucaresaBarChartLiquido', 'acidosgsBarChartLiquido', 'lipidosBarChartLiquido', 'sodioBarChartLiquido', 'hidratosBarChartLiquido', 'fibraBarChartLiquido', 'proteinaBarChartLiquido'];
 
     for(i in canvas){
-        generaGrafica(canvas[i]);
+        generaGraficaBarras(canvas[i]);
     }
 
-    function generaGrafica(id){
+    function generaGraficaBarras(id){
         var ctx = document.getElementById(id);
         var valores = ctx.getAttribute('data-values').split(',');
         var etiquetas = ctx.getAttribute('data-labels').split(',');
         var unidad = ctx.getAttribute('data-unit');
         var myChart = new Chart(ctx, {
-            type: 'radar',
+            type: 'bar',
             data: {
                 /*labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],*/
                 labels: etiquetas,
@@ -39,11 +39,6 @@
                 }]
             },
             options: {
-                /*scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                },*/
                 responsive: true,
                 plugins: {
                     title:{
@@ -63,37 +58,5 @@
             }
         });
     }
-
-    $(function(){
-
-        $('.btn-graph').on('click', function(){
-            var graph = $(this).attr('data');
-            var display = $('#'+graph).css('display');
-            if (display=='none') {
-                $('#'+graph).show(200);
-            }
-            else{
-                $('#'+graph).hide(200);
-            }
-            return false;
-        });
-
-        $('.btn-summary').on('click', function(){
-            var summary = $(this).attr('data');
-            var display = $('#'+summary).css('display');
-            if (display=='none') {
-                $('#'+summary).show(200);
-            }
-            else{
-                $('#'+summary).hide(200);
-            }
-            return false;
-        });
-
-        $('.btn-remove').on('click', function(){
-            $(this).parent().parent().parent().parent().hide(200);
-        });
-
-    })
 
 </script>
