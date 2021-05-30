@@ -91,7 +91,7 @@ class Reportes extends CI_Controller {
 		);
 
 		/*Configuración de la vista*/
-		$menu = $this->General_model->get('menu_opciones', array('activo'=>1), array(), '');
+		$menu = $this->General_model->get('permisos_usuarios', array('activo'=>1, 'id_usuario'=>$_SESSION['idUser']), array(), '');
 		$submenu = $this->General_model->get('submenu_opciones', array('activo_submenu'=>1), array(), '');
 		$usuarios = $this->General_model->get('usuarios', array('id_user'=>$this->session->idUser), array(), '');
 		$usuario = ($usuarios!=false)? $usuarios->row(0) : false ;
@@ -167,7 +167,7 @@ class Reportes extends CI_Controller {
 		);
 
 		/*Configuración de la vista*/
-		$menu = $this->General_model->get('menu_opciones', array('activo'=>1), array(), '');
+		$menu = $this->General_model->get('permisos_usuarios', array('activo'=>1, 'id_usuario'=>$_SESSION['idUser']), array(), '');
 		$submenu = $this->General_model->get('submenu_opciones', array('activo_submenu'=>1), array(), '');
 		$usuarios = $this->General_model->get('usuarios', array('id_user'=>$this->session->idUser), array(), '');
 		$usuario = ($usuarios!=false)? $usuarios->row(0) : false ;
@@ -336,7 +336,7 @@ class Reportes extends CI_Controller {
 		);
 
 		/*Configuración de la vista*/
-		$menu = $this->General_model->get('menu_opciones', array('activo'=>1), array(), '');
+		$menu = $this->General_model->get('permisos_usuarios', array('activo'=>1, 'id_usuario'=>$_SESSION['idUser']), array(), '');
 		$submenu = $this->General_model->get('submenu_opciones', array('activo_submenu'=>1), array(), '');
 		$usuarios = $this->General_model->get('usuarios', array('id_user'=>$this->session->idUser), array(), '');
 		$usuario = ($usuarios!=false)? $usuarios->row(0) : false ;

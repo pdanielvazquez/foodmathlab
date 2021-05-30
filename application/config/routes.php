@@ -73,3 +73,7 @@ $route['productos_grupos_quitar/(:any)']	= 'Productos/grupo_eliminar';
 $route['reporte/(:any)'] = 'Reportes/index';
 $route['reporte_grupos'] = 'Reportes/grupos';
 $route['reporte_tipos'] = 'Reportes/tipos';
+
+/*Administración*/
+$route['usuarios'] = 'Administrador/index';
+$route['permisos_usuarios'] = 'Administrador/permisos';
