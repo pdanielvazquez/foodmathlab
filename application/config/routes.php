@@ -77,3 +77,6 @@ $route['reporte_tipos'] = 'Reportes/tipos';
 /*Administración*/
 $route['usuarios'] = 'Administrador/index';
 $route['permisos_usuarios'] = 'Administrador/permisos';
+
+/*Home*/
+$route['inicio'] = 'Home';

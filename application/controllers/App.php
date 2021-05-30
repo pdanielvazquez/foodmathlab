@@ -36,7 +36,7 @@ class App extends CI_Controller {
 			$usuario = $usuarios->row(0);
 			if (password_verify($password, $usuario->password)) {
 				$this->session->idUser = $usuario->id_user;
-				redirect(base_url('productos_registrados'));
+				redirect(base_url('inicio'));
 			}
 			else{
 				redirect(base_url('login/error/2'));		

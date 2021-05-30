@@ -7,7 +7,7 @@
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#"><i class="fas fa-house-user"></i> Inicio</a></li>
+              <li class="breadcrumb-item"><a href="inicio"><i class="fas fa-house-user"></i> Inicio</a></li>
               <li class="breadcrumb-item active"><?= $titulo ?></li>
             </ol>
           </div>
