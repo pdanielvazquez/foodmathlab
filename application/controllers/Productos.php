@@ -28,6 +28,12 @@ class Productos extends CI_Controller {
 			redirect('App/logout');
 		}
 
+		/*Validación de permiso de acceso al método*/
+		$permisos_usuarios = $this->General_model->get('permisos_usuarios', array('id_usuario'=>$_SESSION['idUser'], 'opcion'=>'Productos'), array(), '');
+		if ($permisos_usuarios==false) {
+			redirect('inicio');
+		}
+
 		/*Consultas generales*/
 		$marcas = $this->General_model->get('marcas', array(), array('marca'=>'asc'), 'marca');
 		$categorias = $this->General_model->get('categorias', array(), array('categoria'=>'asc'), 'categoria');
@@ -263,6 +269,12 @@ class Productos extends CI_Controller {
 			redirect('App/logout');
 		}
 
+		/*Validación de permiso de acceso al método*/
+		$permisos_usuarios = $this->General_model->get('permisos_usuarios', array('id_usuario'=>$_SESSION['idUser'], 'opcion'=>'Productos'), array(), '');
+		if ($permisos_usuarios==false) {
+			redirect('inicio');
+		}
+
 		$valores_productos = array(
 			'id_prod'		=>	'',
 			'id_user'		=>	$this->session->idUser,
@@ -298,6 +310,12 @@ class Productos extends CI_Controller {
 
 		if (!isset($_SESSION['idUser'])) {
 			redirect('App/logout');
+		}
+
+		/*Validación de permiso de acceso al método*/
+		$permisos_usuarios = $this->General_model->get('permisos_usuarios', array('id_usuario'=>$_SESSION['idUser'], 'opcion'=>'Productos'), array(), '');
+		if ($permisos_usuarios==false) {
+			redirect('inicio');
 		}
 
 		/*Consultas generales*/
@@ -351,6 +369,12 @@ class Productos extends CI_Controller {
 			redirect('App/logout');
 		}
 
+		/*Validación de permiso de acceso al método*/
+		$permisos_usuarios = $this->General_model->get('permisos_usuarios', array('id_usuario'=>$_SESSION['idUser'], 'opcion'=>'Productos'), array(), '');
+		if ($permisos_usuarios==false) {
+			redirect('inicio');
+		}
+
 		/*Id del grupo a eliminar*/
 		$id_prod = $this->uri->segment(2);
 
@@ -366,6 +390,12 @@ class Productos extends CI_Controller {
 
 		if (!isset($_SESSION['idUser'])) {
 			redirect('App/logout');
+		}
+
+		/*Validación de permiso de acceso al método*/
+		$permisos_usuarios = $this->General_model->get('permisos_usuarios', array('id_usuario'=>$_SESSION['idUser'], 'opcion'=>'Productos'), array(), '');
+		if ($permisos_usuarios==false) {
+			redirect('inicio');
 		}
 
 		/*Consultas generales*/
@@ -423,6 +453,12 @@ class Productos extends CI_Controller {
 			redirect('App/logout');
 		}
 
+		/*Validación de permiso de acceso al método*/
+		$permisos_usuarios = $this->General_model->get('permisos_usuarios', array('id_usuario'=>$_SESSION['idUser'], 'opcion'=>'Productos'), array(), '');
+		if ($permisos_usuarios==false) {
+			redirect('inicio');
+		}
+
 		/*Consultas generales*/
 		$grupos = $this->General_model->get('grupos', array('id_usuario'=>$_SESSION['idUser']), array(), '');
 		$data = array(
@@ -473,6 +509,12 @@ class Productos extends CI_Controller {
 			redirect('App/logout');
 		}
 
+		/*Validación de permiso de acceso al método*/
+		$permisos_usuarios = $this->General_model->get('permisos_usuarios', array('id_usuario'=>$_SESSION['idUser'], 'opcion'=>'Productos'), array(), '');
+		if ($permisos_usuarios==false) {
+			redirect('inicio');
+		}
+
 		if (isset($_POST['aceptar'])) {
 			$valores = array(
 				'id_grupo'	=> '',
@@ -490,6 +532,12 @@ class Productos extends CI_Controller {
 	public function grupo_eliminar(){
 		if (!isset($_SESSION['idUser'])) {
 			redirect('App/logout');
+		}
+
+		/*Validación de permiso de acceso al método*/
+		$permisos_usuarios = $this->General_model->get('permisos_usuarios', array('id_usuario'=>$_SESSION['idUser'], 'opcion'=>'Productos'), array(), '');
+		if ($permisos_usuarios==false) {
+			redirect('inicio');
 		}
 
 		/*Id del grupo a eliminar*/
