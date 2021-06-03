@@ -80,3 +80,7 @@ $route['permisos_usuarios'] = 'Administrador/permisos';
 
 /*Home*/
 $route['inicio'] = 'Home';
+
+/*Sellos*/
+$route['sellos'] = 'Sellos/quitar';
+$route['sellos_formulas'] = 'Sellos/formulas';

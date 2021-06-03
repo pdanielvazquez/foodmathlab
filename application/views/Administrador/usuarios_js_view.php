@@ -15,6 +15,7 @@
 		        data: datos,
 		        success: function(data) {
 		            alert('Permiso ' + data);
+		            window.location = 'usuarios';
 		        }
 			})
 		});
