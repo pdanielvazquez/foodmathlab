@@ -1,7 +1,7 @@
   <!-- Main content -->
 <section class="content">
 
-    <!-- Tabla de productos registrados -->
+      <!-- Tabla de productos registrados -->
       <div class="card card-danger">
         <div class="card-header">
           <h3 class="card-title">

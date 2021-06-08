@@ -84,3 +84,10 @@ $route['inicio'] = 'Home';
 /*Sellos*/
 $route['sellos'] = 'Sellos/quitar';
 $route['sellos_formulas'] = 'Sellos/formulas';
+
+/*Optimización*/
+$route['agregar_token'] = 'Optimizacion/agregar';
+$route['guardar_token'] = 'Optimizacion/guardar';
+$route['nom051'] = 'Optimizacion/nom051';
+$route['nutriscore'] = 'Optimizacion/nutriscore';
+$route['nom051_formulas'] = 'Optimizacion/nom051Formulas';
