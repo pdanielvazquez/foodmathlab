@@ -32,11 +32,28 @@
                       <td>
                         <a href="" data-id="<?= $producto->id_prod ?>" data-toggle="modal" data-target="#descripcion" class="btn-descripcion">
                         <?= $producto->nombre ?>
+                        <?
+                        if ($imagenes!=false) {
+                          $contaI = 0;
+                          foreach ($imagenes->result() as $imagen) {
+                            if ($producto->id_prod == $imagen->id_prod) {
+                              ?>
+                              <a href="<?= base_url('uploads/productos/').$imagen->nombre_archivo ?>" title="<?= $producto->nombre.'-'.++$contaI ?>" target="_blank" onclick="window.open(this.href, this.target, 'width=500, height=300, scrollbars=1'); return false;" >
+                                <img src="<?= base_url('uploads/productos/').$imagen->nombre_archivo ?>" class="img-circle elevation-2" alt="Imagen del producto" style="width: 28px; height: 28px; margin: 0 0.2rem;">
+                             </a>
+                              <?
+                            }
+                          }
+                        }
+                        ?>
                         </a>
                       </td>
                       <td><?= number_format($producto->cantidad_neta, 1) ?> g</td>
                       <td><?= number_format($producto->cantidad_porcion, 1) ?> g</td>
-                      <td><a href="<?= base_url('productos_quitar/'.encripta($producto->id_prod)) ?>" class="btn btn-warning btn-quitar-producto" data="<?= $conta ?>">Quitar</a></td>
+                      <td>
+                        <a href="<?= base_url('productos_imagenes/'.encripta($producto->id_prod)."/0") ?>" class="btn btn-primary" data="<?= $conta ?>" title="Agregar imagen"><i class="fas fa-images" alt="Agregar imagen"></i></a>
+                        <a href="<?= base_url('productos_quitar/'.encripta($producto->id_prod)) ?>" class="btn btn-warning btn-quitar-producto" data="<?= $conta ?>" title="Eliminar el producto"><i class="fas fa-trash-alt" alt="Eliminar producto"></i></a>
+                      </td>
                     </tr>
                     <?
                   }

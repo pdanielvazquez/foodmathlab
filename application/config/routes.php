@@ -68,6 +68,9 @@ $route['producto_descripcion'] = 'Productos/descripcion';
 $route['productos_grupos']	= 'Productos/grupos';
 $route['productos_grupos_nuevo']	= 'Productos/grupo_nuevo';
 $route['productos_grupos_quitar/(:any)']	= 'Productos/grupo_eliminar';
+$route['productos_imagenes/(:any)/(:any)']	= 'Productos/nueva_imagen';
+$route['eliminar_imagenes/(:any)/(:any)']	= 'Productos/eliminar_imagen';
+
 
 /*Reportes*/
 $route['reporte/(:any)'] = 'Reportes/index';
@@ -91,3 +94,4 @@ $route['guardar_token'] = 'Optimizacion/guardar';
 $route['nom051'] = 'Optimizacion/nom051';
 $route['nutriscore'] = 'Optimizacion/nutriscore';
 $route['nom051_formulas'] = 'Optimizacion/nom051Formulas';
+$route['crear_token'] = 'Optimizacion/token';

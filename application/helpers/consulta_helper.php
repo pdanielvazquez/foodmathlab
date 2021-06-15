@@ -8,7 +8,7 @@ class conexion {
 	private $dbhost = 'localhost';
 	private $dbuser = 'motog';
 	private $dbpass = 'otrono10';
-	private $dbname = 'nutriscore_op';
+	private $dbname = 'foodmathlab';
 
 	/**
 	* @return object link_id con la conexión

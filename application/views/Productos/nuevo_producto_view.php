@@ -114,7 +114,7 @@
         <div class="row">
           <div class="col-12">
             <fieldset>
-              <legend>Información nutrimental</legend>
+              <legend><i class="fas fa-info-circle"></i> Información nutrimental</legend>
               <div class="row">
                 <?
                 foreach ($campos as $campo) {

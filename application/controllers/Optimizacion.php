@@ -17,7 +17,7 @@ class Optimizacion extends CI_Controller {
 	}
 
 	public function index(){
-		redirect('agregar_token');
+		redirect('nom051');
 	}
 
 	public function agregar()
@@ -229,9 +229,142 @@ class Optimizacion extends CI_Controller {
 
 		/*Consultas generales*/
 		$productos = $this->General_model->get('productos_foodmathlab', array('id_user'=>$_SESSION['idUser']), array(), '');
+
+		/*Campos a recopilar*/
+
+		$campos_max_values = array(
+			array(
+				'atributo'	=>	'azucar_max',
+				'etiqueta'	=>	'Azucar',
+				'unidad'	=>	'g',
+			),
+			array(
+				'atributo'	=>	'grasasSat_max',
+				'etiqueta'	=>	'Grasas saturadas',
+				'unidad'	=>	'g',
+			),
+			array(
+				'atributo'	=>	'sodio_max',
+				'etiqueta'	=>	'Sodio',
+				'unidad'	=>	'mg',
+			),
+			array(
+				'atributo'	=>	'fv_max',
+				'etiqueta'	=>	'Frutas y verduras',
+				'unidad'	=>	'g',
+			),
+			array(
+				'atributo'	=>	'fibra_max',
+				'etiqueta'	=>	'Fibra',
+				'unidad'	=>	'g',
+			),
+			array(
+				'atributo'	=>	'proteina_max',
+				'etiqueta'	=>	'Proteina',
+				'unidad'	=>	'g',
+			),
+		);
+
+		$campos_min_values = array(
+			array(
+				'atributo'	=>	'azucar_min',
+				'etiqueta'	=>	'Azucar',
+				'unidad'	=>	'g',
+			),
+			array(
+				'atributo'	=>	'grasasSat_min',
+				'etiqueta'	=>	'Grasas saturadas',
+				'unidad'	=>	'g',
+			),
+			array(
+				'atributo'	=>	'sodio_min',
+				'etiqueta'	=>	'Sodio',
+				'unidad'	=>	'mg',
+			),
+			array(
+				'atributo'	=>	'fv_min',
+				'etiqueta'	=>	'Frutas y verduras',
+				'unidad'	=>	'g',
+			),
+			array(
+				'atributo'	=>	'fibra_min',
+				'etiqueta'	=>	'Fibra',
+				'unidad'	=>	'g',
+			),
+			array(
+				'atributo'	=>	'proteina_min',
+				'etiqueta'	=>	'Proteina',
+				'unidad'	=>	'g',
+			),
+		);
+
+		$campos_bloqueados = array(
+			array(
+				'atributo'	=>	'azucar_bloq',
+				'etiqueta'	=>	'Azucar',
+				'unidad'	=>	false,
+			),
+			array(
+				'atributo'	=>	'grasasSat_bloq',
+				'etiqueta'	=>	'Grasas saturadas',
+				'unidad'	=>	false,
+			),
+			array(
+				'atributo'	=>	'sodio_bloq',
+				'etiqueta'	=>	'Sodio',
+				'unidad'	=>	false,
+			),
+			array(
+				'atributo'	=>	'fv_bloq',
+				'etiqueta'	=>	'Frutas y verduras',
+				'unidad'	=>	false,
+			),
+			array(
+				'atributo'	=>	'fibra_bloq',
+				'etiqueta'	=>	'Fibra',
+				'unidad'	=>	false,
+			),
+			array(
+				'atributo'	=>	'proteina_bloq',
+				'etiqueta'	=>	'Proteina',
+				'unidad'	=>	false,
+			),
+		);
+
+		$parametros = array(
+			array(
+				'atributo'	=>	'param_peso',
+				'etiqueta'	=>	'Peso',
+				'valor'		=>	0,
+			),
+			array(
+				'atributo'	=>	'param_poblacion',
+				'etiqueta'	=>	'Población',
+				'valor'		=>	0,
+			),
+			array(
+				'atributo'	=>	'param_reemplazo',
+				'etiqueta'	=>	'Reemplazo',
+				'valor'		=>	0.5,
+			),
+			array(
+				'atributo'	=>	'param_generaciones',
+				'etiqueta'	=>	'Generaciones',
+				'valor'		=>	10000,
+			),
+			array(
+				'atributo'	=>	'param_semilla',
+				'etiqueta'	=>	'Semilla',
+				'valor'		=>	0,
+			),
+		);
 		
 		$data = array(
 			'productos'	=>	$productos,
+			'campos_max_values' => $campos_max_values,
+			'campos_min_values' => $campos_min_values,
+			'campos_bloqueados' => $campos_bloqueados,
+			'parametros'=>	$parametros,
 		);
 
 		/*Configuración de la vista*/
@@ -266,10 +399,221 @@ class Optimizacion extends CI_Controller {
 		$this->load->view('Plantillas/scripts_view');
 
 		/*Script de configuracion de datatable*/
-		$this->load->view('Optimizacion/sellos_js_view', $data);
+		$this->load->view('Optimizacion/nutriscore_js_view', $data);
 		$this->load->view('Optimizacion/nutriscore_datatable_view', $data);
 
 		$this->load->view('Plantillas/body_close_view');
 		$this->load->view('Plantillas/html_close_view');
+	}
+
+	public function token(){
+		if (!isset($_SESSION['idUser'])) {
+			redirect('App/logout');
+		}
+
+		/*Validación de permiso de acceso al método*/
+		$permisos_usuarios = $this->General_model->get('permisos_usuarios', array('id_usuario'=>$_SESSION['idUser'], 'opcion'=>'Optimizacion'), array(), '');
+		if ($permisos_usuarios==false) {
+			redirect('inicio');
+		}
+
+		/*Consultas generales*/
+		$productos = $this->General_model->get('productos_foodmathlab', array('id_prod'=>$this->input->post('id_prod')), array(), '');
+
+		$producto = ($productos!=false) ? $productos->row(0) : false ;
+
+		if ($producto!=false) {
+
+			//Inicia json a enviar
+			$postdata["referenceFood"] = [
+				"sugar" 	=> floatval($producto->azucaresa),
+		        "carbs" 	=> floatval($producto->hidratos),
+		        "totalFat" 	=> floatval($producto->lipidos),
+		        "satFat" 	=> floatval($producto->acidosgs),
+		        "sodium" 	=> floatval($producto->sodio),
+		        "f&v" 		=> floatval($producto->fruta + $producto->verdura),
+		        "fiber" 	=> floatval($producto->fibra),
+		        "protein" 	=> floatval($producto->proteina),
+		        "energy" 	=> floatval($producto->energia)
+			];
+
+			//Si maneja maximos valores los agrega al json
+			if($this->input->post("azucar_max") != "")
+				$postdata["maxValues"]["sugar"] = floatval($this->input->post("azucar_max"));
+
+			if($this->input->post("grasasSat_max") != "")
+				$postdata["maxValues"]["satFat"] = floatval($this->input->post("grasasSat_max"));
+
+			if($this->input->post("sodio_max") != "")
+				$postdata["maxValues"]["sodium"] = floatval($this->input->post("sodio_max"));
+
+			if($this->input->post("fv_max") != "")
+				$postdata["maxValues"]["f&v"] = floatval($this->input->post("fv_max"));
+
+			if($this->input->post("fibra_max") != "")
+				$postdata["maxValues"]["fiber"] = floatval($this->input->post("fibra_max"));
+
+			if($this->input->post("proteina_max") != "")
+				$postdata["maxValues"]["protein"] = floatval($this->input->post("proteina_max"));
+
+			//Si maneja minimos valores los agrega al json
+			if($this->input->post("azucar_min") != "")
+				$postdata["minValues"]["sugar"] = floatval($this->input->post("azucar_min"));
+
+			if($this->input->post("grasasSat_min") != "")
+				$postdata["minValues"]["satFat"] = floatval($this->input->post("grasasSat_min"));
+
+			if($this->input->post("sodio_min") != "")
+				$postdata["minValues"]["sodium"] = floatval($this->input->post("sodio_min"));
+
+			if($this->input->post("fv_min") != "")
+				$postdata["minValues"]["f&v"] = floatval($this->input->post("fv_min"));
+
+			if($this->input->post("fibra_min") != "")
+				$postdata["minValues"]["fiber"] = floatval($this->input->post("fibra_min"));
+
+			if($this->input->post("proteina_min") != "")
+				$postdata["minValues"]["protein"] = floatval($this->input->post("proteina_min"));
+
+			$postdata["lockValues"] = [
+				"sugar"		=> $this->input->post("azucar_bloq"),
+		        "satFat" 	=> $this->input->post("grasasSat_bloq"),
+		        "sodium" 	=> $this->input->post("sodio_bloq"),
+		        "f&v" 		=> $this->input->post("fv_bloq"),
+		        "fiber" 	=> $this->input->post("fibra_bloq"),
+		        "protein" 	=> $this->input->post("proteina_bloq")
+			];
+
+			$postdata["params"] = [
+				"weightNutriscore" 	=> floatval($this->input->post("param_peso")),
+		        "population" 		=> floatval($this->input->post("param_poblacion")),
+		        "treplace" 			=> floatval($this->input->post("param_reemplazo")),
+		        "generations" 		=> floatval($this->input->post("param_generaciones")),
+		        "seed" 				=> floatval($this->input->post("param_semilla")),
+			];
+
+			$postdata["foodProperties"] = [
+				"cheese"	=> ($producto->id_categoria == 49) ? true : false,
+		        "drink" 	=> ($producto->tipo == "liquido") ? true : false,
+		        "method" 	=> $this->input->post("metodo"),
+			];
+
+			$postdata["forceLetter"] = $this->input->post("forzarLetra");
+
+			//Fin json a enviar
+
+			//Api StartNutriScoreOptimization
+			$curl = curl_init();
+			curl_setopt_array($curl, array(
+				CURLOPT_URL => "http://localhost:5000/StartNutriscoreOptimization",
+				CURLOPT_RETURNTRANSFER => true,
+				CURLOPT_ENCODING => "",
+				CURLOPT_MAXREDIRS => 10,
+				CURLOPT_TIMEOUT => 300,
+				CURLOPT_SSL_VERIFYPEER => FALSE,
+				CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+				CURLOPT_CUSTOMREQUEST => "POST",
+				CURLOPT_POSTFIELDS => json_encode($postdata),
+				CURLOPT_HTTPHEADER => array(
+					"Cache-Control: no-cache",
+					"Content-Type: application/json",
+				)		
+			));
+			$response = curl_exec($curl);
+			$err = curl_error($curl);
+			curl_close($curl);
+			$response = json_decode($response);
+
+			//Si el API termina correctamente
+			if($response->success){
+
+				//Inicia inserts a la base de datos
+				
+				//Maximos en caso de requerirlos
+				$valores_maximos = array(
+					"id" 		=>	'',
+					"id_prod"	=>	$this->input->post("id"),
+					"max_sugar"	=>	$this->input->post("azucar_max"),
+					"max_satFat"=>	$this->input->post("grasasSat_max"),
+					"max_sodium"=>	$this->input->post("sodio_max"),
+					"max_fv"	=>	$this->input->post("fv_max"),
+					"max_fiber"	=>	$this->input->post("fibra_max"),
+					"max_protein"=>	$this->input->post("proteina_max"),
+				);
+				$this->General_model->set('valores_maximos', $valores_maximos);
+
+				//Minimos en caso de requerirlos.
+				$valores_minimos = array(
+					"id" 		=>	'',
+					"id_prod"	=>	$this->input->post("id"),
+					"min_sugar"	=>	$this->input->post("azucar_min"),
+					"min_satFat"=>	$this->input->post("grasasSat_min"),
+					"min_sodium"=>	$this->input->post("sodio_min"),
+					"min_fv"	=>	$this->input->post("fv_min"),
+					"min_fiber"	=>	$this->input->post("fibra_min"),
+					"min_protein"=>	$this->input->post("proteina_min"),
+				);
+				$this->General_model->set('valores_minimos', $valores_minimos);
+
+				$valores_bloqueados = array(
+					"id" 			=>	'',
+					"id_prod"		=>	$this->input->post("id"),
+					"lock_sugar"	=>	$this->input->post("azucar_bloq"),
+			        "lock_satFat"	=>	$this->input->post("grasasSat_bloq"),
+			        "lock_sodium"	=>	$this->input->post("sodio_bloq"),
+			        "lock_fv"		=>	$this->input->post("fv_bloq"),
+			        "lock_fiber"	=>	$this->input->post("fibra_bloq"),
+			        "lock_protein"	=>	$this->input->post("proteina_bloq"),
+					"forceLetter"	=>	$this->input->post("forzarLetra"),
+			    );
+
+				$this->General_model->set('valores_bloqueados', $valores_bloqueados);
+
+				$parametros = array(
+					"id" 			=>	'',
+					"id_prod"		=>	$this->input->post("id"),
+					"weightNutriscore"	=>	floatval($this->input->post("param_peso")),
+			        "population"		=>	floatval($this->input->post("param_poblacion")),
+			        "treplace"			=>	floatval($this->input->post("param_reemplazo")),
+			        "generations"		=>	floatval($this->input->post("param_generaciones")),
+			        "seed"				=>	floatval($this->input->post("param_semilla")),
+			    );
+
+				$this->General_model->set('parametros', $parametros);
+
+				$propiedades = array(
+					"cheese"	=>	($producto->id_categoria == 49) ? true : false,
+			        "drink"		=>	($producto->tipo == "liquido") ? true : false,
+			        "method"	=>	$this->input->post("metodo"),
+			    );
+
+				$this->General_model->set('propiedades', $propiedades);
+				
+				//Se asigna el token al producto y se guarda en la base de datos
+				$arrayToken = array(
+					"id"		=>	'',
+					"token"				=>	$response->token,
+					"comment"			=>	"Token inicial",
+					"sending_json"		=>	json_encode($postdata),
+			    );
+
+				$this->General_model->set('tokens', $arrayToken);
+
+				//Fin inserts a la base de datos
+
+				$id_token = index('tokens', 'id');
+				$tokens = $this->General_model->get('tokens', array('id' => $id_token), array(), '');
+				$token = ($tokens!=false) ? $tokens->row(0) : false ;
+									
+				echo ($token!=false)? $token->token : "Error al recuperar el token";
+			}
+			else{
+				echo "Error en la petición";
+			}
+
+		}
+		else{
+			echo "No existe el producto";
+		}
 	}
 }

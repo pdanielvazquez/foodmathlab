@@ -215,6 +215,8 @@ class Productos extends CI_Controller {
 			),
 		);
 
+		
+
 		$grupos = $this->General_model->get('grupos', array('id_usuario'=>$_SESSION['idUser']), array(), '');
 
 		$data = array(
@@ -320,8 +322,10 @@ class Productos extends CI_Controller {
 
 		/*Consultas generales*/
 		$productos = $this->General_model->get('productos_foodmathlab', array('id_user'=>$_SESSION['idUser']), array(), '');
+		$imagenes = $this->General_model->get('productos_imagenes', array('id_user'=>$_SESSION['idUser']), array(), '');
 		$data = array(
 			'productos'	=>	$productos,
+			'imagenes'	=>	$imagenes,
 		);
 
 		/*Configuración de la vista*/
@@ -549,5 +553,161 @@ class Productos extends CI_Controller {
 		$this->General_model->delete('grupos', $valores);
 
 		redirect(base_url('productos_grupos'));
+	}
+
+	public function nueva_imagen(){
+
+		if (!isset($_SESSION['idUser'])) {
+			redirect('App/logout');
+		}
+
+		/*Validación de permiso de acceso al método*/
+		$permisos_usuarios = $this->General_model->get('permisos_usuarios', array('id_usuario'=>$_SESSION['idUser'], 'opcion'=>'Productos'), array(), '');
+		if ($permisos_usuarios==false) {
+			redirect('inicio');
+		}
+
+		/*Consultas generales*/
+		$id_prod = desencripta($this->uri->segment(2));
+
+		if (isset($_POST['subir_archivo'])) {
+			$config['upload_path']          = './uploads/productos/';
+	        $config['allowed_types']        = 'png|gif|jpg|jpeg';
+	        //$config['allowed_types']        = "*";
+	        $config['max_size']             = 2048;
+	        /*
+	        $config['max_width']            = 1024;
+	        $config['max_height']           = 768;
+			*/
+	        $this->load->library('upload', $config);
+
+	        if (!$this->upload->do_upload('userfile'))
+	        {
+	                $error = array('error' => $this->upload->display_errors());
+	                //print_r($error);
+	                //$this->load->view('upload_form', $error);
+	                redirect(base_url('productos_imagenes/'.encripta($id_prod)."/2"));
+	        }
+	        else
+	        {
+	                $data = array('upload_data' => $this->upload->data());
+	                //$this->load->view('upload_success', $data);
+	                //print_r($data);
+	                $filename = $data['upload_data']['file_name'];
+	                $valores = array(
+	                	'id'		=>	'',
+	                	'id_prod' 	=> 	$id_prod,
+	                	'nombre_archivo'	=> $filename,
+	                	'fecha_archivo'		=> date("Y-m-d H:i:s"),
+	                );
+	                $this->General_model->set('imagenes', $valores);
+					//echo "nombre del archivo: ".$filename; 
+	                redirect(base_url('productos_imagenes/'.encripta($id_prod)."/1"));
+	        }
+		}
+
+		if (isset($_POST['subir_archivo_url'])) {
+			
+			$formatos = array(".png", ".jpg", ".jpeg", ".gif");
+			$url = $this->input->post('url');
+			$aceptado = 0;
+			foreach ($formatos as $formato) {
+				if (strpos($url, $formato)>-1) {
+				    $aceptado = 1;
+				}
+			}
+
+			if ($aceptado==1) {
+
+				$url_array = explode('/', $url);
+				$nombre_archivo = $url_array[count($url_array)-1];
+				$imagen = file_get_contents($url);
+				file_put_contents('./uploads/productos/'.$nombre_archivo, $imagen);
+
+		        $valores = array(
+		          	'id'		=>	'',
+		            'id_prod' 	=> 	$id_prod,
+		            'nombre_archivo'	=> $nombre_archivo,
+		            'fecha_archivo'		=> date("Y-m-d H:i:s"),
+		        );
+		        $this->General_model->set('imagenes', $valores);
+				//echo "nombre del archivo: ".$filename; 
+		        redirect(base_url('productos_imagenes/'.encripta($id_prod)."/1"));
+			}
+
+		}
+
+		$productos = $this->General_model->get('productos_foodmathlab', array('id_prod'=>$id_prod), array(), '');
+		$imagenes = $this->General_model->get('imagenes', array('id_prod'=>$id_prod), array(), '');
+
+		$data = array(
+			'id_prod' 	=>	$id_prod,
+			'productos'	=> $productos,
+			'imagenes'	=> $imagenes,
+		);
+
+		$producto = ($productos!=false)? $productos->row(0) : false ;
+
+		/*Configuración de la vista*/
+		$menu = $this->General_model->get('permisos_usuarios', array('activo'=>1, 'id_usuario'=>$_SESSION['idUser']), array('orden'=>'asc'), '');
+		$submenu = $this->General_model->get('submenu_opciones', array('activo_submenu'=>1), array(), '');
+		$usuarios = $this->General_model->get('usuarios', array('id_user'=>$this->session->idUser), array(), '');
+		$usuario = ($usuarios!=false)? $usuarios->row(0) : false ;
+
+		$config = array(
+			'titulo'	=>	$producto->nombre,
+			'subtitulo'	=>	'Agregar imagenes',
+			'usuario'	=>	$usuario->nombre,
+			'menu'		=>	$menu,
+			'submenu'	=>	$submenu,
+		);
+
+		$this->load->view('Plantillas/html_open_view', $config);
+		$this->load->view('Plantillas/head_view');
+		$this->load->view('Plantillas/body_open_view');
+		$this->load->view('Plantillas/wraper_open_view');
+		$this->load->view('Plantillas/navbar_view');
+		$this->load->view('Plantillas/sidebar_view');
+		$this->load->view('Plantillas/content_wraper_open_view');
+		$this->load->view('Plantillas/content_wraper_header_view');
+		
+		/*Aqui va el contenido*/
+		$this->load->view('Productos/productos_imagenes_view', $data);
+		
+		$this->load->view('Plantillas/content_wraper_close_view');
+		$this->load->view('Plantillas/footer_view');
+		$this->load->view('Plantillas/wraper_close_view');
+		$this->load->view('Plantillas/scripts_view');
+
+		/*Script de configuracion de datatable*/
+		
+
+		$this->load->view('Plantillas/body_close_view');
+		$this->load->view('Plantillas/html_close_view');
+	}
+
+	public function eliminar_imagen(){
+		if (!isset($_SESSION['idUser'])) {
+			redirect('App/logout');
+		}
+
+		/*Validación de permiso de acceso al método*/
+		$permisos_usuarios = $this->General_model->get('permisos_usuarios', array('id_usuario'=>$_SESSION['idUser'], 'opcion'=>'Productos'), array(), '');
+		if ($permisos_usuarios==false) {
+			redirect('inicio');
+		}
+
+		try {
+			$imagen = desencripta($this->uri->segment(2));
+			$id_prod = $this->uri->segment(3);
+			$valores = array(
+				'nombre_archivo'	=>	$imagen,
+			);
+			$this->General_model->delete('imagenes', $valores);
+			unlink('./uploads/productos/'.$imagen);
+			redirect(base_url('productos_imagenes/').$id_prod.'/1' );
+		} catch (Exception $e) {
+			redirect(base_url('productos_imagenes/').$id_prod.'/2' );
+		}
 	}
 }
