@@ -62,7 +62,9 @@ $route['nuevo_usuario'] = 'App/nuevo';
 $route['productos'] = 'Productos/index';
 $route['producto_nuevo'] = 'Productos/nuevo';
 $route['registrar_producto'] = 'Productos/registro';
+$route['actualizar_producto'] = 'Productos/actualizar';
 $route['productos_quitar/(:any)']	= 'Productos/eliminar';
+$route['productos_editar/(:any)/(:any)']	= 'Productos/editar';
 $route['productos_registrados'] = 'Productos/registrados';
 $route['producto_descripcion'] = 'Productos/descripcion';
 $route['productos_grupos']	= 'Productos/grupos';
@@ -70,6 +72,7 @@ $route['productos_grupos_nuevo']	= 'Productos/grupo_nuevo';
 $route['productos_grupos_quitar/(:any)']	= 'Productos/grupo_eliminar';
 $route['productos_imagenes/(:any)/(:any)']	= 'Productos/nueva_imagen';
 $route['eliminar_imagenes/(:any)/(:any)']	= 'Productos/eliminar_imagen';
+$route['productos_grupos_editar/(:any)/(:any)']	= 'Productos/grupo_editar';
 
 
 /*Reportes*/
@@ -79,7 +82,11 @@ $route['reporte_tipos'] = 'Reportes/tipos';
 
 /*Administración*/
 $route['usuarios'] = 'Administrador/index';
+$route['usuarios/(:num)'] = 'Administrador/index';
 $route['permisos_usuarios'] = 'Administrador/permisos';
+$route['usuarios_editar/(:any)/(:num)'] = 'Administrador/usuario_editar';
+$route['usuarios_eliminar/(:any)'] = 'Administrador/usuario_eliminar';
+$route['usuarios_guardar_editar'] = 'Administrador/usuario_guardar_editar';
 
 /*Home*/
 $route['inicio'] = 'Home';

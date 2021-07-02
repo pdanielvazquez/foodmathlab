@@ -1,4 +1,4 @@
-  <!-- Main content -->
+<!-- Main content -->
 <section class="content">
 
     <!-- Tabla de productos registrados -->
@@ -19,8 +19,8 @@
                 <th>Correo</th>
 
                 <?
-                if ($opciones!=false) {
-                  foreach ($opciones->result() as $opcion) {
+                if ($menu!=false) {
+                  foreach ($menu->result() as $opcion) {
                     ?>
                     <th><?= $opcion->opcion ?></th>
                     <?
@@ -28,7 +28,7 @@
                 }
                 ?>
 
-                <th>&nbsp;</th>
+                <th>Opciones</th>
               </tr>
             </thead>
             <tbody>
@@ -42,8 +42,8 @@
                       <td><?= $usuario->nombre ?></td>
                       <td><?= $usuario->correo ?></td>
                       <?
-                      if ($opciones!=false) {
-                        foreach ($opciones->result() as $opcion) {
+                      if ($menu!=false) {
+                        foreach ($menu->result() as $opcion) {
                           $checked = '';
                           if ($permisos!=false) {
                             foreach ($permisos->result() as $permiso) {
@@ -60,32 +60,18 @@
                         }
                       }
                       ?>
-                      <td><a href="<?= base_url('usuarios_quitar/'.encripta($usuario->id_user)) ?>" class="btn btn-warning btn-quitar-usuario" data="<?= $conta ?>">Quitar</a></td>
+                      <td>
+                        <a href="<?= base_url('usuarios_editar/'.encripta($usuario->id_user).'/0') ?>" class="btn btn-success btn-editar-usuario" data="<?= $conta ?>" title="Editar usuario"><i class="fas fa-edit" alt="Editar usuario"></i></a>
+
+                        <a href="<?= base_url('usuarios_eliminar/'.encripta($usuario->id_user)) ?>" class="btn btn-danger btn-quitar-usuario" data="<?= $conta ?>" title="Eliminar usuario"><i class="fas fa-trash-alt" alt="Eliminar usuario"></i></a>
+
+                      </td>
                     </tr>
                     <?
                   }
                 }
               ?>
             </tbody>
-            <tfoot>
-              <tr class="bg-secondary">
-                <th>No.</th>
-                <th>Nombre</th>
-                <th>Correo</th>
-
-                <?
-                if ($opciones!=false) {
-                  foreach ($opciones->result() as $opcion) {
-                    ?>
-                    <th><?= $opcion->opcion ?></th>
-                    <?
-                  }
-                }
-                ?>
-
-                <th>&nbsp;</th>
-              </tr>
-            </tfoot>
           </table>
         </div>
         <!-- /.card-body -->

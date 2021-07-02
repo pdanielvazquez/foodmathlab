@@ -15,6 +15,11 @@
 			}
 		});
 
+		$('#sal').on('change', function(){
+			var value = $(this).val();
+			$('#sodio').val(Number.parseFloat(value * 387.58).toFixed(2));
+		})
+
 	})
 
 </script>

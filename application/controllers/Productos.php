@@ -1,47 +1,14 @@
 <?php
+error_reporting(0);
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Productos extends CI_Controller {
 
-	public function __construct()
-	{
-		parent::__construct();
-		$this->load->helper('url');
-		$this->load->model('General_model');
-		$this->load->helper('Input_helper');
-		$this->load->helper('Mi_helper');
-		$this->load->library('session');
-	}
-
-	public function index(){
-
-		if (!isset($_SESSION['idUser'])) {
-			redirect('App/logout');
-		}
-
-		redirect('productos_registrados');
-	}
-
-	public function nuevo(){
-
-		if (!isset($_SESSION['idUser'])) {
-			redirect('App/logout');
-		}
-
-		/*Validación de permiso de acceso al método*/
-		$permisos_usuarios = $this->General_model->get('permisos_usuarios', array('id_usuario'=>$_SESSION['idUser'], 'opcion'=>'Productos'), array(), '');
-		if ($permisos_usuarios==false) {
-			redirect('inicio');
-		}
-
-		/*Consultas generales*/
-		$marcas = $this->General_model->get('marcas', array(), array('marca'=>'asc'), 'marca');
-		$categorias = $this->General_model->get('categorias', array(), array('categoria'=>'asc'), 'categoria');
-		$campos = array(
+	private $campos = array(
 			array(
-				'atributo'	=>	'energia',
+				'atributo'	=>	'energia_kj',
 				'etiqueta'	=>	'Contenido energético <small>(Energía, calorias)</small>',
-				'unidad'	=>	'kcal',
+				'unidad'	=>	'kJ',
 			),
 			array(
 				'atributo'	=>	'calograsas',
@@ -59,10 +26,16 @@ class Productos extends CI_Controller {
 				'unidad'	=>	'g',
 			),
 			array(
+				'atributo'	=>	'sal',
+				'etiqueta'	=>	'Sal',
+				'unidad'	=>	'g',
+			),
+			array(
 				'atributo'	=>	'sodio',
-				'etiqueta'	=>	'Sodio <small><br>(Sal, Na)</small>',
+				'etiqueta'	=>	'Sodio',
 				'unidad'	=>	'mg',
 			),
+			
 			array(
 				'atributo'	=>	'hidratos',
 				'etiqueta'	=>	'Carbohidratos <small>(Carbohidratos totales, Hidratos de carbono)</small>',
@@ -98,20 +71,11 @@ class Productos extends CI_Controller {
 				'etiqueta'	=>	'Fibra <small><br>(Fibra dietética)</small>',
 				'unidad'	=>	'g',
 			),
-			array(
-				'atributo'	=>	'fruta',
-				'etiqueta'	=>	'Fruta <small><br>(Cantidad de fruta)</small>',
-				'unidad'	=>	'g',
-			),
-			array(
-				'atributo'	=>	'verdura',
-				'etiqueta'	=>	'Verdura <small><br>(Cantidad de verdura)</small>',
-				'unidad'	=>	'g',
-			),
+			
 			array(
 				'atributo'	=>	'colesterol',
 				'etiqueta'	=>	'Colesterol',
-				'unidad'	=>	'g',
+				'unidad'	=>	'mg',
 			),
 			array(
 				'atributo'	=>	'vitaa',
@@ -171,11 +135,11 @@ class Productos extends CI_Controller {
 			array(
 				'atributo'	=>	'tocoferol',
 				'etiqueta'	=>	'Tocoferol',
-				'unidad'	=>	'',
+				'unidad'	=>	'mg',
 			),
 			array(
 				'atributo'	=>	'vitak',
-				'etiqueta'	=>	'Vitak',
+				'etiqueta'	=>	'Vitamina K',
 				'unidad'	=>	'mg',
 			),
 			array(
@@ -213,7 +177,54 @@ class Productos extends CI_Controller {
 				'etiqueta'	=>	'Ácido Linoleico',
 				'unidad'	=>	'mg',
 			),
+			array(
+				'atributo'	=>	'fruta',
+				'etiqueta'	=>	'Fruta',
+				'unidad'	=>	'g',
+			),
+			array(
+				'atributo'	=>	'verdura',
+				'etiqueta'	=>	'Verdura',
+				'unidad'	=>	'g',
+			),
+			
 		);
+
+	public function __construct()
+	{
+		parent::__construct();
+		$this->load->helper('url');
+		$this->load->model('General_model');
+		$this->load->helper('Input_helper');
+		$this->load->helper('Mi_helper');
+		$this->load->library('session');
+	}
+
+	public function index(){
+
+		if (!isset($_SESSION['idUser'])) {
+			redirect('App/logout');
+		}
+
+		redirect('productos_registrados');
+	}
+
+	public function nuevo(){
+
+		if (!isset($_SESSION['idUser'])) {
+			redirect('App/logout');
+		}
+
+		/*Validación de permiso de acceso al método*/
+		$permisos_usuarios = $this->General_model->get('permisos_usuarios', array('id_usuario'=>$_SESSION['idUser'], 'opcion'=>'Productos'), array(), '');
+		if ($permisos_usuarios==false) {
+			redirect('inicio');
+		}
+
+		/*Consultas generales*/
+		$marcas = $this->General_model->get('marcas', array(), array('marca'=>'asc'), 'marca');
+		//$categorias = $this->General_model->get('categorias', array(), array('categoria'=>'asc'), 'categoria');
+		$campos = $this->campos;
 
 		
 
@@ -221,7 +232,7 @@ class Productos extends CI_Controller {
 
 		$data = array(
 			'marcas'	=>	$marcas,
-			'categorias'=>	$categorias,
+			//'categorias'=>	$categorias,
 			'campos'	=>	$campos,
 			'grupos'	=>	$grupos,
 		);
@@ -281,12 +292,16 @@ class Productos extends CI_Controller {
 			'id_prod'		=>	'',
 			'id_user'		=>	$this->session->idUser,
 			'id_grupo'		=>	$this->input->post('producto_grupo'),
-			'id_categoria'	=>	$this->input->post('producto_categoria'),
-			'nombre'		=>	$this->input->post('producto_nombre'),
+			'id_categoria'	=>  ($this->input->post('producto_categoria')=='si')? 49 : 0,
+			'nombre'		=>	$this->input->p0ost('producto_nombre'),
 			'cantidad_neta'	=>	$this->input->post('producto_cantidad_neta'),
 			'cantidad_porcion'	=>	$this->input->post('producto_cantidad_porcion'),
+			'precio'		=>	$this->input->post('producto_precio'),
 			'fecha'			=>	date("Y-m-d H:i:s"),
 			'tipo'			=>	($this->input->post('um_porcion')=='g') ? 'solido' : 'liquido',
+			'ingredientes'	=>	$this->input->post('producto_ingredientes'),
+			'comentarios'	=>	$this->input->post('producto_comentarios'),
+			'reclamaciones'	=>	$this->input->post('producto_reclamaciones'),
 		);
 		//print_r($valores_productos);
 
@@ -303,8 +318,11 @@ class Productos extends CI_Controller {
 				$valores_productos[$campo] = $valor;
 			}
 		}
-		print_r($valores_productos);
-		$this->General_model->set('productos_foodmathlab', $valores_productos);
+		//print_r($valores_productos);
+		
+		/*Conversión kcal a kJ*/
+		$valores_productos['energia'] = floatval($valores_productos['energia_kj']) / 4.184; 
+		$this->General_model->set('productos_foodmathlab_v2', $valores_productos);
 		redirect(base_url('productos_registrados'));
 	}
 
@@ -321,8 +339,9 @@ class Productos extends CI_Controller {
 		}
 
 		/*Consultas generales*/
-		$productos = $this->General_model->get('productos_foodmathlab', array('id_user'=>$_SESSION['idUser']), array(), '');
+		/*$productos = $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser']), array(), '');*/
 		$imagenes = $this->General_model->get('productos_imagenes', array('id_user'=>$_SESSION['idUser']), array(), '');
+		$productos = $this->General_model->get('productos_grupos', array('id_user'=>$_SESSION['idUser']), array(), '');
 		$data = array(
 			'productos'	=>	$productos,
 			'imagenes'	=>	$imagenes,
@@ -385,7 +404,7 @@ class Productos extends CI_Controller {
 		$valores = array(
 			'id_prod'	=> desencripta($id_prod),
 		);
-		$this->General_model->delete('productos_foodmathlab', $valores);
+		$this->General_model->delete('productos_foodmathlab_v2', $valores);
 
 		redirect(base_url('productos_registrados'));
 	}
@@ -402,53 +421,187 @@ class Productos extends CI_Controller {
 			redirect('inicio');
 		}
 
+		$this->load->helper('Etiquetado_helper');
+
 		/*Consultas generales*/
 		$id_producto = $this->input->post('id');
-		$productos = $this->General_model->get('productos_foodmathlab', array('id_prod'=>$id_producto), array(), '');
+		$productos = $this->General_model->get('productos_foodmathlab_v2', array('id_prod'=>$id_producto), array(), '');
 		$producto = ($productos!=false) ? $productos->row(0) : false;
 
-		$campos = array(
-			'Contenido energético <small>(Energía, calorias)</small>'=>'energia', 
-			'Calorias de grasa <small>(Energía de grasa)</small>'=>'calograsas', 
-			'Grasas totales <small>(Grasa total, lípidos, grasa, grasas totales)</small>'=>'lipidos', 
-			'Grasas saturadas <small>(Grasa sat, ácidos grasos saturados)</small>'=>'acidosgs', 
-			'Sodio <small><br>(Sal, Na)</small>'=>'sodio', 
-			'Carbohidratos <small>(Carbohidratos totales, Hidratos de carbono)</small>'=>'hidratos', 
-			'Azucares <small><br>(Azucares añadidos)</small>'=>'azucaresa', 
-			'Proteinas <small><br>(Proteinas totales)</small>'=>'proteina', 
-			'Grasas monoinsaturadas <small>(Ácidos gm)</small>'=>'acidosgm', 
-			'Grasas poliinsaturadas <small>(Ácidos gp)</small>'=>'acidosgp', 
-			'Grasas Trans <small><br>(Ácidos grasos trans)</small>'=>'acidostrans', 
-			'Fibra <small><br>(Fibra dietética)</small>'=>'fibra', 
-			'Colesterol'=>'colesterol', 
-			'Vitamina A'=>'vitaa', 
-			'Ácidos Ascord'=>'acidoascord', 
-			'Tiamina'=>'tiamina', 
-			'Robifavlina'=>'riboflavina', 
-			'Ácidos Pantotenico'=>'acidopanto', 
-			'Vitamina D'=>'vitad', 
-			'Niacina'=>'niacina', 
-			'Piridoxina'=>'piridoxina', 
-			'Ácidos fólico'=>'acidofolico', 
-			'Cobalamina'=>'cobalamina', 
-			'Vitamina E'=>'vitaminae', 
-			'Tocoferol'=>'tocoferol', 
-			'Vitak'=>'vitak', 
-			'Calcio'=>'calcio', 
-			'Fosforo'=>'fosforo', 
-			'Hierro'=>'hierro', 
-			'Magnesio'=>'magnesio', 
-			'Potasio'=>'potasio', 
-			'Zinc'=>'zinc', 
-			'Ácido Linoleico'=>'acidolino'
+		$valores_referencia = array(
+			'ref_energia' 		=>2000,
+			'ref_grasas_tot' 	=> 70,
+			'ref_grasas_sat' 	=> 20,
+			'ref_azucares' 		=> 90,
+			'ref_sodio' 		=> 2400,
+			'ref_hidratos' 		=> 260,
+			'ref_fibra' 		=> 30,
+			'ref_proteina' 		=> 50,
 		);
+
+		$grupos = $this->General_model->get('grupos', array('id_usuario'=>$_SESSION['idUser']), array(), '');
+		$campos = $this->campos;
+		
+		$productos_energia = $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser']), array('energia'=>'asc'), '');
+
+		$productos_lipidos = $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser']), array('lipidos'=>'asc'), '');
+
+		$productos_azucares = $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser']), array('azucaresa'=>'asc'), '');
+
+		$productos_grasasSat = $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser']), array('acidosgs'=>'asc'), '');
+
+		$productos_grasasTrans = $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser']), array('acidostrans'=>'asc'), '');
+
+		$productos_sodio = $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser']), array('sodio'=>'asc'), '');
 
 		$data = array(
 			'producto'	=>	$producto,
+			'referencia'=>	$valores_referencia,
 			'campos'	=>	$campos,
+			'grupos'	=>	$grupos,
+			'productos_energia'	=>	$productos_energia,
+			'productos_lipidos'	=>	$productos_lipidos,
+			'productos_azucares'=>	$productos_azucares,
+			'productos_grasasSat'=>	$productos_grasasSat,
+			'productos_grasasTrans'=>$productos_grasasTrans,
+			'productos_sodio'	=>	$productos_sodio,
 		);
 
 		$this->load->view('Productos/descripcion_producto_view', $data);
+		$this->load->view('Productos/descripcion_producto_charts_view', $data);
+	}
+
+	public function editar(){
+
+		if (!isset($_SESSION['idUser'])) {
+			redirect('App/logout');
+		}
+
+		/*Validación de permiso de acceso al método*/
+		$permisos_usuarios = $this->General_model->get('permisos_usuarios', array('id_usuario'=>$_SESSION['idUser'], 'opcion'=>'Productos'), array(), '');
+		if ($permisos_usuarios==false) {
+			redirect('inicio');
+		}
+
+		/*Identificador del producto a editar*/
+		$id_prod = desencripta($this->uri->segment(2));
+		$edicion = $this->uri->segment(3);
+
+		/*Consultas generales*/
+		$categorias = $this->General_model->get('categorias', array(), array('categoria'=>'asc'), 'categoria');
+		$productos = $this->General_model->get('productos_foodmathlab_v2', array('id_prod'=>$id_prod), array(), '');
+
+		if ($productos!=false) {
+			$campos = $this->campos;
+
+			$grupos = $this->General_model->get('grupos', array('id_usuario'=>$_SESSION['idUser']), array(), '');
+
+			$data = array(
+				'categorias'=>	$categorias,
+				'campos'	=>	$campos,
+				'grupos'	=>	$grupos,
+				'productos'	=>	$productos,
+				'edicion'	=>	$edicion,
+			);
+
+			/*Configuración de la vista*/
+			$menu = $this->General_model->get('permisos_usuarios', array('activo'=>1, 'id_usuario'=>$_SESSION['idUser']), array('orden'=>'asc'), '');
+			$submenu = $this->General_model->get('submenu_opciones', array('activo_submenu'=>1), array(), '');
+			$usuarios = $this->General_model->get('usuarios', array('id_user'=>$this->session->idUser), array(), '');
+			$usuario = ($usuarios!=false)? $usuarios->row(0) : false ;
+
+			$config = array(
+				'titulo'	=>	'Productos',
+				'subtitulo'	=>	'Edición',
+				'usuario'	=>	$usuario->nombre,
+				'menu'		=>	$menu,
+				'submenu'	=>	$submenu,
+			);
+
+			$this->load->view('Plantillas/html_open_view', $config);
+			$this->load->view('Plantillas/head_view');
+			$this->load->view('Plantillas/body_open_view');
+			$this->load->view('Plantillas/wraper_open_view');
+			$this->load->view('Plantillas/navbar_view');
+			$this->load->view('Plantillas/sidebar_view');
+			$this->load->view('Plantillas/content_wraper_open_view');
+			$this->load->view('Plantillas/content_wraper_header_view');
+			
+			/*Aqui va el contenido*/
+			$this->load->view('Productos/editar_producto_view', $data);
+
+			$this->load->view('Plantillas/content_wraper_close_view');
+			$this->load->view('Plantillas/footer_view');
+			$this->load->view('Plantillas/wraper_close_view');
+			$this->load->view('Plantillas/scripts_view');
+
+			/*funcionalidad Javascript*/
+			$this->load->view('Productos/editar_producto_js_view', $data);
+			$this->load->view('Productos/nuevo_producto_js_view');
+
+			$this->load->view('Plantillas/body_close_view');
+			$this->load->view('Plantillas/html_close_view');
+		}
+		else{
+			redirect('productos');
+		}
+		
+	}
+
+	public function actualizar(){
+
+		if (!isset($_SESSION['idUser'])) {
+			redirect('App/logout');
+		}
+
+		/*Validación de permiso de acceso al método*/
+		$permisos_usuarios = $this->General_model->get('permisos_usuarios', array('id_usuario'=>$_SESSION['idUser'], 'opcion'=>'Productos'), array(), '');
+		if ($permisos_usuarios==false) {
+			redirect('inicio');
+		}
+
+		$id_prod = desencripta($this->input->post('producto_id'));
+
+		$valores_productos = array(
+			'id_grupo'		=>	$this->input->post('producto_grupo'),
+			'id_categoria'	=>  ($this->input->post('producto_categoria')=='si')? 49 : 0,
+			'nombre'		=>	$this->input->post('producto_nombre'),
+			'cantidad_neta'	=>	$this->input->post('producto_cantidad_neta'),
+			'cantidad_porcion'	=>	$this->input->post('producto_cantidad_porcion'),
+			'precio'		=>	$this->input->post('producto_precio'),
+			'fecha'			=>	date("Y-m-d H:i:s"),
+			'tipo'			=>	($this->input->post('um_porcion')=='g') ? 'solido' : 'liquido',
+			'ingredientes'	=>	$this->input->post('producto_ingredientes'),
+			'comentarios'	=>	$this->input->post('producto_comentarios'),
+			'reclamaciones'	=>	$this->input->post('producto_reclamaciones'),
+		);
+		print_r($valores_productos);
+
+		foreach ($_POST as $campo => $valor) {
+			echo "$campo -> $valor<br>";
+			if ((strpos($campo, 'producto_')<-1) && (strpos($campo, 'um_')<-1)) {
+				if ($valor!='') {
+					switch($this->input->post('um_'.$campo)){
+						case 'mg':
+							$valor = $valor/1000;
+							break;
+						case 'mcg':
+							$valor = $valor/1000000;
+							break;
+					}
+				}
+				else{
+					$valor = 0;
+				}
+				$valores_productos[$campo] = $valor;
+			}
+		}
+		
+		/*Conversión kcal a kJ*/
+		$valores_productos['energia'] = floatval($valores_productos['energia_kj']) / 4.184; 
+		//print_r($valores_productos);
+		$this->General_model->update('productos_foodmathlab_v2', array('id_prod'=>$id_prod), $valores_productos);
+		redirect(base_url('productos_editar/'.encripta($id_prod).'/1'));
 	}
 
 	public function grupos(){
@@ -508,6 +661,76 @@ class Productos extends CI_Controller {
 		$this->load->view('Plantillas/html_close_view');
 	}
 
+	public function grupo_editar(){
+
+		if (!isset($_SESSION['idUser'])) {
+			redirect('App/logout');
+		}
+
+		/*Validación de permiso de acceso al método*/
+		$permisos_usuarios = $this->General_model->get('permisos_usuarios', array('id_usuario'=>$_SESSION['idUser'], 'opcion'=>'Productos'), array(), '');
+		if ($permisos_usuarios==false) {
+			redirect('inicio');
+		}
+
+		/*Consultas generales*/
+		$id_grupo = desencripta($this->uri->segment(2));
+		$edicion = $this->uri->segment(3);
+
+		if (isset($_POST['aceptar'])) {
+			$valores = array(
+				'descripcion'=>	$this->input->post('grupo_descripcion'),
+				'nombre'	=>	$this->input->post('grupo_nombre'),
+				'tipo'		=>	$this->input->post('grupo_tipo'),
+			);
+			$this->General_model->update('grupos', array('id_grupo'=>$id_grupo), $valores);
+		}
+
+		$grupos = $this->General_model->get('grupos', array('id_grupo'=>$id_grupo), array(), '');
+		$data = array(
+			'grupos'	=> $grupos,
+			'edicion'	=> $edicion,
+		);
+
+		/*Configuración de la vista*/
+		$menu = $this->General_model->get('permisos_usuarios', array('activo'=>1, 'id_usuario'=>$_SESSION['idUser']), array('orden'=>'asc'), '');
+		$submenu = $this->General_model->get('submenu_opciones', array('activo_submenu'=>1), array(), '');
+		$usuarios = $this->General_model->get('usuarios', array('id_user'=>$this->session->idUser), array(), '');
+		$usuario = ($usuarios!=false)? $usuarios->row(0) : false ;
+
+		$config = array(
+			'titulo'	=>	'Productos',
+			'subtitulo'	=>	'Grupos',
+			'usuario'	=>	$usuario->nombre,
+			'menu'		=>	$menu,
+			'submenu'	=>	$submenu,
+		);
+
+		$this->load->view('Plantillas/html_open_view', $config);
+		$this->load->view('Plantillas/head_view');
+		$this->load->view('Plantillas/body_open_view');
+		$this->load->view('Plantillas/wraper_open_view');
+		$this->load->view('Plantillas/navbar_view');
+		$this->load->view('Plantillas/sidebar_view');
+		$this->load->view('Plantillas/content_wraper_open_view');
+		$this->load->view('Plantillas/content_wraper_header_view');
+		
+		/*Aqui va el contenido*/
+		$this->load->view('Productos/editar_grupos_view', $data);
+		
+		$this->load->view('Plantillas/content_wraper_close_view');
+		$this->load->view('Plantillas/footer_view');
+		$this->load->view('Plantillas/wraper_close_view');
+		$this->load->view('Plantillas/scripts_view');
+
+		/*Script de configuracion de datatable*/
+		$this->load->view('Productos/productos_js_view');
+		$this->load->view('Productos/editar_grupos_js_view', $data);
+
+		$this->load->view('Plantillas/body_close_view');
+		$this->load->view('Plantillas/html_close_view');
+	}
+
 	public function grupo_nuevo(){
 		if (!isset($_SESSION['idUser'])) {
 			redirect('App/logout');
@@ -545,12 +768,30 @@ class Productos extends CI_Controller {
 		}
 
 		/*Id del grupo a eliminar*/
-		$id_grupo = $this->uri->segment(2);
+		$id_grupo_borrar = desencripta($this->uri->segment(2));
+		$id_grupo_trash = 0;
 
-		$valores = array(
-			'id_grupo'	=> desencripta($id_grupo),
-		);
-		$this->General_model->delete('grupos', $valores);
+		/*Verificación de la existencia del grupo Trash del usuario*/
+		$grupos = $this->General_model->get('grupos', array('id_usuario'=>$_SESSION['idUser'], 'nombre'=>'Trash'), array(), '');
+		if ($grupos!=false) {
+			$grupo = $grupos->row(0);
+			$id_grupo_trash = $grupo->id_grupo;
+		}
+		else{
+			$valores = array(
+				'id_grupo'	=> '',
+				'id_usuario'=>	$_SESSION['idUser'],
+				'descripcion'=>	'Grupo de productos sin clasificación',
+				'nombre'	=>	'Trash',
+				'tipo'		=>	'Solido',
+			);
+			$this->General_model->set('grupos', $valores);
+			$id_grupo_trash = $this->General_model->index('grupos', 'id_grupo');
+		}
+
+		$this->General_model->update('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser'], 'id_grupo'=>$id_grupo_borrar), array('id_grupo'=>$id_grupo_trash));
+
+		$this->General_model->delete('grupos', array('id_grupo'	=> $id_grupo_borrar));
 
 		redirect(base_url('productos_grupos'));
 	}
@@ -574,7 +815,7 @@ class Productos extends CI_Controller {
 			$config['upload_path']          = './uploads/productos/';
 	        $config['allowed_types']        = 'png|gif|jpg|jpeg';
 	        //$config['allowed_types']        = "*";
-	        $config['max_size']             = 2048;
+	        $config['max_size']             = 5120;
 	        /*
 	        $config['max_width']            = 1024;
 	        $config['max_height']           = 768;
@@ -637,7 +878,7 @@ class Productos extends CI_Controller {
 
 		}
 
-		$productos = $this->General_model->get('productos_foodmathlab', array('id_prod'=>$id_prod), array(), '');
+		$productos = $this->General_model->get('productos_foodmathlab_v2', array('id_prod'=>$id_prod), array(), '');
 		$imagenes = $this->General_model->get('imagenes', array('id_prod'=>$id_prod), array(), '');
 
 		$data = array(

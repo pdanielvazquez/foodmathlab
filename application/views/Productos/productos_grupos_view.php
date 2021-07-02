@@ -56,8 +56,8 @@
       <div class="card card-danger">
         <div class="card-header">
           <h3 class="card-title">
-            <i class="fas fa-plus-circle"></i>
-            Registrar un grupo
+            <i class="fas fa-check-circle"></i>
+            Grupos registrados
           </h3>
         </div>
         <div class="card-body table-responsive">
@@ -68,7 +68,7 @@
                 <th>Grupo</th>
                 <th>Tipo de alimento</th>
                 <th>Descripción</th>
-                <th>&nbsp;</th>
+                <th style="width:15%;">Opciones</th>
               </tr>
             </thead>
             <tbody>
@@ -82,14 +82,37 @@
                     <td><?= $grupo->nombre ?></td>
                     <td>
                       <?
-                      if ($grupo->tipo=='solido') 
-                        echo 'Sólidos';
-                      else
-                        echo 'Líquidos';
+                      if ($grupo->nombre!="Trash") {
+                        switch($grupo->tipo){
+                          case "solido": echo "Sólidos"; break;
+                          case "liquido": echo "Líquidos"; break;
+                        }
+                      }
+                      else{
+                        echo "-";
+                      }
                       ?>
                     </td>
                     <td><?= $grupo->descripcion ?></td>
-                    <td><a href="<?= base_url('productos_grupos_quitar/'.encripta($grupo->id_grupo)) ?>" class="btn btn-warning btn-quitar-grupo" data="<?= $conta ?>">Quitar</a></td>
+                    <td>
+                      <?
+                      if ($grupo->nombre!="Trash") {
+                        ?>
+                        <a href="<?= base_url('productos_grupos_editar/'.encripta($grupo->id_grupo).'/0') ?>" class="btn btn-success btn-editar-grupo" data="<?= $conta ?>" title="Editar el grupo"><i class="fas fa-edit" alt="Editar grupo"></i></a>
+
+                        <a href="<?= base_url('productos_grupos_quitar/'.encripta($grupo->id_grupo)) ?>" class="btn btn-danger btn-quitar-grupo" data="<?= $conta ?>" data-nombre="<?= $grupo->nombre ?>" title="Eliminar grupo">
+                          <i class="fas fa-trash"></i>
+                        </a>
+                        <?
+                      }
+                      else{
+                        ?>
+                        <button class="btn btn-success" disabled="disabled"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-danger " disabled="disabled"><i class="fas fa-trash"></i></button>
+                        <?
+                      }
+                      ?>
+                    </td>
                   </tr>
                   <?
                 }

@@ -112,8 +112,10 @@ class Optimizacion extends CI_Controller {
 			redirect('inicio');
 		}
 
+		$this->load->helper('Etiquetado_helper');
+
 		/*Consultas generales*/
-		$productos = $this->General_model->get('productos_foodmathlab', array('id_user'=>$_SESSION['idUser']), array(), '');
+		$productos = $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser']), array(), '');
 		
 		$data = array(
 			'productos'	=>	$productos,
@@ -228,7 +230,7 @@ class Optimizacion extends CI_Controller {
 		}
 
 		/*Consultas generales*/
-		$productos = $this->General_model->get('productos_foodmathlab', array('id_user'=>$_SESSION['idUser']), array(), '');
+		$productos = $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser']), array(), '');
 
 		/*Campos a recopilar*/
 
@@ -418,7 +420,7 @@ class Optimizacion extends CI_Controller {
 		}
 
 		/*Consultas generales*/
-		$productos = $this->General_model->get('productos_foodmathlab', array('id_prod'=>$this->input->post('id_prod')), array(), '');
+		$productos = $this->General_model->get('productos_foodmathlab_v2', array('id_prod'=>$this->input->post('id_prod')), array(), '');
 
 		$producto = ($productos!=false) ? $productos->row(0) : false ;
 

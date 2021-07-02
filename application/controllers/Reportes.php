@@ -34,7 +34,58 @@ class Reportes extends CI_Controller {
 		/*Consultas*/
 
 		$grupos = $this->General_model->get('grupos', array('id_usuario'=>$_SESSION['idUser']), array(), '');
-		$productos = $this->General_model->get('productos_foodmathlab', array('id_user'=>$_SESSION['idUser']), array(), '');
+		$productos = $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser']), array(), '');
+
+		$promedios_gpos = array();
+		if ($grupos!=false) {
+			foreach ($grupos->result() as $grupo) {
+				$productos_gpo = $this->General_model->get('productos_foodmathlab_v2', array('id_grupo'=>$grupo->id_grupo), array(), '');
+				if ($productos_gpo!=false) {
+					$conta = 0;
+					$conta_energia = 0;
+					$conta_azucar = 0;
+					$conta_grasas_sat = 0;
+					$conta_grasas_trans = 0;
+					$conta_grasas_total = 0;
+					$conta_sodio = 0;
+					$conta_fruta = 0;
+					$conta_verdura = 0;
+					$conta_fibra = 0;
+					$conta_proteina =0;
+					$conta_calcio =0;
+					$conta_cantidad_porcion =0;
+					foreach ($productos_gpo->result() as $producto) {
+						$conta_energia += $producto->energia;
+						$conta_azucar += $producto->azucaresa;
+						$conta_grasas_sat += $producto->acidosgs;
+						$conta_grasas_trans += $producto->acidostrans;
+						$conta_grasas_total += $producto->lipidos;
+						$conta_sodio += $producto->sodio;
+						
+						$conta_fruta += $producto->fruta;
+						$conta_verdura += $producto->verdura;
+						$conta_fibra += $producto->fibra;
+						$conta_proteina += $producto->proteina;
+						$conta_calcio += $producto->calcio;
+						$conta_cantidad_porcion += $producto->cantidad_porcion;
+						$conta++;
+					}
+					$promedios_gpos[$grupo->id_grupo]['energia'] = $conta_energia/$conta;
+					$promedios_gpos[$grupo->id_grupo]['azucaresa'] = $conta_azucar/$conta;
+					$promedios_gpos[$grupo->id_grupo]['acidosgs'] = $conta_grasas_sat/$conta;
+					$promedios_gpos[$grupo->id_grupo]['acidostrans'] = $conta_grasas_trans/$conta;
+					$promedios_gpos[$grupo->id_grupo]['lipidos'] = $conta_grasas_total/$conta;
+					$promedios_gpos[$grupo->id_grupo]['sodio'] = $conta_sodio/$conta;
+
+					$promedios_gpos[$grupo->id_grupo]['fruta'] = $conta_fruta/$conta;
+					$promedios_gpos[$grupo->id_grupo]['verdura'] = $conta_verdura/$conta;
+					$promedios_gpos[$grupo->id_grupo]['fibra'] = $conta_fibra/$conta;
+					$promedios_gpos[$grupo->id_grupo]['proteina'] = $conta_proteina/$conta;
+					$promedios_gpos[$grupo->id_grupo]['cantidad_porcion'] = $conta_cantidad_porcion/$conta;
+					$promedios_gpos[$grupo->id_grupo]['calcio'] = $conta_calcio/$conta;
+				}
+			}
+		}
 
 		$campos = array(
 			'energia'			=> 	array('etiqueta'=>'Energía'), 
@@ -60,6 +111,7 @@ class Reportes extends CI_Controller {
 			'productos'	=>	$productos,
 			'campos'	=>	$campos,
 			'atributos'	=>	$atributos,
+			'promedios'	=>	$promedios_gpos,
 		);
 
 		/*Configuración de la vista*/
@@ -95,6 +147,7 @@ class Reportes extends CI_Controller {
 
 		/*Script de configuracion de datatable*/
 		$this->load->view('Reportes/resumen_js_view');
+		$this->load->view('Productos/productos_js_view');
 
 		$this->load->view('Plantillas/body_close_view');
 		$this->load->view('Plantillas/html_close_view');
@@ -107,9 +160,9 @@ class Reportes extends CI_Controller {
 		}
 
 		/*Consultas generales*/
-		$productos_solidos = $this->General_model->get('productos_foodmathlab', array('id_user'=>$_SESSION['idUser'], 'tipo'=>'solido'), array(), '');
+		$productos_solidos = $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser'], 'tipo'=>'solido'), array(), '');
 
-		$productos_liquidos = $this->General_model->get('productos_foodmathlab', array('id_user'=>$_SESSION['idUser'], 'tipo'=>'liquido'), array(), '');
+		$productos_liquidos = $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser'], 'tipo'=>'liquido'), array(), '');
 
 		$campos_solidos = array(
 			'Energía'			=> 	array('campo'=>'energia'), 

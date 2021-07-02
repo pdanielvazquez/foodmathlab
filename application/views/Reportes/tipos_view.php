@@ -8,7 +8,7 @@
                 <div class="card-header d-flex p-0 bg-secondary">
                     <h3 class="card-title p-3">
                     	<i class="fas fa-poll"></i>
-                    	Por tipos
+                    	Productos
                     </h3>
                     <ul class="nav nav-pills ml-auto p-2">
                     	<li class="nav-item">

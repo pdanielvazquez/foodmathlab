@@ -16,14 +16,15 @@
               <tr class="bg-secondary">
                 <th>No.</th>
                 <th>Nombre</th>
-                <th>CHO (Carbohidratos)</th>
+                <!--<th>CHO (Carbohidratos)</th>-->
                 <th>Azúcares</th>
                 <th>Grasa Total</th>
                 <th>Grasa Saturada</th>
                 <th>Grasa Trans</th>
                 <th>Sodio</th>
-                <th>Proteína</th>
-                <th>Fibra</th>
+                <!--<th>Proteína</th>
+                <th>Fibra</th>-->
+                <th>Sellos</th>
                 <th>Extras</th>
               </tr>
             </thead>
@@ -33,34 +34,71 @@
                   $conta = 0;
                   foreach ($productos->result() as $producto) {
                     $cadena_valores = $producto->hidratos.','.$producto->azucaresa.','.$producto->lipidos.','.$producto->acidosgs.','.$producto->acidostrans.','.$producto->sodio.','.$producto->proteina.','.$producto->fibra;
+                    $MexLabel = new Etiquetado_mexico($producto->energia, $producto->azucaresa, $producto->acidosgs, $producto->acidostrans, $producto->sodio, $producto->tipo);
                     ?>
                     <tr>
                       <td><?= ++$conta ?></td>
                       <td><?= $producto->nombre ?></td>
-                      <td><?= number_format($producto->hidratos, 2) ?> g</td>
+                      <!--<td><?= number_format($producto->hidratos, 2) ?> g</td>-->
                       <td><?= number_format($producto->azucaresa, 2) ?> g</td>
                       <td><?= number_format($producto->lipidos, 2) ?> g</td>
                       <td><?= number_format($producto->acidosgs, 2) ?> g</td>
                       <td><?= number_format($producto->acidostrans, 2) ?> g</td>
                       <td><?= number_format($producto->sodio, 2) ?> g</td>
-                      <td><?= number_format($producto->proteina, 2) ?> g</td>
-                      <td><?= number_format($producto->fibra, 2) ?> g</td>
+                      <!--<td><?= number_format($producto->proteina, 2) ?> g</td>
+                      <td><?= number_format($producto->fibra, 2) ?> g</td>-->
+                      <td>
+                        <?
+                        $sellos = 0;
+                        if ($MexLabel->getExcesoCalorias()==1)
+                          $sellos++;
+                        if ($MexLabel->getExcesoAzucares()==1)
+                          $sellos++;
+                        if ($MexLabel->getExcesoGrasasTrans()==1)
+                          $sellos++;
+                        if ($MexLabel->getExcesoGrasasSat()==1)
+                          $sellos++;
+                        if ($MexLabel->getExcesoSodio()==1)
+                          $sellos++;
+                        echo $sellos;
+                        ?>
+                      </td>
                       <td>
                       	<div class="btn-group">
-    			                <button type="button" class="btn btn-danger">Quitar</button>
+    			                
     			                <button type="button" class="btn btn-danger dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
     			                    <span class="sr-only">Toggle Dropdown</span>
     			                    <div class="dropdown-menu" role="menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(-1px, 37px, 0px); top: 0px; left: 0px; will-change: transform;">
-    			                        <a class="dropdown-item btn-quitar" href="#" data="azucar" data-info="<?= $cadena_valores ?>">Azucar</a>
-    			                        <a class="dropdown-item btn-quitar" href="#" data="grasas" data-info="<?= $cadena_valores ?>">Grasas saturadas</a>
-    			                        <a class="dropdown-item btn-quitar" href="#" data="sodio" data-info="<?= $cadena_valores ?>">Sodio</a>
-    			                        <a class="dropdown-item btn-quitar" href="#" data="energia" data-info="<?= $cadena_valores ?>">Energía</a>
+                                  <?
+                                  if ($MexLabel->getExcesoAzucares()==1){
+                                    ?>
+    			                           <a class="dropdown-item btn-quitar" href="#" data="azucar" data-info="<?= $cadena_valores ?>">Azucar</a>
+                                    <?
+                                  }
+                                  if ($MexLabel->getExcesoGrasasSat()==1){
+                                    ?>
+    			                           <a class="dropdown-item btn-quitar" href="#" data="grasas" data-info="<?= $cadena_valores ?>">Grasas saturadas</a>
+                                    <?
+                                  }
+                                  if ($MexLabel->getExcesoSodio()==1){
+                                    ?>
+    			                           <a class="dropdown-item btn-quitar" href="#" data="sodio" data-info="<?= $cadena_valores ?>">Sodio</a>
+                                    <?
+                                  }
+                                  if ($MexLabel->getExcesoCalorias()==1){
+                                    ?>
+    			                           <a class="dropdown-item btn-quitar" href="#" data="energia" data-info="<?= $cadena_valores ?>">Energía</a>
+                                    <?
+                                  }
+                                  ?>
     			                    </div>
     			                </button>
+                          <button type="button" class="btn btn-danger">Quitar</button>
     			              </div>
                       </td>
                     </tr>
                     <?
+                    unset($MexLabel);
                   }
                 }
               ?>
@@ -69,14 +107,15 @@
               <tr class="bg-secondary">
                 <th>No.</th>
                 <th>Nombre</th>
-                <th>CHO (Carbohidratos)</th>
+                <!--<th>CHO (Carbohidratos)</th>-->
                 <th>Azúcares</th>
                 <th>Grasa Total</th>
                 <th>Grasa Saturada</th>
                 <th>Grasa Trans</th>
                 <th>Sodio</th>
-                <th>Proteína</th>
-                <th>Fibra</th>
+                <!--<th>Proteína</th>
+                <th>Fibra</th>-->
+                <th>Sellos</th>
                 <th>Extras</th>
               </tr>
             </tfoot>

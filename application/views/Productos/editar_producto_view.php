@@ -1,18 +1,21 @@
-<? $input = new Input(); ?>
+<? 
+$input = new Input(); 
+$producto = ($productos!=false)? $productos->row(0) : false;
+?>
 
 <!-- Main content -->
 <section class="content">
-  <form method="post" action="<?= base_url('registrar_producto') ?>">
+  <form method="post" action="<?= base_url('actualizar_producto') ?>">
     <!-- Default box -->
     <div class="card card-danger">
       <div class="card-header">
         <h3 class="card-title">
-          <i class="fas fa-plus-circle"></i>
-          Registrar un nuevo producto
+          <i class="fas fa-edit"></i>
+          Editar valores del producto
         </h3>
       </div>
       <div class="card-body">
-        
+        <input type="hidden" name="producto_id" value="<?= encripta($producto->id_prod) ?>">
         <div class="row">
           <div class="col-xs-12 col-md-4 col-lg-3">
             <div class="form-group">
@@ -23,6 +26,7 @@
                 'class'=>'form-control',
                 'placeholder'=>'Escriba aquí',  
                 'required'=>'required',
+                'value'=>$producto->nombre,
               ), 'text') ?>
             </div>
           </div>
@@ -34,10 +38,10 @@
                 'id'=>'producto_grupo', 
                 'class'=>'form-control',
                 'required'=>'required',
-              ), $grupos, 'id_grupo', 'nombre', 0) ?>
+              ), $grupos, 'id_grupo', 'nombre', $producto->id_grupo) ?>
             </div>
           </div>
-          
+
           <div class="col-xs-12 col-md-4 col-lg-2">
             <div class="form-group">
               <label>Cantidad neta</label> 
@@ -54,14 +58,13 @@
                   'step'=>'0.1',
                   'min'=>'0',
                   'style'=>'text-align:center',
+                  'value'=> number_format($producto->cantidad_neta, 1),
                 ), 'number') ?>
                 <div class="input-group-append">
                   <span class="input-group-text">
                     <select name="um_neta" id="um_neta" >
-                      <option>g</option>
-                      <option>ml</option>
-                      <option>kg</option>
-                      <option>l</option>
+                      <option <?= ($producto->tipo=='solido')? 'selected="selected"' : '' ?> >g</option>
+                      <option <?= ($producto->tipo=='liquido')? 'selected="selected"' : '' ?> >ml</option>
                     </select>
                   </span>
                 </div>
@@ -85,12 +88,13 @@
                   'step'=>'0.1',
                   'min'=>'0',
                   'style'=>'text-align:center',
+                  'value'=> number_format($producto->cantidad_porcion, 1),
                 ), 'number') ?>
                 <div class="input-group-append">
                   <span class="input-group-text">
                     <select name="um_porcion" id="um_porcion" >
-                      <option>g</option>
-                      <option>ml</option>
+                      <option <?= ($producto->tipo=='solido')? 'selected="selected"' : '' ?> >g</option>
+                      <option <?= ($producto->tipo=='liquido')? 'selected="selected"' : '' ?> >ml</option>
                     </select>
                   </span>
                 </div>
@@ -117,9 +121,9 @@
                   'step'=>'0.1',
                   'min'=>'0',
                   'style'=>'text-align:center',
+                  'value'=>number_format($producto->precio, 2), 
                 ), 'number') ?>
               </div>
-              
             </div>
           </div>
 
@@ -127,8 +131,8 @@
             <div class="form-group">
               <label>Queso</label>
               <select class="form-control" name="producto_categoria" id="producto_categoria">
-                <option>si</option>
-                <option>no</option>
+                <option <?= ($producto->id_categoria==49)? 'selected="selected"' : '' ?> >si</option>
+                <option <?= ($producto->id_categoria==0)? 'selected="selected"' : '' ?> >no</option>
               </select>
             </div>
           </div>
@@ -141,7 +145,7 @@
                   'class'=>'form-control',
                   'placeholder'=>'Escriba aquí',  
                   'rows'=>4,
-                ), '')
+                ), $producto->ingredientes)
               ?>
           </div>
 
@@ -153,7 +157,7 @@
                   'class'=>'form-control',
                   'placeholder'=>'Escriba aquí',  
                   'rows'=>4,
-                ), '')
+                ), $producto->comentarios)
               ?>
           </div>
 
@@ -165,7 +169,7 @@
                   'class'=>'form-control',
                   'placeholder'=>'Escriba aquí',  
                   'rows'=>4,
-                ), '')
+                ), $producto->reclamaciones)
               ?>
           </div>
           
@@ -178,6 +182,7 @@
               <div class="row">
                 <?
                 foreach ($campos as $campo) {
+                  $atributo = $campo['atributo'];
                   ?>
                   <div class="col-xs-12 col-md-4 col-lg-2">
                     <div class="form-group">
@@ -190,6 +195,8 @@
                           'placeholder'=>'0',
                           'step'=>'0.01',
                           'style'=>'text-align:center',
+                          // 'value'=> number_format($producto->$atributo, 2),
+                          'value' => ($producto->$atributo>0) ? number_format(($campo['unidad']=='mg')? $producto->$atributo*1000 : $producto->$atributo, 2) : '' ,
                         ), 'number') ?>
                         <div class="input-group-append">
                           <span class="input-group-text">
@@ -212,7 +219,8 @@
       </div>
       <!-- /.card-body -->
       <div class="card-footer">
-        <button class="btn btn-lg btn-secondary float-right">Aceptar</button>
+        <a href="<?= base_url('productos') ?>" class="btn btn-secondary justify-content-between">Regresar</a>
+        <button class="btn btn-lg btn-primary float-right">Aceptar</button>
       </div>
       <!-- /.card-footer-->
     </div>

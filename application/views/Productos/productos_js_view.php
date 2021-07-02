@@ -20,15 +20,22 @@
 		});
 
 		$('.btn-quitar-grupo').on('click', function(){
-			var identificador = $(this).attr(data);
-			if (!confirm('\u00BFDesea borrar el grupo No. '+identificador+'?')) {
+			var identificador = $(this).attr('data');
+			var nombre = $(this).attr('data-nombre');
+			if (confirm('Esta por eliminar el grupo '+ nombre +', los productos de este grupo se guardar\u00E1n en el grupo "Trash" \u00BFDesea continuar?')) {
+				return true;
+			}
+			else{
 				return false;
 			}
 		});
 
 		$('.btn-quitar-producto').on('click', function(){
-			var identificador = $(this).attr(data);
-			if (!confirm('\u00BFDesea borrar el producto No. '+identificador+'?')) {
+			var identificador = $(this).attr('data');
+			if (confirm('\u00BFDesea borrar el producto No. '+identificador+'?')) {
+				return true;
+			}
+			else{
 				return false;
 			}
 		});

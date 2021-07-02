@@ -1159,6 +1159,8 @@ class Etiquetado_Australia_Nueva_Zelanda
 
 		/*Calculo del puntaje total*/
 
+		$puntaje_total = $baseline_energia + $baseline_grasas_sat + $baseline_sodio + $baseline_azucares - $v - $p - $f;
+		
 		$condicion_1 = ($puntaje_total>=13) && ($v>=5);
 		if(!$condicion_1){
 			$p = 0;
@@ -1169,7 +1171,6 @@ class Etiquetado_Australia_Nueva_Zelanda
 			$f = 0;
 		}
 
-		$puntaje_total = $baseline_energia + $baseline_grasas_sat + $baseline_sodio + $baseline_azucares - $v - $p - $f;
 
 		$estrellas = 0;
 
