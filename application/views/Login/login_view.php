@@ -17,12 +17,20 @@
   <link rel="stylesheet" href="<?= base_url('vendor') ?>/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
   <!-- Toastr -->
   <link rel="stylesheet" href="<?= base_url('vendor') ?>/plugins/toastr/toastr.min.css">
+  <!-- Estilos propios -->
+  <link rel="stylesheet" href="<?= base_url('vendor') ?>/dist/css/login.css">
 </head>
 <body class="hold-transition login-page">
 
+  <video autoplay muted loop id="myVideo">
+    <source src="<?= base_url('vendor/dist/video/video.mp4') ?>" type="video/mp4">
+  </video>
+
+<div id="grid"></div>
+
 <div class="login-box">
   <!-- /.login-logo -->
-  <div class="card card-outline card-primary">
+  <div class="card card-outline card-danger">
     <div class="card-header text-center">
       <a href="<?= base_url() ?>" class="h1"><b>Food</b>MATHLAB</a>
     </div>
@@ -51,7 +59,7 @@
           </div>
           <!-- /.col -->
           <div class="col-12">
-            <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+            <button type="submit" class="btn btn-danger btn-block btn-lg">Entrar</button>
           </div>
           <!-- /.col -->
         </div>
@@ -61,10 +69,10 @@
 
       </div>
     <!-- /.card-body -->
-      <div class="card-footer">
-        <p class="mb-0">
-          <a href="<?= base_url('registro') ?>" class="text-center">Crear una cuenta</a>
-        </p>
+      <div class="card-footer text-center">
+          <a href="<?= base_url('registro') ?>" class="btn btn-default bg-gray">Crear una cuenta</a>
+        <hr>
+        <strong>Copyright &copy; 2021 <a href="https://www.nutrimonitor.com/" target="_blank">nutrimotor.com</a></strong> Todos los derechos reservados
       </div>
   </div>
   <!-- /.card -->

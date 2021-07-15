@@ -23,7 +23,7 @@
 </head>
 <body class="hold-transition register-page">
 <div class="register-box">
-  <div class="card card-outline card-primary">
+  <div class="card card-outline card-danger">
     <div class="card-header text-center">
       <a href="<?= base_url() ?>" class="h1"><b>Food</b>MATHLAB</a>
     </div>
@@ -74,15 +74,20 @@
           </div>
           <!-- /.col -->
           <div class="col-4">
-            <button type="submit" class="btn btn-primary btn-block">Confirmar</button>
+            <button type="submit" class="btn btn-danger btn-block">Confirmar</button>
           </div>
           <!-- /.col -->
         </div>
       </form>
 
-      <a href="<?= base_url() ?>" class="text-center">Ya tengo una cuenta</a>
+      
     </div>
     <!-- /.form-box -->
+    <div class="card-footer text-center">
+          <a href="<?= base_url() ?>" class="btn btn-default bg-gray">Ya tengo una cuenta</a>
+        <hr>
+        <strong>Copyright &copy; 2021 <a href="https://www.nutrimonitor.com/" target="_blank">nutrimotor.com</a></strong> Todos los derechos reservados
+      </div>
   </div><!-- /.card -->
 </div>
 <!-- /.register-box -->

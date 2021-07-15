@@ -1,14 +1,15 @@
 <script>
-    var canvas = ['energiaChart', 'lipidosChart', 'azucaresChart', 'grasasSatChart', 'grasasTransChart', 'sodioChart', 'ffChart', 'qualityChart'];
+    var canvasIndex = ['ffChart'];
 
-    for(i in canvas){
-        generaGraficaBarras(canvas[i]);
+    for(i in canvasIndex){
+        generaGraficaSens(canvasIndex[i]);
     }
 
-    function generaGraficaBarras(id){
+    function generaGraficaSens(id){
         var ctx = document.getElementById(id);
-        var valores = ctx.getAttribute('data-values').split(',');
+        var valores = document.getElementById('data-values');
         var etiquetas = ctx.getAttribute('data-labels').split(',');
+        var titulo = ctx.getAttribute('data-title');
         var colores = ctx.getAttribute('data-color').split(',');
         var unidad = ctx.getAttribute('data-unit');
         var titulo = ctx.getAttribute('data-title');
@@ -29,7 +30,6 @@
             data: {
                 labels: etiquetas,
                 datasets: [{
-                    label: unidad,
                     data: valores,
                     backgroundColor: bgColor,
                     borderColor: brColor,
@@ -78,5 +78,7 @@
             }
         });
     }
+
+    
 
 </script>

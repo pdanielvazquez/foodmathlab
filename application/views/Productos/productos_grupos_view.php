@@ -10,12 +10,12 @@
           <div class="card-header">
             <h3 class="card-title">
               <i class="fas fa-plus-circle"></i>
-              Registrar un grupo
+              Registrar un laboratorio
             </h3>
           </div>
           <div class="card-body">
                 <div class="form-group">
-                  <label>Nombre del grupo</label>
+                  <label>Nombre del laboratorio</label>
                   <?= $input->Text(array(
                     'name'=>'grupo_nombre', 
                     'id'=>'grupo_nombre', 
@@ -57,7 +57,7 @@
         <div class="card-header">
           <h3 class="card-title">
             <i class="fas fa-check-circle"></i>
-            Grupos registrados
+            Laboratorios registrados
           </h3>
         </div>
         <div class="card-body table-responsive">
@@ -65,7 +65,7 @@
             <thead style="width: 100%;">
               <tr class="bg-secondary">
                 <th>No.</th>
-                <th>Grupo</th>
+                <th>Laboratorio</th>
                 <th>Tipo de alimento</th>
                 <th>Descripción</th>
                 <th style="width:15%;">Opciones</th>

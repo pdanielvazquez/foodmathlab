@@ -16,7 +16,7 @@
               <tr class="bg-secondary">
                 <th>No.</th>
                 <th>Producto</th>
-                <th>Grupo</th>
+                <th>Labs</th>
                 <!-- <th>Cantidad neta</th>
                 <th>Cantidad de la porción</th> -->
                 <th>Opciones</th>
@@ -66,15 +66,6 @@
                 }
               ?>
             </tbody>
-            <tfoot>
-              <tr>
-                <th>&nbsp;</th>
-                <th>Producto</th>
-                <th>Cantidad neta</th>
-                <th>Cantidad de la porción</th>
-                <th>&nbsp;</th>
-              </tr>
-            </tfoot>
           </table>
         </div>
         <!-- /.card-body -->

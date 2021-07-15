@@ -107,22 +107,26 @@ $producto = ($productos!=false)? $productos->row(0) : false;
             <div class="form-group">
               <label>Precio</label> 
               <div class="input-group">
-                <div class="input-group-append">
-                  <span class="input-group-text">
-                    $
-                  </span>
-                </div>
                 <?= $input->Text(array(
                   'name'=>'producto_precio', 
                   'id'=>'producto_precio', 
                   'class'=>'form-control',
                   'placeholder'=>'0',  
                   'required'=>'required',
-                  'step'=>'0.1',
+                  'step'=>'0.01',
                   'min'=>'0',
                   'style'=>'text-align:center',
                   'value'=>number_format($producto->precio, 2), 
                 ), 'number') ?>
+                <div class="input-group-append">
+                  <span class="input-group-text">
+                    <select name="producto_moneda" id="producto_moneda" >
+                      <option <?= ($producto->moneda=='MNX')? 'selected="selected"' : '' ?> >MXN</option>
+                      <option <?= ($producto->moneda=='USD')? 'selected="selected"' : '' ?> >USD</option>
+                      <option <?= ($producto->moneda=='EUR')? 'selected="selected"' : '' ?> >EUR</option>
+                    </select>
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -201,7 +205,12 @@ $producto = ($productos!=false)? $productos->row(0) : false;
                         <div class="input-group-append">
                           <span class="input-group-text">
                             <select name="um_<?= $campo['atributo'] ?>" id="um_<?= $campo['atributo'] ?>" >
-                              <option value="<?= $campo['unidad'] ?>" ><?= $campo['unidad'] ?></option>
+                              <?foreach ($campo['unidad'] as $unidad) {
+                                ?>
+                                <option value="<?= $unidad ?>" ><?= $unidad ?></option>
+                                <?
+                              }
+                              ?>
                             </select>
                           </span>
                         </div>

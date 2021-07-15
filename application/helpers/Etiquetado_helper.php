@@ -477,9 +477,9 @@ class NutriScore
 {
 	private $energia, $azucares, $grasas_sat, $lipidos, $sodio, $puntos, $a, $b, $c, $d, $e, $f, $g, $verduras, $fibra, $proteinas, $categoria, $porcion, $clase;
 	
-	function __construct($energia_kcal, $azucares_g, $grasas_sat_g, $lipidos_g, $sodio_g, $verduras_g, $fibra_g, $proteinas_g, $categoria, $cantidad_porcion, $tipo)
+	function __construct($energia_kJ, $azucares_g, $grasas_sat_g, $lipidos_g, $sodio_g, $verduras_g, $fibra_g, $proteinas_g, $categoria, $cantidad_porcion, $tipo)
 	{
-		$this->energia 		= $energia_kcal;
+		$this->energia 		= $energia_kJ;
 		$this->azucares 	= $azucares_g;
 		$this->grasas_sat 	= $grasas_sat_g;
 		$this->lipidos 		= $lipidos_g;
@@ -504,61 +504,65 @@ class NutriScore
 
 	private function puntos_a(){
 		$puntos = 0;
-		$energia = $this->energia * 0.238846;
+		$energia = $this->energia;
 		if ($this->tipo=='solido') {
 			switch(true){
+        case ($energia>3350): $puntos = 10;
+					break;
+        case ($energia>3015): $puntos = 9;
+					break;
+        case ($energia>2680): $puntos = 8;
+					break;
+        case ($energia>2345): $puntos = 7;
+					break;
+        case ($energia>2010): $puntos = 6;
+					break;
+        case ($energia>1675): $puntos = 5;
+					break;
+        case ($energia>1340): $puntos = 4;
+					break;
+        case ($energia>1005): $puntos = 3;
+					break;
+        case ($energia>670): $puntos = 2;
+					break;
+        case ($energia>335): $puntos = 1;
+					break;
 				case ($energia<=335): $puntos = 0;
-					break;
-				case ($energia>335): $puntos = 1;
-					break;
-				case ($energia>670): $puntos = 2;
-					break;
-				case ($energia>1005): $puntos = 3;
-					break;
-				case ($energia>1340): $puntos = 4;
-					break;
-				case ($energia>1675): $puntos = 5;
-					break;
-				case ($energia>2010): $puntos = 6;
-					break;
-				case ($energia>2345): $puntos = 7;
-					break;
-				case ($energia>2680): $puntos = 8;
-					break;
-				case ($energia>3015): $puntos = 9;
-					break;
-				case ($energia>3350): $puntos = 10;
 					break;
 			}
 		}
 		else if($this->tipo=='liquido'){
 			switch(true){
+        case ($energia>270): $puntos = 10;
+					break;
+        case ($energia<=270): $puntos = 9;
+					break;
+        case ($energia<=240): $puntos = 8;
+					break;
+        case ($energia<=210): $puntos = 7;
+					break;
+        case ($energia<=180): $puntos = 6;
+					break;
+        case ($energia<=150): $puntos = 5;
+					break;
+        case ($energia<=120): $puntos = 4;
+					break;
+        case ($energia<=90): $puntos = 3;
+					break;
+        case ($energia<=60): $puntos = 2;
+					break;
+        case ($energia<=30): $puntos = 1;
+					break;
 				case ($energia<=0): $puntos = 0;
-					break;
-				case ($energia<=30): $puntos = 1;
-					break;
-				case ($energia<=60): $puntos = 2;
-					break;
-				case ($energia<=90): $puntos = 3;
-					break;
-				case ($energia<=120): $puntos = 4;
-					break;
-				case ($energia<=150): $puntos = 5;
-					break;
-				case ($energia<=180): $puntos = 6;
-					break;
-				case ($energia<=210): $puntos = 7;
-					break;
-				case ($energia<=240): $puntos = 8;
-					break;
-				case ($energia<=270): $puntos = 9;
-					break;
-				case ($energia>270): $puntos = 10;
 					break;
 			}
 		}
 		$this->a = $puntos;
 	}
+
+  	public function geta(){
+    	return $this->a;
+  	}
 
 	private function puntos_b(){
 		$puntos = 0;
@@ -618,95 +622,107 @@ class NutriScore
 		$this->b = $puntos;
 	}
 
+  	public function getb(){
+    	return $this->b;
+  	}
+
 	private function puntos_c(){
 		$puntos = 0;
-		if ($this->tipo=='solido') {
+    if($this->lipidos>0){
+      $grasas = ($this->grasas_sat/$this->lipidos)*100;
+      switch(true){
+		case ($grasas>=64): $puntos = 10;
+					break;
+        case ($grasas<64): $puntos = 9;
+					break;
+        case ($grasas<58): $puntos = 8;
+					break;
+        case ($grasas<52): $puntos = 7;
+					break;
+        case ($grasas<46): $puntos = 6;
+					break;
+        case ($grasas<40): $puntos = 5;
+					break;
+        case ($grasas<34): $puntos = 4;
+					break;
+        case ($grasas<28): $puntos = 3;
+					break;
+        case ($grasas<22): $puntos = 2;
+					break;
+        case ($grasas<16): $puntos = 1;
+					break;
+        case ($grasas<10): $puntos = 0;
+					break;
+			}
+    }
+		else {
 			$grasas = $this->grasas_sat;
 			switch(true){
-				case ($grasas<=1): $puntos = 0;
-					break;
-				case ($grasas>1): $puntos = 1;
-					break;
-				case ($grasas>2): $puntos = 2;
-					break;
-				case ($grasas>3): $puntos = 3;
-					break;
-				case ($grasas>4): $puntos = 4;
-					break;
-				case ($grasas>5): $puntos = 5;
-					break;
-				case ($grasas>6): $puntos = 6;
-					break;
-				case ($grasas>7): $puntos = 7;
-					break;
-				case ($grasas>8): $puntos = 8;
-					break;
-				case ($grasas>9): $puntos = 9;
-					break;
 				case ($grasas>10): $puntos = 10;
+					break;
+		        case ($grasas>9): $puntos = 9;
+							break;
+		        case ($grasas>8): $puntos = 8;
+							break;
+		        case ($grasas>7): $puntos = 7;
+							break;
+		        case ($grasas>6): $puntos = 6;
+							break;
+		        case ($grasas>5): $puntos = 5;
+							break;
+		        case ($grasas>4): $puntos = 4;
+							break;
+		        case ($grasas>3): $puntos = 3;
+							break;
+		        case ($grasas>2): $puntos = 2;
+							break;
+		        case ($grasas>1): $puntos = 1;
+							break;
+		        case ($grasas<=1): $puntos = 0;
 					break;
 			}
 		}
 		
-		if(in_array($this->categoria, array(37, 38, 42, 43, 34, 36, 39, 41, 35, 40, 50, 53))) {
-			$grasas = ($this->lipidos>0) ? ($this->grasas_sat / $this->lipidos)*100 : 0;
-			switch(true){
-				case ($grasas<10): $puntos = 0;
-					break;
-				case ($grasas<16): $puntos = 1;
-					break;
-				case ($grasas<22): $puntos = 2;
-					break;
-				case ($grasas<28): $puntos = 3;
-					break;
-				case ($grasas<34): $puntos = 4;
-					break;
-				case ($grasas<40): $puntos = 5;
-					break;
-				case ($grasas<46): $puntos = 6;
-					break;
-				case ($grasas<52): $puntos = 7;
-					break;
-				case ($grasas<58): $puntos = 8;
-					break;
-				case ($grasas<64): $puntos = 9;
-					break;
-				case ($grasas>=64): $puntos = 10;
-					break;
-			}
-		}
 		$this->c = $puntos;
 	}
+
+  	public function getc(){
+    	return $this->c;
+  	}
 
 	private function puntos_d(){
 		$puntos = 0;
 		$sodio = $this->sodio;
 		switch(true){
-			case ($sodio<=0.09): $puntos = 0;
+	      	case ($sodio>900): $puntos = 10;
+					break;
+	      	case ($sodio>810): $puntos = 9;
+					break;
+	      	case ($sodio>720): $puntos = 8;
+					break;
+	      	case ($sodio>630): $puntos = 7;
+					break;
+	      	case ($sodio>540): $puntos = 6;
+					break;
+	      	case ($sodio>450): $puntos = 5;
+					break;
+	      	case ($sodio>360): $puntos = 4;
+					break;
+	      	case ($sodio>270): $puntos = 3;
+					break;
+	      	case ($sodio>180): $puntos = 2;
+					break;
+	      	case ($sodio>90): $puntos = 1;
 				break;
-			case ($sodio>0.09): $puntos = 1;
-				break;
-			case ($sodio>0.18): $puntos = 2;
-				break;
-			case ($sodio>0.27): $puntos = 3;
-				break;
-			case ($sodio>0.36): $puntos = 4;
-				break;
-			case ($sodio>0.45): $puntos = 5;
-				break;
-			case ($sodio>0.54): $puntos = 6;
-				break;
-			case ($sodio>0.63): $puntos = 7;
-				break;
-			case ($sodio>0.72): $puntos = 8;
-				break;
-			case ($sodio>0.81): $puntos = 9;
-				break;
-			case ($sodio>0.90): $puntos = 10;
+			case ($sodio<=90): $puntos = 0;
 				break;
 		}
 		$this->d = $puntos;
 	}
+
+  	public function getd(){
+    	return $this->d;
+  	}
 
 	private function puntos_e(){
 		$puntos = 0;
@@ -714,25 +730,25 @@ class NutriScore
 			$valor = ($this->verduras*2/$this->porcion)*100;
 			if ($this->tipo=='solido') {
 				switch(true){
+		          	case ($valor>80): $puntos = 5;
+								break;
+		          	case ($valor>60): $puntos = 2;
+								break;
+		          	case ($valor>40): $puntos = 1;
+						break;
 					case ($valor<=40): $puntos = 0;
-						break;
-					case ($valor>40): $puntos = 1;
-						break;
-					case ($valor>60): $puntos = 2;
-						break;
-					case ($valor>80): $puntos = 5;
 						break;
 				}
 			}
 			if ($this->tipo=='liquido') {
 				switch(true){
+		          	case ($valor>80): $puntos = 10;
+								break;
+		          	case ($valor>60): $puntos = 4;
+								break;
+		          	case ($valor>40): $puntos = 2;
+						break;
 					case ($valor<=40): $puntos = 0;
-						break;
-					case ($valor>40): $puntos = 2;
-						break;
-					case ($valor>60): $puntos = 4;
-						break;
-					case ($valor>80): $puntos = 10;
 						break;
 				}
 			}
@@ -740,45 +756,57 @@ class NutriScore
 		$this->e = $puntos;
 	}
 
+	public function gete(){
+	    return $this->e;
+	}
+
 	private function puntos_f(){
 		$puntos = 0;
 		$valor = $this->fibra;
 		switch(true){
+	      	case ($valor>3.5): $puntos = 5;
+					break;
+	      	case ($valor>2.8): $puntos = 4;
+					break;
+	      	case ($valor>2.1): $puntos = 3;
+					break;
+	      	case ($valor>1.4): $puntos = 2;
+					break;
+	      	case ($valor>0.7): $puntos = 1;
+				break;
 			case ($valor<=0.7): $puntos = 0;
-				break;
-			case ($valor>0.7): $puntos = 1;
-				break;
-			case ($valor>1.4): $puntos = 2;
-				break;
-			case ($valor>2.1): $puntos = 3;
-				break;
-			case ($valor>2.8): $puntos = 4;
-				break;
-			case ($valor>3.5): $puntos = 5;
 				break;
 		}
 		$this->f = $puntos;
+	}
+
+	public function getf(){
+	    return $this->f;
 	}
 
 	private function puntos_g(){
 		$puntos = 0;
 		$valor = $this->proteinas;
 		switch(true){
+	      	case ($valor>8.0): $puntos = 5;
+				break;
+	      	case ($valor>6.4): $puntos = 4;
+				break;
+	      	case ($valor>4.8): $puntos = 3;
+				break;
+	      	case ($valor>3.2): $puntos = 2;
+				break;
+	      	case ($valor>1.6): $puntos = 1;
+				break;
 			case ($valor<=1.6): $puntos = 0;
-				break;
-			case ($valor>1.6): $puntos = 1;
-				break;
-			case ($valor>3.2): $puntos = 2;
-				break;
-			case ($valor>4.8): $puntos = 3;
-				break;
-			case ($valor>6.4): $puntos = 4;
-				break;
-			case ($valor>8.0): $puntos = 5;
 				break;
 		}
 		$this->g = $puntos;
 	}
+
+  	public function getg(){
+    	return $this->g;
+  	}
 
 	private function puntuacion(){
 		/*Puntos A*/
@@ -791,17 +819,22 @@ class NutriScore
 		$this->puntos_f();
 		$this->puntos_g();
 		/*Puntuación*/
-		if ($this->a && in_array($this->categoria, array(38, 43, 49))) {
-			if ($this->e >= 5) {
-				$this->puntos = ($this->a + $this->b + $this->c + $this->d) - ($this->e + $this->f + $this->g);
-			}
-			else{
-				$this->puntos = ($this->a + $this->b + $this->c + $this->d) - $this->e - $this->f;
-			}
-		}
-		else{
-			$this->puntos = ($this->a + $this->b + $this->c + $this->d) - ($this->e + $this->f + $this->g);
-		}
+
+    $A = $this->a + $this->b + $this->c + $this->d;
+    $C = $this->e + $this->f + $this->g;
+
+    if(($A>=11) && ($this->categoria!=49)){
+      	if($this->e>=5){
+        	$this->puntos = $A - $C;
+      	}
+      	else{
+        	$this->puntos = $A - $this->e - $this->f;
+      	}
+    }
+    else{
+      	$this->puntos = $A - $C;
+    }
+
 		/*Asignación de clase*/
 		if ($this->tipo=='solido') {
 			$valor = $this->puntos;
@@ -823,11 +856,45 @@ class NutriScore
 					break;
 			}
 		}
+    	else if($this->tipo=='liquido'){
+      	$valor = $this->puntos;
+			switch (true) {
+				case $valor>=10:
+					$this->clase = 'E';
+					break;
+				case $valor>=6:
+					$this->clase = 'D';
+					break;
+				case $valor>=2:
+					$this->clase = 'C';
+					break;
+				case $valor>-1:
+					$this->clase = 'B';
+					break;
+				case $valor<-1:
+					$this->clase = 'A';
+					break;
+			}
+    }
 	}
 
 	public function getClase(){
 		return $this->clase;
 	}
+
+	  public function toString(){
+	    return "Energia: ".$this->energia.
+			        "\nAzucar: ".$this->azucares.
+			        "\nGrasas Sat: ".$this->grasas_sat.
+			        "\nLipidos: ". $this->lipidos.
+			        "\nSodio: ".$this->sodio.
+			        "\nVerduras: ".$this->verduras.
+			        "\nFibra: ".$this->fibra.
+			        "\nProteinas: ".$this->proteinas.
+			        "\nCategoria: ".$this->categoria.
+			        "\nPorcion: ".$this->porcion.
+			        "\nTipo: ".$this->tipo;
+	  }
 
 }
 
@@ -1016,25 +1083,25 @@ class Etiquetado_Australia_Nueva_Zelanda
 	function __construct($energia_kcal, $grasas_sat_g, $sodio_g, $azucares_g, $calcio_g, $verduras_g, $proteinas_g, $fibra_g, $categoria, $tipo)
 	{
 		$this->energia 		= $energia_kcal;
-		$this->grasas_sat 	= $grasas_sat_g;
-		$this->sodio 		= $sodio_g;
+		$this->grasas_sat = $grasas_sat_g;
+		$this->sodio 		  = $sodio_g;
 		$this->azucares 	= $azucares_g;
 		$this->calcio 		= $calcio_g;
 		$this->verduras		= $verduras_g;
 		$this->proteinas	= $proteinas_g;
-		$this->fibra 		= $fibra_g;
-
-		$this->categoria 	= $categoria;
-		$this->tipo 		= $tipo;
+		$this->fibra 		  = $fibra_g;
+    $this->queso      = $categoria;
+		$this->categoria 	= '';
+		$this->tipo 		  = $tipo;
 		$this->setCategoria();
 	}
 
 	private function setCategoria(){
-		if (in_array($this->categoria, array(48, 49, 50, 51, 52, 53, 62)) ||  $this->calcio >= 0.125) {
-			if ($this->tipo=='liquido' && $this->calcio>=0.125) {
+		if (($this->queso==49) ||  ($this->calcio >= 125)) {
+			if (($this->tipo=='liquido') && ($this->calcio>=125)) {
 				$this->categoria = '1D';
 			}
-			else if(in_array($this->categoria, array(48, 49))){
+			else if(($this->queso==49) && ($this->calcio>=320)){
 				$this->categoria = '3D';
 			}
 			else{
@@ -1078,7 +1145,7 @@ class Etiquetado_Australia_Nueva_Zelanda
 				
 				$baseline_pts_azucares = array(99, 94, 90, 85, 81, 76, 72, 67, 63, 58, 54, 49, 45, 40, 36, 31, 27, 22.5, 18, 13.5, 9, 5);
 				
-				$baseline_pts_sodio = array(8.106, 7.262, 6.506, 5.829, 5.223, 4.679, 4.192, 3.756, 3.365, 3.015, 2.701, 2.42, 2.168, 1.942, 1.74, 1.559, 1.397, 1.251, 1.121, 1.005, 0.9, 0.81, 0.72, 0.63, 0.54, 0.45, 0.36, 0.27, 0.18, 0.09); 
+				$baseline_pts_sodio = array(8106, 7262, 6506, 5829, 5223, 4679, 4192, 3756, 3365, 3015, 2701, 2420, 2168, 1942, 1740, 1559, 1397, 1251, 1121, 1005, 900, 810, 720, 630, 540, 450, 360, 270, 180, 90); 
 
 				break;
 			
@@ -1089,9 +1156,9 @@ class Etiquetado_Australia_Nueva_Zelanda
 
 				$baseline_pts_grasas_sat = array(30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1);
 
-				$baseline_azucares = array(45, 40, 36, 31, 27, 22.5, 18, 13.5, 9, 5);
+				$baseline_pts_azucares = array(45, 40, 36, 31, 27, 22.5, 18, 13.5, 9, 5);
 
-				$baseline_pts_sodio = array(2.7, 2.61, 2.52, 2.43, 2.34, 2.25, 2.16, 2.07, 1.98, 1.89, 1.8, 1.71, 1.62, 1.53, 1.44, 1.35, 1.26, 1.17, 1.08, 0.99, 0.9, 0.81, 0.72, 0.63, 0.54, 0.45, 0.36, 0.27, 0.18, 0.09);
+				$baseline_pts_sodio = array(2700, 2610, 2520, 2430, 2340, 2250, 2160, 2070, 1980, 1890, 1800, 1710, 1620, 1530, 1440, 1350, 1260, 1170, 1080, 990, 900, 810, 720, 630, 540, 450, 360, 270, 180, 90);
 
 				break;
 		}
@@ -1100,8 +1167,9 @@ class Etiquetado_Australia_Nueva_Zelanda
 		/*Conversión kcal a kJ*/
 		$energia = $this->energia * 4.184;
 		foreach ($baseline_pts_energia as $i=>$pt) {
-			if ($this->energia>$pt) {
+			if ($energia>$pt) {
 				$baseline_energia = count($baseline_pts_energia)-$i;
+        break;
 			}
 		}
 		$baseline_energia = ($baseline_energia == -1) ? 0 : $baseline_energia;
@@ -1110,6 +1178,7 @@ class Etiquetado_Australia_Nueva_Zelanda
 		foreach ($baseline_pts_grasas_sat as $i=>$pt) {
 			if ($this->grasas_sat>$pt) {
 				$baseline_grasas_sat = count($baseline_grasas_sat)-$i;
+        break;
 			}
 		}
 		$baseline_grasas_sat = ($baseline_grasas_sat == -1) ? 0 : $baseline_grasas_sat;
@@ -1118,6 +1187,7 @@ class Etiquetado_Australia_Nueva_Zelanda
 		foreach ($baseline_pts_sodio as $i=>$pt) {
 			if ($this->sodio>$pt) {
 				$baseline_sodio = count($baseline_pts_sodio)-$i;
+        break;
 			}
 		}
 		$baseline_sodio = ($baseline_sodio == -1) ? 0 : $baseline_sodio;
@@ -1126,6 +1196,7 @@ class Etiquetado_Australia_Nueva_Zelanda
 		foreach ($baseline_pts_azucares as $i=>$pt) {
 			if ($this->azucares>$pt) {
 				$baseline_azucares = count($baseline_pts_azucares)-$i;
+        break;
 			}
 		}
 		$baseline_azucares = ($baseline_azucares == -1) ? 0 : $baseline_azucares;
@@ -1135,6 +1206,7 @@ class Etiquetado_Australia_Nueva_Zelanda
 		foreach ($baseline_pts_verduras as $i=>$pt) {
 			if ($this->verduras>$pt) {
 				$v = count($baseline_pts_verduras)-$i;
+        break;
 			}
 		}
 		$v = ($v == -1) ? 0 : $v;
@@ -1144,6 +1216,7 @@ class Etiquetado_Australia_Nueva_Zelanda
 		foreach ($baseline_pts_proteinas as $i=>$pt) {
 			if ($this->proteinas>$pt) {
 				$p = count($baseline_pts_proteinas)-$i;
+        break;
 			}
 		}
 		$p = ($p == -1) ? 0 : $p;
@@ -1153,58 +1226,71 @@ class Etiquetado_Australia_Nueva_Zelanda
 		foreach ($baseline_pts_fibra as $i=>$pt) {
 			if ($this->fibra>$pt) {
 				$f = count($baseline_pts_fibra)-$i;
+        break;
 			}
 		}
 		$f = ($f == -1) ? 0 : $f;
 
 		/*Calculo del puntaje total*/
+		$Baseline = $baseline_energia + $baseline_grasas_sat + $baseline_sodio + $baseline_azucares;
 
-		$puntaje_total = $baseline_energia + $baseline_grasas_sat + $baseline_sodio + $baseline_azucares - $v - $p - $f;
+    
+
+    $puntaje_final = 0;
+
+    if(($Baseline>=13) && ($v>=5)){
+      if(($this->categoria!='2') && ($this->categoria!='3')){
+        $puntaje_final = $Baseline - $v - $p - $f;
+      }
+      else{
+        $f= 0;
+        $puntaje_final = $Baseline - $v - $p - $f;
+      }
+    }
+    else{
+      $p = 0;
+      if(($this->categoria!='2') && ($this->categoria!='3')){
+        $puntaje_final = $Baseline - $v - $p - $f;
+      }
+      else{
+        $f= 0;
+        $puntaje_final = $Baseline - $v - $p - $f;
+      }
+    }
 		
-		$condicion_1 = ($puntaje_total>=13) && ($v>=5);
-		if(!$condicion_1){
-			$p = 0;
-		}
-
-		$condicion_2 = ($this->categoria!='2') && ($this->categoria!='3');
-		if (!$condicion_2) {
-			$f = 0;
-		}
-
-
 		$estrellas = 0;
 
 		switch ($this->categoria) {
 			case '1':
 				switch (true) {
-					case $puntaje_total<=-6:
+					case $puntaje_final<=-6:
 						$estrellas = 5;
 						break;
-					case $puntaje_total=-5:
+					case $puntaje_final=-5:
 						$estrellas = 4.5;
 						break;
-					case $puntaje_total=-4:
+					case $puntaje_final=-4:
 						$estrellas = 4;
 						break;
-					case $puntaje_total=-3:
+					case $puntaje_final=-3:
 						$estrellas = 3.5;
 						break;
-					case $puntaje_total=-2:
+					case $puntaje_final=-2:
 						$estrellas = 3;
 						break;
-					case $puntaje_total=-1:
+					case $puntaje_final=-1:
 						$estrellas = 2.5;
 						break;
-					case $puntaje_total=0:
+					case $puntaje_final=0:
 						$estrellas = 2;
 						break;
-					case $puntaje_total=1:
+					case $puntaje_final=1:
 						$estrellas = 1.5;
 						break;
-					case $puntaje_total=2:
+					case $puntaje_final=2:
 						$estrellas = 1;
 						break;
-					case $puntaje_total>=3:
+					case $puntaje_final>=3:
 						$estrellas = 0.5;
 						break;
 				}
@@ -1212,145 +1298,160 @@ class Etiquetado_Australia_Nueva_Zelanda
 			case '1D':
 			case '2D':
 				switch (true) {
-					case $puntaje_total<=-2:
+					case $puntaje_final<=-2:
 						$estrellas = 5;
 						break;
-					case $puntaje_total=-1:
+					case $puntaje_final=-1:
 						$estrellas = 4.5;
 						break;
-					case $puntaje_total=0:
+					case $puntaje_final=0:
 						$estrellas = 4;
 						break;
-					case $puntaje_total=1:
+					case $puntaje_final=1:
 						$estrellas = 3.5;
 						break;
-					case $puntaje_total=2:
+					case $puntaje_final=2:
 						$estrellas = 3;
 						break;
-					case $puntaje_total=3:
+					case $puntaje_final=3:
 						$estrellas = 2.5;
 						break;
-					case $puntaje_total=4:
+					case $puntaje_final=4:
 						$estrellas = 2;
 						break;
-					case $puntaje_total=5:
+					case $puntaje_final=5:
 						$estrellas = 1.5;
 						break;
-					case $puntaje_total=6:
+					case $puntaje_final=6:
 						$estrellas = 1;
 						break;
-					case $puntaje_total>=7:
+					case $puntaje_final>=7:
 						$estrellas = 0.5;
 						break;
 				}
 				break;
 			case '2':
 				switch (true) {
-					case $puntaje_total<=-11:
+					case $puntaje_final<=-11:
 						$estrellas = 5;
 						break;
-					case $puntaje_total<=-7:
+					case $puntaje_final<=-7:
 						$estrellas = 4.5;
 						break;
-					case $puntaje_total<=-2:
+					case $puntaje_final<=-2:
 						$estrellas = 4;
 						break;
-					case $puntaje_total<=2:
+					case $puntaje_final<=2:
 						$estrellas = 3.5;
 						break;
-					case $puntaje_total<=6:
+					case $puntaje_final<=6:
 						$estrellas = 3;
 						break;
-					case $puntaje_total<=11:
+					case $puntaje_final<=11:
 						$estrellas = 2.5;
 						break;
-					case $puntaje_total<=15:
+					case $puntaje_final<=15:
 						$estrellas = 2;
 						break;
-					case $puntaje_total<=20:
+					case $puntaje_final<=20:
 						$estrellas = 1.5;
 						break;
-					case $puntaje_total<=24:
+					case $puntaje_final<=24:
 						$estrellas = 1;
 						break;
-					case $puntaje_total>=25:
+					case $puntaje_final>=25:
 						$estrellas = 0.5;
 						break;
 				}
 				break;
 			case '3':
 				switch (true) {
-					case $puntaje_total<=13:
+					case $puntaje_final<=13:
 						$estrellas = 5;
 						break;
-					case $puntaje_total<=16:
+					case $puntaje_final<=16:
 						$estrellas = 4.5;
 						break;
-					case $puntaje_total<=20:
+					case $puntaje_final<=20:
 						$estrellas = 4;
 						break;
-					case $puntaje_total<=23:
+					case $puntaje_final<=23:
 						$estrellas = 3.5;
 						break;
-					case $puntaje_total<=27:
+					case $puntaje_final<=27:
 						$estrellas = 3;
 						break;
-					case $puntaje_total<=30:
+					case $puntaje_final<=30:
 						$estrellas = 2.5;
 						break;
-					case $puntaje_total<=34:
+					case $puntaje_final<=34:
 						$estrellas = 2;
 						break;
-					case $puntaje_total<=37:
+					case $puntaje_final<=37:
 						$estrellas = 1.5;
 						break;
-					case $puntaje_total<=42:
+					case $puntaje_final<=42:
 						$estrellas = 1;
 						break;
-					case $puntaje_total>42:
+					case $puntaje_final>42:
 						$estrellas = 0.5;
 						break;
 				}
 				break;
 			case '3D':
 				switch (true) {
-					case $puntaje_total<=22:
+					case $puntaje_final<=22:
 						$estrellas = 5;
 						break;
-					case $puntaje_total<=24:
+					case $puntaje_final<=24:
 						$estrellas = 4.5;
 						break;
-					case $puntaje_total<=26:
+					case $puntaje_final<=26:
 						$estrellas = 4;
 						break;
-					case $puntaje_total<=28:
+					case $puntaje_final<=28:
 						$estrellas = 3.5;
 						break;
-					case $puntaje_total<=30:
+					case $puntaje_final<=30:
 						$estrellas = 3;
 						break;
-					case $puntaje_total<=32:
+					case $puntaje_final<=32:
 						$estrellas = 2.5;
 						break;
-					case $puntaje_total<=34:
+					case $puntaje_final<=34:
 						$estrellas = 2;
 						break;
-					case $puntaje_total<=36:
+					case $puntaje_final<=36:
 						$estrellas = 1.5;
 						break;
-					case $puntaje_total<=39:
+					case $puntaje_final<=39:
 						$estrellas = 1;
 						break;
-					case $puntaje_total>39:
+					case $puntaje_final>39:
 						$estrellas = 0.5;
 						break;
 				}
 				break;
 		}
 
-		return $estrellas;
+		return 5-$estrellas;
 
 	}
+
+  public function toString(){
+    return "\nObjeto {".
+          "\nEnergia: ".$this->energia.
+          "\nGrasas Sat: ".$this->grasas_sat.
+          "\nSodio: ".$this->sodio.
+          "\nAzucar: ".$this->azucares.
+          "\nCalcio: ".$this->calcio.
+          "\nVerduras: ".$this->verduras.
+          "\nProteinas: ".$this->proteinas.
+          "\nFibra: ".$this->fibra.
+          "\nTipo: ".$this->tipo.
+          "\nCategoria: ".$this->categoria.
+          "\n}"; 
+  }
 }
 
 /**

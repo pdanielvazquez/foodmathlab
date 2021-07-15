@@ -91,6 +91,8 @@
                     <select name="um_porcion" id="um_porcion" >
                       <option>g</option>
                       <option>ml</option>
+                      <option>kg</option>
+                      <option>l</option>
                     </select>
                   </span>
                 </div>
@@ -104,9 +106,7 @@
               <label>Precio</label> 
               <div class="input-group">
                 <div class="input-group-append">
-                  <span class="input-group-text">
-                    $
-                  </span>
+                  
                 </div>
                 <?= $input->Text(array(
                   'name'=>'producto_precio', 
@@ -114,12 +114,18 @@
                   'class'=>'form-control',
                   'placeholder'=>'0',  
                   'required'=>'required',
-                  'step'=>'0.1',
+                  'step'=>'0.01',
                   'min'=>'0',
                   'style'=>'text-align:center',
                 ), 'number') ?>
+                  <span class="input-group-text">
+                    <select name="producto_moneda" id="producto_moneda" >
+                      <option>MXN</option>
+                      <option>USD</option>
+                      <option>EUR</option>
+                    </select>
+                  </span>
               </div>
-              
             </div>
           </div>
 
@@ -127,8 +133,8 @@
             <div class="form-group">
               <label>Queso</label>
               <select class="form-control" name="producto_categoria" id="producto_categoria">
-                <option>si</option>
                 <option>no</option>
+                <option>si</option>
               </select>
             </div>
           </div>
@@ -194,7 +200,12 @@
                         <div class="input-group-append">
                           <span class="input-group-text">
                             <select name="um_<?= $campo['atributo'] ?>" id="um_<?= $campo['atributo'] ?>" >
-                              <option value="<?= $campo['unidad'] ?>" ><?= $campo['unidad'] ?></option>
+                              <?foreach ($campo['unidad'] as $unidad) {
+                                ?>
+                                <option value="<?= $unidad ?>" ><?= $unidad ?></option>
+                                <?
+                              }
+                              ?>
                             </select>
                           </span>
                         </div>

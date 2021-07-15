@@ -146,8 +146,9 @@ class Reportes extends CI_Controller {
 		$this->load->view('Plantillas/scripts_view');
 
 		/*Script de configuracion de datatable*/
-		$this->load->view('Reportes/resumen_js_view');
+		//$this->load->view('Reportes/resumen_js_view');
 		$this->load->view('Productos/productos_js_view');
+		$this->load->view('Reportes/grupos_js_view');
 
 		$this->load->view('Plantillas/body_close_view');
 		$this->load->view('Plantillas/html_close_view');

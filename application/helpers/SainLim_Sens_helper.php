@@ -3,7 +3,7 @@
 /**
  * Clase que arroja las ternas para una gráfica SAIN-LIM
  */
-class SainLim
+class SainLimSens
 {
 	private $energia, $proteinas, $fibras, $vit_C, $vit_E, $vit_B1, $vit_B2, $vit_B6, $vit_B9, $calcio, $hierro, $magnesio, $zinc, $potasio, $acido_linoleico, $dha, $sodio, $grasas_sat, $azucares;
 
@@ -12,7 +12,7 @@ class SainLim
 	function __construct($valores)
 	{
 		$this->energia 		= (array_key_exists('energia', $valores)) ? $valores['energia'] : 0;
-		$this->proteinas 	= (array_key_exists('proteinas', $valores)) ? $valores['proteinas'] : 0;
+		$this->proteinas 	= (array_key_exists('proteina', $valores)) ? $valores['proteina'] : 0;
 		$this->fibras 		= (array_key_exists('fibra', $valores)) ? $valores['fibra'] : 0;
 		$this->vit_C 		= (array_key_exists('acidoascord', $valores)) ? $valores['acidoascord'] : 0;
 		$this->vit_E 		= (array_key_exists('vitaminae', $valores)) ? $valores['vitaminae'] : 0;
@@ -30,6 +30,8 @@ class SainLim
 		$this->sodio 		= (array_key_exists('sodio', $valores)) ? $valores['sodio'] : 0;
 		$this->grasas_sat 	= (array_key_exists('acidosgs', $valores)) ? $valores['acidosgs'] : 0;
 		$this->azucares 	= (array_key_exists('azucaresa', $valores)) ? $valores['azucaresa'] : 0;
+		$this->fruta 		= (array_key_exists('fruta', $valores)) ? $valores['fruta'] : 0;
+		$this->verdura 		= (array_key_exists('verdura', $valores)) ? $valores['verdura'] : 0;
 
 		$this->vr_energia 		= 2000;
 		$this->vr_proteinas 	= 50;
@@ -50,12 +52,19 @@ class SainLim
 
 	}
 
-	public function getSain(){
-		return ((100*( ($this->proteinas/$this->vr_proteinas + $this->fibras/$this->vr_fibras + $this->vit_C/$this->vr_vit_C + $this->vit_E/$this->vr_vit_E + $this->vit_B1/$this->vr_vit_B1 + $this->vit_B2/$this->vr_vit_B2 + $this->vit_B6/$this->vr_vit_B6 + $this->vit_B9/$this->vr_vit_B9 + $this->calcio/$this->vr_calcio + $this->hierro/$this->vr_hierro + $this->magnesio/$this->vr_magnesio + $this->zinc/$this->vr_zinc + $this->potasio/$this->vr_potasio + $this->acido_linoleico/$this->vr_acido_linoleico + $this->dha/$this->vr_dha)/15))/$this->energia)*100;
+	public function getSainSens($categoria){
+		/*$resultado = ((
+			(($this->fruta + $this->verdura)/10) + 
+			$this->proteinas/50 +
+			$this->fibras/20 + 
+			($categoria==49)? ($this->calcio * 2)/800 : 0
+			)/4)*100;*/
+		$resultado = (( (($this->fruta+$this->verdura)/10)+($this->proteinas/50)+($this->fibras/20)+(($categoria==49)? ($this->calcio * 2)/800 : 0) )/4)*100;
+		return $resultado;
 	}
 
-	public function getLim(){
-		return ((($this->sodio/3153) + ($this->grasas_sat/22) + ($this->azucares/50))/3)*100;
+	public function getLimSens(){
+		return ((($this->sodio/2400) + ($this->grasas_sat/20) + ($this->azucares/50))/3)*100;
 	}
 
 }

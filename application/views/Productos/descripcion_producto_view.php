@@ -1,15 +1,16 @@
 <? $input = new Input(); ?>
+<link rel="stylesheet" href="<?= base_url('vendor') ?>/dist/css/foodmathlab_charts.css">
 
 <div class="modal-dialog modal-xl" role="document">
   <div class="modal-content">
     <div class="modal-header bg-danger d-flex p-0">
-      <h5 class="modal-title" id="descripcionLabel" style="margin: 1rem 0 0 1rem;"><?= $producto->nombre ?> <small style="position: relative; right: 0; ">Ingredientes del producto</small></h5>
+      <h5 class="modal-title" id="descripcionLabel" style="margin: 1rem 0 0 1rem;"><?= $producto->nombre ?> </h5>
         <ul class="nav nav-pills ml-auto p-2">
           <li class="nav-item">
             <a class="nav-link active btn-tab" href="#prod_1" data-toggle="tab">Información general</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link btn-tab" href="#prod_2" data-toggle="tab">Ingredientes</a>
+            <a class="nav-link btn-tab" href="#prod_2" data-toggle="tab">Información completa</a>
           </li>
           <li class="nav-item">
             <a class="nav-link btn-tab" href="#prod_3" data-toggle="tab">Etiquetado</a>
@@ -54,7 +55,7 @@
                     <td><?= number_format(($producto->lipidos*100)/$referencia['ref_grasas_tot']) ?>%</td>
                   </tr>
                   <tr>
-                    <td>Sodio: <?= number_format($producto->sodio*1000) ?> mg</td>
+                    <td>Sodio: <?= number_format($producto->sodio) ?> mg</td>
                     <td><?= number_format((($producto->sodio*1000)*100)/$referencia['ref_sodio']) ?> %</td>
                   </tr>
                   <tr>
@@ -116,7 +117,7 @@
                 }
                 ?>
                 <div class="col-xs-12 col-md-6 col-lg-4">
-                  <canvas id="energiaChart" style="width: 100%; border: solid 1px #AAA; margin-bottom:1rem;" data-values="<?= implode(',', $energias) ?>" data-labels="<?= implode(',', $etiquetas) ?>" data-color="<?= implode(',', $colors) ?>" data-unit="Calorias (kcal)" data-title="Energía"></canvas>
+                  <canvas id="energiaChart"  data-values="<?= implode(',', $energias) ?>" data-labels="<?= implode(',', $etiquetas) ?>" data-color="<?= implode(',', $colors) ?>" data-unit="Calorias (kcal)" data-title="Energía" height="200" class="chartCanvas"></canvas>
                 </div>
                 <?
               }
@@ -139,7 +140,7 @@
                 }
                 ?>
                 <div class="col-xs-12 col-md-6 col-lg-4">
-                  <canvas id="lipidosChart" style="width: 100%; border: solid 1px #AAA; margin-bottom:1rem;" data-values="<?= implode(',', $lipidos) ?>" data-labels="<?= implode(',', $etiquetas) ?>" data-color="<?= implode(',', $colors) ?>" data-unit="Gramos (g.)" data-title="Lípidos / Grasas totales"></canvas>
+                  <canvas id="lipidosChart"  data-values="<?= implode(',', $lipidos) ?>" data-labels="<?= implode(',', $etiquetas) ?>" data-color="<?= implode(',', $colors) ?>" data-unit="Gramos (g.)" data-title="Lípidos / Grasas totales" height="200" class="chartCanvas"></canvas>
                 </div>
                 <?
               }
@@ -162,7 +163,7 @@
                 }
                 ?>
                 <div class="col-xs-12 col-md-6 col-lg-4">
-                  <canvas id="azucaresChart" style="width: 100%; border: solid 1px #AAA; margin-bottom:1rem;" data-values="<?= implode(',', $azucares) ?>" data-labels="<?= implode(',', $etiquetas) ?>" data-color="<?= implode(',', $colors) ?>" data-unit="Gramos (g.)" data-title="Azucares"></canvas>
+                  <canvas id="azucaresChart"  data-values="<?= implode(',', $azucares) ?>" data-labels="<?= implode(',', $etiquetas) ?>" data-color="<?= implode(',', $colors) ?>" data-unit="Gramos (g.)" data-title="Azucares" height="200" class="chartCanvas"></canvas>
                 </div>
                 <?
               }
@@ -185,7 +186,7 @@
                 }
                 ?>
                 <div class="col-xs-12 col-md-6 col-lg-4">
-                  <canvas id="grasasSatChart" style="width: 100%; border: solid 1px #AAA; margin-bottom:1rem;" data-values="<?= implode(',', $grasas) ?>" data-labels="<?= implode(',', $etiquetas) ?>" data-color="<?= implode(',', $colors) ?>" data-unit="Gramos (g.)" data-title="Grasas Saturadas"></canvas>
+                  <canvas id="grasasSatChart"  data-values="<?= implode(',', $grasas) ?>" data-labels="<?= implode(',', $etiquetas) ?>" data-color="<?= implode(',', $colors) ?>" data-unit="Gramos (g.)" data-title="Grasas Saturadas" height="200" class="chartCanvas"></canvas>
                 </div>
                 <?
               }
@@ -208,14 +209,14 @@
                 }
                 ?>
                 <div class="col-xs-12 col-md-6 col-lg-4">
-                  <canvas id="grasasTransChart" style="width: 100%; border: solid 1px #AAA; margin-bottom:1rem;" data-values="<?= implode(',', $grasas) ?>" data-labels="<?= implode(',', $etiquetas) ?>" data-color="<?= implode(',', $colors) ?>" data-unit="Gramos (g.)" data-title="Grasas Trans"></canvas>
+                  <canvas id="grasasTransChart"  data-values="<?= implode(',', $grasas) ?>" data-labels="<?= implode(',', $etiquetas) ?>" data-color="<?= implode(',', $colors) ?>" data-unit="Gramos (g.)" data-title="Grasas Trans" height="200" class="chartCanvas"></canvas>
                 </div>
                 <?
               }
 
               if ($productos_sodio!=false) {
 
-                /*Graficando las grasas trans del producto en comparacion a los otros productos*/
+                /*Graficando el del producto en comparacion a los otros productos*/
                 $etiquetas = array();
                 $colors = array();
                 $sodio = array();
@@ -231,11 +232,162 @@
                 }
                 ?>
                 <div class="col-xs-12 col-md-6 col-lg-4">
-                  <canvas id="sodioChart" style="width: 100%; border: solid 1px #AAA; margin-bottom:1rem;" data-values="<?= implode(',', $sodio) ?>" data-labels="<?= implode(',', $etiquetas) ?>" data-color="<?= implode(',', $colors) ?>" data-unit="Miligramos (mg.)" data-title="Sodio"></canvas>
+                  <canvas id="sodioChart"  data-values="<?= implode(',', $sodio) ?>" data-labels="<?= implode(',', $etiquetas) ?>" data-color="<?= implode(',', $colors) ?>" data-unit="Miligramos (mg.)" data-title="Sodio" height="200" class="chartCanvas"></canvas>
                 </div>
                 <?
               }
 
+              ?>
+              <div class="col-xs-12 col-md-6 col-lg-4">
+                <!-- Indice NRF 9.3 -->
+                <?
+                $nrf9 = array();
+                $nrf3 = array();
+                $colors = array();
+                $label = array();
+                if ($productos_indices!=false) {
+                    foreach ($productos_indices->result() as $prod_nrf93) {
+                        $valores = array();
+                        foreach ($campos_productos_indices as $etiqueta => $campo) {
+                            $atributo = $campo['campo'];
+                            $valores[$atributo] = number_format($prod_nrf93->$atributo, 2);
+                        }
+                        $nrf93 = new NRF93($valores);
+                        array_push($nrf9, $nrf93->getNRF9());
+                        array_push($nrf3, $nrf93->getNRF3());
+                        array_push($label, substr($prod_nrf93->nombre, 0, 15) );
+                        if ($prod_nrf93->id_prod == $producto->id_prod) {
+                          array_push($colors, 1);
+                        }
+                        else{
+                          array_push($colors, 0);
+                        }
+                        unset($nrf93);
+                    }
+                }
+                ?>
+                <canvas id="nrf93Chart"  data-nrf9="<?= implode(',', $nrf9) ?>" data-nrf3="<?= implode(',', $nrf3) ?>" data-labels="<?= implode(',', $label) ?>" data-title="NRF 9.3" data-color="<?= implode(',', $colors) ?>" height="200" class="chartCanvas"></canvas>
+              </div>
+
+              <div class="col-xs-12 col-md-6 col-lg-4">
+                <?
+                $dataX = array();
+                $dataY = array();
+                $colors = array();
+                $labels = array();
+                if ($productos_indices!=false) {
+                    foreach ($productos_indices->result() as $prod_sainlim) {
+                        $valores = array();
+                        foreach ($campos_productos_indices as $etiqueta => $campo) {
+                            $atributo = $campo['campo'];
+                            $valores[$atributo] = number_format($prod_sainlim->$atributo, 2);
+                        }
+                        $sainlim = new SainLim($valores);
+                        array_push($dataX, $sainlim->getSain());
+                        array_push($dataY, $sainlim->getLim());
+                        array_push($labels, substr($prod_sainlim->nombre, 0, 15));
+                        if ($prod_sainlim->id_prod == $producto->id_prod) {
+                          array_push($colors, 1);
+                        }
+                        else{
+                          array_push($colors, 0);
+                        }
+                        unset($sainlim);
+                    }
+                }
+                ?>
+                <canvas id="saimlimChart"  data-x="<?= implode(',', $dataX) ?>" data-y="<?= implode(',', $dataY) ?>" data-labels="<?= implode(',', $labels) ?>" data-title="SAIN-LIM" data-color="<?= implode(',', $colors) ?>" height="200" class="chartCanvas"></canvas>
+              </div>
+
+              <div class="col-xs-12 col-md-6 col-lg-4">
+                <?
+                $ffs = array();
+                $colors = array();
+                $labels = array();
+                if ($productos_indices!=false) {
+                    foreach ($productos_indices->result() as $prod_ff) {
+                        $valores = array();
+                        foreach ($campos_productos_indices as $etiqueta => $campo) {
+                            $atributo = $campo['campo'];
+                            $valores[$atributo] = number_format($prod_ff->$atributo, 2);
+                        }
+                        $ff = new FullnessFactor($valores);
+                        array_push($ffs, $ff->getFactor());
+                        array_push($labels, substr($prod_ff->nombre, 0, 15));
+                        if ($prod_ff->id_prod == $producto->id_prod) {
+                          array_push($colors, 1);
+                        }
+                        else{
+                          array_push($colors, 0);
+                        }
+                        unset($ff);
+                    }
+                }
+                ?>
+                <canvas id="ffChart"  data-values="<?= implode(',', $ffs) ?>" data-labels="<?= implode(',', $labels) ?>" data-color="<?= implode(',', $colors) ?>" data-unit="FF" data-title="Fullness Factor" height="200" class="chartCanvas"></canvas>
+              </div>
+
+              <div class="col-xs-12 col-md-6 col-lg-4">
+                <?
+                $calidades = array();
+                $colors = array();
+                $labels = array();
+                if ($productos_indices!=false) {
+                    foreach ($productos_indices->result() as $prod_quality) {
+                        $valores = array();
+                        foreach ($campos_productos_indices as $etiqueta => $campo) {
+                            $atributo = $campo['campo'];
+                            $valores[$atributo] = number_format($prod_quality->$atributo, 2);
+                            //echo "valor: ".$valores[$atributo]."<br>";
+                        }
+                        $calidad = new MediaEstandarizada($valores, $productos_indices);
+                        array_push($calidades, $calidad->getME());
+                        array_push($labels, substr($prod_quality->nombre, 0, 15));
+                        if ($prod_quality->id_prod == $producto->id_prod) {
+                          array_push($colors, 1);
+                        }
+                        else{
+                          array_push($colors, 0);
+                        }
+                        unset($ff);
+                    }
+                }
+                ?>
+                <canvas id="qualityChart"  data-values="<?= implode(',', $calidades) ?>" data-labels="<?= implode(',', $labels) ?>" data-color="<?= implode(',', $colors) ?>" data-unit="Media Estandarizada" data-title="Calidad de los Alimentos" height="200" class="chartCanvas"></canvas>
+              </div>
+
+              <div class="col-xs-12 col-md-6 col-lg-4">
+                <?
+                $dataX = array();
+                $dataY = array();
+                $colors = array();
+                $labels = array();
+                if ($productos_indices!=false) {
+                    foreach ($productos_indices->result() as $prod_sainlimsens) {
+                        $valores = array();
+                        foreach ($campos_productos_indices as $etiqueta => $campo) {
+                            $atributo = $campo['campo'];
+                            $valores[$atributo] = number_format($prod_sainlimsens->$atributo, 2);
+                        }
+                        $sainlimsens = new SainLimSens($valores);
+                        array_push($dataX, $sainlimsens->getSainSens($prod_sainlimsens->categoria));
+                        array_push($dataY, $sainlimsens->getLimSens());
+                        array_push($labels, substr($prod_sainlimsens->nombre, 0, 15));
+                        if ($prod_sainlimsens->id_prod == $producto->id_prod) {
+                          array_push($colors, 1);
+                        }
+                        else{
+                          array_push($colors, 0);
+                        }
+                        unset($sainlimsens);
+                    }
+                }
+                ?>
+                <canvas id="sensChart" data-x="<?= implode(',', $dataX) ?>" data-y="<?= implode(',', $dataY) ?>" data-labels="<?= implode(',', $labels) ?>" data-title="SENS" data-color="<?= implode(',', $colors) ?>" height="200" class="chartCanvas"></canvas>
+              </div>
+
+              
+            <?
             } 
             ?>
           </div>
@@ -335,9 +487,6 @@
                 <label>Precio</label> 
                 <div class="input-group">
                   <div class="input-group-append">
-                    <span class="input-group-text">
-                      $
-                    </span>
                   </div>
                   <?= $input->Text(array(
                     'name'=>'producto_precio', 
@@ -350,6 +499,13 @@
                     'style'=>'text-align:center',
                     'value'=>number_format($producto->precio, 2), 
                   ), 'number') ?>
+                  <span class="input-group-text">
+                    <select name="producto_moneda" id="producto_moneda" disabled="disabled">
+                      <option <?= ($producto->moneda=='MNX')? 'selected="selected"' : '' ?> >MXN</option>
+                      <option <?= ($producto->moneda=='USD')? 'selected="selected"' : '' ?> >USD</option>
+                      <option <?= ($producto->moneda=='EUR')? 'selected="selected"' : '' ?> >EUR</option>
+                    </select>
+                  </span>
                 </div>
               </div>
             </div>
@@ -431,7 +587,12 @@
                           <div class="input-group-append">
                             <span class="input-group-text">
                               <select name="um_<?= $campo['atributo'] ?>" id="um_<?= $campo['atributo'] ?>" disabled="disabled" >
-                                <option value="<?= $campo['unidad'] ?>" ><?= $campo['unidad'] ?></option>
+                                <?foreach ($campo['unidad'] as $unidad) {
+                                ?>
+                                <option value="<?= $unidad ?>" ><?= $unidad ?></option>
+                                <?
+                                }
+                                ?>
                               </select>
                             </span>
                           </div>
@@ -748,7 +909,7 @@
                 <tr>
                   <th>Reino Unido</th>
                     <?
-                      $UkLabel = new Etiquetado_UK($producto->sodio, $producto->azucaresa, $producto->acidosgs, $producto->lipidos, $producto->tipo);
+                      $UkLabel = new Etiquetado_UK($producto->sodio/1000, $producto->azucaresa, $producto->acidosgs, $producto->lipidos, $producto->tipo);
                     ?>
                   <td>
                     <?
@@ -1068,6 +1229,7 @@
                 
               </table>
             </div>
+
           </div>
           <div>
             
@@ -1078,7 +1240,15 @@
       
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      <button type="button" class="btn btn-secondary btn-close">Cerrar</button>
     </div>
   </div>
 </div>
+
+<script>
+  $(function(){
+    $('.btn-close').on('click', function(){
+      $('#descripcion').modal('hide');
+    });
+  })
+</script>

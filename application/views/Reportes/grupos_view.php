@@ -15,7 +15,7 @@
                 		$conta=0;
                 		foreach ($grupos->result() as $grupo) {
                 			if ($grupo->nombre!='Trash') {
-
+												$no_prods=0;
                 				/*Verificar el numero de productos por Laboratorio*/
                 				if ($productos!=false) {
                 					foreach ($productos->result() as $producto) {
@@ -63,7 +63,7 @@
                 									if ($producto->id_grupo == $grupo->id_grupo) {
 	                									?>
 	                									<th class="bg-secondary" style="width: 250px;">
-	                										<a href="" data-id="<?= $producto->id_prod ?>" data-toggle="modal" data-target="#descripcion" class="btn-descripcion">
+	                										<a href="" data-id="<?= $producto->id_prod ?>" data-toggle="modal" data-target="#descripcion" data-lab="<?= $grupo->id_grupo ?>" class="btn-descripcion-lab">
 	                											<span class="badge bg-warning">
 	                												<i class="fas fa-chart-bar"></i>
 	                											</span>
@@ -81,7 +81,12 @@
                 						<?
                 						if ($campos!=false) {
                 							foreach ($campos as $indice => $valor) {
-		                						$unidad = ($indice=='energia') ? 'kcal' : 'g' ;
+                								$unidad = 'g';
+                								if ($indice=='energia') 
+                									$unidad = 'kcal';
+                								else if ($indice=='sodio') {
+                									$unidad = 'mg';
+                								}
                 								?>
 		                						<tr>
 		                							<th><?= $valor['etiqueta'] ?></th>
@@ -647,7 +652,7 @@
                 								<th>Reino Unido</th>
                 								<td>
                 									<?
-                										$UkLabel = new Etiquetado_UK($promedios[$grupo->id_grupo]['sodio'], $promedios[$grupo->id_grupo]['azucaresa'], $promedios[$grupo->id_grupo]['acidosgs'], $promedios[$grupo->id_grupo]['lipidos'], $grupo->tipo);
+                										$UkLabel = new Etiquetado_UK($promedios[$grupo->id_grupo]['sodio']/1000, $promedios[$grupo->id_grupo]['azucaresa'], $promedios[$grupo->id_grupo]['acidosgs'], $promedios[$grupo->id_grupo]['lipidos'], $grupo->tipo);
 
 																			$color = 'gray';
 																			$txt = 'ENERGÍA';
@@ -771,7 +776,7 @@
 																				<p class="label_UK_txt_small">
 																					Sodio
 																					<span class="label_UK_value_small">
-																						<?= number_format($promedios[$grupo->id_grupo]['sodio'], 1) ?> g
+																						<?= number_format($promedios[$grupo->id_grupo]['sodio']/1000, 1) ?> g
 																					</span>
 																				</p>
 																				<p class="label_UK_ptc_small"><?= number_format($UkLabel->getSodioPtc(), 1) ?>%</p>
@@ -783,7 +788,7 @@
                 								<?
                 								foreach ($productos->result() as $producto) {
 		                							if ($producto->id_grupo == $grupo->id_grupo) {
-		                								$UkLabel = new Etiquetado_UK($producto->sodio, $producto->azucaresa, $producto->acidosgs, $producto->lipidos, $producto->tipo);
+		                								$UkLabel = new Etiquetado_UK($producto->sodio/1000, $producto->azucaresa, $producto->acidosgs, $producto->lipidos, $producto->tipo);
 			                							?>
 			                							<td>
 			                								<?
@@ -909,7 +914,7 @@
 																				<p class="label_UK_txt_small">
 																					Sodio
 																					<span class="label_UK_value_small">
-																						<?= number_format($producto->sodio, 1) ?> g
+																						<?= number_format($producto->sodio/1000, 1) ?> g
 																					</span>
 																				</p>
 																				<p class="label_UK_ptc_small"><?= number_format($UkLabel->getSodioPtc(), 1) ?>%</p>
@@ -1300,6 +1305,7 @@
               ...
             </div>
             <div class="modal-footer">
+              <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button> -->
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             </div>
           </div>

@@ -6,186 +6,186 @@ class Productos extends CI_Controller {
 
 	private $campos = array(
 			array(
-				'atributo'	=>	'energia_kj',
+				'atributo'	=>	'energia',
 				'etiqueta'	=>	'Contenido energético <small>(Energía, calorias)</small>',
-				'unidad'	=>	'kJ',
+				'unidad'	=>	array('kcal','kJ'),
 			),
 			array(
 				'atributo'	=>	'calograsas',
 				'etiqueta'	=>	'Calorias de grasa <small>(Energía de grasa)</small>',
-				'unidad'	=>	'g',
+				'unidad'	=>	array('g'),
 			),
 			array(
 				'atributo'	=>	'lipidos',
 				'etiqueta'	=>	'Grasas totales <small>(Grasa total, lípidos, grasa, grasas totales)</small>',
-				'unidad'	=>	'g',
+				'unidad'	=>	array('g'),
 			),
 			array(
 				'atributo'	=>	'acidosgs',
 				'etiqueta'	=>	'Grasas saturadas <small>(Grasa sat, ácidos grasos saturados)</small>',
-				'unidad'	=>	'g',
+				'unidad'	=>	array('g'),
 			),
 			array(
 				'atributo'	=>	'sal',
 				'etiqueta'	=>	'Sal',
-				'unidad'	=>	'g',
+				'unidad'	=>	array('g'),
 			),
 			array(
 				'atributo'	=>	'sodio',
 				'etiqueta'	=>	'Sodio',
-				'unidad'	=>	'mg',
+				'unidad'	=>	array('mg'),
 			),
 			
 			array(
 				'atributo'	=>	'hidratos',
 				'etiqueta'	=>	'Carbohidratos <small>(Carbohidratos totales, Hidratos de carbono)</small>',
-				'unidad'	=>	'g',
+				'unidad'	=>	array('g'),
 			),
 			array(
 				'atributo'	=>	'azucaresa',
 				'etiqueta'	=>	'Azucares <small><br>(Azucares añadidos)</small>',
-				'unidad'	=>	'g',
+				'unidad'	=>	array('g'),
 			),
 			array(
 				'atributo'	=>	'proteina',
 				'etiqueta'	=>	'Proteinas <small><br>(Proteinas totales)</small>',
-				'unidad'	=>	'g',
+				'unidad'	=>	array('g'),
 			),
 			array(
 				'atributo'	=>	'acidosgm',
 				'etiqueta'	=>	'Grasas monoinsaturadas <small>(Ácidos gm)</small>',
-				'unidad'	=>	'g',
+				'unidad'	=>	array('g'),
 			),
 			array(
 				'atributo'	=>	'acidosgp',
 				'etiqueta'	=>	'Grasas poliinsaturadas <small>(Ácidos gp)</small>',
-				'unidad'	=>	'g',
+				'unidad'	=>	array('g'),
 			),
 			array(
 				'atributo'	=>	'acidostrans',
 				'etiqueta'	=>	'Grasas Trans <small><br>(Ácidos grasos trans)</small>',
-				'unidad'	=>	'g',
+				'unidad'	=>	array('g'),
 			),
 			array(
 				'atributo'	=>	'fibra',
 				'etiqueta'	=>	'Fibra <small><br>(Fibra dietética)</small>',
-				'unidad'	=>	'g',
+				'unidad'	=>	array('g'),
 			),
 			
 			array(
 				'atributo'	=>	'colesterol',
 				'etiqueta'	=>	'Colesterol',
-				'unidad'	=>	'mg',
+				'unidad'	=>	array('mg'),
 			),
 			array(
 				'atributo'	=>	'vitaa',
 				'etiqueta'	=>	'Vitamina A',
-				'unidad'	=>	'mg',
+				'unidad'	=>	array('g'),
 			),
 			array(
 				'atributo'	=>	'acidoascord',
 				'etiqueta'	=>	'Vitamina C',
-				'unidad'	=>	'mg',
+				'unidad'	=>	array('mg'),
 			),
 			array(
 				'atributo'	=>	'tiamina',
 				'etiqueta'	=>	'Tiamina',
-				'unidad'	=>	'mg',
+				'unidad'	=>	array('mg'),
 			),
 			array(
 				'atributo'	=>	'riboflavina',
 				'etiqueta'	=>	'Robifavlina',
-				'unidad'	=>	'mg',
+				'unidad'	=>	array('mg'),
 			),
 			array(
 				'atributo'	=>	'acidopanto',
 				'etiqueta'	=>	'Ácidos Pantotenico',
-				'unidad'	=>	'mg',
+				'unidad'	=>	array('mg'),
 			),
 			array(
 				'atributo'	=>	'vitad',
 				'etiqueta'	=>	'Vitamina D',
-				'unidad'	=>	'mg',
+				'unidad'	=>	array('mg'),
 			),
 			array(
 				'atributo'	=>	'niacina',
 				'etiqueta'	=>	'Niacina',
-				'unidad'	=>	'mg',
+				'unidad'	=>	array('mg'),
 			),
 			array(
 				'atributo'	=>	'piridoxina',
 				'etiqueta'	=>	'Piridoxina',
-				'unidad'	=>	'mg',
+				'unidad'	=>	array('mg'),
 			),
 			array(
 				'atributo'	=>	'acidofolico',
 				'etiqueta'	=>	'Ácidos fólico',
-				'unidad'	=>	'mg',
+				'unidad'	=>	array('mg'),
 			),
 			array(
 				'atributo'	=>	'cobalamina',
 				'etiqueta'	=>	'Cobalamina',
-				'unidad'	=>	'mg',
+				'unidad'	=>	array('mg'),
 			),
 			array(
 				'atributo'	=>	'vitaminae',
 				'etiqueta'	=>	'Vitamina E',
-				'unidad'	=>	'mg',
+				'unidad'	=>	array('mg'),
 			),
 			array(
 				'atributo'	=>	'tocoferol',
 				'etiqueta'	=>	'Tocoferol',
-				'unidad'	=>	'mg',
+				'unidad'	=>	array('mg'),
 			),
 			array(
 				'atributo'	=>	'vitak',
 				'etiqueta'	=>	'Vitamina K',
-				'unidad'	=>	'mg',
+				'unidad'	=>	array('mcg'),
 			),
 			array(
 				'atributo'	=>	'calcio',
 				'etiqueta'	=>	'Calcio',
-				'unidad'	=>	'mg',
+				'unidad'	=>	array('mg'),
 			),
 			array(
 				'atributo'	=>	'fosforo',
 				'etiqueta'	=>	'Fosforo',
-				'unidad'	=>	'mg',
+				'unidad'	=>	array('mg'),
 			),
 			array(
 				'atributo'	=>	'hierro',
 				'etiqueta'	=>	'Hierro',
-				'unidad'	=>	'mg',
+				'unidad'	=>	array('mg'),
 			),
 			array(
 				'atributo'	=>	'magnesio',
 				'etiqueta'	=>	'Magnesio',
-				'unidad'	=>	'mg',
+				'unidad'	=>	array('mg'),
 			),
 			array(
 				'atributo'	=>	'potasio',
 				'etiqueta'	=>	'Potasio',
-				'unidad'	=>	'mg',
+				'unidad'	=>	array('mg'),
 			),
 			array(
 				'atributo'	=>	'zinc',
 				'etiqueta'	=>	'Zinc',
-				'unidad'	=>	'mg',
+				'unidad'	=>	array('mg'),
 			),
 			array(
 				'atributo'	=>	'acidolino',
 				'etiqueta'	=>	'Ácido Linoleico',
-				'unidad'	=>	'mg',
+				'unidad'	=>	array('g'),
 			),
 			array(
 				'atributo'	=>	'fruta',
 				'etiqueta'	=>	'Fruta',
-				'unidad'	=>	'g',
+				'unidad'	=>	array('g'),
 			),
 			array(
 				'atributo'	=>	'verdura',
 				'etiqueta'	=>	'Verdura',
-				'unidad'	=>	'g',
+				'unidad'	=>	array('g'),
 			),
 			
 		);
@@ -198,6 +198,12 @@ class Productos extends CI_Controller {
 		$this->load->helper('Input_helper');
 		$this->load->helper('Mi_helper');
 		$this->load->library('session');
+		$this->load->helper('NRF93_helper');
+		$this->load->helper('Estadisticas_helper');
+		$this->load->helper('SainLim_helper');
+		$this->load->helper('SainLim_Sens_helper');
+		$this->load->helper('fullnessFactor_helper');
+		$this->load->helper('media_estandarizada_helper');
 	}
 
 	public function index(){
@@ -297,6 +303,7 @@ class Productos extends CI_Controller {
 			'cantidad_neta'	=>	$this->input->post('producto_cantidad_neta'),
 			'cantidad_porcion'	=>	$this->input->post('producto_cantidad_porcion'),
 			'precio'		=>	$this->input->post('producto_precio'),
+			'moneda'		=>	$this->input->post('producto_moneda'),
 			'fecha'			=>	date("Y-m-d H:i:s"),
 			'tipo'			=>	($this->input->post('um_porcion')=='g') ? 'solido' : 'liquido',
 			'ingredientes'	=>	$this->input->post('producto_ingredientes'),
@@ -307,21 +314,20 @@ class Productos extends CI_Controller {
 
 		foreach ($_POST as $campo => $valor) {
 			if ((strpos($campo, 'producto_')<-1) && (strpos($campo, 'um_')<-1)) {
-				switch($this->input->post('um_'.$campo)){
-					case 'mg':
-						$valor = $valor/1000;
-						break;
-					case 'mcg':
-						$valor = $valor/1000000;
-						break;
-				}
 				$valores_productos[$campo] = $valor;
 			}
 		}
 		//print_r($valores_productos);
-		
-		/*Conversión kcal a kJ*/
-		$valores_productos['energia'] = floatval($valores_productos['energia_kj']) / 4.184; 
+
+		/*Verificación de unidades de energía*/
+		if ($this->input->post('um_energia')=="kcal") {
+			$valores_productos['energia'] = $this->input->post('energia');
+			$valores_productos['energia_kj'] = $this->input->post('energia')*4.184;
+		}
+		else{
+			$valores_productos['energia'] = floatval($valores_productos['energia']) / 4.184; 
+			$valores_productos['energia_kj'] = $this->input->post('energia'); 
+		}
 		$this->General_model->set('productos_foodmathlab_v2', $valores_productos);
 		redirect(base_url('productos_registrados'));
 	}
@@ -425,6 +431,7 @@ class Productos extends CI_Controller {
 
 		/*Consultas generales*/
 		$id_producto = $this->input->post('id');
+		$lab = ($this->input->post('lab')!==false)? $this->input->post('lab') : false ;
 		$productos = $this->General_model->get('productos_foodmathlab_v2', array('id_prod'=>$id_producto), array(), '');
 		$producto = ($productos!=false) ? $productos->row(0) : false;
 
@@ -440,19 +447,47 @@ class Productos extends CI_Controller {
 		);
 
 		$grupos = $this->General_model->get('grupos', array('id_usuario'=>$_SESSION['idUser']), array(), '');
+
 		$campos = $this->campos;
 		
-		$productos_energia = $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser']), array('energia'=>'asc'), '');
+		$productos_energia = ($lab!=false)? $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser'], 'id_grupo'=>$lab), array('energia'=>'asc'), '') : $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser']), array('energia'=>'asc'), '');
 
-		$productos_lipidos = $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser']), array('lipidos'=>'asc'), '');
+		$productos_lipidos = ($lab!=false)? $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser'], 'id_grupo'=>$lab), array('lipidos'=>'asc'), '') : $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser']), array('lipidos'=>'asc'), '');
 
-		$productos_azucares = $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser']), array('azucaresa'=>'asc'), '');
+		$productos_azucares = ($lab!=false)? $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser'], 'id_grupo'=>$lab), array('azucaresa'=>'asc'), '') : $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser']), array('azucaresa'=>'asc'), '');
 
-		$productos_grasasSat = $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser']), array('acidosgs'=>'asc'), '');
+		$productos_grasasSat = ($lab!=false)? $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser'], 'id_grupo'=>$lab), array('acidosgs'=>'asc'), '') : $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser']), array('acidosgs'=>'asc'), '');
 
-		$productos_grasasTrans = $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser']), array('acidostrans'=>'asc'), '');
+		$productos_grasasTrans = ($lab!=false)? $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser'], 'id_grupo'=>$lab), array('acidostrans'=>'asc'), '') : $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser']), array('acidostrans'=>'asc'), '');
 
-		$productos_sodio = $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser']), array('sodio'=>'asc'), '');
+		$productos_sodio = ($lab!=false)? $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser'], 'id_grupo'=>$lab), array('sodio'=>'asc'), '') : $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser']), array('sodio'=>'asc'), '');
+
+		$productos_indices = ($lab!=false)? $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser'], 'id_grupo'=>$lab), array(), '') : $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser']), array(), '');
+
+		$campos_productos_indices = array(
+			'proteinas'			=> 	array('campo'=>'proteina'), 
+			'fibras'			=>	array('campo'=>'fibra'), 
+			'vitamina_A'		=>	array('campo'=>'vitaa'), 
+			'vitamina_C'		=>	array('campo'=>'acidoascord'), 
+			'vitamina_D'		=>	array('campo'=>'vitad'), 
+			'vitamina_E'		=>	array('campo'=>'vitaminae'), 
+			'vitamina_B1'		=>	array('campo'=>'tiamina'), 
+			'vitamina_B2'		=>	array('campo'=>'riboflavina'), 
+			'calcio'			=>	array('campo'=>'calcio'),
+			'hierro'			=>	array('campo'=>'hierro'),
+			'magnesio'			=>	array('campo'=>'magnesio'),
+			'zinc'				=>	array('campo'=>'zinc'),
+			'potasio'			=>	array('campo'=>'potasio'),
+			'acido_linoleico'	=>	array('campo'=>'acidolino'),
+			'sodio'				=>	array('campo'=>'sodio'), 
+			'energia'			=>	array('campo'=>'energia'), 
+			'grasas_sat'		=>	array('campo'=>'acidosgs'), 
+			'grasas_tot'		=>	array('campo'=>'lipidos'), 
+			'azucares'			=>	array('campo'=>'azucaresa'), 
+			'fruta'				=>	array('campo'=>'fruta'), 
+			'verdura'			=>	array('campo'=>'verdura'), 
+			'lipidos'			=>	array('campo'=>'lipidos'), 
+		);
 
 		$data = array(
 			'producto'	=>	$producto,
@@ -465,10 +500,16 @@ class Productos extends CI_Controller {
 			'productos_grasasSat'=>	$productos_grasasSat,
 			'productos_grasasTrans'=>$productos_grasasTrans,
 			'productos_sodio'	=>	$productos_sodio,
+			'productos_indices'	=>	$productos_indices,
+			'campos_productos_indices' => $campos_productos_indices,
 		);
 
 		$this->load->view('Productos/descripcion_producto_view', $data);
 		$this->load->view('Productos/descripcion_producto_charts_view', $data);
+		$this->load->view('Productos/descripcion_producto_nrf93_js_view', $data);
+		$this->load->view('Productos/descripcion_producto_sainlim_js_view', $data);
+		$this->load->view('Productos/descripcion_producto_sens_js_view', $data);
+		//$this->load->view('Productos/descripcion_producto_ff_js_view', $data);
 	}
 
 	public function editar(){
@@ -569,37 +610,31 @@ class Productos extends CI_Controller {
 			'cantidad_neta'	=>	$this->input->post('producto_cantidad_neta'),
 			'cantidad_porcion'	=>	$this->input->post('producto_cantidad_porcion'),
 			'precio'		=>	$this->input->post('producto_precio'),
+			'moneda'		=>	$this->input->post('producto_moneda'),
 			'fecha'			=>	date("Y-m-d H:i:s"),
 			'tipo'			=>	($this->input->post('um_porcion')=='g') ? 'solido' : 'liquido',
 			'ingredientes'	=>	$this->input->post('producto_ingredientes'),
 			'comentarios'	=>	$this->input->post('producto_comentarios'),
 			'reclamaciones'	=>	$this->input->post('producto_reclamaciones'),
 		);
-		print_r($valores_productos);
+		//print_r($valores_productos);
 
 		foreach ($_POST as $campo => $valor) {
 			echo "$campo -> $valor<br>";
 			if ((strpos($campo, 'producto_')<-1) && (strpos($campo, 'um_')<-1)) {
-				if ($valor!='') {
-					switch($this->input->post('um_'.$campo)){
-						case 'mg':
-							$valor = $valor/1000;
-							break;
-						case 'mcg':
-							$valor = $valor/1000000;
-							break;
-					}
-				}
-				else{
-					$valor = 0;
-				}
 				$valores_productos[$campo] = $valor;
 			}
 		}
 		
-		/*Conversión kcal a kJ*/
-		$valores_productos['energia'] = floatval($valores_productos['energia_kj']) / 4.184; 
-		//print_r($valores_productos);
+		/*Verificación de unidades de energía*/
+		if ($this->input->post('um_energia')=="kcal") {
+			$valores_productos['energia'] = $this->input->post('energia');
+			$valores_productos['energia_kj'] = $this->input->post('energia')*4.184;
+		}
+		else{
+			$valores_productos['energia'] = floatval($valores_productos['energia']) / 4.184; 
+			$valores_productos['energia_kj'] = $this->input->post('energia'); 
+		}
 		$this->General_model->update('productos_foodmathlab_v2', array('id_prod'=>$id_prod), $valores_productos);
 		redirect(base_url('productos_editar/'.encripta($id_prod).'/1'));
 	}
@@ -630,7 +665,7 @@ class Productos extends CI_Controller {
 
 		$config = array(
 			'titulo'	=>	'Productos',
-			'subtitulo'	=>	'Grupos',
+			'subtitulo'	=>	'Labs',
 			'usuario'	=>	$usuario->nombre,
 			'menu'		=>	$menu,
 			'submenu'	=>	$submenu,

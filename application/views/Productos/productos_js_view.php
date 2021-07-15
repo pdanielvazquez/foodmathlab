@@ -19,6 +19,23 @@
 			})
 		});
 
+		$(document).on('click', '.btn-descripcion-lab', function(){
+			var id = $(this).attr('data-id');
+			var lab = $(this).attr('data-lab');
+			var datos = {
+				'id' : id,
+				'lab' : lab,
+			}
+			$.ajax({
+				type: 'POST',
+				url	: 'producto_descripcion',
+				data: datos,
+				success: function(data){
+					$('#descripcion').html(data);
+				}
+			})
+		});
+
 		$('.btn-quitar-grupo').on('click', function(){
 			var identificador = $(this).attr('data');
 			var nombre = $(this).attr('data-nombre');
