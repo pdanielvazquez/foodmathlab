@@ -309,6 +309,7 @@ class Productos extends CI_Controller {
 			'ingredientes'	=>	$this->input->post('producto_ingredientes'),
 			'comentarios'	=>	$this->input->post('producto_comentarios'),
 			'reclamaciones'	=>	$this->input->post('producto_reclamaciones'),
+			'upc' 			=>	$this->input->post('producto_upc'),
 		);
 		//print_r($valores_productos);
 
@@ -616,6 +617,7 @@ class Productos extends CI_Controller {
 			'ingredientes'	=>	$this->input->post('producto_ingredientes'),
 			'comentarios'	=>	$this->input->post('producto_comentarios'),
 			'reclamaciones'	=>	$this->input->post('producto_reclamaciones'),
+			'upc'			=>	$this->input->post('producto_upc'),
 		);
 		//print_r($valores_productos);
 
@@ -845,6 +847,7 @@ class Productos extends CI_Controller {
 
 		/*Consultas generales*/
 		$id_prod = desencripta($this->uri->segment(2));
+		$edicion = $this->uri->segment(3);
 
 		if (isset($_POST['subir_archivo'])) {
 			$config['upload_path']          = './uploads/productos/';
@@ -862,7 +865,7 @@ class Productos extends CI_Controller {
 	                $error = array('error' => $this->upload->display_errors());
 	                //print_r($error);
 	                //$this->load->view('upload_form', $error);
-	                redirect(base_url('productos_imagenes/'.encripta($id_prod)."/2"));
+	                redirect(base_url('productos_imagenes/'.encripta($id_prod)."/3"));
 	        }
 	        else
 	        {
@@ -920,6 +923,7 @@ class Productos extends CI_Controller {
 			'id_prod' 	=>	$id_prod,
 			'productos'	=> $productos,
 			'imagenes'	=> $imagenes,
+			'edicion'	=> $edicion,
 		);
 
 		$producto = ($productos!=false)? $productos->row(0) : false ;
@@ -956,7 +960,7 @@ class Productos extends CI_Controller {
 		$this->load->view('Plantillas/scripts_view');
 
 		/*Script de configuracion de datatable*/
-		
+		$this->load->view('Productos/productos_imagenes_js_view');
 
 		$this->load->view('Plantillas/body_close_view');
 		$this->load->view('Plantillas/html_close_view');
@@ -981,9 +985,9 @@ class Productos extends CI_Controller {
 			);
 			$this->General_model->delete('imagenes', $valores);
 			unlink('./uploads/productos/'.$imagen);
-			redirect(base_url('productos_imagenes/').$id_prod.'/1' );
-		} catch (Exception $e) {
 			redirect(base_url('productos_imagenes/').$id_prod.'/2' );
+		} catch (Exception $e) {
+			redirect(base_url('productos_imagenes/').$id_prod.'/4' );
 		}
 	}
 }

@@ -135,10 +135,14 @@ class Administrador extends CI_Controller {
 		$id_user = desencripta($this->uri->segment(2));
 		$usuarios = $this->General_model->get('usuarios', array('id_user'=>$id_user), array(), '');
 		$mensaje = ($this->uri->segment(3)!='')? $this->uri->segment(3) : 0;
+		$opciones = $this->General_model->get('menu_opciones', array('activo'=>1), array('orden'=>'asc'), '');
+		$subopciones = $this->General_model->get('submenu_opciones', array('activo_submenu'=>1), array('id_opcion'=>'asc', 'orden_submenu'=>'asc'), '');
 
 		$data = array(
 			'usuarios'	=>	$usuarios,
 			'mensaje'	=>	$mensaje,
+			'opciones'	=>	$opciones,
+			'subopciones'=>	$subopciones,
 		);
 
 		/*Configuración de la vista*/
@@ -190,6 +194,26 @@ class Administrador extends CI_Controller {
 		if ($permisos_usuarios==false) {
 			redirect('inicio');
 		}
+
+		/*Consultas generales*/
+
+		$id_user = desencripta($this->uri->segment(2));
+		$valores = array(
+			'id_user'	=>	$id_user,
+		);
+		$this->General_model->delete('usuarios', $valores);
+
+		redirect(base_url('usuarios/1'));
+	}
+
+	public function usuario_actualizar_subpermisos(){
+		if (!isset($_SESSION['idUser'])) {
+			redirect('App/logout');
+		}
+
+		$valores = array(
+			
+		);
 
 		/*Consultas generales*/
 

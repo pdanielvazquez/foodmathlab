@@ -87,6 +87,7 @@ $route['permisos_usuarios'] = 'Administrador/permisos';
 $route['usuarios_editar/(:any)/(:num)'] = 'Administrador/usuario_editar';
 $route['usuarios_eliminar/(:any)'] = 'Administrador/usuario_eliminar';
 $route['usuarios_guardar_editar'] = 'Administrador/usuario_guardar_editar';
+$route['usuarios_actualizar_subpermisos'] = 'Administrador/usuario_actualizar_subpermisos';
 
 /*Home*/
 $route['inicio'] = 'Home';

@@ -14,7 +14,7 @@
       <div class="card-body">
         
         <div class="row">
-          <div class="col-xs-12 col-md-4 col-lg-3">
+          <div class="col-xs-12 col-md-4 col-lg-4">
             <div class="form-group">
               <label>Nombre del producto</label>
               <?= $input->Text(array(
@@ -26,7 +26,19 @@
               ), 'text') ?>
             </div>
           </div>
-          <div class="col-xs-12 col-md-4 col-lg-2">
+          <div class="col-xs-12 col-md-4 col-lg-4">
+            <div class="form-group">
+              <label>UPC/SKU</label>
+              <?= $input->Text(array(
+                'name'=>'producto_upc', 
+                'id'=>'producto_nombre', 
+                'class'=>'form-control',
+                'placeholder'=>'Escriba aquí',  
+                'required'=>'required',
+              ), 'text') ?>
+            </div>
+          </div>
+          <div class="col-xs-12 col-md-4 col-lg-4">
             <div class="form-group">
               <label>Grupo</label>
               <?= $input->Select(array(
@@ -38,7 +50,7 @@
             </div>
           </div>
           
-          <div class="col-xs-12 col-md-4 col-lg-2">
+          <div class="col-xs-12 col-md-4 col-lg-3">
             <div class="form-group">
               <label>Cantidad neta</label> 
               <a href="" data-toggle="modal" data-target="#cantidad_neta">
@@ -69,7 +81,7 @@
               
             </div>
           </div>
-          <div class="col-xs-12 col-md-4 col-lg-2">
+          <div class="col-xs-12 col-md-4 col-lg-3">
             <div class="form-group">
               <label>Cantidad por porción</label> 
               <a href="" data-toggle="modal" data-target="#cantidad_porcion">
@@ -101,7 +113,7 @@
             </div>
           </div>
 
-          <div class="col-xs-12 col-md-4 col-lg-2">
+          <div class="col-xs-12 col-md-4 col-lg-3">
             <div class="form-group">
               <label>Precio</label> 
               <div class="input-group">
@@ -129,7 +141,7 @@
             </div>
           </div>
 
-          <div class="col-xs-12 col-md-4 col-lg-1">
+          <div class="col-xs-12 col-md-4 col-lg-3">
             <div class="form-group">
               <label>Queso</label>
               <select class="form-control" name="producto_categoria" id="producto_categoria">
