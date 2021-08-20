@@ -186,7 +186,7 @@
 
   <!-- Modal -->
       <div class="modal fade" id="respuesta" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-md" role="document">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
           <div class="modal-content">
             <div class="modal-header bg-danger">
               <h5 class="modal-title" id="descripcionLabel">Resultados</h5>

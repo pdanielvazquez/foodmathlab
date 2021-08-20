@@ -4,7 +4,8 @@
       "responsive": true, 
       "lengthChange": false,
       "autoWidth": true,
-      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+      /*"buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],*/
+      "buttons": ["csv", "excel", "pdf", "print", "colvis"],
       "language": {
         "sProcessing":     "Procesando...",
         "sLengthMenu":     "Mostrar _MENU_ registros",

@@ -101,5 +101,6 @@ $route['agregar_token'] = 'Optimizacion/agregar';
 $route['guardar_token'] = 'Optimizacion/guardar';
 $route['nom051'] = 'Optimizacion/nom051';
 $route['nutriscore'] = 'Optimizacion/nutriscore';
-$route['nom051_formulas'] = 'Optimizacion/nom051Formulas';
+//$route['nom051_formulas'] = 'Optimizacion/nom051Formulas';
+$route['nom051_formulas'] = 'Optimizacion/nom051Formulas_ver2';
 $route['crear_token'] = 'Optimizacion/token';

@@ -18,7 +18,7 @@
 				url	: 'nom051_formulas',
 				data: datos,
 				success: function(data){
-					var alert = '<div class="alert alert-warning alert-dismissible col-xs-12 col-md-12 col-lg-12"><strong> '+data+'</strong></div>';
+					var alert = data;
 					$('#response').html(alert);
 					$('#respuesta').show(300);
 					$('#respuesta').attr('class', 'modal fade show');

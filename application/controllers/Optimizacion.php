@@ -12,7 +12,8 @@ class Optimizacion extends CI_Controller {
 		$this->load->helper('Mi_helper');
 		$this->load->helper('product_helper');
 		$this->load->helper('consulta_helper');
-		$this->load->helper('quitasellos_helper');
+		//$this->load->helper('quitasellos_helper');
+		$this->load->helper('quitasellos_ver2_helper');
 		$this->load->library('session');
 	}
 
@@ -160,7 +161,7 @@ class Optimizacion extends CI_Controller {
 		$this->load->view('Plantillas/html_close_view');
 	}
 
-	public function nom051Formulas(){
+	/*public function nom051Formulas(){
 		$tipo			=	$this->input->post("tipo");
 		$Optional_Dec 	= 	0.1;
 		$CHO 			=	$this->input->post("CHO");
@@ -212,7 +213,64 @@ class Optimizacion extends CI_Controller {
 			}
 		}
 		echo $texto;
-	}
+	}*/
+
+	public function nom051Formulas_ver2(){
+		$tipo			=	$this->input->post("tipo");
+		$Optional_Dec 	= 	0.1;
+		$CHO 			=	$this->input->post("CHO");
+		$Azucar 		= 	$this->input->post("A");
+		$GT 			=	$this->input->post("GT");
+		$GTRANS 		=	$this->input->post("GTRANS");
+		$GSAT 			=	$this->input->post("GSAT");
+		$Proteina 		=	$this->input->post("P");
+		$Sodio 			=	$this->input->post("Sodio");
+		$Fibra 			=	$this->input->post("F");
+		$texto 			= 	'';
+
+		if ( $tipo == "azucar")
+		  {
+		  	try {
+		  		echo "<h3>Quitar sello de Azucar</h3>";
+			    $A= QuitaSelloAzucar($GT,$GTRANS,$GSAT,$CHO,$Azucar,$Proteina,$Fibra,$Optional_Dec, $Sodio);
+			    echo "<p>Proceso terminado exitosamente</p>";
+		  	} catch (Exception $e) {
+		  		$texto = "<p>No fue posible eliminar el sello del Azucar</p>";
+		  	}
+		}
+		elseif( $tipo == "grasa") 
+		{
+			try {
+				echo "<h3>Quitar sello de Grasas Saturadas</h3>";
+			    list($GSAT,$GTRANS) = QuitaSelloGrasaSat($Azucar,$GT,$GTRANS,$GSAT,$CHO,$Proteina,$Fibra,$Optional_Dec,$Sodio);
+				echo "<p>Proceso terminado exitosamente</p>";
+			} catch (Exception $e) {
+				$texto = "<p>No fue posible eliminar el sello de la Grasa Saturada</p>";
+			}
+		}
+		elseif( $tipo == "sodio")
+		{
+			try {
+				echo "<h3>Quitar sello de Sodio</h3>";
+			    $S = QuitaSelloSodio($GT,$GSAT,$GTRANS,$CHO, $Sodio,$Proteina, $Fibra,$Optional_Dec);
+			    // echo "La cantidad de Sodio para quitar el sello es: $S";
+			    echo "<p>Proceso terminado exitosamente</p>";
+				
+			} catch (Exception $e) {
+				$texto = "<p>No fue posible eliminar el sello de Sodio</p>";
+			}
+		}
+		elseif( $tipo == "energia")
+		{
+			try {
+				echo "<h3>Quitar sello de Energía</h3>";
+			  	$E=QuitaSelloEnergia($GT,$GTRANS,$GSAT, $CHO,$Azucar, $Proteina,$Fibra,$Optional_Dec);
+			   	echo "<p>Proceso terminado exitosamente</p>";
+			} catch (Exception $e) {
+				$texto = "<p>No fue posible eliminar el sello de Energía</p>";
+			}
+		}
+	}	
 
 	/*FR Nutri Score*/
 

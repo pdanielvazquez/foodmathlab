@@ -10,7 +10,8 @@ class Sellos extends CI_Controller {
 		$this->load->model('General_model');
 		$this->load->helper('Input_helper');
 		$this->load->helper('Mi_helper');
-		$this->load->helper('quitasellos_helper');
+		//$this->load->helper('quitasellos_helper');
+		$this->load->helper('quitasellos_ver2_helper');
 		$this->load->library('session');
 	}
 
@@ -89,6 +90,7 @@ class Sellos extends CI_Controller {
 		$Proteina 		=	$this->input->post("P");
 		$Sodio 			=	$this->input->post("Sodio");
 		$Fibra 			=	$this->input->post("F");
+		$GOTRAS 		=	$this->input´->post("GOTRAS");
 		$texto 			= 	'';
 
 		if ( $tipo == "azucar")
@@ -113,6 +115,36 @@ class Sellos extends CI_Controller {
 		   	$texto =  "El valor de Grasa Total es: $GT, <br>El valor del Azucar es: $A <br>Energía para quitar el sello es: $E";
 		}
 		echo $texto;
+	}
+
+	public function formulas_ver2(){
+		$tipo			=	$this->input->post("tipo");
+		$Optional_Dec 	= 	0.1;
+		$CHO 			=	$this->input->post("CHO");
+		$Azucar 		= 	$this->input->post("A");
+		$GT 			=	$this->input->post("GT");
+		$GTRANS 		=	$this->input->post("GTRANS");
+		$GSAT 			=	$this->input->post("GSAT");
+		$Proteina 		=	$this->input->post("P");
+		$Sodio 			=	$this->input->post("Sodio");
+		$Fibra 			=	$this->input->post("F");
+		$GOTRAS 		=	$this->input´->post("GOTRAS");
+		$texto 			= 	'';
+	}
+
+	switch ($tipo) {
+		case 'azucar':
+			$A= QuitaSelloAzucar($GT,$GTRANS,$GSAT,$CHO,$Azucar,$Proteina,$Fibra,$Optional_Dec, $Sodio);
+			break;
+		case 'grasa':
+			list($GSAT,$GTRANS) = QuitaSelloGrasaSat($Azucar,$GT,$GTRANS,$GSAT,$CHO,$Proteina,$Fibra,$Optional_Dec,$Sodio);
+			break;
+		case 'sodio':
+			$S = QuitaSelloSodio($GT,$GSAT,$GTRANS,$CHO, $Sodio,$Proteina, $Fibra,$Optional_Dec);
+			break;
+		case 'energia':
+			$E=QuitaSelloEnergia($GT,$GTRANS,$GSAT, $CHO,$Azucar, $Proteina,$Fibra,$Optional_Dec);
+			break;
 	}
 
 }
