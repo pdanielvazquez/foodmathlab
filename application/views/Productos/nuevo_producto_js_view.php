@@ -20,6 +20,11 @@
 			$('#sodio').val(Number.parseFloat(value * 387.58).toFixed(2));
 		})
 
+		$('#sodio').on('change', function(){
+			var value = $(this).val();
+			$('#sal').val(Number.parseFloat(value / 387.58).toFixed(2));
+		})
+
 	})
 
 </script>

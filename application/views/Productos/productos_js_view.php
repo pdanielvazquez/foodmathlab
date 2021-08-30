@@ -57,6 +57,13 @@
 			}
 		});
 
+		$('.btn-filter').on('click', function(){
+			var criteria = $(this).attr('data');
+			table = $('#example1').DataTable();
+			table.columns(2).search(criteria);
+			table.draw();
+		});
+
 	})
 
 </script>

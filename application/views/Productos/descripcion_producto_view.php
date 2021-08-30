@@ -414,7 +414,7 @@
                 <label>UPC/SKU</label>
                 <?= $input->Text(array(
                   'name'=>'producto_upc', 
-                  'id'=>'producto_nombre', 
+                  'id'=>'producto_upc', 
                   'class'=>'form-control',
                   'readonly'=>'readonly',
                   'value'=>$producto->upc,

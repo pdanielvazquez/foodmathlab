@@ -41,7 +41,8 @@
                 </ul>
               </div><!-- /.card-header -->
               <div class="card-body" >
-                <div class="tab-content">
+              	<div id="desplazamiento"><div>Barra aqui</div></div>
+                <div class="tab-content table-responsive" id="contenido">
                 	<?
                 	if ($grupos!=false) {
                 		$conta = 0;
@@ -50,11 +51,11 @@
                 			?>
                 			<div class="tab-pane <?= $active ?>" id="tab_<?= ++$conta ?>">
                 				<h2><?= $grupo->nombre ?></h2>
-                				<table class="table table-bordered table-hover table-striped table-responsive">
+                				<table class="table table-bordered table-hover table-striped text-nowrap">
                 					<thead>
                 						<tr>
                 							<th class="bg-secondary">Concepto</th>
-                							<th class="bg-secondary" style="width: 250px;">
+                							<th class="bg-secondary" style="width: 150px;">
 	                								Promedio del Laboratorio
 	                						</th>
                 							<?
@@ -62,7 +63,7 @@
                 								foreach ($productos->result() as $producto) {
                 									if ($producto->id_grupo == $grupo->id_grupo) {
 	                									?>
-	                									<th class="bg-secondary" style="width: 250px;">
+	                									<th class="bg-secondary" style="width: 150px;">
 	                										<a href="" data-id="<?= $producto->id_prod ?>" data-toggle="modal" data-target="#descripcion" data-lab="<?= $grupo->id_grupo ?>" class="btn-descripcion-lab">
 	                											<span class="badge bg-warning">
 	                												<i class="fas fa-chart-bar"></i>

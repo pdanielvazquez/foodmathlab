@@ -8,6 +8,35 @@
             <i class="fas fa-archive"></i> 
             Productos registrados
           </h3>
+          <?
+            $conta=0;
+            if ($grupos!=false) {
+              
+              foreach ($grupos->result() as $grupo) {
+                  $no_prods=0;
+                  /*Verificar el numero de productos por Laboratorio*/
+                  if ($productos!=false) {
+                    foreach ($productos->result() as $producto) {
+                      if ($producto->id_grupo == $grupo->id_grupo) {
+                        $no_prods++;
+                        $conta++;
+                      }
+                    }
+                  }
+
+                  $active = ($conta == 0) ? 'active' : '';
+                  ?>
+                    <a class="btn btn-default text-red float-right btn-filter" href="#" style="margin:2px" data="<?= $grupo->nombre ?>"><?= $grupo->nombre ?>
+                    <span class="badge badge-primary" style="position:relative; top:-0.5rem; right: 0.1rem;"><?= $no_prods ?></span>
+                    </a>
+                  <?
+              }
+            }
+            ?>
+            <a class="btn btn-primary float-right" href="<?= base_url('productos_registrados') ?>" style="margin:2px" >Ver todos
+              <span class="badge badge-warning" style="position:relative; top:-0.5rem; right: 0.1rem;"><?= $conta ?></span>
+            </a>
+          
         </div>
         <!-- /.card-header -->
         <div class="card-body">
@@ -31,7 +60,7 @@
                     <tr>
                       <td><?= ++$conta ?></td>
                       <td>
-                        <a href="" data-id="<?= $producto->id_prod ?>" data-toggle="modal" data-target="#descripcion" class="btn-descripcion">
+                        <a href="" data-id="<?= $producto->id_prod ?>" data-toggle="modal" data-target="#descripcion" class="btn-descripcion-lab" data-lab="<?= $producto->id_grupo ?>">
                         <?= $producto->producto ?>
                         </a>
                         <?

@@ -13,169 +13,169 @@ class Productos extends CI_Controller {
 			array(
 				'atributo'	=>	'calograsas',
 				'etiqueta'	=>	'Calorias de grasa <small>(Energía de grasa)</small>',
-				'unidad'	=>	array('g'),
+				'unidad'	=>	array('kcal','kJ'),
 			),
 			array(
 				'atributo'	=>	'lipidos',
 				'etiqueta'	=>	'Grasas totales <small>(Grasa total, lípidos, grasa, grasas totales)</small>',
-				'unidad'	=>	array('g'),
+				'unidad'	=>	array('g', 'mg', 'mcg', '%'),
 			),
 			array(
 				'atributo'	=>	'acidosgs',
 				'etiqueta'	=>	'Grasas saturadas <small>(Grasa sat, ácidos grasos saturados)</small>',
-				'unidad'	=>	array('g'),
+				'unidad'	=>	array('g', 'mg', 'mcg', '%'),
+			),
+			array(
+				'atributo'	=>	'acidosgm',
+				'etiqueta'	=>	'Grasas monoinsaturadas <small>(Ácidos gm)</small>',
+				'unidad'	=>	array('g', 'mg', 'mcg', '%'),
+			),
+			array(
+				'atributo'	=>	'acidosgp',
+				'etiqueta'	=>	'Grasas poliinsaturadas <small>(Ácidos gp)</small>',
+				'unidad'	=>	array('g', 'mg', 'mcg', '%'),
+			),
+			array(
+				'atributo'	=>	'acidostrans',
+				'etiqueta'	=>	'Grasas Trans <small><br>(Ácidos grasos trans)</small>',
+				'unidad'	=>	array('g', 'mg', 'mcg', '%'),
 			),
 			array(
 				'atributo'	=>	'sal',
-				'etiqueta'	=>	'Sal',
+				'etiqueta'	=>	'Sal <small><br>(Sal)</small>',
 				'unidad'	=>	array('g'),
 			),
 			array(
 				'atributo'	=>	'sodio',
-				'etiqueta'	=>	'Sodio',
-				'unidad'	=>	array('mg'),
+				'etiqueta'	=>	'Sodio <small><br>(Sodio, Na)</small>',
+				'unidad'	=>	array('mg', 'g', 'mcg', '%'),
 			),
 			
 			array(
 				'atributo'	=>	'hidratos',
 				'etiqueta'	=>	'Carbohidratos <small>(Carbohidratos totales, Hidratos de carbono)</small>',
-				'unidad'	=>	array('g'),
+				'unidad'	=>	array('g', 'mg', 'mcg', '%'),
 			),
 			array(
 				'atributo'	=>	'azucaresa',
 				'etiqueta'	=>	'Azucares <small><br>(Azucares añadidos)</small>',
-				'unidad'	=>	array('g'),
+				'unidad'	=>	array('g', 'mg', 'mcg', '%'),
 			),
 			array(
 				'atributo'	=>	'proteina',
 				'etiqueta'	=>	'Proteinas <small><br>(Proteinas totales)</small>',
-				'unidad'	=>	array('g'),
-			),
-			array(
-				'atributo'	=>	'acidosgm',
-				'etiqueta'	=>	'Grasas monoinsaturadas <small>(Ácidos gm)</small>',
-				'unidad'	=>	array('g'),
-			),
-			array(
-				'atributo'	=>	'acidosgp',
-				'etiqueta'	=>	'Grasas poliinsaturadas <small>(Ácidos gp)</small>',
-				'unidad'	=>	array('g'),
-			),
-			array(
-				'atributo'	=>	'acidostrans',
-				'etiqueta'	=>	'Grasas Trans <small><br>(Ácidos grasos trans)</small>',
-				'unidad'	=>	array('g'),
-			),
-			array(
-				'atributo'	=>	'fibra',
-				'etiqueta'	=>	'Fibra <small><br>(Fibra dietética)</small>',
-				'unidad'	=>	array('g'),
+				'unidad'	=>	array('g', 'mg', 'mcg', '%'),
 			),
 			
 			array(
+				'atributo'	=>	'fibra',
+				'etiqueta'	=>	'Fibra <small><br>(Fibra Dietética/Alimentaria)</small>',
+				'unidad'	=>	array('g', 'mg', 'mcg', '%'),
+			),
+			array(
 				'atributo'	=>	'colesterol',
-				'etiqueta'	=>	'Colesterol',
-				'unidad'	=>	array('mg'),
+				'etiqueta'	=>	'Colesterol<small><br>(Colesterol)</small>',
+				'unidad'	=>	array('mg', 'g', 'mcg', '%'),
 			),
 			array(
 				'atributo'	=>	'vitaa',
-				'etiqueta'	=>	'Vitamina A',
-				'unidad'	=>	array('g'),
+				'etiqueta'	=>	'Vitamina A<small><br>(RAE, Retinol)</small>',
+				'unidad'	=>	array('g', 'mg', 'mcg', '%', 'UI'),
 			),
 			array(
 				'atributo'	=>	'acidoascord',
-				'etiqueta'	=>	'Vitamina C',
-				'unidad'	=>	array('mg'),
+				'etiqueta'	=>	'Vitamina C<small><br>(Ácido ascórbico)</small>',
+				'unidad'	=>	array('mg', 'g', 'mcg', '%', 'UI'),
 			),
 			array(
 				'atributo'	=>	'tiamina',
-				'etiqueta'	=>	'Tiamina',
-				'unidad'	=>	array('mg'),
+				'etiqueta'	=>	'Vitamina B1<small><br>(Tiamina)</small>',
+				'unidad'	=>	array('mg', 'g', 'mcg', '%', 'UI'),
 			),
 			array(
 				'atributo'	=>	'riboflavina',
-				'etiqueta'	=>	'Robifavlina',
-				'unidad'	=>	array('mg'),
+				'etiqueta'	=>	'Vitamina B2<small><br>(Robifavlina)</small>',
+				'unidad'	=>	array('mg', 'g', 'mcg', '%', 'UI'),
 			),
 			array(
 				'atributo'	=>	'acidopanto',
-				'etiqueta'	=>	'Ácidos Pantotenico',
+				'etiqueta'	=>	'Vitamina B5<small><br>(Ácido Pantotenico)</small>',
 				'unidad'	=>	array('mg'),
 			),
 			array(
 				'atributo'	=>	'vitad',
-				'etiqueta'	=>	'Vitamina D',
-				'unidad'	=>	array('mg'),
+				'etiqueta'	=>	'Vitamina D<small><br>(Vitamina D)</small>',
+				'unidad'	=>	array('mcg', 'g', 'mg', '%', 'UI'),
 			),
 			array(
 				'atributo'	=>	'niacina',
-				'etiqueta'	=>	'Niacina',
-				'unidad'	=>	array('mg'),
+				'etiqueta'	=>	'Vitamina B3<small><br>(Niacina)</small>',
+				'unidad'	=>	array('mg', 'g', 'mcg', '%'),
 			),
 			array(
 				'atributo'	=>	'piridoxina',
-				'etiqueta'	=>	'Piridoxina',
-				'unidad'	=>	array('mg'),
+				'etiqueta'	=>	'Vitamina B6<small><br>(Piridoxina)</small>',
+				'unidad'	=>	array('mg', 'g', 'mcg', '%'),
 			),
 			array(
 				'atributo'	=>	'acidofolico',
-				'etiqueta'	=>	'Ácidos fólico',
-				'unidad'	=>	array('mg'),
+				'etiqueta'	=>	'Vitamina B9<small><br>(Ácido fólico, Folato)</small>',
+				'unidad'	=>	array('mcg', 'g', 'mg', '%'),
 			),
 			array(
 				'atributo'	=>	'cobalamina',
-				'etiqueta'	=>	'Cobalamina',
-				'unidad'	=>	array('mg'),
+				'etiqueta'	=>	'Vitamina B12<small><br>(Cobalamina)</small>',
+				'unidad'	=>	array('mcg', 'g', 'mg', '%'),
 			),
 			array(
 				'atributo'	=>	'vitaminae',
-				'etiqueta'	=>	'Vitamina E',
-				'unidad'	=>	array('mg'),
+				'etiqueta'	=>	'Vitamina E<small><br>(Tocoferol)</small>',
+				'unidad'	=>	array('mg', 'g', 'mcg', '%'),
 			),
-			array(
+			/*array(
 				'atributo'	=>	'tocoferol',
 				'etiqueta'	=>	'Tocoferol',
 				'unidad'	=>	array('mg'),
-			),
+			),*/
 			array(
 				'atributo'	=>	'vitak',
-				'etiqueta'	=>	'Vitamina K',
-				'unidad'	=>	array('mcg'),
+				'etiqueta'	=>	'Vitamina K<small><br>(Vitamina K)</small>',
+				'unidad'	=>	array('mcg', 'g', 'mg', '%'),
 			),
 			array(
 				'atributo'	=>	'calcio',
-				'etiqueta'	=>	'Calcio',
-				'unidad'	=>	array('mg'),
+				'etiqueta'	=>	'Calcio<small><br>(Calcio, Ca)</small>',
+				'unidad'	=>	array('mg', 'g', 'mcg', '%'),
 			),
 			array(
 				'atributo'	=>	'fosforo',
-				'etiqueta'	=>	'Fosforo',
-				'unidad'	=>	array('mg'),
+				'etiqueta'	=>	'Fosforo<small><br>(Fosforo, P)</small>',
+				'unidad'	=>	array('mg', 'g', 'mcg', '%'),
 			),
 			array(
 				'atributo'	=>	'hierro',
-				'etiqueta'	=>	'Hierro',
-				'unidad'	=>	array('mg'),
+				'etiqueta'	=>	'Hierro<small><br>(Hierro, Fierro, Fe)</small>',
+				'unidad'	=>	array('mg', 'g', 'mcg', '%'),
 			),
 			array(
 				'atributo'	=>	'magnesio',
-				'etiqueta'	=>	'Magnesio',
-				'unidad'	=>	array('mg'),
+				'etiqueta'	=>	'Magnesio<small><br>(Magnesio, Mg)</small>',
+				'unidad'	=>	array('mg', 'g', 'mcg', '%'),
 			),
 			array(
 				'atributo'	=>	'potasio',
-				'etiqueta'	=>	'Potasio',
-				'unidad'	=>	array('mg'),
+				'etiqueta'	=>	'Potasio<small><br>(Potasio, K)</small>',
+				'unidad'	=>	array('mg', 'g', 'mcg', '%'),
 			),
 			array(
 				'atributo'	=>	'zinc',
-				'etiqueta'	=>	'Zinc',
-				'unidad'	=>	array('mg'),
+				'etiqueta'	=>	'Zinc<small><br>(Zinc, Zn)</small>',
+				'unidad'	=>	array('mg', 'g', 'mcg', '%'),
 			),
 			array(
 				'atributo'	=>	'acidolino',
-				'etiqueta'	=>	'Ácido Linoleico',
-				'unidad'	=>	array('g'),
+				'etiqueta'	=>	'Ácido Linoleico<small><br>(Omega-3 u Omega 6)</small>',
+				'unidad'	=>	array('g', 'mg', 'mcg', '%'),
 			),
 			array(
 				'atributo'	=>	'fruta',
@@ -299,7 +299,7 @@ class Productos extends CI_Controller {
 			'id_user'		=>	$this->session->idUser,
 			'id_grupo'		=>	$this->input->post('producto_grupo'),
 			'id_categoria'	=>  ($this->input->post('producto_categoria')=='si')? 49 : 0,
-			'nombre'		=>	$this->input->p0ost('producto_nombre'),
+			'nombre'		=>	$this->input->post('producto_nombre'),
 			'cantidad_neta'	=>	$this->input->post('producto_cantidad_neta'),
 			'cantidad_porcion'	=>	$this->input->post('producto_cantidad_porcion'),
 			'precio'		=>	$this->input->post('producto_precio'),
@@ -349,9 +349,11 @@ class Productos extends CI_Controller {
 		/*$productos = $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser']), array(), '');*/
 		$imagenes = $this->General_model->get('productos_imagenes', array('id_user'=>$_SESSION['idUser']), array(), '');
 		$productos = $this->General_model->get('productos_grupos', array('id_user'=>$_SESSION['idUser']), array(), '');
+		$grupos = $this->General_model->get('grupos', array('id_usuario'=>$_SESSION['idUser']), array('nombre'=>'desc'), '');
 		$data = array(
 			'productos'	=>	$productos,
 			'imagenes'	=>	$imagenes,
+			'grupos' 	=>	$grupos,
 		);
 
 		/*Configuración de la vista*/
