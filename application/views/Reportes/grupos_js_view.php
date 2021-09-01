@@ -1,7 +1,7 @@
 <script>
 
 	$(function(){
-	    $('.btn-close').on('click', function(){
+	    $(document).on('click', '.btn-close', function(){
 	      $('#descripcion').modal('hide');
 	    });
 

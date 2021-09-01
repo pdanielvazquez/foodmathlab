@@ -64,6 +64,10 @@
 			table.draw();
 		});
 
+		$(document).on('click', '.btn-close', function(){
+	      $('#descripcion').modal('hide');
+	    });
+
 	})
 
 </script>

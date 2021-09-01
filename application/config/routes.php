@@ -74,6 +74,11 @@ $route['productos_imagenes/(:any)/(:any)']	= 'Productos/nueva_imagen';
 $route['eliminar_imagenes/(:any)/(:any)']	= 'Productos/eliminar_imagen';
 $route['productos_grupos_editar/(:any)/(:any)']	= 'Productos/grupo_editar';
 
+$route['productos_reformulation'] = 'Productos/reformulation';
+$route['productos_reform_editar/(:any)/(:any)'] = 'Productos/editar_reform';
+$route['grupos_reform'] = 'Productos/grupo_reform_view';
+$route['registrar_reform'] = 'Productos/registro_reform';
+
 
 /*Reportes*/
 $route['reporte/(:any)'] = 'Reportes/index';
