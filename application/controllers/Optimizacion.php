@@ -108,7 +108,7 @@ class Optimizacion extends CI_Controller {
 		}
 
 		/*Validación de permiso de acceso al método*/
-		$permisos_usuarios = $this->General_model->get('permisos_usuarios', array('id_usuario'=>$_SESSION['idUser'], 'opcion'=>'Sellos'), array(), '');
+		$permisos_usuarios = $this->General_model->get('permisos_usuarios', array('id_usuario'=>$_SESSION['idUser'], 'opcion'=>'Optimizacion'), array(), '');
 		if ($permisos_usuarios==false) {
 			redirect('inicio');
 		}
@@ -282,7 +282,7 @@ class Optimizacion extends CI_Controller {
 		}
 
 		/*Validación de permiso de acceso al método*/
-		$permisos_usuarios = $this->General_model->get('permisos_usuarios', array('id_usuario'=>$_SESSION['idUser'], 'opcion'=>'Sellos'), array(), '');
+		$permisos_usuarios = $this->General_model->get('permisos_usuarios', array('id_usuario'=>$_SESSION['idUser'], 'opcion'=>'Optimizacion'), array(), '');
 		if ($permisos_usuarios==false) {
 			redirect('inicio');
 		}
@@ -400,7 +400,7 @@ class Optimizacion extends CI_Controller {
 			array(
 				'atributo'	=>	'param_poblacion',
 				'etiqueta'	=>	'Población',
-				'valor'		=>	0,
+				'valor'		=>	20,
 			),
 			array(
 				'atributo'	=>	'param_reemplazo',
@@ -418,6 +418,8 @@ class Optimizacion extends CI_Controller {
 				'valor'		=>	0,
 			),
 		);
+
+		$tokens = $this->General_model->get('tokens_productos', array('id_user'=>$_SESSION['idUser']), array(), '');
 		
 		$data = array(
 			'productos'	=>	$productos,
@@ -425,6 +427,7 @@ class Optimizacion extends CI_Controller {
 			'campos_min_values' => $campos_min_values,
 			'campos_bloqueados' => $campos_bloqueados,
 			'parametros'=>	$parametros,
+			'tokens' 	=>	$tokens,
 		);
 
 		/*Configuración de la vista*/
@@ -592,7 +595,7 @@ class Optimizacion extends CI_Controller {
 				//Maximos en caso de requerirlos
 				$valores_maximos = array(
 					"id" 		=>	'',
-					"id_prod"	=>	$this->input->post("id"),
+					"id_prod"	=>	$this->input->post("id_prod"),
 					"max_sugar"	=>	$this->input->post("azucar_max"),
 					"max_satFat"=>	$this->input->post("grasasSat_max"),
 					"max_sodium"=>	$this->input->post("sodio_max"),
@@ -605,7 +608,7 @@ class Optimizacion extends CI_Controller {
 				//Minimos en caso de requerirlos.
 				$valores_minimos = array(
 					"id" 		=>	'',
-					"id_prod"	=>	$this->input->post("id"),
+					"id_prod"	=>	$this->input->post("id_prod"),
 					"min_sugar"	=>	$this->input->post("azucar_min"),
 					"min_satFat"=>	$this->input->post("grasasSat_min"),
 					"min_sodium"=>	$this->input->post("sodio_min"),
@@ -617,7 +620,7 @@ class Optimizacion extends CI_Controller {
 
 				$valores_bloqueados = array(
 					"id" 			=>	'',
-					"id_prod"		=>	$this->input->post("id"),
+					"id_prod"		=>	$this->input->post("id_prod"),
 					"lock_sugar"	=>	$this->input->post("azucar_bloq"),
 			        "lock_satFat"	=>	$this->input->post("grasasSat_bloq"),
 			        "lock_sodium"	=>	$this->input->post("sodio_bloq"),
@@ -631,7 +634,7 @@ class Optimizacion extends CI_Controller {
 
 				$parametros = array(
 					"id" 			=>	'',
-					"id_prod"		=>	$this->input->post("id"),
+					"id_prod"		=>	$this->input->post("id_prod"),
 					"weightNutriscore"	=>	floatval($this->input->post("param_peso")),
 			        "population"		=>	floatval($this->input->post("param_poblacion")),
 			        "treplace"			=>	floatval($this->input->post("param_reemplazo")),
@@ -652,6 +655,7 @@ class Optimizacion extends CI_Controller {
 				//Se asigna el token al producto y se guarda en la base de datos
 				$arrayToken = array(
 					"id"		=>	'',
+					"id_prod"	=>	$this->input->post("id_prod"),
 					"token"				=>	$response->token,
 					"comment"			=>	"Token inicial",
 					"sending_json"		=>	json_encode($postdata),
@@ -661,7 +665,7 @@ class Optimizacion extends CI_Controller {
 
 				//Fin inserts a la base de datos
 
-				$id_token = index('tokens', 'id');
+				$id_token = $this->General_model->index('tokens', 'id');
 				$tokens = $this->General_model->get('tokens', array('id' => $id_token), array(), '');
 				$token = ($tokens!=false) ? $tokens->row(0) : false ;
 									
@@ -675,5 +679,264 @@ class Optimizacion extends CI_Controller {
 		else{
 			echo "No existe el producto";
 		}
+	}
+
+	public function getToken(){
+
+		if (!isset($_SESSION['idUser'])) {
+			redirect('App/logout');
+		}
+
+		/*Validación de permiso de acceso al método*/
+		$permisos_usuarios = $this->General_model->get('permisos_usuarios', array('id_usuario'=>$_SESSION['idUser'], 'opcion'=>'Optimizacion'), array(), '');
+		if ($permisos_usuarios==false) {
+			redirect('inicio');
+		}
+
+		/*Consultas generales*/
+		$token = $this->uri->segment(2);
+		//print_r((array) load_tokenInfo($token));
+		//print("<pre>".print_r((array) load_tokenInfo($token))."</pre>");
+		$json 	= load_tokenInfo($token);
+		$datos 	= (array) load_tokenInfo($token);
+		$data 	= (array)$datos["data"];
+
+		$input 	= (array)$data["input"];
+		/*Valores de Input (Valores que se introdujeron para la optimización)*/
+		$referenceFood 	= (array)$input["referenceFood"];
+		$lockValues 	= (array)$input["lockValues"];
+		$params 		= (array)$input["params"];
+		$foodProperties = (array)$input["foodProperties"];
+		$forceLetter 	= $input["forceLetter"];
+		$method 		= $foodproperties["method"];	
+		/* /.Valores de Input*/
+		
+		$result = (array)$data["result"];
+		/*Valores de result (resultado de la optimización)*/
+		$bestFitness 	=	(array)$result["bestFitness"];
+		$topFitness 	=	(array)$result["topFitness"]; // El numero de arreglos internos en topFitness son variables, con indice numérico
+
+		/*print_r($topFitness[count($topFitness)-1]);*/
+		//print_r($datos);
+		$productos = $this->General_model->get('tokens_productos', array('token'=>$token), array(), '');
+		$producto = ($productos!=false) ? $productos->row(0) : false;
+
+		if ($producto==false) {
+			redirect(base_url('nutriscore'));
+		}
+
+		$valores_max = $this->General_model->get('valores_maximos', array('id_prod'=>$producto->id_prod), array(), '');
+		$valores_min = $this->General_model->get('valores_minimos', array('id_prod'=>$producto->id_prod), array(), '');
+		$valores_blo = $this->General_model->get('valores_bloqueados', array('id_prod'=>$producto->id_prod), array(), '');
+		$parametros  = $this->General_model->get('parametros', array('id_prod'=>$producto->id_prod), array(), '');
+
+		$val_max 	= ($valores_maximos!=false) ? $valores_max->row(0) : false;
+		$val_min 	= ($valores_minimos!=false) ? $valores_min->row(0) : false;
+		$val_blo 	= ($valores_bloqueados!=false) ? $valores_blo->row(0) : false;
+		$param 		= ($parametros!=false) ? $parametros->row(0) : false;
+
+		/*Campos a recopilar*/
+
+		$campos_max_values = array(
+			array(
+				'atributo'	=>	'azucar_max',
+				'etiqueta'	=>	'Azucar',
+				'unidad'	=>	'g',
+				'valor'		=>	$val_max->max_sugar,
+			),
+			array(
+				'atributo'	=>	'grasasSat_max',
+				'etiqueta'	=>	'Grasas saturadas',
+				'unidad'	=>	'g',
+				'valor'		=>	$val_max->max_satFat,
+			),
+			array(
+				'atributo'	=>	'sodio_max',
+				'etiqueta'	=>	'Sodio',
+				'unidad'	=>	'mg',
+				'valor'		=>	$val_max->max_sodium,
+			),
+			array(
+				'atributo'	=>	'fv_max',
+				'etiqueta'	=>	'Frutas y verduras',
+				'unidad'	=>	'g',
+				'valor'		=>	$val_max->max_fv,
+			),
+			array(
+				'atributo'	=>	'fibra_max',
+				'etiqueta'	=>	'Fibra',
+				'unidad'	=>	'g',
+				'valor'		=>	$val_max->max_fiber,
+			),
+			array(
+				'atributo'	=>	'proteina_max',
+				'etiqueta'	=>	'Proteina',
+				'unidad'	=>	'g',
+				'valor'		=>	$val_max->max_protein,
+			),
+		);
+
+		$campos_min_values = array(
+			array(
+				'atributo'	=>	'azucar_min',
+				'etiqueta'	=>	'Azucar',
+				'unidad'	=>	'g',
+				'valor'		=>	$val_min->min_sugar,
+			),
+			array(
+				'atributo'	=>	'grasasSat_min',
+				'etiqueta'	=>	'Grasas saturadas',
+				'unidad'	=>	'g',
+				'valor'		=>	$val_min->min_satFat,
+			),
+			array(
+				'atributo'	=>	'sodio_min',
+				'etiqueta'	=>	'Sodio',
+				'unidad'	=>	'mg',
+				'valor'		=>	$val_min->min_sodium,
+			),
+			array(
+				'atributo'	=>	'fv_min',
+				'etiqueta'	=>	'Frutas y verduras',
+				'unidad'	=>	'g',
+				'valor'		=>	$val_min->min_fv,
+			),
+			array(
+				'atributo'	=>	'fibra_min',
+				'etiqueta'	=>	'Fibra',
+				'unidad'	=>	'g',
+				'valor'		=>	$val_min->min_fiber,
+			),
+			array(
+				'atributo'	=>	'proteina_min',
+				'etiqueta'	=>	'Proteina',
+				'unidad'	=>	'g',
+				'valor'		=>	$val_min->min_protein,
+			),
+		);
+
+		$campos_bloqueados = array(
+			array(
+				'atributo'	=>	'azucar_bloq',
+				'etiqueta'	=>	'Azucar',
+				'unidad'	=>	false,
+				'valor'		=>	$val_blo->lock_sugar,
+			),
+			array(
+				'atributo'	=>	'grasasSat_bloq',
+				'etiqueta'	=>	'Grasas saturadas',
+				'unidad'	=>	false,
+				'valor'		=>	$val_blo->lock_satFat,
+			),
+			array(
+				'atributo'	=>	'sodio_bloq',
+				'etiqueta'	=>	'Sodio',
+				'unidad'	=>	false,
+				'valor'		=>	$val_blo->lock_sodium,
+			),
+			array(
+				'atributo'	=>	'fv_bloq',
+				'etiqueta'	=>	'Frutas y verduras',
+				'unidad'	=>	false,
+				'valor'		=>	$val_blo->lock_fv,
+			),
+			array(
+				'atributo'	=>	'fibra_bloq',
+				'etiqueta'	=>	'Fibra',
+				'unidad'	=>	false,
+				'valor'		=>	$val_blo->lock_fiber,
+			),
+			array(
+				'atributo'	=>	'proteina_bloq',
+				'etiqueta'	=>	'Proteina',
+				'unidad'	=>	false,
+				'valor'		=>	$val_blo->lock_protein,
+			),
+		);
+
+		$campos_parametros = array(
+			array(
+				'atributo'	=>	'param_peso',
+				'etiqueta'	=>	'Peso',
+				'valor'		=>	$param->weightNutriscore,
+			),
+			array(
+				'atributo'	=>	'param_poblacion',
+				'etiqueta'	=>	'Población',
+				'valor'		=>	$param->population,
+			),
+			array(
+				'atributo'	=>	'param_reemplazo',
+				'etiqueta'	=>	'Reemplazo',
+				'valor'		=>	$param->treplace,
+			),
+			array(
+				'atributo'	=>	'param_generaciones',
+				'etiqueta'	=>	'Generaciones',
+				'valor'		=>	$param->generations,
+			),
+			array(
+				'atributo'	=>	'param_semilla',
+				'etiqueta'	=>	'Semilla',
+				'valor'		=>	$param->seed,
+			),
+		);
+
+		
+
+		$data = array(
+			'json'			=>	$json,
+			'productos'		=>	$productos,
+			'campos_max_values'=> 	$campos_max_values,
+			'campos_min_values'=>	$campos_min_values,
+			'campos_bloqueados'=>	$campos_bloqueados,
+			'parametros'	=>	$campos_parametros,
+			'referenceFood' =>	$referenceFood,
+			'lockValues'	=> 	$lockValues,
+			'params'		=> 	$params,
+			'foodProperties'=> 	$foodProperties,
+			'forceLetter'	=> 	$forceLetter,
+			'method'		=>	$method,
+			'cheese'		=>	$method,
+			'bestFitness'	=>	$bestFitness,
+			'topFitness'	=>	$topFitness,
+		);
+
+		/*Configuración de la vista*/
+		$menu = $this->General_model->get('permisos_usuarios', array('activo'=>1, 'id_usuario'=>$_SESSION['idUser']), array('orden'=>'asc'), '');
+		$submenu = $this->General_model->get('submenu_opciones', array('activo_submenu'=>1), array(), '');
+		$usuarios = $this->General_model->get('usuarios', array('id_user'=>$this->session->idUser), array(), '');
+		$usuario = ($usuarios!=false)? $usuarios->row(0) : false ;
+
+		$config = array(
+			'titulo'	=>	$producto->nombre,
+			'subtitulo'	=>	'Agregar imagenes',
+			'usuario'	=>	$usuario->nombre,
+			'menu'		=>	$menu,
+			'submenu'	=>	$submenu,
+		);
+
+		$this->load->view('Plantillas/html_open_view', $config);
+		$this->load->view('Plantillas/head_view');
+		$this->load->view('Plantillas/body_open_view');
+		$this->load->view('Plantillas/wraper_open_view');
+		$this->load->view('Plantillas/navbar_view');
+		$this->load->view('Plantillas/sidebar_view');
+		$this->load->view('Plantillas/content_wraper_open_view');
+		$this->load->view('Plantillas/content_wraper_header_view');
+		
+		/*Aqui va el contenido*/
+		$this->load->view('Optimizacion/descripcion_token_view', $data);
+		
+		$this->load->view('Plantillas/content_wraper_close_view');
+		$this->load->view('Plantillas/footer_view');
+		$this->load->view('Plantillas/wraper_close_view');
+		$this->load->view('Plantillas/scripts_view');
+
+		/*Script de configuracion de datatable*/
+		$this->load->view('Productos/productos_imagenes_js_view');
+
+		$this->load->view('Plantillas/body_close_view');
+		$this->load->view('Plantillas/html_close_view');
 	}
 }

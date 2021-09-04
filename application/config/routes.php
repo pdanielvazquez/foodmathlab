@@ -109,3 +109,4 @@ $route['nutriscore'] = 'Optimizacion/nutriscore';
 //$route['nom051_formulas'] = 'Optimizacion/nom051Formulas';
 $route['nom051_formulas'] = 'Optimizacion/nom051Formulas_ver2';
 $route['crear_token'] = 'Optimizacion/token';
+$route['recuperar_token/(:any)'] = 'Optimizacion/getToken';

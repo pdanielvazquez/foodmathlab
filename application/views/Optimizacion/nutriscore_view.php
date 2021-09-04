@@ -31,10 +31,42 @@
                     <tr>
                       <td><?= ++$conta ?></td>
                       <td><?= $producto->nombre ?></td>
-                      <td><span id="token_<?= $producto->id_prod ?>"></span></td>
                       <td>
-                      	<button type="button" class="btn btn-primary btn-optimizar" data-toggle="modal" data-target="#info-extra" data-id="<?= $producto->id_prod ?>" data-name="<?= $producto->nombre ?>">Optimizar</button>
-                      	<button type="button" class="btn btn-danger">Eliminar optimización</button>
+                        <span id="token_<?= $producto->id_prod ?>">
+                          <?
+                          if ($tokens!=false) {
+                            foreach ($tokens->result() as $token) {
+                              if ($token->id_prod == $producto->id_prod ) {
+                                ?>
+                                <a href="recuperar_token/<?= $token->token ?>"><?= $token->token ?></a>
+                                <?
+                              }
+                            }
+                          }
+                          ?>
+                        </span>
+                      </td>
+                      <td>
+                        <?
+                          if ($tokens!=false) {
+                            $existe = 0;
+                            foreach ($tokens->result() as $token) {
+                              if ($token->id_prod == $producto->id_prod ) {
+                                $existe = 1;
+                              }
+                            }
+
+                            if ($existe==1) {
+                              ?>
+                      	        <button type="button" class="btn btn-danger btn-borrar-optimizacion" data-id="<?= $producto->id_prod ?>" data-name="<?= $producto->nombre ?>">Eliminar optimización</button>
+                              <?
+                            }
+                          }
+                          
+                              ?>
+                                <button type="button" class="btn btn-primary btn-optimizar" data-toggle="modal" data-target="#info-extra" data-id="<?= $producto->id_prod ?>" data-name="<?= $producto->nombre ?>">Optimizar*</button>
+                             <?
+                          ?>
                       </td>
                     </tr>
                     <?
@@ -42,14 +74,6 @@
                 }
               ?>
             </tbody>
-            <tfoot>
-              <tr class="bg-secondary">
-                <th>No.</th>
-                <th>Nombre</th>
-                <th>Token</th>
-                <th>Extras</th>
-              </tr>
-            </tfoot>
           </table>
         </div>
         <!-- /.card-body -->
