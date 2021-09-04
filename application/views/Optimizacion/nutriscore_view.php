@@ -58,14 +58,21 @@
 
                             if ($existe==1) {
                               ?>
-                      	        <button type="button" class="btn btn-danger btn-borrar-optimizacion" data-id="<?= $producto->id_prod ?>" data-name="<?= $producto->nombre ?>">Eliminar optimización</button>
+                      	        <a class="btn btn-danger btn-borrar-optimizacion" href="<?= base_url('borrar_token/'.$token->token) ?>" data-name="<?= $producto->nombre ?>">Eliminar optimización</button>
+                              <?
+                            }
+                            else{
+                              ?>
+                                <button type="button" class="btn btn-primary btn-optimizar" data-toggle="modal" data-target="#info-extra" data-id="<?= $producto->id_prod ?>" data-name="<?= $producto->nombre ?>">Optimizar*</button>
                               <?
                             }
                           }
+                          else{
+                            ?>
+                              <button type="button" class="btn btn-primary btn-optimizar" data-toggle="modal" data-target="#info-extra" data-id="<?= $producto->id_prod ?>" data-name="<?= $producto->nombre ?>">Optimizar*</button>
+                            <?
+                          }
                           
-                              ?>
-                                <button type="button" class="btn btn-primary btn-optimizar" data-toggle="modal" data-target="#info-extra" data-id="<?= $producto->id_prod ?>" data-name="<?= $producto->nombre ?>">Optimizar*</button>
-                             <?
                           ?>
                       </td>
                     </tr>

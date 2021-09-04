@@ -79,7 +79,6 @@ $route['productos_reform_editar/(:any)/(:any)'] = 'Productos/editar_reform';
 $route['grupos_reform'] = 'Productos/grupo_reform_view';
 $route['registrar_reform'] = 'Productos/registro_reform';
 
-
 /*Reportes*/
 $route['reporte/(:any)'] = 'Reportes/index';
 $route['reporte_grupos'] = 'Reportes/grupos';
@@ -106,7 +105,9 @@ $route['agregar_token'] = 'Optimizacion/agregar';
 $route['guardar_token'] = 'Optimizacion/guardar';
 $route['nom051'] = 'Optimizacion/nom051';
 $route['nutriscore'] = 'Optimizacion/nutriscore';
+$route['nutriscore/(:any)'] = 'Optimizacion/nutriscore';
 //$route['nom051_formulas'] = 'Optimizacion/nom051Formulas';
 $route['nom051_formulas'] = 'Optimizacion/nom051Formulas_ver2';
 $route['crear_token'] = 'Optimizacion/token';
 $route['recuperar_token/(:any)'] = 'Optimizacion/getToken';
+$route['borrar_token/(:any)'] = 'Optimizacion/deleteToken';

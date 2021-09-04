@@ -2,6 +2,11 @@
     $input = new Input(); 
     $producto = ($productos!=false) ? $productos->row(0) : false;
 ?> 
+<style>
+.nav-link.active{
+  background-color: #EDEDED !important;
+}
+</style>
 
 <!-- Main content -->
 <section class="content">

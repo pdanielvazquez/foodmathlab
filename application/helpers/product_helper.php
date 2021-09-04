@@ -268,6 +268,7 @@ function get_products($info){
 	$product = $productSelector->getterConsultaSimple();
 
 	return json_encode($product);
+	exit;
 
 }
 
@@ -290,7 +291,7 @@ function get_Tokens($info){
 	$productSelector = new SelectorUniversal($array, $tabla, "WHERE id = ". $info['id']);
 	$product = $productSelector->getterConsultaSimple()[0];
 
-	echo json_encode(["token" => $token,"product" => $product]);
+	return json_encode(["token" => $token,"product" => $product]);
 }
 
 function by_token($info){
@@ -407,7 +408,7 @@ function by_token($info){
 		$arrayResponse["info"] = load_tokenInfo($token["token"]);
 	}
 
-	echo json_encode($arrayResponse);
+	return json_encode($arrayResponse);
 	exit;
 
 }
@@ -521,7 +522,7 @@ function by_id($info){
 	$selector = new SelectorUniversal($arrayParams, $tabla, "WHERE id = ".$token["id_params"]);
 	$arrayResponse["params"] = $selector->getterConsultaSimple()[0];
 
-	echo json_encode($arrayResponse);
+	return json_encode($arrayResponse);
 	exit;
 }
 
@@ -558,9 +559,9 @@ function load_tokenInfo($token)
 
 function delete_token($info){
 	if($info["id"] == 0){
-		echo json_encode(deleteMonthyTokens());
+		return json_encode(deleteMonthyTokens());
 	}else{
-		echo json_encode(deleteByIdToken($info["id"]));
+		return json_encode(deleteByIdToken($info["id"]));
 	}
 }
 
@@ -612,6 +613,40 @@ function deleteByIdToken($id)
 		return json_encode($selector->getterConsultaUpdate());
 		
 	}
+}
+
+function deleteByToken($token)
+{
+
+	$data = '{
+			    "token": "'.$token.'"
+			 }';
+
+	$curl = curl_init();
+	curl_setopt_array($curl, array(
+		CURLOPT_URL => "http://localhost:5000/DeleteToken",
+		CURLOPT_RETURNTRANSFER => true,
+		CURLOPT_ENCODING => "",
+		CURLOPT_MAXREDIRS => 10,
+		CURLOPT_TIMEOUT => 300,
+		CURLOPT_SSL_VERIFYPEER => FALSE,
+		CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+		CURLOPT_CUSTOMREQUEST => "POST",
+		CURLOPT_POSTFIELDS => $data,
+		CURLOPT_HTTPHEADER => array(
+			"Cache-Control: no-cache",
+			"Content-Type: application/json",
+		)
+		
+	));
+
+	$response = curl_exec($curl);
+	$err = curl_error($curl);
+	curl_close($curl);
+
+	$response = json_decode($response);
+
+	return $response;
 }
 
 function deleteMonthyTokens()

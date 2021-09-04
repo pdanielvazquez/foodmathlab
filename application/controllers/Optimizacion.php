@@ -288,6 +288,9 @@ class Optimizacion extends CI_Controller {
 		}
 
 		/*Consultas generales*/
+
+		$edicion = ($this->uri->segment(2)=='')? 0 : $this->uri->segment(2);
+
 		$productos = $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser']), array(), '');
 
 		/*Campos a recopilar*/
@@ -428,6 +431,7 @@ class Optimizacion extends CI_Controller {
 			'campos_bloqueados' => $campos_bloqueados,
 			'parametros'=>	$parametros,
 			'tokens' 	=>	$tokens,
+			'edicion'	=>	$edicion,
 		);
 
 		/*Configuración de la vista*/
@@ -698,7 +702,7 @@ class Optimizacion extends CI_Controller {
 		//print_r((array) load_tokenInfo($token));
 		//print("<pre>".print_r((array) load_tokenInfo($token))."</pre>");
 		$json 	= load_tokenInfo($token);
-		$datos 	= (array) load_tokenInfo($token);
+		$datos 	= (array)$json;
 		$data 	= (array)$datos["data"];
 
 		$input 	= (array)$data["input"];
@@ -910,7 +914,7 @@ class Optimizacion extends CI_Controller {
 
 		$config = array(
 			'titulo'	=>	$producto->nombre,
-			'subtitulo'	=>	'Agregar imagenes',
+			'subtitulo'	=>	'Resultados de la optimización',
 			'usuario'	=>	$usuario->nombre,
 			'menu'		=>	$menu,
 			'submenu'	=>	$submenu,
@@ -938,5 +942,38 @@ class Optimizacion extends CI_Controller {
 
 		$this->load->view('Plantillas/body_close_view');
 		$this->load->view('Plantillas/html_close_view');
+	}
+
+	public function deleteToken(){
+		if (!isset($_SESSION['idUser'])) {
+			redirect('App/logout');
+		}
+
+		/*Validación de permiso de acceso al método*/
+		$permisos_usuarios = $this->General_model->get('permisos_usuarios', array('id_usuario'=>$_SESSION['idUser'], 'opcion'=>'Optimizacion'), array(), '');
+		if ($permisos_usuarios==false) {
+			redirect('inicio');
+		}
+
+		/*Consultas generales*/
+		$token = $this->uri->segment(2);
+		$productos = $this->General_model->get('tokens_productos', array('token'=>$token), array(), '');
+		$producto = ($productos!=false) ? $productos->row(0) : false;
+		echo "producto: ".$producto->id_prod;
+		echo "<br>token: ".$token;
+		try {
+			$resultado = deleteByToken($token);
+			var_dump(json_encode((array)$resultado));
+			$this->General_model->delete('tokens', array('id_prod'=>$producto->id_prod));
+			$this->General_model->delete('valores_minimos', array('id_prod'=>$producto->id_prod));
+			$this->General_model->delete('valores_maximos', array('id_prod'=>$producto->id_prod));
+			$this->General_model->delete('valores_bloqueados', array('id_prod'=>$producto->id_prod));
+			$this->General_model->delete('parametros', array('id_prod'=>$producto->id_prod));
+			redirect(base_url('nutriscore/2'));
+		} catch (Exception $e) {
+			echo 'Excepción capturada: ',  $e->getMessage(), "\n";
+			redirect(base_url('nutriscore'));
+		}
+
 	}
 }
