@@ -44,14 +44,7 @@
                 datasets: conjunto,
             },
             options: {
-                legend: {
-                    display: true,
-                    position: 'top',
-                    labels: {
-                      boxWidth: 80,
-                      fontColor: 'black'
-                    }
-                },
+                
                 scales: {
                     y: {
                         min: 0,
@@ -64,6 +57,14 @@
                 },
                 responsive: true,
                 plugins: {
+                    legend: {
+                        display: false,
+                        position: 'top',
+                        labels: {
+                          boxWidth: 80,
+                          fontColor: 'black'
+                        }
+                    },
                     title:{
                         display: true,
                         text: titulo,

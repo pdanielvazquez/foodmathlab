@@ -13,8 +13,12 @@ class Reportes extends CI_Controller {
 		$this->load->helper('Mi_helper');
 		$this->load->helper('Estadisticas_helper');
 		$this->load->helper('Etiquetado_helper');
-		$this->load->helper('SainLim_helper');
 		$this->load->helper('NRF93_helper');
+		$this->load->helper('Estadisticas_helper');
+		$this->load->helper('SainLim_helper');
+		$this->load->helper('SainLim_Sens_helper');
+		$this->load->helper('fullnessFactor_helper');
+		$this->load->helper('media_estandarizada_helper');
 		$this->load->library('session');
 	}
 
@@ -146,7 +150,6 @@ class Reportes extends CI_Controller {
 		$this->load->view('Plantillas/scripts_view');
 
 		/*Script de configuracion de datatable*/
-		//$this->load->view('Reportes/resumen_js_view');
 		$this->load->view('Productos/productos_js_view');
 		$this->load->view('Reportes/grupos_js_view');
 

@@ -78,14 +78,7 @@
                 datasets: conjunto,
             },
             options: {
-                legend: {
-                    display: true,
-                    position: 'top',
-                    labels: {
-                      boxWidth: 80,
-                      fontColor: 'black'
-                    }
-                },
+                
                 scales: {
                     xAxes: [{
                       scaleLabel: {
@@ -104,6 +97,14 @@
                 },
                 responsive: true,
                 plugins: {
+                    legend: {
+                        display: false,
+                        position: 'top',
+                        labels: {
+                          boxWidth: 80,
+                          fontColor: 'black'
+                        }
+                    },
                     title:{
                         display: true,
                         text: titulo,

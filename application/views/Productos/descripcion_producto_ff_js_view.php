@@ -37,8 +37,28 @@
                 }]
             },
             options: {
+                scales: {
+                    x: {
+                        ticks: {
+                            display: false
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            display: true
+                        }
+                    },
+                },
                 responsive: true,
                 plugins: {
+                    legend: {
+                        display: false,
+                        position: 'bottom',
+                        labels: {
+                          boxWidth: 80,
+                          fontColor: 'black'
+                        }
+                    },
                     title:{
                         display: true,
                         text: titulo,
@@ -56,24 +76,6 @@
                 },
                 interaction: {
                   intersect: false
-                },
-                legend: {
-                    display: true,
-                    labels: {
-                        fontColor: "#000080",
-                    }
-                },
-                scales: {
-                    x: {
-                        ticks: {
-                            display: false
-                        }
-                    },
-                    y: {
-                        ticks: {
-                            display: true
-                        }
-                    },
                 },
             }
         });

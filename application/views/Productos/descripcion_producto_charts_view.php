@@ -39,6 +39,12 @@
             options: {
                 responsive: true,
                 plugins: {
+                    legend: {
+                        display: false,
+                        labels: {
+                            fontColor: "#000080",
+                        }
+                    },
                     title:{
                         display: true,
                         text: titulo,
@@ -57,12 +63,7 @@
                 interaction: {
                   intersect: false
                 },
-                legend: {
-                    display: true,
-                    labels: {
-                        fontColor: "#000080",
-                    }
-                },
+                
                 scales: {
                     x: {
                         ticks: {
