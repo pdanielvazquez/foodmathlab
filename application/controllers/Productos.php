@@ -27,12 +27,12 @@ class Productos extends CI_Controller {
 			),
 			array(
 				'atributo'	=>	'acidosgm',
-				'etiqueta'	=>	'Grasas monoinsaturadas <small>(Ácidos gm)</small>',
+				'etiqueta'	=>	'Grasas monoinsaturadas<br><small>(Ácidos gm)</small>',
 				'unidad'	=>	array('g', 'mg', 'mcg', '%'),
 			),
 			array(
 				'atributo'	=>	'acidosgp',
-				'etiqueta'	=>	'Grasas poliinsaturadas <small>(Ácidos gp)</small>',
+				'etiqueta'	=>	'Grasas poliinsaturadas<br><small>(Ácidos gp)</small>',
 				'unidad'	=>	array('g', 'mg', 'mcg', '%'),
 			),
 			array(
@@ -58,7 +58,7 @@ class Productos extends CI_Controller {
 			),
 			array(
 				'atributo'	=>	'azucaresa',
-				'etiqueta'	=>	'Azucares <small><br>(Azucares añadidos)</small>',
+				'etiqueta'	=>	'Azúcares <small><br>(Azúcares añadidos)</small>',
 				'unidad'	=>	array('g', 'mg', 'mcg', '%'),
 			),
 			array(
@@ -1013,7 +1013,7 @@ class Productos extends CI_Controller {
         
 		$campos = array(
 			'energia'			=> 	array('etiqueta'=>'Energía'), 
-			'azucaresa'			=>	array('etiqueta'=>'Azucares'), 
+			'azucaresa'			=>	array('etiqueta'=>'Azúcares'), 
 			'acidosgs'			=>	array('etiqueta'=>'Grasas saturadas'), 
 			'acidostrans'		=>	array('etiqueta'=>'Grasas trans'), 
 			'lipidos'			=>	array('etiqueta'=>'Grasa total'), 
@@ -1022,7 +1022,7 @@ class Productos extends CI_Controller {
 
 		$atributos = array(
 			'energia'			=> 	array('etiqueta'=>'Energía'), 
-			'azucaresa'			=>	array('etiqueta'=>'Azucares'), 
+			'azucaresa'			=>	array('etiqueta'=>'Azúcares'), 
 			'acidosgs'			=>	array('etiqueta'=>'Grasas saturadas'), 
 			'acidostrans'		=>	array('etiqueta'=>'Grasas trans'), 
 			'lipidos'			=>	array('etiqueta'=>'Grasa total'), 

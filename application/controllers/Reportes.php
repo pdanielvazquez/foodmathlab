@@ -93,7 +93,7 @@ class Reportes extends CI_Controller {
 
 		$campos = array(
 			'energia'			=> 	array('etiqueta'=>'Energía'), 
-			'azucaresa'			=>	array('etiqueta'=>'Azucares'), 
+			'azucaresa'			=>	array('etiqueta'=>'Azúcares'), 
 			'acidosgs'			=>	array('etiqueta'=>'Grasas saturadas'), 
 			'acidostrans'		=>	array('etiqueta'=>'Grasas trans'), 
 			'lipidos'			=>	array('etiqueta'=>'Grasa total'), 
@@ -102,7 +102,7 @@ class Reportes extends CI_Controller {
 
 		$atributos = array(
 			'energia'			=> 	array('etiqueta'=>'Energía'), 
-			'azucaresa'			=>	array('etiqueta'=>'Azucares'), 
+			'azucaresa'			=>	array('etiqueta'=>'Azúcares'), 
 			'acidosgs'			=>	array('etiqueta'=>'Grasas saturadas'), 
 			'acidostrans'		=>	array('etiqueta'=>'Grasas trans'), 
 			'lipidos'			=>	array('etiqueta'=>'Grasa total'), 
@@ -170,7 +170,7 @@ class Reportes extends CI_Controller {
 
 		$campos_solidos = array(
 			'Energía'			=> 	array('campo'=>'energia'), 
-			'Azucares'			=>	array('campo'=>'azucaresa'), 
+			'Azúcares'			=>	array('campo'=>'azucaresa'), 
 			'Grasas saturadas'	=>	array('campo'=>'acidosgs'), 
 			'Grasas trans'		=>	array('campo'=>'acidostrans'), 
 			'Grasa total'		=>	array('campo'=>'lipidos'), 
@@ -185,7 +185,7 @@ class Reportes extends CI_Controller {
 
 		$campos_liquidos = array(
 			'Energía'			=> 	array('campo'=>'energia'), 
-			'Azucares'			=>	array('campo'=>'azucaresa'), 
+			'Azúcares'			=>	array('campo'=>'azucaresa'), 
 			'Grasas saturadas'	=>	array('campo'=>'acidosgs'), 
 			'Grasas trans'		=>	array('campo'=>'acidostrans'), 
 			'Grasa total'		=>	array('campo'=>'lipidos'), 

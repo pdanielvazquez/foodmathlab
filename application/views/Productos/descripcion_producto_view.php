@@ -67,7 +67,7 @@
                     <td><?= number_format(($producto->fibra*100)/$referencia['ref_fibra']) ?> %</td>
                   </tr>
                   <tr>
-                    <td>Azucares: <?= number_format($producto->azucaresa) ?> g</td>
+                    <td>Azúcares: <?= number_format($producto->azucaresa) ?> g</td>
                     <td><?= number_format(($producto->azucaresa*100)/$referencia['ref_azucares']) ?> %</td>
                   </tr>
                   <tr>
@@ -163,7 +163,7 @@
                 }
                 ?>
                 <div class="col-xs-12 col-md-6 col-lg-4">
-                  <canvas id="azucaresChart"  data-values="<?= implode(',', $azucares) ?>" data-labels="<?= implode(',', $etiquetas) ?>" data-color="<?= implode(',', $colors) ?>" data-unit="Gramos (g.)" data-title="Azucares" height="200" class="chartCanvas"></canvas>
+                  <canvas id="azucaresChart"  data-values="<?= implode(',', $azucares) ?>" data-labels="<?= implode(',', $etiquetas) ?>" data-color="<?= implode(',', $colors) ?>" data-unit="Gramos (g.)" data-title="Azúcares" height="200" class="chartCanvas"></canvas>
                 </div>
                 <?
               }
@@ -581,7 +581,7 @@
                   foreach ($campos as $campo) {
                     $atributo = $campo['atributo'];
                     ?>
-                    <div class="col-xs-12 col-md-4 col-lg-2">
+                    <div class="col-xs-12 col-md-6 col-lg-3">
                       <div class="form-group">
                         <label><?= $campo['etiqueta'] ?></label>
                         <div class="input-group">
@@ -697,7 +697,7 @@
                   }
                   ?>
                   <br>
-                  <label>Azucar</label>
+                  <label>Azúcar</label>
                           <?
                   switch($ecuadorLabel->getAzucar()){
                     case 0:
