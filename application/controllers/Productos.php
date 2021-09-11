@@ -439,7 +439,8 @@ class Productos extends CI_Controller {
 		$productos = $this->General_model->get('productos_foodmathlab_v2', array('id_prod'=>$id_producto), array(), '');
 		$producto = ($productos!=false) ? $productos->row(0) : false;
 
-		$valores_referencia = array(
+		// Europa
+		$valores_referencia_eu = array(
 			'ref_energia' 		=>2000,
 			'ref_grasas_tot' 	=> 70,
 			'ref_grasas_sat' 	=> 20,
@@ -448,6 +449,42 @@ class Productos extends CI_Controller {
 			'ref_hidratos' 		=> 260,
 			'ref_fibra' 		=> 30,
 			'ref_proteina' 		=> 50,
+		);
+
+		// México
+		$valores_referencia_mx = array(
+			'ref_energia' 		=>2000,
+			'ref_grasas_tot' 	=> 70,
+			'ref_grasas_sat' 	=> 20,
+			'ref_azucares' 		=> 90,
+			'ref_sodio' 			=> 2400,
+			'ref_hidratos' 		=> 260,
+			'ref_fibra' 			=> 30,
+			'ref_proteina' 		=> 1,
+		);
+
+		// Colombia
+		$valores_referencia_co = array(
+			'ref_energia' 		=>2000,
+			'ref_grasas_tot' 	=> 70,
+			'ref_grasas_sat' 	=> 20,
+			'ref_azucares' 		=> 90,
+			'ref_sodio' 			=> 2400,
+			'ref_hidratos' 		=> 260,
+			'ref_fibra' 			=> 30,
+			'ref_proteina' 		=> 50,
+		);
+
+		// EEUU
+		$valores_referencia_eeuu = array(
+			'ref_energia' 		=>2000,
+			'ref_grasas_tot' 	=> 70,
+			'ref_grasas_sat' 	=> 20,
+			'ref_azucares' 	=> 90,
+			'ref_sodio' 		=> 2400,
+			'ref_hidratos' 	=> 260,
+			'ref_fibra' 		=> 30,
+			'ref_proteina' 	=> 50,
 		);
 
 		$grupos = $this->General_model->get('grupos', array('id_usuario'=>$_SESSION['idUser']), array(), '');
@@ -495,7 +532,10 @@ class Productos extends CI_Controller {
 
 		$data = array(
 			'producto'	=>	$producto,
-			'referencia'=>	$valores_referencia,
+			'referencia_eu'=>	$valores_referencia_eu,
+			'referencia_co'=>	$valores_referencia_co,
+			'referencia_mx'=>	$valores_referencia_mx,
+			'referencia_eeuu'=>	$valores_referencia_eeuu,
 			'campos'	=>	$campos,
 			'grupos'	=>	$grupos,
 			'productos_energia'	=>	$productos_energia,

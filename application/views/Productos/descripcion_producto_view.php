@@ -1,4 +1,12 @@
 <? $input = new Input(); ?>
+<style>
+  .flag{
+    width: 30px;
+  }
+  .nutrimentos td:nth-child(1n+2){
+    text-align: center;
+  }
+</style>
 <link rel="stylesheet" href="<?= base_url('vendor') ?>/dist/css/foodmathlab_charts.css">
 
 <div class="modal-dialog modal-xl" role="document">
@@ -30,49 +38,74 @@
             if ($producto!=false) {
             ?>
               <div class="col-xs-12 col-md-6 col-lg-6" style="border: 1px solid #AAA; padding: 0.5rem;">
-                <table id="tabla-nutrimental">
+                <table id="tabla-nutrimental" border="1">
                   <tr>
-                    <th colspan="2">DECLARACIÓN NUTRIMENTAL</th>
+                    <th colspan="5">DECLARACIÓN NUTRIMENTAL</th>
                   </tr>
                   <tr>
                     <td>Tamaño de envase</td>
-                    <td><?= number_format($producto->cantidad_neta) ?> g</strong></td>
+                    <td colspan="4"><?= number_format($producto->cantidad_neta) ?> g</strong></td>
                   </tr>
                   <tr>
                     <td class="x3-borde">Contenido energético por envase</td>
-                    <td class="x3-borde"><?= number_format(($producto->cantidad_neta/$producto->cantidad_porcion)*$producto->energia_kj) ?> kJ (<?= number_format(($producto->cantidad_neta/$producto->cantidad_porcion)*$producto->energia) ?> kcal) </td>
+                    <td colspan="4" class="x3-borde"><?= number_format(($producto->cantidad_neta/$producto->cantidad_porcion)*$producto->energia_kj) ?> kJ (<?= number_format(($producto->cantidad_neta/$producto->cantidad_porcion)*$producto->energia) ?> kcal) </td>
                   </tr>
                   <tr>
                     <td>Porción</td>
-                    <td><strong><?= number_format($producto->cantidad_porcion) ?> g</strong></td>
+                    <td colspan="4"><strong><?= number_format($producto->cantidad_porcion) ?> g</strong></td>
                   </tr>
                   <tr>
                     <td class="x6-borde">Contenido energético</td>
-                    <td class="x6-borde"><strong><?= number_format($producto->energia_kj) ?> kJ (<?= number_format($producto->energia) ?> kcal)</strong></td>
+                    <td colspan="4" class="x6-borde"><strong><?= number_format($producto->energia_kj) ?> kJ (<?= number_format($producto->energia) ?> kcal)</strong></td>
                   </tr>
-                  <tr>
-                    <td>Grasas totales: <?= number_format($producto->lipidos*100) ?> g</td>
-                    <td><?= number_format(($producto->lipidos*100)/$referencia['ref_grasas_tot']) ?>%</td>
+                  <tr class="txt-centrado">
+                      <td>&nbsp;</td>
+                      <td><img src="<?= base_url('uploads/flags/europa.jpg') ?>" class="flag"></td>
+                      <td><img src="<?= base_url('uploads/flags/mexico.jpg') ?>" class="flag"></td>
+                      <td><img src="<?= base_url('uploads/flags/colombia.jpg') ?>" class="flag"></td>
+                      <td><img src="<?= base_url('uploads/flags/usa.jpg') ?>" class="flag"></td>
                   </tr>
-                  <tr>
-                    <td>Sodio: <?= number_format($producto->sodio) ?> mg</td>
-                    <td><?= number_format((($producto->sodio*1000)*100)/$referencia['ref_sodio']) ?> %</td>
+                  <tr class="nutrimentos">
+                    <td>Grasas totales: <?= number_format($producto->lipidos*100, 3) ?> g</td>
+                    <td><?= number_format(($producto->lipidos*100)/$referencia_eu['ref_grasas_tot']) ?>%</td>
+                    <td><?= number_format(($producto->lipidos*100)/$referencia_mx['ref_grasas_tot']) ?>%</td>
+                    <td><?= number_format(($producto->lipidos*100)/$referencia_co['ref_grasas_tot']) ?>%</td>
+                    <td><?= number_format(($producto->lipidos*100)/$referencia_eeuu['ref_grasas_tot']) ?>%</td>
                   </tr>
-                  <tr>
-                    <td>Carbohidratos: <?= number_format($producto->hidratos) ?> g</td>
-                    <td><?= number_format(($producto->hidratos*100)/$referencia['ref_hidratos']) ?> %</td>
+                  <tr class="nutrimentos">
+                    <td>Sodio: <?= number_format($producto->sodio, 3) ?> mg</td>
+                    <td><?= number_format((($producto->sodio*1000)*100)/$referencia_eu['ref_sodio']) ?> %</td>
+                    <td><?= number_format((($producto->sodio*1000)*100)/$referencia_mx['ref_sodio']) ?> %</td>
+                    <td><?= number_format((($producto->sodio*1000)*100)/$referencia_co['ref_sodio']) ?> %</td>
+                    <td><?= number_format((($producto->sodio*1000)*100)/$referencia_eeuu['ref_sodio']) ?> %</td>
                   </tr>
-                  <tr>
-                    <td>Fibra dietética: <?= number_format($producto->fibra) ?> g</td>
-                    <td><?= number_format(($producto->fibra*100)/$referencia['ref_fibra']) ?> %</td>
+                  <tr class="nutrimentos">
+                    <td>Carbohidratos: <?= number_format($producto->hidratos, 3) ?> g</td>
+                    <td><?= number_format(($producto->hidratos*100)/$referencia_eu['ref_hidratos']) ?> %</td>
+                    <td><?= number_format(($producto->hidratos*100)/$referencia_mx['ref_hidratos']) ?> %</td>
+                    <td><?= number_format(($producto->hidratos*100)/$referencia_co['ref_hidratos']) ?> %</td>
+                    <td><?= number_format(($producto->hidratos*100)/$referencia_eeuu['ref_hidratos']) ?> %</td>
                   </tr>
-                  <tr>
-                    <td>Azúcares: <?= number_format($producto->azucaresa) ?> g</td>
-                    <td><?= number_format(($producto->azucaresa*100)/$referencia['ref_azucares']) ?> %</td>
+                  <tr class="nutrimentos">
+                    <td>Fibra dietética: <?= number_format($producto->fibra, 3) ?> g</td>
+                    <td><?= number_format(($producto->fibra*100)/$referencia_eu['ref_fibra']) ?> %</td>
+                    <td><?= number_format(($producto->fibra*100)/$referencia_mx['ref_fibra']) ?> %</td>
+                    <td><?= number_format(($producto->fibra*100)/$referencia_co['ref_fibra']) ?> %</td>
+                    <td><?= number_format(($producto->fibra*100)/$referencia_eeuu['ref_fibra']) ?> %</td>
                   </tr>
-                  <tr>
-                    <td>Proteinas: <?= number_format($producto->proteina) ?> g</td>
-                    <td><?= number_format(($producto->proteina*100)/$referencia['ref_proteina']) ?> %</td>
+                  <tr class="nutrimentos">
+                    <td>Azúcares: <?= number_format($producto->azucaresa, 3) ?> g</td>
+                    <td><?= number_format(($producto->azucaresa*100)/$referencia_eu['ref_azucares']) ?> %</td>
+                    <td><?= number_format(($producto->azucaresa*100)/$referencia_mx['ref_azucares']) ?> %</td>
+                    <td><?= number_format(($producto->azucaresa*100)/$referencia_co['ref_azucares']) ?> %</td>
+                    <td><?= number_format(($producto->azucaresa*100)/$referencia_eeuu['ref_azucares']) ?> %</td>
+                  </tr>
+                  <tr class="nutrimentos">
+                    <td>Proteinas: <?= number_format($producto->proteina, 3) ?> g</td>
+                    <td><?= number_format(($producto->proteina*100)/$referencia_eu['ref_proteina']) ?> %</td>
+                    <td><?= number_format(($producto->proteina*100)/$referencia_mx['ref_proteina']) ?> %</td>
+                    <td><?= number_format(($producto->proteina*100)/$referencia_co['ref_proteina']) ?> %</td>
+                    <td><?= number_format(($producto->proteina*100)/$referencia_eeuu['ref_proteina']) ?> %</td>
                   </tr>
                 </table>
               </div>
