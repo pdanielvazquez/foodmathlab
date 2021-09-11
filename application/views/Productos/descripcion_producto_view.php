@@ -74,10 +74,10 @@
                   </tr>
                   <tr class="nutrimentos">
                     <td>Sodio: <?= number_format($producto->sodio, 3) ?> mg</td>
-                    <td><?= number_format((($producto->sodio*1000)*100)/$referencia_eu['ref_sodio']) ?> %</td>
-                    <td><?= number_format((($producto->sodio*1000)*100)/$referencia_mx['ref_sodio']) ?> %</td>
-                    <td><?= number_format((($producto->sodio*1000)*100)/$referencia_co['ref_sodio']) ?> %</td>
-                    <td><?= number_format((($producto->sodio*1000)*100)/$referencia_eeuu['ref_sodio']) ?> %</td>
+                    <td><?= number_format((($producto->sodio*100))/$referencia_eu['ref_sodio']) ?> %</td>
+                    <td><?= number_format((($producto->sodio*100))/$referencia_mx['ref_sodio']) ?> %</td>
+                    <td><?= number_format((($producto->sodio*100))/$referencia_co['ref_sodio']) ?> %</td>
+                    <td><?= number_format((($producto->sodio*100))/$referencia_eeuu['ref_sodio']) ?> %</td>
                   </tr>
                   <tr class="nutrimentos">
                     <td>Carbohidratos: <?= number_format($producto->hidratos, 3) ?> g</td>

@@ -447,44 +447,44 @@ class Productos extends CI_Controller {
 			'ref_azucares' 		=> 90,
 			'ref_sodio' 		=> 2400,
 			'ref_hidratos' 		=> 260,
-			'ref_fibra' 		=> 30,
+			'ref_fibra' 		=> 25,
 			'ref_proteina' 		=> 50,
 		);
 
 		// México
 		$valores_referencia_mx = array(
 			'ref_energia' 		=>2000,
-			'ref_grasas_tot' 	=> 70,
-			'ref_grasas_sat' 	=> 20,
-			'ref_azucares' 		=> 90,
-			'ref_sodio' 			=> 2400,
-			'ref_hidratos' 		=> 260,
-			'ref_fibra' 			=> 30,
+			'ref_grasas_tot' 	=> 66.66,
+			'ref_grasas_sat' 	=> 22.22,
+			'ref_azucares' 		=> 50,
+			'ref_sodio' 		=> 2000,
+			'ref_hidratos' 		=> '',
+			'ref_fibra' 		=> 30,
 			'ref_proteina' 		=> 1,
 		);
 
 		// Colombia
 		$valores_referencia_co = array(
 			'ref_energia' 		=>2000,
-			'ref_grasas_tot' 	=> 70,
+			'ref_grasas_tot' 	=> 65,
 			'ref_grasas_sat' 	=> 20,
-			'ref_azucares' 		=> 90,
-			'ref_sodio' 			=> 2400,
-			'ref_hidratos' 		=> 260,
-			'ref_fibra' 			=> 30,
+			'ref_azucares' 		=> 50,
+			'ref_sodio' 		=> 2400,
+			'ref_hidratos' 		=> 300,
+			'ref_fibra' 		=> 25,
 			'ref_proteina' 		=> 50,
 		);
 
 		// EEUU
 		$valores_referencia_eeuu = array(
 			'ref_energia' 		=>2000,
-			'ref_grasas_tot' 	=> 70,
+			'ref_grasas_tot' 	=> 78,
 			'ref_grasas_sat' 	=> 20,
-			'ref_azucares' 	=> 90,
-			'ref_sodio' 		=> 2400,
-			'ref_hidratos' 	=> 260,
-			'ref_fibra' 		=> 30,
-			'ref_proteina' 	=> 50,
+			'ref_azucares' 		=> 50,
+			'ref_sodio' 		=> 2300,
+			'ref_hidratos' 		=> 275,
+			'ref_fibra' 		=> 28,
+			'ref_proteina' 		=> 50,
 		);
 
 		$grupos = $this->General_model->get('grupos', array('id_usuario'=>$_SESSION['idUser']), array(), '');
