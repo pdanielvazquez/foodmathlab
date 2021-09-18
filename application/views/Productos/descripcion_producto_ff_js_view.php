@@ -60,7 +60,7 @@
                         }
                     },
                     title:{
-                        display: true,
+                        display: false,
                         text: titulo,
                         color: 'rgba(170, 0, 0, 1)',
                         font: {
