@@ -1143,145 +1143,151 @@
                 </tr>
 
                 <!-- Etiquetado de Reino Unido -->
-                <tr>
-                  <th>Reino Unido</th>
-                    <?
-                      $UkLabel = new Etiquetado_UK($producto->sodio/1000, $producto->azucaresa, $producto->acidosgs, $producto->lipidos, $producto->tipo);
-                    ?>
-                  <td>
-                    <?
-                    $color = 'gray';
-                    $txt = 'ENERGÍA';
-                    ?>
-                    <div class="label_UK_small txt-centrado" style="background-color: <?= $color ?>;">
-                      <p class="label_UK_title_small"><?= $txt ?></p>
-                      <p class="label_UK_txt_small">
-                        Calorías
-                        <span class="label_UK_value_small">
-                          <?= number_format($producto->energia, 1) ?> kcal
-                        </span>
-                      </p>
-                      <p class="label_UK_ptc_small"><?= number_format(($producto->energia * 100)/2000, 1) ?>%</p>
-                    </div>
-                    <?
-                    $color = '';
-                    $txt = '';
-                    switch($UkLabel->getGrasaTotal()) {
-                      case 2:
-                        $color = '#f65627';
-                        $txt = 'ALTO';
-                        break;
-                      case 1:
-                        $color = '#f9b03f';
-                        $txt = 'MEDIO';
-                        break;
-                      case 0:
-                        $color = '#78c758';
-                        $txt = 'BAJO';
-                        break;
-                    }
-                    ?>
-                    <div class="label_UK_small txt-centrado" style="background-color: <?= $color ?>;">
-                      <p class="label_UK_title_small"><?= $txt ?></p>
-                      <p class="label_UK_txt_small">
-                        Grasa
-                        <span class="label_UK_value_small">
-                          <?= number_format($producto->lipidos, 1) ?> g
-                        </span>
-                      </p>
-                      <p class="label_UK_ptc_small"><?= number_format($UkLabel->getGrasaTotalPtc(), 1) ?>%</p>
-                    </div>
-                    <?
-                    $color = '';
-                    $txt = '';
-                    switch($UkLabel->getGrasasSat()) {
-                      case 2:
-                        $color = '#f65627';
-                        $txt = 'ALTO';
-                        break;
-                      case 1:
-                        $color = '#f9b03f';
-                        $txt = 'MEDIO';
-                        break;
-                      case 0:
-                        $color = '#78c758';
-                        $txt = 'BAJO';
-                        break;
-                    }
-                    ?>
-                    <div class="label_UK_small txt-centrado" style="background-color: <?= $color ?>;">
-                      <p class="label_UK_title_small"><?= $txt ?></p>
-                      <p class="label_UK_txt_small">
-                        Grasa Sat
-                        <span class="label_UK_value_small">
-                          <?= number_format($producto->acidosgs, 1) ?> g
-                        </span>
-                      </p>
-                      <p class="label_UK_ptc_small"><?= number_format($UkLabel->getGrasasSatPtc(), 1) ?>%</p>
-                    </div>
-
-                    <?
-                    $color = '';
-                    $txt = '';
-                    switch($UkLabel->getAzucares()) {
-                      case 2:
-                        $color = '#f65627';
-                        $txt = 'ALTO';
-                        break;
-                      case 1:
-                        $color = '#f9b03f';
-                        $txt = 'MEDIO';
-                        break;
-                      case 0:
-                        $color = '#78c758';
-                        $txt = 'BAJO';
-                        break;
-                    }
-                    ?>
-                    <div class="label_UK_small txt-centrado" style="background-color: <?= $color ?>;">
-                      <p class="label_UK_title_small"><?= $txt ?></p>
-                      <p class="label_UK_txt_small">
-                        Azúcar
-                        <span class="label_UK_value_small">
-                          <?= number_format($producto->azucaresa, 1) ?> g
-                        </span>
-                      </p>
-                      <p class="label_UK_ptc_small"><?= number_format($UkLabel->getAzucaresPtc(), 1) ?>%</p>
-                    </div>
-
-                    <?
-                    $color = '';
-                    $txt = '';
-                    switch($UkLabel->getSodio()) {
-                      case 2:
-                        $color = '#f65627';
-                        $txt = 'ALTO';
-                        break;
-                      case 1:
-                        $color = '#f9b03f';
-                        $txt = 'MEDIO';
-                        break;
-                      case 0:
-                        $color = '#78c758';
-                        $txt = 'BAJO';
-                        break;
-                    }
-                    ?>
-                    <div class="label_UK_small txt-centrado" style="background-color: <?= $color ?>;">
-                      <p class="label_UK_title_small"><?= $txt ?></p>
-                      <p class="label_UK_txt_small">
-                        Sodio
-                        <span class="label_UK_value_small">
-                          <?= number_format($producto->sodio, 1) ?> g
-                        </span>
-                      </p>
-                      <p class="label_UK_ptc_small"><?= number_format($UkLabel->getSodioPtc(), 1) ?>%</p>
-                    </div>
-                  </td>
-                  <?
-                  unset($UkLabel);
+                <?
+                foreach ($vnrs as $cve => $val) {
                   ?>
-                </tr>
+                  <tr>
+                    <th>Reino Unido<br>VNR - <img src="<?= base_url('uploads/flags/'.$vnrs[$cve][1]) ?>" class="flag"></th>
+                      <?
+                        $UkLabel = new Etiquetado_UK($producto->sodio/1000, $producto->azucaresa, $producto->acidosgs, $producto->lipidos, $producto->tipo, $vnrs[$cve][2]);
+                      ?>
+                    <td>
+                      <?
+                      $color = 'gray';
+                      $txt = 'ENERGÍA';
+                      ?>
+                      <div class="label_UK_small txt-centrado" style="background-color: <?= $color ?>;">
+                        <p class="label_UK_title_small"><?= $txt ?></p>
+                        <p class="label_UK_txt_small">
+                          Calorías
+                          <span class="label_UK_value_small">
+                            <?= number_format($producto->energia, 1) ?> kcal
+                          </span>
+                        </p>
+                        <p class="label_UK_ptc_small"><?= number_format(($producto->energia * 100)/2000, 1) ?>%</p>
+                      </div>
+                      <?
+                      $color = '';
+                      $txt = '';
+                      switch($UkLabel->getGrasaTotal()) {
+                        case 2:
+                          $color = '#f65627';
+                          $txt = 'ALTO';
+                          break;
+                        case 1:
+                          $color = '#f9b03f';
+                          $txt = 'MEDIO';
+                          break;
+                        case 0:
+                          $color = '#78c758';
+                          $txt = 'BAJO';
+                          break;
+                      }
+                      ?>
+                      <div class="label_UK_small txt-centrado" style="background-color: <?= $color ?>;">
+                        <p class="label_UK_title_small"><?= $txt ?></p>
+                        <p class="label_UK_txt_small">
+                          Grasa
+                          <span class="label_UK_value_small">
+                            <?= number_format($producto->lipidos, 1) ?> g
+                          </span>
+                        </p>
+                        <p class="label_UK_ptc_small"><?= number_format($UkLabel->getGrasaTotalPtc(), 1) ?>%</p>
+                      </div>
+                      <?
+                      $color = '';
+                      $txt = '';
+                      switch($UkLabel->getGrasasSat()) {
+                        case 2:
+                          $color = '#f65627';
+                          $txt = 'ALTO';
+                          break;
+                        case 1:
+                          $color = '#f9b03f';
+                          $txt = 'MEDIO';
+                          break;
+                        case 0:
+                          $color = '#78c758';
+                          $txt = 'BAJO';
+                          break;
+                      }
+                      ?>
+                      <div class="label_UK_small txt-centrado" style="background-color: <?= $color ?>;">
+                        <p class="label_UK_title_small"><?= $txt ?></p>
+                        <p class="label_UK_txt_small">
+                          Grasa Sat
+                          <span class="label_UK_value_small">
+                            <?= number_format($producto->acidosgs, 1) ?> g
+                          </span>
+                        </p>
+                        <p class="label_UK_ptc_small"><?= number_format($UkLabel->getGrasasSatPtc(), 1) ?>%</p>
+                      </div>
+
+                      <?
+                      $color = '';
+                      $txt = '';
+                      switch($UkLabel->getAzucares()) {
+                        case 2:
+                          $color = '#f65627';
+                          $txt = 'ALTO';
+                          break;
+                        case 1:
+                          $color = '#f9b03f';
+                          $txt = 'MEDIO';
+                          break;
+                        case 0:
+                          $color = '#78c758';
+                          $txt = 'BAJO';
+                          break;
+                      }
+                      ?>
+                      <div class="label_UK_small txt-centrado" style="background-color: <?= $color ?>;">
+                        <p class="label_UK_title_small"><?= $txt ?></p>
+                        <p class="label_UK_txt_small">
+                          Azúcar
+                          <span class="label_UK_value_small">
+                            <?= number_format($producto->azucaresa, 1) ?> g
+                          </span>
+                        </p>
+                        <p class="label_UK_ptc_small"><?= number_format($UkLabel->getAzucaresPtc(), 1) ?>%</p>
+                      </div>
+
+                      <?
+                      $color = '';
+                      $txt = '';
+                      switch($UkLabel->getSodio()) {
+                        case 2:
+                          $color = '#f65627';
+                          $txt = 'ALTO';
+                          break;
+                        case 1:
+                          $color = '#f9b03f';
+                          $txt = 'MEDIO';
+                          break;
+                        case 0:
+                          $color = '#78c758';
+                          $txt = 'BAJO';
+                          break;
+                      }
+                      ?>
+                      <div class="label_UK_small txt-centrado" style="background-color: <?= $color ?>;">
+                        <p class="label_UK_title_small"><?= $txt ?></p>
+                        <p class="label_UK_txt_small">
+                          Sodio
+                          <span class="label_UK_value_small">
+                            <?= number_format($producto->sodio, 1) ?> g
+                          </span>
+                        </p>
+                        <p class="label_UK_ptc_small"><?= number_format($UkLabel->getSodioPtc(), 1) ?>%</p>
+                      </div>
+                    </td>
+                    <?
+                    unset($UkLabel);
+                    ?>
+                  </tr>
+                  <?
+                }
+                ?>
                 <!-- ./Etiquetado de Reino Unido -->
 
                 <!-- Etiquetado de Francia -->
@@ -1329,7 +1335,7 @@
 
                 <!-- Etiquetado de Israel -->
                 <tr>
-                  <th>Israel</th>
+                  <th>Israel </th>
                   <?
                     $IsraelLabel = new Etiquetado_israel($producto->sodio, $producto->azucaresa, $producto->acidosgs, $producto->tipo);
                   ?>
@@ -1361,77 +1367,83 @@
                 </tr>
                 <!-- ./Etiquetado de Israel -->
 
-                <!-- Etiquetado de Italia -->
-                <tr>
-                  <th>Italia</th>
-                  <?
-                      $ItaliaLabel = new Etiquetado_italia($producto->energia, $producto->lipidos, $producto->acidosgs, $producto->azucaresa, $producto->sodio);
-                      ?>
-                      <td>
-                        <div class="battery-small">
-                          <div class="battery-title-1">
-                    <p><strong>ENERGIA</strong></p>
-                    <p><?= number_format($producto->energia*4.184) ?> kJ</p>
-                    <p><?= number_format($producto->energia) ?> kcal</p>
-                  </div>
-                  <div class="battery-body" style="background-size: <?= number_format($ItaliaLabel->getEnergia()) ?>% 100%">
-                    <?= number_format($ItaliaLabel->getEnergia()) ?>%
-                  </div>
-                  <span class="battery-head">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                        </div>
-
-                        <div class="battery-small">
-                  <div class="battery-title-2">
-                    <p><strong>GRASSI</strong></p>
-                    <p><?= number_format($producto->lipidos , 2) ?> g</p>
-                    <p>&nbsp;</p>
-                  </div>
-                  <div class="battery-body" style="background-size: <?= number_format($ItaliaLabel->getGrasaTot()) ?>% 100%">
-                    <?= number_format($ItaliaLabel->getGrasaTot()) ?>%
-                  </div>
-                  <span class="battery-head">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                        </div>
-
-                        <div class="battery-small">
-                  <div class="battery-title-2">
-                    <p><strong>GRASSI<br>SATURI</strong></p>
-                    <p><?= number_format($producto->acidosgs, 2) ?> g</p>
-                  </div>
-                  <div class="battery-body" style="background-size: <?= number_format($ItaliaLabel->getGrasasSat()) ?>% 100%">
-                    <?= number_format($ItaliaLabel->getGrasasSat()) ?>%
-                  </div>
-                  <span class="battery-head">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                        </div>
-
-                        <div class="battery-small">
-                  <div class="battery-title-2">
-                    <p><strong>ZUCCHERI</strong></p>
-                    <p><?= number_format($producto->azucaresa, 2) ?> g</p>
-                    <p>&nbsp;</p>
-                  </div>
-                  <div class="battery-body" style="background-size: <?= number_format($ItaliaLabel->getAzucares()) ?>% 100%">
-                    <?= number_format($ItaliaLabel->getAzucares()) ?>%
-                  </div>
-                  <span class="battery-head">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                        </div>
-
-                        <div class="battery-small">
-                  <div class="battery-title-2">
-                    <p><strong>SALE</strong></p>
-                    <p><?= number_format($producto->sodio, 2) ?> g</p>
-                    <p>&nbsp;</p>
-                  </div>
-                  <div class="battery-body" style="background-size: <?= number_format($ItaliaLabel->getSodio()) ?>% 100%">
-                    <?= number_format($ItaliaLabel->getSodio()) ?>%
-                  </div>
-                  <span class="battery-head">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                    </div>
-                  </td>
-                  <?
-                  unset($UkLabel);
+                <!-- Etiquetado de Italia - VNR Europa -->
+                <?
+                foreach ($vnrs as $cve => $val) {
                   ?>
-                </tr>
-                <!-- ./Etiquetado de Italia -->
+                  <tr>
+                    <th>Italia<br>VNR - <img src="<?= base_url('uploads/flags/'.$vnrs[$cve][1]) ?>" class="flag"></th>
+                    <?
+                        $ItaliaLabel = new Etiquetado_italia($producto->energia, $producto->lipidos, $producto->acidosgs, $producto->azucaresa, $producto->sodio, $vnrs[$cve][2]);
+                        ?>
+                        <td>
+                          <div class="battery-small">
+                            <div class="battery-title-1">
+                      <p><strong>ENERGIA</strong></p>
+                      <p><?= number_format($producto->energia*4.184) ?> kJ</p>
+                      <p><?= number_format($producto->energia) ?> kcal</p>
+                    </div>
+                    <div class="battery-body" style="background-size: <?= number_format($ItaliaLabel->getEnergia()) ?>% 100%">
+                      <?= number_format($ItaliaLabel->getEnergia()) ?>%
+                    </div>
+                    <span class="battery-head">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                          </div>
+
+                          <div class="battery-small">
+                    <div class="battery-title-2">
+                      <p><strong>GRASSI</strong></p>
+                      <p><?= number_format($producto->lipidos , 2) ?> g</p>
+                      <p>&nbsp;</p>
+                    </div>
+                    <div class="battery-body" style="background-size: <?= number_format($ItaliaLabel->getGrasaTot()) ?>% 100%">
+                      <?= number_format($ItaliaLabel->getGrasaTot()) ?>%
+                    </div>
+                    <span class="battery-head">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                          </div>
+
+                          <div class="battery-small">
+                    <div class="battery-title-2">
+                      <p><strong>GRASSI<br>SATURI</strong></p>
+                      <p><?= number_format($producto->acidosgs, 2) ?> g</p>
+                    </div>
+                    <div class="battery-body" style="background-size: <?= number_format($ItaliaLabel->getGrasasSat()) ?>% 100%">
+                      <?= number_format($ItaliaLabel->getGrasasSat()) ?>%
+                    </div>
+                    <span class="battery-head">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                          </div>
+
+                          <div class="battery-small">
+                    <div class="battery-title-2">
+                      <p><strong>ZUCCHERI</strong></p>
+                      <p><?= number_format($producto->azucaresa, 2) ?> g</p>
+                      <p>&nbsp;</p>
+                    </div>
+                    <div class="battery-body" style="background-size: <?= number_format($ItaliaLabel->getAzucares()) ?>% 100%">
+                      <?= number_format($ItaliaLabel->getAzucares()) ?>%
+                    </div>
+                    <span class="battery-head">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                          </div>
+
+                          <div class="battery-small">
+                    <div class="battery-title-2">
+                      <p><strong>SALE</strong></p>
+                      <p><?= number_format($producto->sodio, 2) ?> g</p>
+                      <p>&nbsp;</p>
+                    </div>
+                    <div class="battery-body" style="background-size: <?= number_format($ItaliaLabel->getSodio()) ?>% 100%">
+                      <?= number_format($ItaliaLabel->getSodio()) ?>%
+                    </div>
+                    <span class="battery-head">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                      </div>
+                    </td>
+                    <?
+                    unset($ItaliaLabel);
+                    ?>
+                  </tr>
+                  <?
+                }
+                ?>
+                <!-- ./Etiquetado de Italia - VNR Europa -->
 
                 <!-- Etiquetado de Australia & Nueva Zelanda -->
                 <tr>

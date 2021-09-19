@@ -328,20 +328,20 @@ class Etiquetado_UK
 	private $sodio, $azucares, $grasas_sat, $grasas_tot;
 	private $ref_energia, $ref_grasas_tot, $ref_grasas_sat, $ref_azucares, $ref_sodio;
 	
-	function __construct($sodio_g, $azucares_g, $grasas_sat_g, $grasas_tot_g, $tipo)
+	function __construct($sodio_g, $azucares_g, $grasas_sat_g, $grasas_tot_g, $tipo, $vnr)
 	{
 		/*Valores de referencia*/
-		$this->ref_energia 	=	2000;
-		$this->ref_grasas_tot =	70;
-		$this->ref_grasas_sat =	20;
-		$this->ref_azucares = 90;
-		$this->ref_sodio = 2.4;
+		$this->ref_energia 		=	$vnr['ref_energia'];
+		$this->ref_grasas_tot =	$vnr['ref_grasas_tot'];
+		$this->ref_grasas_sat =	$vnr['ref_grasas_sat'];
+		$this->ref_azucares 	= $vnr['ref_azucares'];
+		$this->ref_sodio 			= $vnr['ref_sodio'];
 
-		$this->sodio 		= $sodio_g;
+		$this->sodio 			= $sodio_g;
 		$this->azucares 	= $azucares_g;
-		$this->grasas_sat 	= $grasas_sat_g;
-		$this->grasas_tot 	= $grasas_tot_g;
-		$this->tipo			= $tipo;
+		$this->grasas_sat = $grasas_sat_g;
+		$this->grasas_tot = $grasas_tot_g;
+		$this->tipo				= $tipo;
 	}
 
 	public function getSodio(){
@@ -1463,21 +1463,21 @@ class Etiquetado_italia
 	private $energia, $grasas_tot, $grasas_sat, $azucares, $sodio;
 	private $ref_energia, $ref_grasas_tot, $ref_grasas_sat, $ref_azucares, $ref_sodio;
 	
-	function __construct($energia_kcal, $grasas_tot_g, $grasas_sat_g, $azucares_g, $sodio_g)
+	function __construct($energia_kcal, $grasas_tot_g, $grasas_sat_g, $azucares_g, $sodio_g, $vnr)
 	{
 		/*Valores de referencia*/
-		$this->ref_energia 	=	2000;
-		$this->ref_grasas_tot =	70;
-		$this->ref_grasas_sat =	20;
-		$this->ref_azucares = 90;
-		$this->ref_sodio = 2.4;
+		$this->ref_energia 		=	$vnr['ref_energia'];
+		$this->ref_grasas_tot =	$vnr['ref_grasas_tot'];
+		$this->ref_grasas_sat =	$vnr['ref_grasas_sat'];
+		$this->ref_azucares 	= $vnr['ref_azucares'];
+		$this->ref_sodio 			= $vnr['ref_sodio'];
 
 		/*Valores para comparacion*/
-		$this->energia 		=	$energia_kcal;
+		$this->energia 			=	$energia_kcal;
 		$this->grasas_tot 	=	$grasas_tot_g;
 		$this->grasas_sat 	=	$grasas_sat_g;
-		$this->azucares 	=	$azucares_g;
-		$this->sodio 		=	$sodio_g;
+		$this->azucares 		=	$azucares_g;
+		$this->sodio 				=	$sodio_g;
 	}
 
 	public function getEnergia(){

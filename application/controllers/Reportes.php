@@ -4,6 +4,56 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Reportes extends CI_Controller {
 
+	/*VNR's (Valores de referencia)*/
+
+	// Europa
+	private $valores_referencia_eu = array(
+			'ref_energia' 		=> 2000,
+			'ref_grasas_tot' 	=> 70,
+			'ref_grasas_sat' 	=> 20,
+			'ref_azucares' 		=> 90,
+			'ref_sodio' 		=> 2400,
+			'ref_hidratos' 		=> 260,
+			'ref_fibra' 		=> 25,
+			'ref_proteina' 		=> 50,
+		);
+
+	// México
+	private	$valores_referencia_mx = array(
+			'ref_energia' 		=>2000,
+			'ref_grasas_tot' 	=> 66.66,
+			'ref_grasas_sat' 	=> 22.22,
+			'ref_azucares' 		=> 50,
+			'ref_sodio' 		=> 2000,
+			'ref_hidratos' 		=> '',
+			'ref_fibra' 		=> 30,
+			'ref_proteina' 		=> 1,
+		);
+
+	// Colombia
+	private	$valores_referencia_co = array(
+			'ref_energia' 		=>2000,
+			'ref_grasas_tot' 	=> 65,
+			'ref_grasas_sat' 	=> 20,
+			'ref_azucares' 		=> 50,
+			'ref_sodio' 		=> 2400,
+			'ref_hidratos' 		=> 300,
+			'ref_fibra' 		=> 25,
+			'ref_proteina' 		=> 50,
+		);
+
+	// EEUU
+	private	$valores_referencia_eeuu = array(
+			'ref_energia' 		=>2000,
+			'ref_grasas_tot' 	=> 78,
+			'ref_grasas_sat' 	=> 20,
+			'ref_azucares' 		=> 50,
+			'ref_sodio' 		=> 2300,
+			'ref_hidratos' 		=> 275,
+			'ref_fibra' 		=> 28,
+			'ref_proteina' 		=> 50,
+		);
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -109,6 +159,12 @@ class Reportes extends CI_Controller {
 			'sodio'				=>	array('etiqueta'=>'Sodio'), 
 		);
 
+		$vnrs = array(
+			'eu' => array('Europa', 'europa.jpg', $this->valores_referencia_eu),
+			'mx' => array('México', 'mexico.jpg', $this->valores_referencia_co),
+			'co' => array('Colombia', 'colombia.jpg', $this->valores_referencia_mx),
+			'usa' => array('EE.UU.', 'usa.jpg', $this->valores_referencia_eeuu),
+		);
 
 		$data = array(
 			'grupos'	=>	$grupos,
@@ -116,6 +172,11 @@ class Reportes extends CI_Controller {
 			'campos'	=>	$campos,
 			'atributos'	=>	$atributos,
 			'promedios'	=>	$promedios_gpos,
+			'vnrs'		=>	$vnrs,
+			'referencia_eu'=>	$this->valores_referencia_eu,
+			'referencia_co'=>	$this->valores_referencia_co,
+			'referencia_mx'=>	$this->valores_referencia_mx,
+			'referencia_eeuu'=>	$this->valores_referencia_eeuu,
 		);
 
 		/*Configuración de la vista*/
