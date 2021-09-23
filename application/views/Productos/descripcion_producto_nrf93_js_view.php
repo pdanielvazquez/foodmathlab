@@ -1,5 +1,5 @@
 <script>
-    var canvasIndex = ['nrf93Chart'];
+    var canvasIndex = ['nrf93Chart1', 'nrf93Chart2', 'nrf93Chart3', 'nrf93Chart4'];
 
     for(i in canvasIndex){
         generaGraficaNrf93(canvasIndex[i]);

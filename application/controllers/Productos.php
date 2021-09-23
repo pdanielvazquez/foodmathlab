@@ -202,6 +202,13 @@ class Productos extends CI_Controller {
 			'ref_hidratos' 		=> 260,
 			'ref_fibra' 		=> 25,
 			'ref_proteina' 		=> 50,
+			'ref_vit_A'			=> 0.0008,	//g
+			'ref_vit_C'			=> 80,		//mg
+			'ref_vit_E'			=> 12,		//mg
+			'ref_calcio'		=> 800,		//mg
+			'ref_hierro'		=> 14,		//mg
+			'ref_magnesio'		=> 475,		//mg
+			'ref_potasio'		=> 2000,	//mg
 		);
 
 	// México
@@ -214,6 +221,13 @@ class Productos extends CI_Controller {
 			'ref_hidratos' 		=> '',
 			'ref_fibra' 		=> 30,
 			'ref_proteina' 		=> 1,
+			'ref_vit_A'			=> 0.000568,//g
+			'ref_vit_C'			=> 60,		//mg
+			'ref_vit_E'			=> 11,		//mg
+			'ref_calcio'		=> 900,		//mg
+			'ref_hierro'		=> 17,		//mg
+			'ref_magnesio'		=> 248,		//mg
+			'ref_potasio'		=> 3500,	//mg
 		);
 
 	// Colombia
@@ -226,6 +240,13 @@ class Productos extends CI_Controller {
 			'ref_hidratos' 		=> 300,
 			'ref_fibra' 		=> 25,
 			'ref_proteina' 		=> 50,
+			'ref_vit_A'			=> 0.0015,	//g
+			'ref_vit_C'			=> 60,		//mg
+			'ref_vit_E'			=> 20,		//mg
+			'ref_calcio'		=> 1000,	//mg
+			'ref_hierro'		=> 18,		//mg
+			'ref_magnesio'		=> 400,		//mg
+			'ref_potasio'		=> 3500,	//mg
 		);
 
 	// EEUU
@@ -238,6 +259,13 @@ class Productos extends CI_Controller {
 			'ref_hidratos' 		=> 275,
 			'ref_fibra' 		=> 28,
 			'ref_proteina' 		=> 50,
+			'ref_vit_A'			=> 0.0009, 	//g
+			'ref_vit_C'			=> 90,		//mg
+			'ref_vit_E'			=> 15,		//mg
+			'ref_calcio'		=> 1300,	//mg
+			'ref_hierro'		=> 18,		//mg
+			'ref_magnesio'		=> 420,		//mg
+			'ref_potasio'		=> 4700,	//mg
 		);
 
 	public function __construct()

@@ -358,7 +358,7 @@
                   <div class="card">
                     <div class="card-header">
                       <h3 class="card-title">
-                        Energía
+                        Sodio 
                       </h3>
                       <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="maximize">
@@ -377,54 +377,60 @@
                 <?
               }
 
-              ?>
-              <div class="col-xs-12 col-md-6 col-lg-4">
-                <div class="card">
-                    <div class="card-header">
-                      <h3 class="card-title">
-                        NRF 9.3
-                      </h3>
-                      <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="maximize">
-                          <i class="fas fa-expand"></i>
-                        </button>
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                          <i class="fas fa-minus"></i>
-                        </button>
-                      </div>
-                    </div>
-                    <div class="card-body">
-                      <!-- Indice NRF 9.3 -->
-                      <?
-                      $nrf9 = array();
-                      $nrf3 = array();
-                      $colors = array();
-                      $label = array();
-                      if ($productos_indices!=false) {
-                          foreach ($productos_indices->result() as $prod_nrf93) {
-                              $valores = array();
-                              foreach ($campos_productos_indices as $etiqueta => $campo) {
-                                  $atributo = $campo['campo'];
-                                  $valores[$atributo] = number_format($prod_nrf93->$atributo, 2);
+              $conta=1;
+              foreach ($vnrs as $cve => $val) {
+                ?>
+                  <div class="col-xs-12 col-md-6 col-lg-4">
+                    <div class="card">
+                        <div class="card-header">
+                          <h3 class="card-title">
+                            NRF 9.3 <small>VNR - <img src="<?= base_url('uploads/flags/'.$vnrs[$cve][1]) ?>" class="flag"></small>
+                          </h3>
+                          <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="maximize">
+                              <i class="fas fa-expand"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                              <i class="fas fa-minus"></i>
+                            </button>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <!-- Indice NRF 9.3 -->
+                          <?
+                          $nrf9 = array();
+                          $nrf3 = array();
+                          $colors = array();
+                          $label = array();
+                          if ($productos_indices!=false) {
+                              foreach ($productos_indices->result() as $prod_nrf93) {
+                                  $valores = array();
+                                  foreach ($campos_productos_indices as $etiqueta => $campo) {
+                                      $atributo = $campo['campo'];
+                                      $valores[$atributo] = number_format($prod_nrf93->$atributo, 2);
+                                  }
+                                  $nrf93 = new NRF93($valores, $vnrs[$cve][2]);
+                                  array_push($nrf9, $nrf93->getNRF9());
+                                  array_push($nrf3, $nrf93->getNRF3());
+                                  array_push($label, substr($prod_nrf93->nombre, 0, 15) );
+                                  if ($prod_nrf93->id_prod == $producto->id_prod) {
+                                    array_push($colors, 1);
+                                  }
+                                  else{
+                                    array_push($colors, 0);
+                                  }
+                                  unset($nrf93);
                               }
-                              $nrf93 = new NRF93($valores);
-                              array_push($nrf9, $nrf93->getNRF9());
-                              array_push($nrf3, $nrf93->getNRF3());
-                              array_push($label, substr($prod_nrf93->nombre, 0, 15) );
-                              if ($prod_nrf93->id_prod == $producto->id_prod) {
-                                array_push($colors, 1);
-                              }
-                              else{
-                                array_push($colors, 0);
-                              }
-                              unset($nrf93);
                           }
-                      }
-                      ?>
-                      <canvas id="nrf93Chart"  data-nrf9="<?= implode(',', $nrf9) ?>" data-nrf3="<?= implode(',', $nrf3) ?>" data-labels="<?= implode(',', $label) ?>" data-title="NRF 9.3" data-color="<?= implode(',', $colors) ?>" height="200" class="chartCanvas"></canvas>
-                    </div>
+                          ?>
+                          <canvas id="nrf93Chart<?= $conta++ ?>"  data-nrf9="<?= implode(',', $nrf9) ?>" data-nrf3="<?= implode(',', $nrf3) ?>" data-labels="<?= implode(',', $label) ?>" data-title="NRF 9.3" data-color="<?= implode(',', $colors) ?>" height="200" class="chartCanvas"></canvas>
+                        </div>
+                      </div>
                   </div>
-              </div>
+                <?
+              }
+              ?>
+              
 
               <div class="col-xs-12 col-md-6 col-lg-4">
                 <div class="card">

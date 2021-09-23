@@ -9,7 +9,7 @@ class NRF93
 
 	private $vr_energia, $vr_proteinas, $vr_fibras, $vr_vit_A, $vr_vit_C, $vr_vit_E, $vr_calcio, $vr_hierro, $vr_magnesio, $vr_potasio, $vr_sodio, $vr_grasas_tot, $vr_azucares, $vr_grasas_sat;	
 	
-	function __construct($valores)
+	function __construct($valores, $vnr)
 	{
 		$this->energia 		= (array_key_exists('energia', $valores)) ? $valores['energia'] : 0;
 		$this->proteinas 	= (array_key_exists('proteinas', $valores)) ? $valores['proteinas'] : 0;
@@ -26,20 +26,20 @@ class NRF93
 		$this->grasas_sat 	= (array_key_exists('acidosgs', $valores)) ? $valores['acidosgs'] : 0;
 		$this->azucares 	= (array_key_exists('azucaresa', $valores)) ? $valores['azucaresa'] : 0;
 
-		$this->vr_energia 		= 2000;
-		$this->vr_proteinas 	= 50;
-		$this->vr_fibras 		= 25;
-		$this->vr_vit_A 		= 0.0008;
-		$this->vr_vit_C 		= 0.06;
-		$this->vr_vit_E 		= 0.02;
-		$this->vr_calcio 		= 1;
-		$this->vr_hierro 		= 0.018;
-		$this->vr_magnesio 		= 0.4;
-		$this->vr_potasio 		= 3.5;
-		$this->vr_sodio			= 2400;
-		$this->vr_azucares		= 50;
-		$this->vr_grasas_tot 	= 65;
-		$this->vr_grasas_sat 	= 20;
+		$this->vr_energia 		= $vnr['ref_energia'];
+		$this->vr_proteinas 	= $vnr['ref_proteina'];
+		$this->vr_fibras 		= $vnr['ref_fibra'];
+		$this->vr_vit_A 		= $vnr['ref_vit_A'];
+		$this->vr_vit_C 		= $vnr['ref_vit_C'];
+		$this->vr_vit_E 		= $vnr['ref_vit_E'];
+		$this->vr_calcio 		= $vnr['ref_calcio'];
+		$this->vr_hierro 		= $vnr['ref_hierro'];
+		$this->vr_magnesio 		= $vnr['ref_magnesio'];
+		$this->vr_potasio 		= $vnr['ref_potasio'];
+		$this->vr_sodio			= $vnr['ref_sodio'];
+		$this->vr_azucares		= $vnr['ref_azucares'];
+		$this->vr_grasas_tot 	= $vnr['ref_grasas_tot'];
+		$this->vr_grasas_sat 	= $vnr['ref_grasas_sat'];
 	}
 
 	public function getNRF9(){
