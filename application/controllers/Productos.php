@@ -591,7 +591,7 @@ class Productos extends CI_Controller {
 		$this->load->view('Productos/descripcion_producto_nrf93_js_view', $data);
 		$this->load->view('Productos/descripcion_producto_sainlim_js_view', $data);
 		$this->load->view('Productos/descripcion_producto_sens_js_view', $data);
-		//$this->load->view('Productos/descripcion_producto_ff_js_view', $data);
+		$this->load->view('Productos/descripcion_producto_radio_view', $data);
 	}
 
 	public function editar(){

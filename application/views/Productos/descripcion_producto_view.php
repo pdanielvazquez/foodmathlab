@@ -11,6 +11,10 @@
     font-weight: bold;
     font-size: 1.5rem;
   }
+  .material-icons{
+    position: relative;
+    top: 4px;
+  }
 </style>
 <link rel="stylesheet" href="<?= base_url('vendor') ?>/dist/css/foodmathlab_charts.css">
 
@@ -130,9 +134,9 @@
             } 
             ?>
           </div>
-          <h5 style="margin-top: 1rem;">
-            <i class="fas fa-poll"></i> Resumen
-          </h5>
+          <h4 style="margin-top: 1rem; width: 100%; padding: 3px;" class="bg-light txt-centrado">
+            Gráficas <small class="text-gray">(Presione sobre los títulos)</small>
+          </h4>
           <div class="row">
             <?
             if ($producto!=false) {
@@ -155,17 +159,20 @@
                 }
                 ?>
                 <div class="col-xs-12 col-md-6 col-lg-4">
-                  <div class="card">
+                  <div class="card collapsed-card">
                     <div class="card-header">
-                      <h3 class="card-title">
-                        Energía
-                      </h3>
+                      <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
+                        <h3 class="card-title">
+                          <span class="material-icons">equalizer</span>
+                          Energía
+                        </h3>
+                      </button>
                       <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="maximize">
+                        <button type="button" class="btn btn-tool" data-card-widget="maximize" title="Presiona para maximizar/minimizar la gráfica">
                           <i class="fas fa-expand"></i>
                         </button>
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                          <i class="fas fa-minus"></i>
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
+                          <i class="fas fa-plus"></i>
                         </button>
                       </div>
                     </div>
@@ -174,6 +181,32 @@
                     </div>
                   </div>
                 </div>
+
+                <!-- Radar -->
+                <div class="col-xs-12 col-md-6 col-lg-4">
+                  <div class="card collapsed-card">
+                    <div class="card-header">
+                      <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
+                        <h3 class="card-title">
+                          <span class="material-icons">radar</span>
+                          Energía
+                        </h3>
+                      </button>
+                      <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="maximize" title="Presiona para maximizar/minimizar la gráfica">
+                          <i class="fas fa-expand"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
+                          <i class="fas fa-plus"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <canvas id="energiaRadar"  data-values="<?= implode(',', $energias) ?>" data-labels="<?= implode(',', $etiquetas) ?>" data-color="<?= implode(',', $colors) ?>" data-unit="Calorias (kcal)" data-title="Energía" height="200" class="chartCanvas"></canvas>
+                    </div>
+                  </div>
+                </div>
+                <!-- /.Radar -->
                 <?
               }
 
@@ -194,18 +227,22 @@
                   }
                 }
                 ?>
+                <!-- Barras -->
                 <div class="col-xs-12 col-md-6 col-lg-4">
-                  <div class="card">
+                  <div class="card collapsed-card">
                     <div class="card-header">
-                      <h3 class="card-title">
-                        Lípidos/Grasas totales
-                      </h3>
+                      <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
+                        <h3 class="card-title">
+                          <span class="material-icons">equalizer</span>
+                          Grasas totales
+                        </h3>
+                      </button>
                       <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="maximize">
+                        <button type="button" class="btn btn-tool" data-card-widget="maximize" title="Presiona para maximizar/minimizar la gráfica">
                           <i class="fas fa-expand"></i>
                         </button>
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                          <i class="fas fa-minus"></i>
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
+                          <i class="fas fa-plus"></i>
                         </button>
                       </div>
                     </div>
@@ -214,6 +251,33 @@
                     </div>
                   </div>
                 </div>
+                <!-- /.Barras -->
+
+                <!-- Radar -->
+                <div class="col-xs-12 col-md-6 col-lg-4">
+                  <div class="card collapsed-card">
+                    <div class="card-header">
+                      <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
+                        <h3 class="card-title">
+                          <span class="material-icons">radar</span>
+                          Grasas totales
+                        </h3>
+                      </button>
+                      <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="maximize" title="Presiona para maximizar/minimizar la gráfica">
+                          <i class="fas fa-expand"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
+                          <i class="fas fa-plus"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <canvas id="lipidosRadar"  data-values="<?= implode(',', $lipidos) ?>" data-labels="<?= implode(',', $etiquetas) ?>" data-color="<?= implode(',', $colors) ?>" data-unit="Gramos (g.)" data-title="Lípidos / Grasas totales" height="200" class="chartCanvas"></canvas>
+                    </div>
+                  </div>
+                </div>
+                <!-- /.Radar -->
                 <?
               }
 
@@ -234,18 +298,22 @@
                   }
                 }
                 ?>
+                <!-- Barras -->
                 <div class="col-xs-12 col-md-6 col-lg-4">
-                  <div class="card">
+                  <div class="card collapsed-card">
                     <div class="card-header">
-                      <h3 class="card-title">
-                        Azúcares
-                      </h3>
+                      <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
+                        <h3 class="card-title">
+                          <span class="material-icons">equalizer</span>
+                          Azúcares
+                        </h3>
+                      </button>
                       <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="maximize">
+                        <button type="button" class="btn btn-tool" data-card-widget="maximize" title="Presiona para maximizar/minimizar la gráfica">
                           <i class="fas fa-expand"></i>
                         </button>
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                          <i class="fas fa-minus"></i>
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
+                          <i class="fas fa-plus"></i>
                         </button>
                       </div>
                     </div>
@@ -254,6 +322,33 @@
                     </div>
                   </div>
                 </div>
+                <!-- /.Barras -->
+
+                <!-- Radar -->
+                <div class="col-xs-12 col-md-6 col-lg-4">
+                  <div class="card collapsed-card">
+                    <div class="card-header">
+                      <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
+                        <h3 class="card-title">
+                          <span class="material-icons">radar</span>
+                          Azúcares
+                        </h3>
+                      </button>
+                      <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="maximize" title="Presiona para maximizar/minimizar la gráfica">
+                          <i class="fas fa-expand"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
+                          <i class="fas fa-plus"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <canvas id="azucaresRadar"  data-values="<?= implode(',', $azucares) ?>" data-labels="<?= implode(',', $etiquetas) ?>" data-color="<?= implode(',', $colors) ?>" data-unit="Gramos (g.)" data-title="Azúcares" height="200" class="chartCanvas"></canvas>
+                    </div>
+                  </div>
+                </div>
+                <!-- /.Radar -->
                 <?
               }
 
@@ -274,18 +369,22 @@
                   }
                 }
                 ?>
+                <!-- Barras -->
                 <div class="col-xs-12 col-md-6 col-lg-4">
-                  <div class="card">
+                  <div class="card collapsed-card">
                     <div class="card-header">
-                      <h3 class="card-title">
-                        Grasas Saturadas
-                      </h3>
+                      <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
+                        <h3 class="card-title">
+                          <span class="material-icons">equalizer</span>
+                          Grasas Saturadas
+                        </h3>
+                      </button>
                       <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="maximize">
+                        <button type="button" class="btn btn-tool" data-card-widget="maximize" title="Presiona para maximizar/minimizar la gráfica">
                           <i class="fas fa-expand"></i>
                         </button>
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                          <i class="fas fa-minus"></i>
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
+                          <i class="fas fa-plus"></i>
                         </button>
                       </div>
                     </div>
@@ -294,6 +393,33 @@
                     </div>
                   </div>
                 </div>
+                <!-- /.Barras -->
+
+                <!-- Radar -->
+                <div class="col-xs-12 col-md-6 col-lg-4">
+                  <div class="card collapsed-card">
+                    <div class="card-header">
+                      <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
+                        <h3 class="card-title">
+                          <span class="material-icons">radar</span>
+                          Grasas Saturadas
+                        </h3>
+                      </button>
+                      <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="maximize" title="Presiona para maximizar/minimizar la gráfica">
+                          <i class="fas fa-expand"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
+                          <i class="fas fa-plus"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <canvas id="grasasSatRadar"  data-values="<?= implode(',', $grasas) ?>" data-labels="<?= implode(',', $etiquetas) ?>" data-color="<?= implode(',', $colors) ?>" data-unit="Gramos (g.)" data-title="Grasas Saturadas" height="200" class="chartCanvas"></canvas>
+                    </div>
+                  </div>
+                </div>
+                <!-- /.Radar -->
                 <?
               }
 
@@ -314,18 +440,22 @@
                   }
                 }
                 ?>
+                <!-- Barras -->
                 <div class="col-xs-12 col-md-6 col-lg-4">
-                  <div class="card">
+                  <div class="card collapsed-card">
                     <div class="card-header">
-                      <h3 class="card-title">
-                        Grasas Trans
-                      </h3>
+                      <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
+                        <h3 class="card-title">
+                          <span class="material-icons">equalizer</span>
+                          Grasas Trans
+                        </h3>
+                      </button>
                       <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="maximize">
+                        <button type="button" class="btn btn-tool" data-card-widget="maximize" title="Presiona para maximizar/minimizar la gráfica">
                           <i class="fas fa-expand"></i>
                         </button>
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                          <i class="fas fa-minus"></i>
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
+                          <i class="fas fa-plus"></i>
                         </button>
                       </div>
                     </div>
@@ -334,6 +464,33 @@
                     </div>
                   </div>
                 </div>
+                <!-- /.Barras -->
+
+                <!-- Radar -->
+                <div class="col-xs-12 col-md-6 col-lg-4">
+                  <div class="card collapsed-card">
+                    <div class="card-header">
+                      <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
+                        <h3 class="card-title">
+                          <span class="material-icons">radar</span>
+                          Grasas Trans
+                        </h3>
+                      </button>
+                      <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="maximize" title="Presiona para maximizar/minimizar la gráfica">
+                          <i class="fas fa-expand"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
+                          <i class="fas fa-plus"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <canvas id="grasasTransRadar"  data-values="<?= implode(',', $grasas) ?>" data-labels="<?= implode(',', $etiquetas) ?>" data-color="<?= implode(',', $colors) ?>" data-unit="Gramos (g.)" data-title="Grasas Trans" height="200" class="chartCanvas"></canvas>
+                    </div>
+                  </div>
+                </div>
+                <!-- /.Radar -->
                 <?
               }
 
@@ -354,18 +511,22 @@
                   }
                 }
                 ?>
+                <!-- Barras -->
                 <div class="col-xs-12 col-md-6 col-lg-4">
-                  <div class="card">
+                  <div class="card collapsed-card">
                     <div class="card-header">
-                      <h3 class="card-title">
-                        Sodio 
-                      </h3>
+                      <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
+                        <h3 class="card-title">
+                          <span class="material-icons">equalizer</span>
+                          Sodio 
+                        </h3>
+                      </button>
                       <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="maximize">
+                        <button type="button" class="btn btn-tool" data-card-widget="maximize" title="Presiona para maximizar/minimizar la gráfica">
                           <i class="fas fa-expand"></i>
                         </button>
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                          <i class="fas fa-minus"></i>
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
+                          <i class="fas fa-plus"></i>
                         </button>
                       </div>
                     </div>
@@ -374,6 +535,33 @@
                     </div>
                   </div>
                 </div>
+                <!-- /.Barras -->
+
+                <!-- Radar -->
+                <div class="col-xs-12 col-md-6 col-lg-4">
+                  <div class="card collapsed-card">
+                    <div class="card-header">
+                      <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
+                        <h3 class="card-title">
+                          <span class="material-icons">radar</span>
+                          Sodio 
+                        </h3>
+                      </button>
+                      <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="maximize" title="Presiona para maximizar/minimizar la gráfica">
+                          <i class="fas fa-expand"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
+                          <i class="fas fa-plus"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <canvas id="sodioRadar"  data-values="<?= implode(',', $sodio) ?>" data-labels="<?= implode(',', $etiquetas) ?>" data-color="<?= implode(',', $colors) ?>" data-unit="Miligramos (mg.)" data-title="Sodio" height="200" class="chartCanvas"></canvas>
+                    </div>
+                  </div>
+                </div>
+                <!-- /.Radar -->
                 <?
               }
 
@@ -381,17 +569,20 @@
               foreach ($vnrs as $cve => $val) {
                 ?>
                   <div class="col-xs-12 col-md-6 col-lg-4">
-                    <div class="card">
+                    <div class="card collapsed-card">
                         <div class="card-header">
-                          <h3 class="card-title">
-                            NRF 9.3 <small>VNR - <img src="<?= base_url('uploads/flags/'.$vnrs[$cve][1]) ?>" class="flag"></small>
-                          </h3>
+                          <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
+                            <h3 class="card-title">
+                              <span class="material-icons">scatter_plot</span>
+                              NRF 9.3 <small>VNR - <img src="<?= base_url('uploads/flags/'.$vnrs[$cve][1]) ?>" class="flag"></small>
+                            </h3>
+                          </button>
                           <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-card-widget="maximize">
+                            <button type="button" class="btn btn-tool" data-card-widget="maximize" title="Presiona para maximizar/minimizar la gráfica">
                               <i class="fas fa-expand"></i>
                             </button>
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                              <i class="fas fa-minus"></i>
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
+                              <i class="fas fa-plus"></i>
                             </button>
                           </div>
                         </div>
@@ -433,17 +624,20 @@
               
 
               <div class="col-xs-12 col-md-6 col-lg-4">
-                <div class="card">
+                <div class="card collapsed-card">
                     <div class="card-header">
-                      <h3 class="card-title">
-                        SAIN-LIM
-                      </h3>
+                      <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
+                        <h3 class="card-title">
+                          <span class="material-icons">scatter_plot</span>
+                          SAIN-LIM
+                        </h3>
+                      </button>
                       <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="maximize">
+                        <button type="button" class="btn btn-tool" data-card-widget="maximize" title="Presiona para maximizar/minimizar la gráfica">
                           <i class="fas fa-expand"></i>
                         </button>
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                          <i class="fas fa-minus"></i>
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
+                          <i class="fas fa-plus"></i>
                         </button>
                       </div>
                     </div>
@@ -480,17 +674,20 @@
               </div>
 
               <div class="col-xs-12 col-md-6 col-lg-4">
-                <div class="card">
+                <div class="card collapsed-card">
                     <div class="card-header">
-                      <h3 class="card-title">
-                        Fullness Factor
-                      </h3>
+                      <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
+                        <h3 class="card-title">
+                          <span class="material-icons">equalizer</span>
+                          Fullness Factor
+                        </h3>
+                      </button>
                       <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="maximize">
+                        <button type="button" class="btn btn-tool" data-card-widget="maximize" title="Presiona para maximizar/minimizar la gráfica">
                           <i class="fas fa-expand"></i>
                         </button>
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                          <i class="fas fa-minus"></i>
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
+                          <i class="fas fa-plus"></i>
                         </button>
                       </div>
                     </div>
@@ -525,17 +722,20 @@
               </div>
 
               <div class="col-xs-12 col-md-6 col-lg-4">
-                <div class="card">
+                <div class="card collapsed-card">
                     <div class="card-header">
-                      <h3 class="card-title">
-                        Media Estandarizada
-                      </h3>
+                      <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
+                        <h3 class="card-title">
+                          <span class="material-icons">equalizer</span>
+                          Media Estandar
+                        </h3>
+                      </button>
                       <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="maximize">
+                        <button type="button" class="btn btn-tool" data-card-widget="maximize" title="Presiona para maximizar/minimizar la gráfica">
                           <i class="fas fa-expand"></i>
                         </button>
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                          <i class="fas fa-minus"></i>
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
+                          <i class="fas fa-plus"></i>
                         </button>
                       </div>
                     </div>
@@ -571,17 +771,20 @@
               </div>
 
               <div class="col-xs-12 col-md-6 col-lg-4">
-                <div class="card">
+                <div class="card collapsed-card">
                     <div class="card-header">
-                      <h3 class="card-title">
-                        SENS
-                      </h3>
+                      <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
+                        <h3 class="card-title">
+                          <span class="material-icons">area_chart</span>
+                          SENS
+                        </h3>
+                      </button>
                       <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="maximize">
+                        <button type="button" class="btn btn-tool" data-card-widget="maximize" title="Presiona para maximizar/minimizar la gráfica">
                           <i class="fas fa-expand"></i>
                         </button>
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                          <i class="fas fa-minus"></i>
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
+                          <i class="fas fa-plus"></i>
                         </button>
                       </div>
                     </div>

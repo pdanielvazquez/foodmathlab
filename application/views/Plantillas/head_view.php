@@ -24,4 +24,8 @@
   <!-- Own stylesheets -->
   <link rel="stylesheet" href="<?= base_url('vendor') ?>/dist/css/foodmathlab.css">
 
+  <!-- Google Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Two+Tone" rel="stylesheet">
+
 </head>
