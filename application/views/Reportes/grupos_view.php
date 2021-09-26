@@ -1,18 +1,23 @@
 <!-- Main content -->
 
 <style>
-  .flag{
+  .flag-1{
+    width: 50px;
+  }
+  .flag-2{
     width: 30px;
   }
+  .estatico{
+  	/*position: fixed;*/
+  }
 </style>
-
 <section class="content">
   	<div class="row">
     	<div class="col-12">
 
 			<div class="card">
               <div class="card-header d-flex p-0 bg-danger">
-                <h3 class="card-title p-3">
+                <h3 class="card-title p-3 text-white">
                 	<i class="fas fa-poll"></i>
                 	Labs
                 </h3>
@@ -28,16 +33,15 @@
                 					foreach ($productos->result() as $producto) {
                 						if ($producto->id_grupo == $grupo->id_grupo) {
 	             								$no_prods++;
-	             								
                 						}
                 					}
                 				}
-
 	                			$active = ($conta == 0) ? 'active' : '';
 	                			?>
 	                			<li class="nav-item">
-	                				<a class="nav-link <?= $active ?> btn-tab" href="#tab_<?= ++$conta ?>" data-toggle="tab"><?= $grupo->nombre ?>
-	                				<span class="badge badge-primary" style="position:relative; top:-0.5rem; right: 0.1rem;"><?= $no_prods ?></span>
+	                				<a class="nav-link <?= $active ?> btn-tab" href="#tab_<?= ++$conta ?>" data-toggle="tab">
+	                					<span class="lab"><?= $grupo->nombre ?></span>
+	                					<span class="badge badge-primary" style="position:relative; top:-0.5rem; right: 0.1rem;"><?= $no_prods ?></span>
 	                				</a>
 	                			</li>
 	                			<?
@@ -47,8 +51,17 @@
                 	?>
                 </ul>
               </div><!-- /.card-header -->
-              <div class="card-body" >
-              	<div id="desplazamiento"><div>Barra aqui</div></div>
+              <div class="card-body">
+              	<!-- <input type="text" name="columnas" id="columnas">
+              	<input type="text" name="ancho" id="ancho">
+              	<input type="text" name="posicion" id="posicion"> -->
+              	<h2 style="display: inline;" id="nombre_lab">Nombre del Lab</h2>
+              	<button class="btn btn-warning float-right mb-1" id="btn-scroll-right">
+              		<i class="fas fa-chevron-right"></i>
+              	</button>
+              	<button class="btn btn-warning float-right mr-2 mb-1" id="btn-scroll-left">
+              		<i class="fas fa-chevron-left"></i>
+              	</button>
                 <div class="tab-content table-responsive" id="contenido">
                 	<?
                 	if ($grupos!=false) {
@@ -57,26 +70,25 @@
                 			$active = ($conta == 0) ? 'active' : '';
                 			?>
                 			<div class="tab-pane <?= $active ?>" id="tab_<?= ++$conta ?>">
-                				<h2><?= $grupo->nombre ?></h2>
-                				<table class="table table-bordered table-hover table-striped text-nowrap">
+                				<table class="table table-bordered table-hover table-striped text-nowrap" id="tabla">
                 					<thead>
-                						<tr>
-                							<th class="bg-secondary">Concepto</th>
-                							<th class="bg-secondary" style="width: 150px;">
+                						<tr class="bg-secondary">
+                							<th class="bg-secondary txt-centrado" style="width: 150px;">
 	                								Promedio del Laboratorio
 	                						</th>
                 							<?
                 							if ($productos!=false) {
+                								$conta_prod = 1;
                 								foreach ($productos->result() as $producto) {
                 									if ($producto->id_grupo == $grupo->id_grupo) {
 	                									?>
-	                									<th class="bg-secondary" style="width: 150px;">
+	                									<th class="bg-secondary txt-centrado" style="width: 150px;">
+	                										<?= $conta_prod++.". ".$producto->nombre ?>
 	                										<a href="" data-id="<?= $producto->id_prod ?>" data-toggle="modal" data-target="#descripcion" data-lab="<?= $grupo->id_grupo ?>" class="btn-descripcion-lab">
 	                											<span class="badge bg-warning">
 	                												<i class="fas fa-chart-bar"></i>
 	                											</span>
 	                										</a>
-	                										<?= $producto->nombre ?>
 	                									</th>
 	                									<?
                 									}
@@ -97,14 +109,31 @@
                 								}
                 								?>
 		                						<tr>
-		                							<th><?= $valor['etiqueta'] ?></th>
-		                							<td class="txt-centrado"><?= number_format($promedios[$grupo->id_grupo][$indice], 2).' '.$unidad ?></td>
+		                							<td>
+		                								<h6>
+			                								<span class="ml-2">
+			                									<?= $valor['etiqueta'] ?>
+			                								</span>
+			                								<span class="float-right mr-2">
+			                									<?= number_format($promedios[$grupo->id_grupo][$indice], 2).' '.$unidad ?>
+			                								</span>
+			                							</h6>
+		                							</td>
 		                							<?
 		                							if ($productos!=false) {
 		                								foreach ($productos->result() as $producto) {
 		                									if ($producto->id_grupo == $grupo->id_grupo) {
 			                									?>
-			                									<td class="txt-centrado"><?= number_format($producto->$indice, 1).' '.$unidad ?></td>
+			                									<td>
+			                										<h6>
+			                											<span class="ml-2">
+			                												<?= $valor['etiqueta'] ?>
+			                											</span>
+			                											<span class="float-right mr-2">
+			                												<?= number_format($producto->$indice, 1).' '.$unidad ?>
+			                											</span>
+			                										</h6>
+			                									</td>
 			                									<?
 		                									}
 		                								}
@@ -119,13 +148,38 @@
                 						if ($productos!=false) {
                 							?>
 	                						<tr>
-	                							<th class="txt-centrado bg-secondary" colspan="<?= count($productos->result()) + 2 ?>">Etiquetados LATAM</th>
+	                							
+	                							<th class="bg-secondary txt-centrado" style="width: 150px;">
+	                								Promedio del Laboratorio
+	                							</th>
+	                							<?
+	                							if ($productos!=false) {
+	                								$conta_prod = 1;
+	                								foreach ($productos->result() as $producto) {
+	                									if ($producto->id_grupo == $grupo->id_grupo) {
+		                									?>
+		                									<th class="bg-secondary txt-centrado" style="width: 150px;">
+		                										<?= $conta_prod++.". ".$producto->nombre ?>
+		                										<a href="" data-id="<?= $producto->id_prod ?>" data-toggle="modal" data-target="#descripcion" data-lab="<?= $grupo->id_grupo ?>" class="btn-descripcion-lab">
+		                											<span class="badge bg-warning">
+		                												<i class="fas fa-chart-bar"></i>
+		                											</span>
+		                										</a>
+		                									</th>
+		                									<?
+	                									}
+	                								}
+	                							}
+	                							?>
 	                						</tr>
 
                 							<!-- Etiquetado de Chile -->
                 							<tr>
-                								<th>Chile</th>
-                								<td>
+                								<td class="txt-centrado">
+                									<h6>
+                										<img src="<?= base_url('uploads/flags/chile.jpg') ?>" class="flag-1">
+                										<strong> Chile</strong>
+                									</h6>
                 										<?
 				                								$chileLabel = new Etiquetado_chile($promedios[$grupo->id_grupo]['energia'], $promedios[$grupo->id_grupo]['sodio'], $promedios[$grupo->id_grupo]['azucaresa'], $promedios[$grupo->id_grupo]['acidosgs'], $grupo->tipo);
 					                						
@@ -162,6 +216,10 @@
 			                								$chileLabel = new Etiquetado_chile($producto->energia, $producto->sodio, $producto->azucaresa, $producto->acidosgs, $producto->tipo);
 				                							?>
 				                							<td class="txt-centrado">
+				                								<h6>
+			                										<img src="<?= base_url('uploads/flags/chile.jpg') ?>" class="flag-1">
+			                										<strong> Chile</strong>
+			                									</h6>
 				                								<?
 																			if ($chileLabel->getEnergia()==1) {
 																				?>
@@ -199,8 +257,11 @@
 
                 							<!-- Etiquetado de Ecuador -->
                 							<tr>
-                								<th>Ecuador</th>
-                								<td>
+                								<td class="txt-centrado">
+                									<h6>
+                										<img src="<?= base_url('uploads/flags/ecuador.jpg') ?>" class="flag-1">
+                										<strong> Ecuador</strong>
+                									</h6>
                 										<label>Grasa Total</label>
 			                								<?
 			                								$ecuadorLabel = new Etiquetado_ecuador($promedios[$grupo->id_grupo]['lipidos'], $promedios[$grupo->id_grupo]['azucaresa'], $promedios[$grupo->id_grupo]['sodio'], $grupo->tipo);
@@ -271,7 +332,11 @@
 		                							if ($producto->id_grupo == $grupo->id_grupo) {
 		                								$ecuadorLabel = new Etiquetado_ecuador($producto->lipidos, $producto->azucaresa, $producto->sodio, $producto->tipo);
 			                							?>
-			                							<td>
+			                							<td class="txt-centrado">
+			                								<h6>
+		                										<img src="<?= base_url('uploads/flags/ecuador.jpg') ?>" class="flag-1">
+		                										<strong> Ecuador</strong>
+		                									</h6>
 			                								<label>Grasa Total</label>
 			                								<?
 																			switch($ecuadorLabel->getGrasaTotal()){
@@ -345,8 +410,11 @@
 
                 							<!-- Etiquetado de México -->
                 							<tr>
-                								<th>México</th>
                 								<td class="txt-centrado">
+                									<h6>
+                										<img src="<?= base_url('uploads/flags/mexico.jpg') ?>" class="flag-1">
+                										<strong> México</strong>
+                									</h6>
                 									<?
                 										$MexLabel = new Etiquetado_mexico($promedios[$grupo->id_grupo]['energia'], $promedios[$grupo->id_grupo]['azucaresa'], $promedios[$grupo->id_grupo]['acidosgs'], $promedios[$grupo->id_grupo]['acidostrans'], $promedios[$grupo->id_grupo]['sodio'], $grupo->tipo);
 
@@ -389,6 +457,10 @@
 		                								$MexLabel = new Etiquetado_mexico($producto->energia, $producto->azucaresa, $producto->acidosgs, $producto->acidostrans, $producto->sodio, $producto->tipo);
 			                							?>
 			                							<td class="txt-centrado">
+			                								<h6>
+		                										<img src="<?= base_url('uploads/flags/mexico.jpg') ?>" class="flag-1">
+		                										<strong> México</strong>
+		                									</h6>
 			                								<?
 																			if ($MexLabel->getExcesoCalorias()==1) {
 																				?>
@@ -432,8 +504,11 @@
 
                 							<!-- Etiquetado de Colombia -->
                 							<tr>
-                								<th>Colombia</th>
                 								<td class="txt-centrado">
+                									<h6>
+                										<img src="<?= base_url('uploads/flags/colombia.jpg') ?>" class="flag-1">
+                										<strong> Colombia</strong>
+                									</h6>
                 									<? 
                 									$ColombiaLabel = new Etiquetado_colombia($promedios[$grupo->id_grupo]['sodio'], $promedios[$grupo->id_grupo]['azucaresa'], $promedios[$grupo->id_grupo]['acidosgs'], $grupo->tipo);
 
@@ -464,6 +539,10 @@
 		                								$ColombiaLabel = new Etiquetado_colombia($producto->sodio, $producto->azucaresa, $producto->acidosgs, $producto->tipo);
 			                							?>
 			                							<td class="txt-centrado">
+			                								<h6>
+		                										<img src="<?= base_url('uploads/flags/colombia.jpg') ?>" class="flag-1">
+		                										<strong> Colombia</strong>
+		                									</h6>
 			                								<?
 																			if ($ColombiaLabel->getSodio()==1) {
 																				?>
@@ -495,8 +574,11 @@
 
                 							<!-- Etiquetado de Uruguay -->
                 							<tr>
-                								<th>Uruguay</th>
                 								<td class="txt-centrado">
+                									<h6>
+                										<img src="<?= base_url('uploads/flags/uruguay.jpg') ?>" class="flag-1">
+                										<strong> Uruguay</strong>
+                									</h6>
                 									<?
                 									$UruguayLabel = new Etiquetado_uruguay($promedios[$grupo->id_grupo]['energia'], $promedios[$grupo->id_grupo]['lipidos'], $promedios[$grupo->id_grupo]['acidosgs'], $promedios[$grupo->id_grupo]['sodio'], $promedios[$grupo->id_grupo]['azucaresa'], $grupo->tipo);
 
@@ -533,6 +615,10 @@
 		                								$UruguayLabel = new Etiquetado_uruguay($producto->energia, $producto->lipidos, $producto->acidosgs, $producto->sodio, $producto->azucaresa, $producto->tipo);
 			                							?>
 			                							<td class="txt-centrado">
+			                								<h6>
+		                										<img src="<?= base_url('uploads/flags/uruguay.jpg') ?>" class="flag-1">
+		                										<strong> Uruguay</strong>
+		                									</h6>
 			                								<?
 																			if ($UruguayLabel->getGrasaTot()==1) {
 																				?>
@@ -570,8 +656,11 @@
 
                 							<!-- Etiquetado de Perú -->
                 							<tr>
-                								<th>Perú</th>
                 								<td class="txt-centrado">
+                									<h6>
+                										<img src="<?= base_url('uploads/flags/peru.jpg') ?>" class="flag-1">
+                										<strong> Perú</strong>
+                									</h6>
                 									<?
                 										if (strtotime(date("Y-m-d")) >= strtotime("2021-10-27")){
 																			$peruLabel = new Etiquetado_peru_2a_fase($promedios[$grupo->id_grupo]['azucaresa'], $promedios[$grupo->id_grupo]['sodio'], $promedios[$grupo->id_grupo]['acidosgs'], $promedios[$grupo->id_grupo]['acidostrans'], $grupo->tipo);
@@ -615,8 +704,12 @@
 																			$peruLabel = new Etiquetado_peru_1a_fase($producto->azucaresa, $producto->sodio, $producto->acidosgs, $producto->acidostrans, $producto->tipo);
 																		}
 							                							?>
-							                							<td class="txt-centrado">
-							                								<?
+							                			<td class="txt-centrado">
+							                				<h6>
+		                										<img src="<?= base_url('uploads/flags/peru.jpg') ?>" class="flag-1">
+		                										<strong> Perú</strong>
+		                									</h6>
+							                				<?
 																			if ($peruLabel->getAzucares()==1) {
 																				?>
 																				<img src="<?= base_url('uploads/labels-peru-1a/azucar.jpg') ?>" style="width: 75px;">
@@ -652,7 +745,28 @@
                 							<!-- ./Etiquetado de Perú -->
 
                 							<tr>
-	                							<th class="txt-centrado bg-secondary" colspan="<?= count($productos->result()) + 1 ?>">Etiquetados Europa-Asia</th>
+	                							<th class="bg-secondary txt-centrado" style="width: 150px;">
+	                								Promedio del Laboratorio
+	                							</th>
+	                							<?
+	                							if ($productos!=false) {
+	                								$conta_prod = 1;
+	                								foreach ($productos->result() as $producto) {
+	                									if ($producto->id_grupo == $grupo->id_grupo) {
+		                									?>
+		                									<th class="bg-secondary txt-centrado" style="width: 150px;">
+		                										<?= $conta_prod++.". ".$producto->nombre ?>
+		                										<a href="" data-id="<?= $producto->id_prod ?>" data-toggle="modal" data-target="#descripcion" data-lab="<?= $grupo->id_grupo ?>" class="btn-descripcion-lab">
+		                											<span class="badge bg-warning">
+		                												<i class="fas fa-chart-bar"></i>
+		                											</span>
+		                										</a>
+		                									</th>
+		                									<?
+	                									}
+	                								}
+	                							}
+	                							?>
 	                						</tr>
 
 	                						<!-- Etiquetado de Reino Unido -->
@@ -660,8 +774,11 @@
 	                						foreach ($vnrs as $cve => $val) {
 	                							?>
 	                							<tr>
-	                								<th>Reino Unido<br>VNR - <img src="<?= base_url('uploads/flags/'.$vnrs[$cve][1]) ?>" class="flag"></th>
-	                								<td>
+	                								<td class="txt-centrado">
+	                									<h6>
+	                										<img src="<?= base_url('uploads/flags/uk.jpg') ?>" class="flag-1">
+	                										<strong> Reino Unido - VNR <img src="<?= base_url('uploads/flags/'.$vnrs[$cve][1]) ?>" class="flag-2"></strong>
+	                									</h6>
 	                									<?
 	                										$UkLabel = new Etiquetado_UK($promedios[$grupo->id_grupo]['sodio']/1000, $promedios[$grupo->id_grupo]['azucaresa'], $promedios[$grupo->id_grupo]['acidosgs'], $promedios[$grupo->id_grupo]['lipidos'], $grupo->tipo, $vnrs[$cve][2]);
 
@@ -801,7 +918,11 @@
 			                							if ($producto->id_grupo == $grupo->id_grupo) {
 			                								$UkLabel = new Etiquetado_UK($producto->sodio/1000, $producto->azucaresa, $producto->acidosgs, $producto->lipidos, $producto->tipo, $vnrs[$cve][2]);
 				                							?>
-				                							<td>
+				                							<td class="txt-centrado">
+				                								<h6>
+			                										<img src="<?= base_url('uploads/flags/uk.jpg') ?>" class="flag-1">
+			                										<strong> Reino Unido - VNR <img src="<?= base_url('uploads/flags/'.$vnrs[$cve][1]) ?>" class="flag-2"></strong>
+			                									</h6>
 				                								<?
 																				$color = 'gray';
 																				$txt = 'ENERGÍA';
@@ -944,8 +1065,11 @@
 
                 							<!-- Etiquetado de Francia -->
                 							<tr>
-                								<th>Francia</th>
                 								<td class="txt-centrado">
+                									<h6>
+	                									<img src="<?= base_url('uploads/flags/francia.jpg') ?>" class="flag-1">
+	                									<strong> Francia</strong>
+	                								</h6>
                 									<?
                 										$NutriScoreLabel = new NutriScore($promedios[$grupo->id_grupo]['energia'], $promedios[$grupo->id_grupo]['azucaresa'], $promedios[$grupo->id_grupo]['acidosgs'], $promedios[$grupo->id_grupo]['lipidos'], $promedios[$grupo->id_grupo]['sodio'], $promedios[$grupo->id_grupo]['fruta'] + $promedios[$grupo->id_grupo]['verdura'], $promedios[$grupo->id_grupo]['fibra'], $promedios[$grupo->id_grupo]['proteina'], 0, $promedios[$grupo->id_grupo]['cantidad_porcion'], $grupo->tipo);
 
@@ -985,6 +1109,10 @@
 		                								$NutriScoreLabel = new NutriScore($producto->energia, $producto->azucaresa, $producto->acidosgs, $producto->lipidos, $producto->sodio, $producto->fruta + $producto->verdura, $producto->fibra, $producto->proteina, $producto->id_categoria, $producto->cantidad_porcion, $producto->tipo);
 			                							?>
 			                							<td class="txt-centrado">
+			                								<h6>
+		                										<img src="<?= base_url('uploads/flags/francia.jpg') ?>" class="flag-1">
+		                										<strong> Francia</strong>
+		                									</h6>
 			                								<?
 																			switch ($NutriScoreLabel->getClase()) {
 																				case 'A':
@@ -1025,8 +1153,11 @@
 
                 							<!-- Etiquetado de Israel -->
                 							<tr>
-                								<th>Israel</th>
-                								<td>
+                								<td class="txt-centrado">
+                									<h6>
+	                									<img src="<?= base_url('uploads/flags/israel.jpg') ?>" class="flag-1">
+	                									<strong> Israel</strong>
+	                								</h6>
                 									<?
                 										$IsraelLabel = new Etiquetado_israel($promedios[$grupo->id_grupo]['sodio'], $promedios[$grupo->id_grupo]['azucaresa'], $promedios[$grupo->id_grupo]['acidosgs'], $grupo->tipo);
 																		if ($IsraelLabel->getSodio()==1) {
@@ -1055,24 +1186,28 @@
 		                								$IsraelLabel = new Etiquetado_israel($producto->sodio, $producto->azucaresa, $producto->acidosgs, $producto->tipo);
 			                							?>
 			                							<td class="txt-centrado">
+			                								<h6>
+		                										<img src="<?= base_url('uploads/flags/israel.jpg') ?>" class="flag-1">
+		                										<strong> Israel</strong>
+		                									</h6>
 			                								<?
-																		if ($IsraelLabel->getSodio()==1) {
-																			?>
-																			<img src="<?= base_url('uploads/labels-israel/sodio.jpg') ?>" style="width: 100px;">
-																			<?
-																		}
+																			if ($IsraelLabel->getSodio()==1) {
+																				?>
+																				<img src="<?= base_url('uploads/labels-israel/sodio.jpg') ?>" style="width: 100px;">
+																				<?
+																			}
 
-																		if ($IsraelLabel->getAzucares()==1) {
-																			?>
-																			<img src="<?= base_url('uploads/labels-israel/azucares.jpg') ?>" style="width: 100px;">
-																			<?
-																		}
-																		
-																		if ($IsraelLabel->getGrasasSat()==1) {
-																			?>
-																			<img src="<?= base_url('uploads/labels-israel/grasas-sat.jpg') ?>" style="width: 100px;">
-																			<?
-																		}
+																			if ($IsraelLabel->getAzucares()==1) {
+																				?>
+																				<img src="<?= base_url('uploads/labels-israel/azucares.jpg') ?>" style="width: 100px;">
+																				<?
+																			}
+																			
+																			if ($IsraelLabel->getGrasasSat()==1) {
+																				?>
+																				<img src="<?= base_url('uploads/labels-israel/grasas-sat.jpg') ?>" style="width: 100px;">
+																				<?
+																			}
 																		
 																		?>
 			                							</td>
@@ -1086,8 +1221,11 @@
 
                 							<!-- Etiquetado de Italia - VNR Europa -->
                 							<tr>
-                								<th>Italia <br>VNR - <img src="<?= base_url('uploads/flags/europa.jpg') ?>" class="flag"></th>
-                								<td>
+                								<td class="txt-centrado">
+                									<h6>
+	                									<img src="<?= base_url('uploads/flags/italia.jpg') ?>" class="flag-1">
+	                									<strong> Italia - VNR <img src="<?= base_url('uploads/flags/europa.jpg') ?>" class="flag-2"></strong>
+	                								</h6>
                 									<?
                 									$ItaliaLabel = new Etiquetado_italia($promedios[$grupo->id_grupo]['energia'], $promedios[$grupo->id_grupo]['lipidos'], $promedios[$grupo->id_grupo]['acidosgs'], $promedios[$grupo->id_grupo]['azucaresa'], $promedios[$grupo->id_grupo]['sodio'], $referencia_eu);
 			                							?>
@@ -1158,7 +1296,11 @@
 		                							if ($producto->id_grupo == $grupo->id_grupo) {
 		                								$ItaliaLabel = new Etiquetado_italia($producto->energia, $producto->lipidos, $producto->acidosgs, $producto->azucaresa, $producto->sodio, $referencia_eu);
 			                							?>
-			                							<td>
+			                							<td class="txt-centrado">
+			                								<h6>
+			                									<img src="<?= base_url('uploads/flags/italia.jpg') ?>" class="flag-1">
+			                									<strong> Italia - VNR <img src="<?= base_url('uploads/flags/europa.jpg') ?>" class="flag-2"></strong>
+			                								</h6>
 			                								<div class="battery-small">
 				                								<div class="battery-title-1">
 																				<p><strong>ENERGIA</strong></p>
@@ -1228,8 +1370,11 @@
 
                 							<!-- Etiquetado de Italia - VNR México -->
                 							<tr>
-                								<th>Italia <br>VNR - <img src="<?= base_url('uploads/flags/mexico.jpg') ?>" class="flag"></th>
-                								<td>
+                								<td class="txt-centrado">
+                									<h6>
+	                									<img src="<?= base_url('uploads/flags/italia.jpg') ?>" class="flag-1">
+	                									<strong> Italia - VNR <img src="<?= base_url('uploads/flags/mexico.jpg') ?>" class="flag-2"></strong>
+	                								</h6>
                 									<?
                 									$ItaliaLabel = new Etiquetado_italia($promedios[$grupo->id_grupo]['energia'], $promedios[$grupo->id_grupo]['lipidos'], $promedios[$grupo->id_grupo]['acidosgs'], $promedios[$grupo->id_grupo]['azucaresa'], $promedios[$grupo->id_grupo]['sodio'], $referencia_mx);
 			                							?>
@@ -1300,7 +1445,11 @@
 		                							if ($producto->id_grupo == $grupo->id_grupo) {
 		                								$ItaliaLabel = new Etiquetado_italia($producto->energia, $producto->lipidos, $producto->acidosgs, $producto->azucaresa, $producto->sodio, $referencia_mx);
 			                							?>
-			                							<td>
+			                							<td class="txt-centrado">
+			                								<h6>
+			                									<img src="<?= base_url('uploads/flags/italia.jpg') ?>" class="flag-1">
+			                									<strong> Italia - VNR <img src="<?= base_url('uploads/flags/mexico.jpg') ?>" class="flag-2"></strong>
+			                								</h6>
 			                								<div class="battery-small">
 				                								<div class="battery-title-1">
 																				<p><strong>ENERGIA</strong></p>
@@ -1370,8 +1519,11 @@
 
                 							<!-- Etiquetado de Italia - VNR Colombia -->
                 							<tr>
-                								<th>Italia <br>VNR - <img src="<?= base_url('uploads/flags/colombia.jpg') ?>" class="flag"></th>
-                								<td>
+                								<td class="txt-centrado">
+                									<h6>
+	                									<img src="<?= base_url('uploads/flags/italia.jpg') ?>" class="flag-1">
+	                									<strong> Italia - VNR <img src="<?= base_url('uploads/flags/colombia.jpg') ?>" class="flag-2"></strong>
+	                								</h6>
                 									<?
                 									$ItaliaLabel = new Etiquetado_italia($promedios[$grupo->id_grupo]['energia'], $promedios[$grupo->id_grupo]['lipidos'], $promedios[$grupo->id_grupo]['acidosgs'], $promedios[$grupo->id_grupo]['azucaresa'], $promedios[$grupo->id_grupo]['sodio'], $referencia_co);
 			                							?>
@@ -1442,7 +1594,11 @@
 		                							if ($producto->id_grupo == $grupo->id_grupo) {
 		                								$ItaliaLabel = new Etiquetado_italia($producto->energia, $producto->lipidos, $producto->acidosgs, $producto->azucaresa, $producto->sodio, $referencia_co);
 			                							?>
-			                							<td>
+			                							<td class="txt-centrado">
+			                								<h6>
+			                									<img src="<?= base_url('uploads/flags/italia.jpg') ?>" class="flag-1">
+			                									<strong> Italia - VNR <img src="<?= base_url('uploads/flags/colombia.jpg') ?>" class="flag-2"></strong>
+			                								</h6>
 			                								<div class="battery-small">
 				                								<div class="battery-title-1">
 																				<p><strong>ENERGIA</strong></p>
@@ -1512,8 +1668,11 @@
 
                 							<!-- Etiquetado de Italia - VNR EE.UU. -->
                 							<tr>
-                								<th>Italia <br>VNR - <img src="<?= base_url('uploads/flags/usa.jpg') ?>" class="flag"></th>
-                								<td>
+                								<td class="txt-centrado">
+                									<h6>
+	                									<img src="<?= base_url('uploads/flags/italia.jpg') ?>" class="flag-1">
+	                									<strong> Italia - VNR <img src="<?= base_url('uploads/flags/usa.jpg') ?>" class="flag-2"></strong>
+	                								</h6>
                 									<?
                 									$ItaliaLabel = new Etiquetado_italia($promedios[$grupo->id_grupo]['energia'], $promedios[$grupo->id_grupo]['lipidos'], $promedios[$grupo->id_grupo]['acidosgs'], $promedios[$grupo->id_grupo]['azucaresa'], $promedios[$grupo->id_grupo]['sodio'], $referencia_eeuu);
 			                							?>
@@ -1584,7 +1743,11 @@
 		                							if ($producto->id_grupo == $grupo->id_grupo) {
 		                								$ItaliaLabel = new Etiquetado_italia($producto->energia, $producto->lipidos, $producto->acidosgs, $producto->azucaresa, $producto->sodio, $referencia_eeuu);
 			                							?>
-			                							<td>
+			                							<td class="txt-centrado">
+			                								<h6>
+			                									<img src="<?= base_url('uploads/flags/italia.jpg') ?>" class="flag-1">
+			                									<strong> Italia - VNR <img src="<?= base_url('uploads/flags/usa.jpg') ?>" class="flag-2"></strong>
+			                								</h6>
 			                								<div class="battery-small">
 				                								<div class="battery-title-1">
 																				<p><strong>ENERGIA</strong></p>
@@ -1654,8 +1817,11 @@
 
                 							<!-- Etiquetado de Australia & Nueva Zelanda -->
                 							<tr>
-                								<th>Australia & Nueva Zelanda</th>
                 								<td class="txt-centrado">
+                									<h6>
+	                									<img src="<?= base_url('uploads/flags/australia.jpg') ?>" class="flag-1">
+	                									<strong> Australia & Nueva Zelanda</strong>
+	                								</h6>
                 									<?
                 										$AustraliaLabel = new Etiquetado_Australia_Nueva_Zelanda($promedios[$grupo->id_grupo]['energia'], $promedios[$grupo->id_grupo]['acidosgs'], $promedios[$grupo->id_grupo]['sodio'], $promedios[$grupo->id_grupo]['azucaresa'], $promedios[$grupo->id_grupo]['calcio'], $promedios[$grupo->id_grupo]['verdura'], $promedios[$grupo->id_grupo]['proteina'], $promedios[$grupo->id_grupo]['fibra'], 0, $grupo->tipo);
 			                							?>
@@ -1686,6 +1852,10 @@
 		                								$AustraliaLabel = new Etiquetado_Australia_Nueva_Zelanda($producto->energia, $producto->acidosgs, $producto->sodio, $producto->azucaresa, $producto->calcio, $producto->verdura, $producto->proteina, $producto->fibra, $producto->id_categoria, $producto->tipo);
 			                							?>
 			                							<td class="txt-centrado">
+			                								<h6>
+			                									<img src="<?= base_url('uploads/flags/australia.jpg') ?>" class="flag-1">
+			                									<strong> Australia & Nueva Zelanda</strong>
+			                								</h6>
 			                								<img src="<?= base_url("uploads/labels-australia/".$AustraliaLabel->getCategoria()."-estrellas.png") ?>" class="australia-img-small">
 																			<div class="australia-value-small">
 																				<p class="title">ENERGY</p>
