@@ -3,6 +3,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Administrador extends CI_Controller {
 
+	private $etiquetados = array(
+			'chi'	=>	'Chile', 
+			'ecu'	=>	'Ecuador', 
+			'mex' 	=>	'México', 
+			'col' 	=>	'Colombia', 
+			'uru'	=>	'Uruguay', 
+			'per'	=>	'Perú', 
+			'run'	=>	'Reino Unido', 
+			'fra'	=>	'Francia', 
+			'isr'	=>	'Israel', 
+			'ita'	=>	'Italia', 
+			'aus'	=>	'Australia');
+
+	private $indices = array(
+			'nrf'	=>	'NRF 9.3', 
+			'sai'	=>	'SAIN-LIM', 
+			'fuf'	=>	'Fullness Factor', 
+			'mes'	=>	'Media Estándar', 
+			'sen'	=>	'Sens');
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -133,16 +153,28 @@ class Administrador extends CI_Controller {
 
 		/*Consultas generales*/
 		$id_user = desencripta($this->uri->segment(2));
+		$edicion = $this->uri->segment(3);
 		$usuarios = $this->General_model->get('usuarios', array('id_user'=>$id_user), array(), '');
 		$mensaje = ($this->uri->segment(3)!='')? $this->uri->segment(3) : 0;
 		$opciones = $this->General_model->get('menu_opciones', array('activo'=>1), array('orden'=>'asc'), '');
 		$subopciones = $this->General_model->get('submenu_opciones', array('activo_submenu'=>1), array('id_opcion'=>'asc', 'orden_submenu'=>'asc'), '');
+		$permisos_submenu = $this->General_model->get('permisos_submenu', array('id_usuario'=>$id_user), array(), '');
+		$permisos_labs = $this->General_model->get('permisos_labs', array('id_usuario'=>$id_user), array(), '');
+		$permisos_labels = $this->General_model->get('permisos_etiquetados', array('id_usuario'=>$id_user), array(), '');
+		$permisos_indices = $this->General_model->get('permisos_indices', array('id_usuario'=>$id_user), array(), '');
 
 		$data = array(
 			'usuarios'	=>	$usuarios,
 			'mensaje'	=>	$mensaje,
 			'opciones'	=>	$opciones,
 			'subopciones'=>	$subopciones,
+			'etiquetados'=>	$this->etiquetados,
+			'indices'	=>	$this->indices,
+			'edicion'	=>	$edicion,
+			'permisos_submenu'	=>	$permisos_submenu,
+			'permisos_labs'		=>	$permisos_labs,
+			'permisos_labels'	=>	$permisos_labels,
+			'permisos_indices'	=>	$permisos_indices,
 		);
 
 		/*Configuración de la vista*/
@@ -179,6 +211,7 @@ class Administrador extends CI_Controller {
 		/*funcionalidad Javascript*/
 		$this->load->view('Administrador/usuarios_datatable_view');
 		$this->load->view('Administrador/usuarios_js_view');
+		$this->load->view('Administrador/usuarios_toast_view');
 
 		$this->load->view('Plantillas/body_close_view');
 		$this->load->view('Plantillas/html_close_view');
@@ -206,24 +239,92 @@ class Administrador extends CI_Controller {
 		redirect(base_url('usuarios/1'));
 	}
 
-	public function usuario_actualizar_subpermisos(){
+	public function actualizar_subpermisos(){
 		if (!isset($_SESSION['idUser'])) {
 			redirect('App/logout');
 		}
 
-		$valores = array(
-			
-		);
+		/*Consultas generales*/
+		$id_user = desencripta($this->input->post('usuario_subpermisos'));
+		$this->General_model->delete('permisos_submenu', array('id_usuario'	=>	$id_user));
+
+		foreach ($_POST as $cve => $val) {
+			$tipo = explode('_', $cve);
+			if ($tipo[0]=='sub') {
+				$datos = array(
+					'id_usuario'=>$id_user, 
+					'id_opcion'=>$tipo[1], 
+					'orden_submenu'=>$tipo[2]
+				);
+				$this->General_model->set('permisos_submenu', $datos);				
+			}
+		}
+		
+		redirect(base_url('usuarios_editar/'.encripta($id_user).'/1'));
+	}
+
+	public function actualizar_labs(){
+		if (!isset($_SESSION['idUser'])) {
+			redirect('App/logout');
+		}
 
 		/*Consultas generales*/
-
-		$id_user = desencripta($this->uri->segment(2));
-		$valores = array(
-			'id_user'	=>	$id_user,
+		$id_user = desencripta($this->input->post('usuario_lab'));
+		$this->General_model->delete('permisos_labs', array('id_usuario'=>$id_user));
+		$datos = array(
+			'id_usuario'	=>$id_user, 
+			'no_labs'		=>$this->input->post('no_labs'), 
+			'no_productos'	=>$this->input->post('no_max_prod'),
 		);
-		$this->General_model->delete('usuarios', $valores);
+		$this->General_model->set('permisos_labs', $datos);				
+		
+		redirect(base_url('usuarios_editar/'.encripta($id_user).'/2'));
+	}
 
-		redirect(base_url('usuarios/1'));
+	public function actualizar_labels(){
+		if (!isset($_SESSION['idUser'])) {
+			redirect('App/logout');
+		}
+
+		/*Consultas generales*/
+		$id_user = desencripta($this->input->post('usuario_labels'));
+		$this->General_model->delete('permisos_etiquetados', array('id_usuario'=>$id_user));
+
+		foreach ($_POST as $cve => $val) {
+			$tipo = explode('_', $cve);
+			if ($tipo[0]=='label') {
+				$datos = array(
+					'id_usuario'=>	$id_user, 
+					'etiquetado'=>	$val, 
+				);
+				$this->General_model->set('permisos_etiquetados', $datos);				
+			}
+		}
+		
+		redirect(base_url('usuarios_editar/'.encripta($id_user).'/3'));
+	}
+
+	public function actualizar_index(){
+		if (!isset($_SESSION['idUser'])) {
+			redirect('App/logout');
+		}
+
+		/*Consultas generales*/
+		$id_user = desencripta($this->input->post('usuario_index'));
+		$this->General_model->delete('permisos_indices', array('id_usuario'=>$id_user));
+
+		foreach ($_POST as $cve => $val) {
+			$tipo = explode('_', $cve);
+			if ($tipo[0]=='index') {
+				$datos = array(
+					'id_usuario'=>	$id_user, 
+					'indice'=>	$val, 
+				);
+				$this->General_model->set('permisos_indices', $datos);				
+			}
+		}
+		
+		redirect(base_url('usuarios_editar/'.encripta($id_user).'/4'));
 	}
 
 }

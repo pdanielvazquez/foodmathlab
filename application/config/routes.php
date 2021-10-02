@@ -91,7 +91,10 @@ $route['permisos_usuarios'] = 'Administrador/permisos';
 $route['usuarios_editar/(:any)/(:num)'] = 'Administrador/usuario_editar';
 $route['usuarios_eliminar/(:any)'] = 'Administrador/usuario_eliminar';
 $route['usuarios_guardar_editar'] = 'Administrador/usuario_guardar_editar';
-$route['usuarios_actualizar_subpermisos'] = 'Administrador/usuario_actualizar_subpermisos';
+$route['usuarios_as'] = 'Administrador/actualizar_subpermisos';
+$route['usuarios_ab'] = 'Administrador/actualizar_labs';
+$route['usuarios_al'] = 'Administrador/actualizar_labels';
+$route['usuarios_ai'] = 'Administrador/actualizar_index';
 
 /*Home*/
 $route['inicio'] = 'Home';
