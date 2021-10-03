@@ -45,7 +45,27 @@
           </div>
           <!-- /.card-body -->
           <div class="card-footer">
-            <button class="btn btn-lg btn-secondary float-right" name="aceptar">Aceptar</button>
+            <?
+            $no_labs = ($permisos_labs!=false)? $permisos_labs->row(0)->no_labs : 0;
+            $no_grupos = ($grupos_sTrash!=false)? count($grupos_sTrash->result()): 0;
+            if ($no_grupos<$no_labs) {
+              ?>
+                <button class="btn btn-lg btn-secondary float-right" name="aceptar">Aceptar</button>
+              <?
+            }
+            else{
+              ?>
+                
+                <div class="info-box bg-warning">
+                  <span class="info-box-icon"><i class="fas fa-info-circle"></i></span>
+                  <div class="info-box-content">
+                    <span class="info-box-number">Se ha llegado al límite de Laboratorios contratados</span>
+                  </div>
+                  <!-- /.info-box-content -->
+                </div>
+              <?
+            }
+            ?>
           </div>
           <!-- /.card-footer-->
         </div>

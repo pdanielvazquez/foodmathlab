@@ -310,16 +310,29 @@ class Productos extends CI_Controller {
 		$marcas = $this->General_model->get('marcas', array(), array('marca'=>'asc'), 'marca');
 		//$categorias = $this->General_model->get('categorias', array(), array('categoria'=>'asc'), 'categoria');
 		$campos = $this->campos;
+		$grupos = $this->General_model->get('grupos', array('id_usuario'=>$_SESSION['idUser'], 'nombre<>'=>'Trash'), array('nombre'=>'asc'), '');
+		$productos = $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser']), array(), '');
 
-		
+		$grupos_contador = array();
+		if ($grupos!=false) {
+			foreach ($grupos->result() as $lab) {
+				$grupos_contador[$lab->id_grupo]=0;
+			}
+		}
+		if ($productos!=false) {
+			foreach ($productos->result() as $producto) {
+				$grupos_contador[$producto->id_grupo]++;
+			}
+		}
 
-		$grupos = $this->General_model->get('grupos', array('id_usuario'=>$_SESSION['idUser']), array(), '');
+		$permisos_labs = $this->General_model->get('permisos_labs', array('id_usuario'=>$_SESSION['idUser']), array(), '');
 
 		$data = array(
 			'marcas'	=>	$marcas,
-			//'categorias'=>	$categorias,
 			'campos'	=>	$campos,
 			'grupos'	=>	$grupos,
+			'contadores'=>	$grupos_contador,
+			'permisos_labs'=>$permisos_labs,
 		);
 
 		/*Configuración de la vista*/
@@ -735,9 +748,13 @@ class Productos extends CI_Controller {
 		}
 
 		/*Consultas generales*/
-		$grupos = $this->General_model->get('grupos', array('id_usuario'=>$_SESSION['idUser']), array(), '');
+		$grupos = $this->General_model->get('grupos', array('id_usuario'=>$_SESSION['idUser']), array('nombre'=>'asc'), '');
+		$grupos_sTrash = $this->General_model->get('grupos', array('id_usuario'=>$_SESSION['idUser'], 'nombre<>'=>'Trash'), array(), '');
+		$permisos_labs = $this->General_model->get('permisos_labs', array('id_usuario'=>$_SESSION['idUser']), array(), '');
 		$data = array(
-			'grupos'	=> $grupos,
+			'grupos'		=> $grupos,
+			'grupos_sTrash'	=> $grupos_sTrash,
+			'permisos_labs'	=> $permisos_labs,
 		);
 
 		/*Configuración de la vista*/

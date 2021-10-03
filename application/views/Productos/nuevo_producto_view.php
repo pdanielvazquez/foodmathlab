@@ -1,4 +1,6 @@
-<? $input = new Input(); ?>
+<? 
+  $input = new Input();
+?>
 
 <!-- Main content -->
 <section class="content">
@@ -41,12 +43,26 @@
           <div class="col-xs-12 col-md-4 col-lg-4">
             <div class="form-group">
               <label>Grupo</label>
-              <?= $input->Select(array(
-                'name'=>'producto_grupo', 
-                'id'=>'producto_grupo', 
-                'class'=>'form-control',
-                'required'=>'required',
-              ), $grupos, 'id_grupo', 'nombre', 0) ?>
+              <a href="" data-toggle="modal" data-target="#cantidad_productos">
+                <i class="fas fa-question-circle text-red"></i>
+              </a>
+              <select name="producto_grupo" id="producto_grupo" class="form-control" required="required">
+                <option value="">-Seleccione-</option>
+                <?
+                  $permiso = ($permisos_labs!=false)? $permisos_labs->row(0) : false;
+                  if ($permiso!=false) {
+                    if ($grupos!=false) {
+                      foreach ($grupos->result() as $grupo) {
+                        if ($contadores[$grupo->id_grupo]<=$permiso->no_productos) {
+                          ?>
+                          <option value="<?= $grupo->id_grupo ?>"><?= $grupo->nombre." (".$contadores[$grupo->id_grupo].")"  ?></option>
+                          <?
+                        }
+                      }
+                    }
+                  }
+                ?>
+              </select>
             </div>
           </div>
           
