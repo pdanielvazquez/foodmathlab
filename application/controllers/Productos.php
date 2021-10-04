@@ -282,6 +282,7 @@ class Productos extends CI_Controller {
 		$this->load->helper('SainLim_Sens_helper');
 		$this->load->helper('fullnessFactor_helper');
 		$this->load->helper('media_estandarizada_helper');
+		$this->load->helper('extra_helper');
 		$this->load->helper('Etiquetado_helper');
 	}
 
@@ -338,6 +339,7 @@ class Productos extends CI_Controller {
 		/*Configuración de la vista*/
 		$menu = $this->General_model->get('permisos_usuarios', array('activo'=>1, 'id_usuario'=>$_SESSION['idUser']), array('orden'=>'asc'), '');
 		$submenu = $this->General_model->get('submenu_opciones', array('activo_submenu'=>1), array(), '');
+		$permisos_submenu = $this->General_model->get('permisos_submenu', array('id_usuario'=>$_SESSION['idUser']), array(), '');
 		$usuarios = $this->General_model->get('usuarios', array('id_user'=>$this->session->idUser), array(), '');
 		$usuario = ($usuarios!=false)? $usuarios->row(0) : false ;
 
@@ -347,6 +349,7 @@ class Productos extends CI_Controller {
 			'usuario'	=>	$usuario->nombre,
 			'menu'		=>	$menu,
 			'submenu'	=>	$submenu,
+			'permisos_submenu'=>$permisos_submenu,
 		);
 
 		$this->load->view('Plantillas/html_open_view', $config);
@@ -451,6 +454,7 @@ class Productos extends CI_Controller {
 		/*Configuración de la vista*/
 		$menu = $this->General_model->get('permisos_usuarios', array('activo'=>1, 'id_usuario'=>$_SESSION['idUser']), array('orden'=>'asc'), '');
 		$submenu = $this->General_model->get('submenu_opciones', array('activo_submenu'=>1), array(), '');
+		$permisos_submenu = $this->General_model->get('permisos_submenu', array('id_usuario'=>$_SESSION['idUser']), array(), '');
 		$usuarios = $this->General_model->get('usuarios', array('id_user'=>$this->session->idUser), array(), '');
 		$usuario = ($usuarios!=false)? $usuarios->row(0) : false ;
 
@@ -460,6 +464,7 @@ class Productos extends CI_Controller {
 			'usuario'	=>	$usuario->nombre,
 			'menu'		=>	$menu,
 			'submenu'	=>	$submenu,
+			'permisos_submenu'=>$permisos_submenu,
 		);
 
 		$this->load->view('Plantillas/html_open_view', $config);
@@ -580,15 +585,18 @@ class Productos extends CI_Controller {
 			'usa' => array('EE.UU.', 'usa.jpg', $this->valores_referencia_eeuu),
 		);
 
+		$permisos_etiquetados = $this->General_model->get('permisos_etiquetados', array('id_usuario'=>$_SESSION['idUser']), array(), '');
+		$permisos_indices = $this->General_model->get('permisos_indices', array('id_usuario'=>$_SESSION['idUser']), array(), '');
+
 		$data = array(
-			'producto'	=>	$producto,
-			'referencia_eu'=>	$this->valores_referencia_eu,
-			'referencia_co'=>	$this->valores_referencia_co,
-			'referencia_mx'=>	$this->valores_referencia_mx,
-			'referencia_eeuu'=>	$this->valores_referencia_eeuu,
-			'vnrs'		=>	$vnrs,
-			'campos'	=>	$campos,
-			'grupos'	=>	$grupos,
+			'producto'			=>	$producto,
+			'referencia_eu'		=>	$this->valores_referencia_eu,
+			'referencia_co'		=>	$this->valores_referencia_co,
+			'referencia_mx'		=>	$this->valores_referencia_mx,
+			'referencia_eeuu'	=>	$this->valores_referencia_eeuu,
+			'vnrs'				=>	$vnrs,
+			'campos'			=>	$campos,
+			'grupos'			=>	$grupos,
 			'productos_energia'	=>	$productos_energia,
 			'productos_lipidos'	=>	$productos_lipidos,
 			'productos_azucares'=>	$productos_azucares,
@@ -597,6 +605,8 @@ class Productos extends CI_Controller {
 			'productos_sodio'	=>	$productos_sodio,
 			'productos_indices'	=>	$productos_indices,
 			'campos_productos_indices' => $campos_productos_indices,
+			'permisos_etiquetados'	=>	$permisos_etiquetados,
+			'permisos_indices'	=>	$permisos_indices,
 		);
 
 		$this->load->view('Productos/descripcion_producto_view', $data);
@@ -643,6 +653,7 @@ class Productos extends CI_Controller {
 			/*Configuración de la vista*/
 			$menu = $this->General_model->get('permisos_usuarios', array('activo'=>1, 'id_usuario'=>$_SESSION['idUser']), array('orden'=>'asc'), '');
 			$submenu = $this->General_model->get('submenu_opciones', array('activo_submenu'=>1), array(), '');
+			$permisos_submenu = $this->General_model->get('permisos_submenu', array('id_usuario'=>$_SESSION['idUser']), array(), '');
 			$usuarios = $this->General_model->get('usuarios', array('id_user'=>$this->session->idUser), array(), '');
 			$usuario = ($usuarios!=false)? $usuarios->row(0) : false ;
 
@@ -652,6 +663,7 @@ class Productos extends CI_Controller {
 				'usuario'	=>	$usuario->nombre,
 				'menu'		=>	$menu,
 				'submenu'	=>	$submenu,
+				'permisos_submenu'=>$permisos_submenu,
 			);
 
 			$this->load->view('Plantillas/html_open_view', $config);
@@ -760,6 +772,7 @@ class Productos extends CI_Controller {
 		/*Configuración de la vista*/
 		$menu = $this->General_model->get('permisos_usuarios', array('activo'=>1, 'id_usuario'=>$_SESSION['idUser']), array('orden'=>'asc'), '');
 		$submenu = $this->General_model->get('submenu_opciones', array('activo_submenu'=>1), array(), '');
+		$permisos_submenu = $this->General_model->get('permisos_submenu', array('id_usuario'=>$_SESSION['idUser']), array(), '');
 		$usuarios = $this->General_model->get('usuarios', array('id_user'=>$this->session->idUser), array(), '');
 		$usuario = ($usuarios!=false)? $usuarios->row(0) : false ;
 
@@ -769,6 +782,7 @@ class Productos extends CI_Controller {
 			'usuario'	=>	$usuario->nombre,
 			'menu'		=>	$menu,
 			'submenu'	=>	$submenu,
+			'permisos_submenu'=>$permisos_submenu,
 		);
 
 		$this->load->view('Plantillas/html_open_view', $config);
@@ -830,6 +844,7 @@ class Productos extends CI_Controller {
 		/*Configuración de la vista*/
 		$menu = $this->General_model->get('permisos_usuarios', array('activo'=>1, 'id_usuario'=>$_SESSION['idUser']), array('orden'=>'asc'), '');
 		$submenu = $this->General_model->get('submenu_opciones', array('activo_submenu'=>1), array(), '');
+		$permisos_submenu = $this->General_model->get('permisos_submenu', array('id_usuario'=>$_SESSION['idUser']), array(), '');
 		$usuarios = $this->General_model->get('usuarios', array('id_user'=>$this->session->idUser), array(), '');
 		$usuario = ($usuarios!=false)? $usuarios->row(0) : false ;
 
@@ -839,6 +854,7 @@ class Productos extends CI_Controller {
 			'usuario'	=>	$usuario->nombre,
 			'menu'		=>	$menu,
 			'submenu'	=>	$submenu,
+			'permisos_submenu'=>$permisos_submenu,
 		);
 
 		$this->load->view('Plantillas/html_open_view', $config);
@@ -1029,6 +1045,7 @@ class Productos extends CI_Controller {
 		/*Configuración de la vista*/
 		$menu = $this->General_model->get('permisos_usuarios', array('activo'=>1, 'id_usuario'=>$_SESSION['idUser']), array('orden'=>'asc'), '');
 		$submenu = $this->General_model->get('submenu_opciones', array('activo_submenu'=>1), array(), '');
+		$permisos_submenu = $this->General_model->get('permisos_submenu', array('id_usuario'=>$_SESSION['idUser']), array(), '');
 		$usuarios = $this->General_model->get('usuarios', array('id_user'=>$this->session->idUser), array(), '');
 		$usuario = ($usuarios!=false)? $usuarios->row(0) : false ;
 
@@ -1038,6 +1055,7 @@ class Productos extends CI_Controller {
 			'usuario'	=>	$usuario->nombre,
 			'menu'		=>	$menu,
 			'submenu'	=>	$submenu,
+			'permisos_submenu'=>$permisos_submenu,
 		);
 
 		$this->load->view('Plantillas/html_open_view', $config);
@@ -1135,6 +1153,7 @@ class Productos extends CI_Controller {
 		/*Configuración de la vista*/
 		$menu = $this->General_model->get('permisos_usuarios', array('activo'=>1, 'id_usuario'=>$_SESSION['idUser']), array('orden'=>'asc'), '');
 		$submenu = $this->General_model->get('submenu_opciones', array('activo_submenu'=>1), array(), '');
+		$permisos_submenu = $this->General_model->get('permisos_submenu', array('id_usuario'=>$_SESSION['idUser']), array(), '');
 		$usuarios = $this->General_model->get('usuarios', array('id_user'=>$this->session->idUser), array(), '');
 		$usuario = ($usuarios!=false)? $usuarios->row(0) : false ;
 
@@ -1144,6 +1163,7 @@ class Productos extends CI_Controller {
 			'usuario'	=>	$usuario->nombre,
 			'menu'		=>	$menu,
 			'submenu'	=>	$submenu,
+			'permisos_submenu'=>$permisos_submenu,
 		);
          
 		$this->load->view('Plantillas/html_open_view', $config);
@@ -1210,6 +1230,7 @@ class Productos extends CI_Controller {
 				/*Configuración de la vista*/
 				$menu = $this->General_model->get('permisos_usuarios', array('activo'=>1, 'id_usuario'=>$_SESSION['idUser']), array('orden'=>'asc'), '');
 				$submenu = $this->General_model->get('submenu_opciones', array('activo_submenu'=>1), array(), '');
+				$permisos_submenu = $this->General_model->get('permisos_submenu', array('id_usuario'=>$_SESSION['idUser']), array(), '');
 				$usuarios = $this->General_model->get('usuarios', array('id_user'=>$this->session->idUser), array(), '');
 				$usuario = ($usuarios!=false)? $usuarios->row(0) : false ;
 
@@ -1219,6 +1240,7 @@ class Productos extends CI_Controller {
 					'usuario'	=>	$usuario->nombre,
 					'menu'		=>	$menu,
 					'submenu'	=>	$submenu,
+					'permisos_submenu'=>$permisos_submenu,
 				);
 
 				$this->load->view('Plantillas/html_open_view', $config);
@@ -1284,6 +1306,7 @@ class Productos extends CI_Controller {
 			/*Configuración de la vista*/
 			$menu = $this->General_model->get('permisos_usuarios', array('activo'=>1, 'id_usuario'=>$_SESSION['idUser']), array('orden'=>'asc'), '');
 			$submenu = $this->General_model->get('submenu_opciones', array('activo_submenu'=>1), array(), '');
+			$permisos_submenu = $this->General_model->get('permisos_submenu', array('id_usuario'=>$_SESSION['idUser']), array(), '');
 			$usuarios = $this->General_model->get('usuarios', array('id_user'=>$this->session->idUser), array(), '');
 			$usuario = ($usuarios!=false)? $usuarios->row(0) : false ;
 
@@ -1293,6 +1316,7 @@ class Productos extends CI_Controller {
 				'usuario'	=>	$usuario->nombre,
 				'menu'		=>	$menu,
 				'submenu'	=>	$submenu,
+				'permisos_submenu'=>$permisos_submenu,
 			);
 
 			$this->load->view('Plantillas/html_open_view', $config);

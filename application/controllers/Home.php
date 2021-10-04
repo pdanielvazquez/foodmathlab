@@ -26,6 +26,7 @@ class Home extends CI_Controller {
 		/*Configuración de la vista*/
 		$menu = $this->General_model->get('permisos_usuarios', array('activo'=>1, 'id_usuario'=>$_SESSION['idUser']), array('orden'=>'asc'), '');
 		$submenu = $this->General_model->get('submenu_opciones', array('activo_submenu'=>1), array(), '');
+		$permisos_submenu = $this->General_model->get('permisos_submenu', array('id_usuario'=>$_SESSION['idUser']), array(), '');
 		$usuarios = $this->General_model->get('usuarios', array('id_user'=>$this->session->idUser), array(), '');
 		$usuario = ($usuarios!=false)? $usuarios->row(0) : false ;
 
@@ -35,6 +36,7 @@ class Home extends CI_Controller {
 			'usuario'	=>	$usuario->nombre,
 			'menu'		=>	$menu,
 			'submenu'	=>	$submenu,
+			'permisos_submenu'=>$permisos_submenu,
 		);
 
 		$this->load->view('Plantillas/html_open_view', $config);

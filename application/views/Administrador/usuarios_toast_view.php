@@ -24,6 +24,9 @@
         case 4:
           mensaje = 'Acceso a índices actualizado';
           break;
+        case 5:
+          mensaje = 'Usuario creado exitosamente';
+          break;
       }
       Toast.fire({
         icon: 'success',

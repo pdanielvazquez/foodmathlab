@@ -1,4 +1,8 @@
 <? $input = new Input(); ?>
+<?
+  $permisos_e = ($permisos_etiquetados!=false)? $permisos_etiquetados->result(): false;
+  $permisos_i = ($permisos_indices!=false)? $permisos_indices->result(): false;
+?>
 <style>
   .flag{
     width: 30px;
@@ -565,260 +569,285 @@
                 <?
               }
 
-              $conta=1;
-              foreach ($vnrs as $cve => $val) {
-                ?>
-                  <div class="col-xs-12 col-md-6 col-lg-4">
-                    <div class="card collapsed-card">
-                        <div class="card-header">
-                          <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
-                            <h3 class="card-title">
-                              <span class="material-icons">scatter_plot</span>
-                              NRF 9.3 <small>VNR - <img src="<?= base_url('uploads/flags/'.$vnrs[$cve][1]) ?>" class="flag"></small>
-                            </h3>
-                          </button>
-                          <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-card-widget="maximize" title="Presiona para maximizar/minimizar la gráfica">
-                              <i class="fas fa-expand"></i>
-                            </button>
+              if (search_index($permisos_i, 'nrf')==true) {
+                $conta=1;
+                foreach ($vnrs as $cve => $val) {
+                  ?>
+                    <div class="col-xs-12 col-md-6 col-lg-4">
+                      <div class="card collapsed-card">
+                          <div class="card-header">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
-                              <i class="fas fa-plus"></i>
+                              <h3 class="card-title">
+                                <span class="material-icons">scatter_plot</span>
+                                NRF 9.3 <small>VNR - <img src="<?= base_url('uploads/flags/'.$vnrs[$cve][1]) ?>" class="flag"></small>
+                              </h3>
                             </button>
+                            <div class="card-tools">
+                              <button type="button" class="btn btn-tool" data-card-widget="maximize" title="Presiona para maximizar/minimizar la gráfica">
+                                <i class="fas fa-expand"></i>
+                              </button>
+                              <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
+                                <i class="fas fa-plus"></i>
+                              </button>
+                            </div>
+                          </div>
+                          <div class="card-body">
+                            <!-- Indice NRF 9.3 -->
+                            <?
+                            $nrf9 = array();
+                            $nrf3 = array();
+                            $colors = array();
+                            $label = array();
+                            if ($productos_indices!=false) {
+                                foreach ($productos_indices->result() as $prod_nrf93) {
+                                    $valores = array();
+                                    foreach ($campos_productos_indices as $etiqueta => $campo) {
+                                        $atributo = $campo['campo'];
+                                        $valores[$atributo] = number_format($prod_nrf93->$atributo, 2);
+                                    }
+                                    $nrf93 = new NRF93($valores, $vnrs[$cve][2]);
+                                    array_push($nrf9, $nrf93->getNRF9());
+                                    array_push($nrf3, $nrf93->getNRF3());
+                                    array_push($label, substr($prod_nrf93->nombre, 0, 15) );
+                                    if ($prod_nrf93->id_prod == $producto->id_prod) {
+                                      array_push($colors, 1);
+                                    }
+                                    else{
+                                      array_push($colors, 0);
+                                    }
+                                    unset($nrf93);
+                                }
+                            }
+                            ?>
+                            <canvas id="nrf93Chart<?= $conta++ ?>"  data-nrf9="<?= implode(',', $nrf9) ?>" data-nrf3="<?= implode(',', $nrf3) ?>" data-labels="<?= implode(',', $label) ?>" data-title="NRF 9.3" data-color="<?= implode(',', $colors) ?>" height="200" class="chartCanvas"></canvas>
                           </div>
                         </div>
-                        <div class="card-body">
-                          <!-- Indice NRF 9.3 -->
-                          <?
-                          $nrf9 = array();
-                          $nrf3 = array();
-                          $colors = array();
-                          $label = array();
-                          if ($productos_indices!=false) {
-                              foreach ($productos_indices->result() as $prod_nrf93) {
-                                  $valores = array();
-                                  foreach ($campos_productos_indices as $etiqueta => $campo) {
-                                      $atributo = $campo['campo'];
-                                      $valores[$atributo] = number_format($prod_nrf93->$atributo, 2);
-                                  }
-                                  $nrf93 = new NRF93($valores, $vnrs[$cve][2]);
-                                  array_push($nrf9, $nrf93->getNRF9());
-                                  array_push($nrf3, $nrf93->getNRF3());
-                                  array_push($label, substr($prod_nrf93->nombre, 0, 15) );
-                                  if ($prod_nrf93->id_prod == $producto->id_prod) {
-                                    array_push($colors, 1);
-                                  }
-                                  else{
-                                    array_push($colors, 0);
-                                  }
-                                  unset($nrf93);
-                              }
-                          }
-                          ?>
-                          <canvas id="nrf93Chart<?= $conta++ ?>"  data-nrf9="<?= implode(',', $nrf9) ?>" data-nrf3="<?= implode(',', $nrf3) ?>" data-labels="<?= implode(',', $label) ?>" data-title="NRF 9.3" data-color="<?= implode(',', $colors) ?>" height="200" class="chartCanvas"></canvas>
-                        </div>
-                      </div>
-                  </div>
-                <?
+                    </div>
+                  <?
+                }
               }
               ?>
               
 
-              <div class="col-xs-12 col-md-6 col-lg-4">
-                <div class="card collapsed-card">
-                    <div class="card-header">
-                      <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
-                        <h3 class="card-title">
-                          <span class="material-icons">scatter_plot</span>
-                          SAIN-LIM
-                        </h3>
-                      </button>
-                      <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="maximize" title="Presiona para maximizar/minimizar la gráfica">
-                          <i class="fas fa-expand"></i>
-                        </button>
+              <?
+              if (search_index($permisos_i, 'sai')==true) {
+                ?>
+                <div class="col-xs-12 col-md-6 col-lg-4">
+                  <div class="card collapsed-card">
+                      <div class="card-header">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
-                          <i class="fas fa-plus"></i>
+                          <h3 class="card-title">
+                            <span class="material-icons">scatter_plot</span>
+                            SAIN-LIM
+                          </h3>
                         </button>
+                        <div class="card-tools">
+                          <button type="button" class="btn btn-tool" data-card-widget="maximize" title="Presiona para maximizar/minimizar la gráfica">
+                            <i class="fas fa-expand"></i>
+                          </button>
+                          <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
+                            <i class="fas fa-plus"></i>
+                          </button>
+                        </div>
+                      </div>
+                      <div class="card-body">
+                        <?
+                        $dataX = array();
+                        $dataY = array();
+                        $colors = array();
+                        $labels = array();
+                        if ($productos_indices!=false) {
+                            foreach ($productos_indices->result() as $prod_sainlim) {
+                                $valores = array();
+                                foreach ($campos_productos_indices as $etiqueta => $campo) {
+                                    $atributo = $campo['campo'];
+                                    $valores[$atributo] = number_format($prod_sainlim->$atributo, 2);
+                                }
+                                $sainlim = new SainLim($valores);
+                                array_push($dataX, $sainlim->getSain());
+                                array_push($dataY, $sainlim->getLim());
+                                array_push($labels, substr($prod_sainlim->nombre, 0, 15));
+                                if ($prod_sainlim->id_prod == $producto->id_prod) {
+                                  array_push($colors, 1);
+                                }
+                                else{
+                                  array_push($colors, 0);
+                                }
+                                unset($sainlim);
+                            }
+                        }
+                        ?>
+                        <canvas id="saimlimChart"  data-x="<?= implode(',', $dataX) ?>" data-y="<?= implode(',', $dataY) ?>" data-labels="<?= implode(',', $labels) ?>" data-title="SAIN-LIM" data-color="<?= implode(',', $colors) ?>" height="200" class="chartCanvas"></canvas>
                       </div>
                     </div>
-                    <div class="card-body">
-                      <?
-                      $dataX = array();
-                      $dataY = array();
-                      $colors = array();
-                      $labels = array();
-                      if ($productos_indices!=false) {
-                          foreach ($productos_indices->result() as $prod_sainlim) {
-                              $valores = array();
-                              foreach ($campos_productos_indices as $etiqueta => $campo) {
-                                  $atributo = $campo['campo'];
-                                  $valores[$atributo] = number_format($prod_sainlim->$atributo, 2);
-                              }
-                              $sainlim = new SainLim($valores);
-                              array_push($dataX, $sainlim->getSain());
-                              array_push($dataY, $sainlim->getLim());
-                              array_push($labels, substr($prod_sainlim->nombre, 0, 15));
-                              if ($prod_sainlim->id_prod == $producto->id_prod) {
-                                array_push($colors, 1);
-                              }
-                              else{
-                                array_push($colors, 0);
-                              }
-                              unset($sainlim);
-                          }
-                      }
-                      ?>
-                      <canvas id="saimlimChart"  data-x="<?= implode(',', $dataX) ?>" data-y="<?= implode(',', $dataY) ?>" data-labels="<?= implode(',', $labels) ?>" data-title="SAIN-LIM" data-color="<?= implode(',', $colors) ?>" height="200" class="chartCanvas"></canvas>
-                    </div>
-                  </div>
-              </div>
+                </div>
+                <?
+              }
+              ?>
 
-              <div class="col-xs-12 col-md-6 col-lg-4">
-                <div class="card collapsed-card">
-                    <div class="card-header">
-                      <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
-                        <h3 class="card-title">
-                          <span class="material-icons">equalizer</span>
-                          Fullness Factor
-                        </h3>
-                      </button>
-                      <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="maximize" title="Presiona para maximizar/minimizar la gráfica">
-                          <i class="fas fa-expand"></i>
-                        </button>
+              <?
+              if (search_index($permisos_i, 'fuf')==true) {
+                ?>
+                <div class="col-xs-12 col-md-6 col-lg-4">
+                  <div class="card collapsed-card">
+                      <div class="card-header">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
-                          <i class="fas fa-plus"></i>
+                          <h3 class="card-title">
+                            <span class="material-icons">equalizer</span>
+                            Fullness Factor
+                          </h3>
                         </button>
+                        <div class="card-tools">
+                          <button type="button" class="btn btn-tool" data-card-widget="maximize" title="Presiona para maximizar/minimizar la gráfica">
+                            <i class="fas fa-expand"></i>
+                          </button>
+                          <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
+                            <i class="fas fa-plus"></i>
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                    <div class="card-body">
-                      <?
-                      $ffs = array();
-                      $colors = array();
-                      $labels = array();
-                      if ($productos_indices!=false) {
-                          foreach ($productos_indices->result() as $prod_ff) {
-                              $valores = array();
-                              foreach ($campos_productos_indices as $etiqueta => $campo) {
-                                  $atributo = $campo['campo'];
-                                  $valores[$atributo] = number_format($prod_ff->$atributo, 2);
-                              }
-                              $ff = new FullnessFactor($valores);
-                              array_push($ffs, $ff->getFactor());
-                              array_push($labels, substr($prod_ff->nombre, 0, 15));
-                              if ($prod_ff->id_prod == $producto->id_prod) {
-                                array_push($colors, 1);
-                              }
-                              else{
-                                array_push($colors, 0);
-                              }
-                              unset($ff);
-                          }
-                      }
-                      ?>
-                      <canvas id="ffChart"  data-values="<?= implode(',', $ffs) ?>" data-labels="<?= implode(',', $labels) ?>" data-color="<?= implode(',', $colors) ?>" data-unit="FF" data-title="Fullness Factor" height="200" class="chartCanvas"></canvas>
-                    </div>
-                  </div> 
-              </div>
+                      <div class="card-body">
+                        <?
+                        $ffs = array();
+                        $colors = array();
+                        $labels = array();
+                        if ($productos_indices!=false) {
+                            foreach ($productos_indices->result() as $prod_ff) {
+                                $valores = array();
+                                foreach ($campos_productos_indices as $etiqueta => $campo) {
+                                    $atributo = $campo['campo'];
+                                    $valores[$atributo] = number_format($prod_ff->$atributo, 2);
+                                }
+                                $ff = new FullnessFactor($valores);
+                                array_push($ffs, $ff->getFactor());
+                                array_push($labels, substr($prod_ff->nombre, 0, 15));
+                                if ($prod_ff->id_prod == $producto->id_prod) {
+                                  array_push($colors, 1);
+                                }
+                                else{
+                                  array_push($colors, 0);
+                                }
+                                unset($ff);
+                            }
+                        }
+                        ?>
+                        <canvas id="ffChart"  data-values="<?= implode(',', $ffs) ?>" data-labels="<?= implode(',', $labels) ?>" data-color="<?= implode(',', $colors) ?>" data-unit="FF" data-title="Fullness Factor" height="200" class="chartCanvas"></canvas>
+                      </div>
+                    </div> 
+                </div>
+                <?
+              }
+              ?>
 
-              <div class="col-xs-12 col-md-6 col-lg-4">
-                <div class="card collapsed-card">
-                    <div class="card-header">
-                      <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
-                        <h3 class="card-title">
-                          <span class="material-icons">equalizer</span>
-                          Media Estandar
-                        </h3>
-                      </button>
-                      <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="maximize" title="Presiona para maximizar/minimizar la gráfica">
-                          <i class="fas fa-expand"></i>
-                        </button>
+              <?
+              if (search_index($permisos_i, 'mes')==true) {
+                ?>
+                <div class="col-xs-12 col-md-6 col-lg-4">
+                  <div class="card collapsed-card">
+                      <div class="card-header">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
-                          <i class="fas fa-plus"></i>
+                          <h3 class="card-title">
+                            <span class="material-icons">equalizer</span>
+                            Media Estandar
+                          </h3>
                         </button>
+                        <div class="card-tools">
+                          <button type="button" class="btn btn-tool" data-card-widget="maximize" title="Presiona para maximizar/minimizar la gráfica">
+                            <i class="fas fa-expand"></i>
+                          </button>
+                          <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
+                            <i class="fas fa-plus"></i>
+                          </button>
+                        </div>
+                      </div>
+                      <div class="card-body">
+                        <?
+                        $calidades = array();
+                        $colors = array();
+                        $labels = array();
+                        if ($productos_indices!=false) {
+                            foreach ($productos_indices->result() as $prod_quality) {
+                                $valores = array();
+                                foreach ($campos_productos_indices as $etiqueta => $campo) {
+                                    $atributo = $campo['campo'];
+                                    $valores[$atributo] = number_format($prod_quality->$atributo, 2);
+                                    //echo "valor: ".$valores[$atributo]."<br>";
+                                }
+                                $calidad = new MediaEstandarizada($valores, $productos_indices);
+                                array_push($calidades, $calidad->getME());
+                                array_push($labels, substr($prod_quality->nombre, 0, 15));
+                                if ($prod_quality->id_prod == $producto->id_prod) {
+                                  array_push($colors, 1);
+                                }
+                                else{
+                                  array_push($colors, 0);
+                                }
+                                unset($ff);
+                            }
+                        }
+                        ?>
+                        <canvas id="qualityChart"  data-values="<?= implode(',', $calidades) ?>" data-labels="<?= implode(',', $labels) ?>" data-color="<?= implode(',', $colors) ?>" data-unit="Media Estandarizada" data-title="Calidad de los Alimentos" height="200" class="chartCanvas"></canvas>
                       </div>
                     </div>
-                    <div class="card-body">
-                      <?
-                      $calidades = array();
-                      $colors = array();
-                      $labels = array();
-                      if ($productos_indices!=false) {
-                          foreach ($productos_indices->result() as $prod_quality) {
-                              $valores = array();
-                              foreach ($campos_productos_indices as $etiqueta => $campo) {
-                                  $atributo = $campo['campo'];
-                                  $valores[$atributo] = number_format($prod_quality->$atributo, 2);
-                                  //echo "valor: ".$valores[$atributo]."<br>";
-                              }
-                              $calidad = new MediaEstandarizada($valores, $productos_indices);
-                              array_push($calidades, $calidad->getME());
-                              array_push($labels, substr($prod_quality->nombre, 0, 15));
-                              if ($prod_quality->id_prod == $producto->id_prod) {
-                                array_push($colors, 1);
-                              }
-                              else{
-                                array_push($colors, 0);
-                              }
-                              unset($ff);
-                          }
-                      }
-                      ?>
-                      <canvas id="qualityChart"  data-values="<?= implode(',', $calidades) ?>" data-labels="<?= implode(',', $labels) ?>" data-color="<?= implode(',', $colors) ?>" data-unit="Media Estandarizada" data-title="Calidad de los Alimentos" height="200" class="chartCanvas"></canvas>
-                    </div>
-                  </div>
-              </div>
+                </div>
+                <?
+              }
+              ?>
 
-              <div class="col-xs-12 col-md-6 col-lg-4">
-                <div class="card collapsed-card">
-                    <div class="card-header">
-                      <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
-                        <h3 class="card-title">
-                          <span class="material-icons">area_chart</span>
-                          SENS
-                        </h3>
-                      </button>
-                      <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="maximize" title="Presiona para maximizar/minimizar la gráfica">
-                          <i class="fas fa-expand"></i>
-                        </button>
+              <?
+              if (search_index($permisos_i, 'sen')==true) {
+                ?>
+                <div class="col-xs-12 col-md-6 col-lg-4">
+                  <div class="card collapsed-card">
+                      <div class="card-header">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
-                          <i class="fas fa-plus"></i>
+                          <h3 class="card-title">
+                            <span class="material-icons">area_chart</span>
+                            SENS
+                          </h3>
                         </button>
+                        <div class="card-tools">
+                          <button type="button" class="btn btn-tool" data-card-widget="maximize" title="Presiona para maximizar/minimizar la gráfica">
+                            <i class="fas fa-expand"></i>
+                          </button>
+                          <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
+                            <i class="fas fa-plus"></i>
+                          </button>
+                        </div>
+                      </div>
+                      <div class="card-body">
+                        <?
+                        $dataX = array();
+                        $dataY = array();
+                        $colors = array();
+                        $labels = array();
+                        if ($productos_indices!=false) {
+                            foreach ($productos_indices->result() as $prod_sainlimsens) {
+                                $valores = array();
+                                foreach ($campos_productos_indices as $etiqueta => $campo) {
+                                    $atributo = $campo['campo'];
+                                    $valores[$atributo] = number_format($prod_sainlimsens->$atributo, 2);
+                                }
+                                $sainlimsens = new SainLimSens($valores);
+                                array_push($dataX, $sainlimsens->getSainSens($prod_sainlimsens->categoria));
+                                array_push($dataY, $sainlimsens->getLimSens());
+                                array_push($labels, substr($prod_sainlimsens->nombre, 0, 15));
+                                if ($prod_sainlimsens->id_prod == $producto->id_prod) {
+                                  array_push($colors, 1);
+                                }
+                                else{
+                                  array_push($colors, 0);
+                                }
+                                unset($sainlimsens);
+                            }
+                        }
+                        ?>
+                        <canvas id="sensChart" data-x="<?= implode(',', $dataX) ?>" data-y="<?= implode(',', $dataY) ?>" data-labels="<?= implode(',', $labels) ?>" data-title="SENS" data-color="<?= implode(',', $colors) ?>" height="200" class="chartCanvas"></canvas>
                       </div>
                     </div>
-                    <div class="card-body">
-                      <?
-                      $dataX = array();
-                      $dataY = array();
-                      $colors = array();
-                      $labels = array();
-                      if ($productos_indices!=false) {
-                          foreach ($productos_indices->result() as $prod_sainlimsens) {
-                              $valores = array();
-                              foreach ($campos_productos_indices as $etiqueta => $campo) {
-                                  $atributo = $campo['campo'];
-                                  $valores[$atributo] = number_format($prod_sainlimsens->$atributo, 2);
-                              }
-                              $sainlimsens = new SainLimSens($valores);
-                              array_push($dataX, $sainlimsens->getSainSens($prod_sainlimsens->categoria));
-                              array_push($dataY, $sainlimsens->getLimSens());
-                              array_push($labels, substr($prod_sainlimsens->nombre, 0, 15));
-                              if ($prod_sainlimsens->id_prod == $producto->id_prod) {
-                                array_push($colors, 1);
-                              }
-                              else{
-                                array_push($colors, 0);
-                              }
-                              unset($sainlimsens);
-                          }
-                      }
-                      ?>
-                      <canvas id="sensChart" data-x="<?= implode(',', $dataX) ?>" data-y="<?= implode(',', $dataY) ?>" data-labels="<?= implode(',', $labels) ?>" data-title="SENS" data-color="<?= implode(',', $colors) ?>" height="200" class="chartCanvas"></canvas>
-                    </div>
-                  </div>
-              </div>
+                </div>
+                <?
+              }?>
 
               
             <?
@@ -1064,284 +1093,323 @@
                 <tr>
                   <th class="txt-centrado bg-secondary" colspan="2">Etiquetados LATAM</th>
                 </tr>
-                <!-- Etiquetado de Chile -->
-                <tr>
-                  <th>Chile</th>
-                    <?
-                      $chileLabel = new Etiquetado_chile($producto->energia, $producto->sodio, $producto->azucaresa, $producto->acidosgs, $producto->tipo);
-                    ?>
-                    <td class="txt-centrado">
+
+                <? 
+                if (search_value($permisos_e, 'chi')==true) {
+                  ?>
+                  <!-- Etiquetado de Chile -->
+                  <tr>
+                    <th>Chile</th>
                       <?
-                    if ($chileLabel->getEnergia()==1) {
+                        $chileLabel = new Etiquetado_chile($producto->energia, $producto->sodio, $producto->azucaresa, $producto->acidosgs, $producto->tipo);
                       ?>
-                      <img src="<?= base_url('uploads/labels-chile/calorias.png') ?>" style="width: 75px;">
+                      <td class="txt-centrado">
+                        <?
+                      if ($chileLabel->getEnergia()==1) {
+                        ?>
+                        <img src="<?= base_url('uploads/labels-chile/calorias.png') ?>" style="width: 75px;">
+                        <?
+                      }
+
+                      if ($chileLabel->getSodio()==1) {
+                        ?>
+                        <img src="<?= base_url('uploads/labels-chile/sodio.png') ?>" style="width: 75px;">
+                        <?
+                      }
+                      
+                      if ($chileLabel->getAzucar()==1) {
+                        ?>
+                        <img src="<?= base_url('uploads/labels-chile/azucares.png') ?>" style="width: 75px;">
+                        <?
+                      }
+                      
+                      if ($chileLabel->getGrasasSat()==1) {
+                        ?>
+                        <img src="<?= base_url('uploads/labels-chile/grasas.png') ?>" style="width: 75px;">
+                        <?
+                      }
+                      
+                      ?>
+                      </td>
+                      <?
+                      unset($chileLabel);
+                      ?>
+                  </tr>
+                  <!-- ./Etiquetado de Chile -->
+                  <?
+                }
+                ?>
+
+                <? 
+                if (search_value($permisos_e, 'ecu')==true) {
+                  ?>
+                  <!-- Etiquetado de Ecuador -->
+                  <tr>
+                    <th>Ecuador</th>
+                    <?
+                        $ecuadorLabel = new Etiquetado_ecuador($producto->lipidos, $producto->azucaresa, $producto->sodio, $producto->tipo);
+                        ?>
+                        <td>
+                          <label>Grasa Total</label>
+                          <?
+                    switch($ecuadorLabel->getGrasaTotal()){
+                      case 0:
+                        ?>
+                        <img src="<?= base_url('uploads/labels-ecuador/bajo.png') ?>" style="width: 100px;">
+                        <?
+                        break;
+                      case 1:
+                        ?>
+                        <img src="<?= base_url('uploads/labels-ecuador/medio.png') ?>" style="width: 100px;">
+                        <?
+                        break;
+                      case 2:
+                        ?>
+                        <img src="<?= base_url('uploads/labels-ecuador/alto.png') ?>" style="width: 100px;">
+                        <?
+                        break;
+                    }
+                    ?>
+                    <br>
+                    <label>Azúcar</label>
+                            <?
+                    switch($ecuadorLabel->getAzucar()){
+                      case 0:
+                        ?>
+                        <img src="<?= base_url('uploads/labels-ecuador/bajo.png') ?>" style="width: 100px;">
+                        <?
+                        break;
+                      case 1:
+                        ?>
+                        <img src="<?= base_url('uploads/labels-ecuador/medio.png') ?>" style="width: 100px;">
+                        <?
+                        break;
+                      case 2:
+                        ?>
+                        <img src="<?= base_url('uploads/labels-ecuador/alto.png') ?>" style="width: 100px;">
+                        <?
+                        break;
+                    }
+                    ?>
+                    <br>
+                    <label>Sodio</label>
+                            <?
+                    switch($ecuadorLabel->getSodio()){
+                      case 0:
+                        ?>
+                        <img src="<?= base_url('uploads/labels-ecuador/bajo.png') ?>" style="width: 100px;">
+                        <?
+                        break;
+                      case 1:
+                        ?>
+                        <img src="<?= base_url('uploads/labels-ecuador/medio.png') ?>" style="width: 100px;">
+                        <?
+                        break;
+                      case 2:
+                        ?>
+                        <img src="<?= base_url('uploads/labels-ecuador/alto.png') ?>" style="width: 100px;">
+                        <?
+                        break;
+                    }
+                    ?>
+                        </td>
+                        <?
+                        unset($ecuadorLabel);
+                    ?>
+                  </tr>
+                  <!-- ./Etiquetado de Ecuador -->
+                  <?
+                }
+                ?>
+
+                <? 
+                if (search_value($permisos_e, 'mex')==true) {
+                  ?>
+                  <!-- Etiquetado de México -->
+                  <tr>
+                    <th>México</th>
+                    <?
+                        $MexLabel = new Etiquetado_mexico($producto->energia, $producto->azucaresa, $producto->acidosgs, $producto->acidostrans, $producto->sodio, $producto->tipo);
+                        ?>
+                        <td class="txt-centrado">
+                          <?
+                    if ($MexLabel->getExcesoCalorias()==1) {
+                      ?>
+                      <img src="<?= base_url('uploads/labels-mexico/exceso-calorias.jpg') ?>" style="width: 75px;">
                       <?
                     }
 
-                    if ($chileLabel->getSodio()==1) {
+                    if ($MexLabel->getExcesoAzucares()==1) {
                       ?>
-                      <img src="<?= base_url('uploads/labels-chile/sodio.png') ?>" style="width: 75px;">
+                      <img src="<?= base_url('uploads/labels-mexico/exceso-azucares.jpg') ?>" style="width: 75px;">
                       <?
                     }
                     
-                    if ($chileLabel->getAzucar()==1) {
+                    if ($MexLabel->getExcesoGrasasTrans()==1) {
                       ?>
-                      <img src="<?= base_url('uploads/labels-chile/azucares.png') ?>" style="width: 75px;">
+                      <img src="<?= base_url('uploads/labels-mexico/exceso-grasas-trans.jpg') ?>" style="width: 75px;">
                       <?
                     }
                     
-                    if ($chileLabel->getGrasasSat()==1) {
+                    if ($MexLabel->getExcesoGrasasSat()==1) {
                       ?>
-                      <img src="<?= base_url('uploads/labels-chile/grasas.png') ?>" style="width: 75px;">
+                      <img src="<?= base_url('uploads/labels-mexico/exceso-grasas-sat.jpg') ?>" style="width: 75px;">
+                      <?
+                    }
+
+                    if ($MexLabel->getExcesoSodio()==1) {
+                      ?>
+                      <img src="<?= base_url('uploads/labels-mexico/exceso-sodio.jpg') ?>" style="width: 75px;">
                       <?
                     }
                     
                     ?>
                     </td>
                     <?
-                    unset($chileLabel);
+                    unset($MexLabel);
                     ?>
-                </tr>
-                <!-- ./Etiquetado de Chile -->
-                <!-- Etiquetado de Ecuador -->
-                <tr>
-                  <th>Ecuador</th>
+                  </tr>
+                  <!-- ./Etiquetado de México -->
                   <?
-                      $ecuadorLabel = new Etiquetado_ecuador($producto->lipidos, $producto->azucaresa, $producto->sodio, $producto->tipo);
-                      ?>
-                      <td>
-                        <label>Grasa Total</label>
-                        <?
-                  switch($ecuadorLabel->getGrasaTotal()){
-                    case 0:
-                      ?>
-                      <img src="<?= base_url('uploads/labels-ecuador/bajo.png') ?>" style="width: 100px;">
-                      <?
-                      break;
-                    case 1:
-                      ?>
-                      <img src="<?= base_url('uploads/labels-ecuador/medio.png') ?>" style="width: 100px;">
-                      <?
-                      break;
-                    case 2:
-                      ?>
-                      <img src="<?= base_url('uploads/labels-ecuador/alto.png') ?>" style="width: 100px;">
-                      <?
-                      break;
-                  }
+                }
+                ?>
+
+                <? 
+                if (search_value($permisos_e, 'col')==true) {
                   ?>
-                  <br>
-                  <label>Azúcar</label>
+                  <!-- Etiquetado de Colombia -->
+                  <tr>
+                    <th>Colombia</th>
+                    <?
+                        $ColombiaLabel = new Etiquetado_colombia($producto->sodio, $producto->azucaresa, $producto->acidosgs, $producto->tipo);
+                        ?>
+                        <td class="txt-centrado">
                           <?
-                  switch($ecuadorLabel->getAzucar()){
-                    case 0:
+                    if ($ColombiaLabel->getSodio()==1) {
                       ?>
-                      <img src="<?= base_url('uploads/labels-ecuador/bajo.png') ?>" style="width: 100px;">
-                      <?
-                      break;
-                    case 1:
-                      ?>
-                      <img src="<?= base_url('uploads/labels-ecuador/medio.png') ?>" style="width: 100px;">
-                      <?
-                      break;
-                    case 2:
-                      ?>
-                      <img src="<?= base_url('uploads/labels-ecuador/alto.png') ?>" style="width: 100px;">
-                      <?
-                      break;
-                  }
-                  ?>
-                  <br>
-                  <label>Sodio</label>
-                          <?
-                  switch($ecuadorLabel->getSodio()){
-                    case 0:
-                      ?>
-                      <img src="<?= base_url('uploads/labels-ecuador/bajo.png') ?>" style="width: 100px;">
-                      <?
-                      break;
-                    case 1:
-                      ?>
-                      <img src="<?= base_url('uploads/labels-ecuador/medio.png') ?>" style="width: 100px;">
-                      <?
-                      break;
-                    case 2:
-                      ?>
-                      <img src="<?= base_url('uploads/labels-ecuador/alto.png') ?>" style="width: 100px;">
-                      <?
-                      break;
-                  }
-                  ?>
-                      </td>
-                      <?
-                      unset($ecuadorLabel);
-                  ?>
-                </tr>
-                <!-- ./Etiquetado de Ecuador -->
-                <!-- Etiquetado de México -->
-                <tr>
-                  <th>México</th>
-                  <?
-                      $MexLabel = new Etiquetado_mexico($producto->energia, $producto->azucaresa, $producto->acidosgs, $producto->acidostrans, $producto->sodio, $producto->tipo);
-                      ?>
-                      <td class="txt-centrado">
-                        <?
-                  if ($MexLabel->getExcesoCalorias()==1) {
-                    ?>
-                    <img src="<?= base_url('uploads/labels-mexico/exceso-calorias.jpg') ?>" style="width: 75px;">
-                    <?
-                  }
-
-                  if ($MexLabel->getExcesoAzucares()==1) {
-                    ?>
-                    <img src="<?= base_url('uploads/labels-mexico/exceso-azucares.jpg') ?>" style="width: 75px;">
-                    <?
-                  }
-                  
-                  if ($MexLabel->getExcesoGrasasTrans()==1) {
-                    ?>
-                    <img src="<?= base_url('uploads/labels-mexico/exceso-grasas-trans.jpg') ?>" style="width: 75px;">
-                    <?
-                  }
-                  
-                  if ($MexLabel->getExcesoGrasasSat()==1) {
-                    ?>
-                    <img src="<?= base_url('uploads/labels-mexico/exceso-grasas-sat.jpg') ?>" style="width: 75px;">
-                    <?
-                  }
-
-                  if ($MexLabel->getExcesoSodio()==1) {
-                    ?>
-                    <img src="<?= base_url('uploads/labels-mexico/exceso-sodio.jpg') ?>" style="width: 75px;">
-                    <?
-                  }
-                  
-                  ?>
-                  </td>
-                  <?
-                  unset($MexLabel);
-                  ?>
-                </tr>
-                <!-- ./Etiquetado de México -->
-
-                <!-- Etiquetado de Colombia -->
-                <tr>
-                  <th>Colombia</th>
-                  <?
-                      $ColombiaLabel = new Etiquetado_colombia($producto->sodio, $producto->azucaresa, $producto->acidosgs, $producto->tipo);
-                      ?>
-                      <td class="txt-centrado">
-                        <?
-                  if ($ColombiaLabel->getSodio()==1) {
-                    ?>
-                    <img src="<?= base_url('uploads/labels-colombia/sodio.jpg') ?>" style="width: 75px;">
-                    <?
-                  }
-
-                  if ($ColombiaLabel->getAzucares()==1) {
-                    ?>
-                    <img src="<?= base_url('uploads/labels-colombia/azucares.jpg') ?>" style="width: 75px;">
-                    <?
-                  }
-                  
-                  if ($ColombiaLabel->getGrasasSat()==1) {
-                    ?>
-                    <img src="<?= base_url('uploads/labels-colombia/grasas-sat.jpg') ?>" style="width: 75px;">
-                    <?
-                  }
-                  
-                  ?>
-                  </td>
-                  <?
-                  unset($ColombiaLabel);
-                  ?>
-                </tr>
-                <!-- ./Etiquetado de Colombia -->
-
-                <!-- Etiquetado de Uruguay -->
-                <tr>
-                  <th>Uruguay</th>
-                  <?
-                    $UruguayLabel = new Etiquetado_uruguay($producto->energia, $producto->lipidos, $producto->acidosgs, $producto->sodio, $producto->azucaresa, $producto->tipo);
-                      ?>
-                  <td class="txt-centrado">
-                        <?
-                  if ($UruguayLabel->getGrasaTot()==1) {
-                    ?>
-                    <img src="<?= base_url('uploads/labels-uruguay/grasas_tot.jpg') ?>" style="width: 75px;">
-                    <?
-                  }
-
-                  if ($UruguayLabel->getGrasasSat()==1) {
-                    ?>
-                    <img src="<?= base_url('uploads/labels-uruguay/grasas_sat.jpg') ?>" style="width: 75px;">
-                    <?
-                  }
-                  
-                  if ($UruguayLabel->getSodio()==1) {
-                    ?>
-                    <img src="<?= base_url('uploads/labels-uruguay/sodio.jpg') ?>" style="width: 75px;">
-                    <?
-                  }
-
-                  if ($UruguayLabel->getAzucares()==1) {
-                    ?>
-                    <img src="<?= base_url('uploads/labels-uruguay/azucares.jpg') ?>" style="width: 75px;">
-                    <?
-                  }
-                  
-                  ?>
-                  </td>
-                  <?
-                  unset($UruguayLabel);
-                  ?>
-                </tr>
-                <!-- ./Etiquetado de Uruguay -->
-
-                <!-- Etiquetado de Perú -->
-                <tr>
-                  <th>Perú</th>
-                  <?
-                      if (strtotime(date("Y-m-d")) >= strtotime("2021-10-27")){
-                        $peruLabel = new Etiquetado_peru_2a_fase($producto->azucaresa, $producto->sodio, $producto->acidosgs, $producto->acidostrans, $producto->tipo);
-                      }
-                      else{
-                        $peruLabel = new Etiquetado_peru_1a_fase($producto->azucaresa, $producto->sodio, $producto->acidosgs, $producto->acidostrans, $producto->tipo);
-                      }
-                  ?>
-                  <td class="txt-centrado">
-                        <?
-                    if ($peruLabel->getAzucares()==1) {
-                      ?>
-                      <img src="<?= base_url('uploads/labels-peru-1a/azucar.jpg') ?>" style="width: 75px;">
+                      <img src="<?= base_url('uploads/labels-colombia/sodio.jpg') ?>" style="width: 75px;">
                       <?
                     }
 
-                    if ($peruLabel->getSodio()==1) {
+                    if ($ColombiaLabel->getAzucares()==1) {
                       ?>
-                      <img src="<?= base_url('uploads/labels-peru-1a/sodio.jpg') ?>" style="width: 75px;">
+                      <img src="<?= base_url('uploads/labels-colombia/azucares.jpg') ?>" style="width: 75px;">
                       <?
                     }
                     
-                    if ($peruLabel->getGrasasSat()==1) {
+                    if ($ColombiaLabel->getGrasasSat()==1) {
                       ?>
-                      <img src="<?= base_url('uploads/labels-peru-1a/grasas_sat.jpg') ?>" style="width: 75px;">
-                      <?
-                    }
-
-                    if ($peruLabel->getGrasasTrans('otros')==1) {
-                      ?>
-                      <img src="<?= base_url('uploads/labels-peru-1a/grasas_trans.jpg') ?>" style="width: 75px;">
+                      <img src="<?= base_url('uploads/labels-colombia/grasas-sat.jpg') ?>" style="width: 75px;">
                       <?
                     }
                     
                     ?>
-                  </td>
+                    </td>
+                    <?
+                    unset($ColombiaLabel);
+                    ?>
+                  </tr>
+                  <!-- ./Etiquetado de Colombia -->
                   <?
-                  unset($peruLabel);
+                }
+                ?>
+
+                <? 
+                if (search_value($permisos_e, 'uru')==true) {
                   ?>
-                </tr>
-                <!-- ./Etiquetado de Perú -->
+                  <!-- Etiquetado de Uruguay -->
+                  <tr>
+                    <th>Uruguay</th>
+                    <?
+                      $UruguayLabel = new Etiquetado_uruguay($producto->energia, $producto->lipidos, $producto->acidosgs, $producto->sodio, $producto->azucaresa, $producto->tipo);
+                        ?>
+                    <td class="txt-centrado">
+                          <?
+                    if ($UruguayLabel->getGrasaTot()==1) {
+                      ?>
+                      <img src="<?= base_url('uploads/labels-uruguay/grasas_tot.jpg') ?>" style="width: 75px;">
+                      <?
+                    }
+
+                    if ($UruguayLabel->getGrasasSat()==1) {
+                      ?>
+                      <img src="<?= base_url('uploads/labels-uruguay/grasas_sat.jpg') ?>" style="width: 75px;">
+                      <?
+                    }
+                    
+                    if ($UruguayLabel->getSodio()==1) {
+                      ?>
+                      <img src="<?= base_url('uploads/labels-uruguay/sodio.jpg') ?>" style="width: 75px;">
+                      <?
+                    }
+
+                    if ($UruguayLabel->getAzucares()==1) {
+                      ?>
+                      <img src="<?= base_url('uploads/labels-uruguay/azucares.jpg') ?>" style="width: 75px;">
+                      <?
+                    }
+                    
+                    ?>
+                    </td>
+                    <?
+                    unset($UruguayLabel);
+                    ?>
+                  </tr>
+                  <!-- ./Etiquetado de Uruguay -->
+                  <?
+                }
+                ?>
+
+                <? 
+                if (search_value($permisos_e, 'per')==true) {
+                  ?>
+                  <!-- Etiquetado de Perú -->
+                  <tr>
+                    <th>Perú</th>
+                    <?
+                        if (strtotime(date("Y-m-d")) >= strtotime("2021-10-27")){
+                          $peruLabel = new Etiquetado_peru_2a_fase($producto->azucaresa, $producto->sodio, $producto->acidosgs, $producto->acidostrans, $producto->tipo);
+                        }
+                        else{
+                          $peruLabel = new Etiquetado_peru_1a_fase($producto->azucaresa, $producto->sodio, $producto->acidosgs, $producto->acidostrans, $producto->tipo);
+                        }
+                    ?>
+                    <td class="txt-centrado">
+                          <?
+                      if ($peruLabel->getAzucares()==1) {
+                        ?>
+                        <img src="<?= base_url('uploads/labels-peru-1a/azucar.jpg') ?>" style="width: 75px;">
+                        <?
+                      }
+
+                      if ($peruLabel->getSodio()==1) {
+                        ?>
+                        <img src="<?= base_url('uploads/labels-peru-1a/sodio.jpg') ?>" style="width: 75px;">
+                        <?
+                      }
+                      
+                      if ($peruLabel->getGrasasSat()==1) {
+                        ?>
+                        <img src="<?= base_url('uploads/labels-peru-1a/grasas_sat.jpg') ?>" style="width: 75px;">
+                        <?
+                      }
+
+                      if ($peruLabel->getGrasasTrans('otros')==1) {
+                        ?>
+                        <img src="<?= base_url('uploads/labels-peru-1a/grasas_trans.jpg') ?>" style="width: 75px;">
+                        <?
+                      }
+                      
+                      ?>
+                    </td>
+                    <?
+                    unset($peruLabel);
+                    ?>
+                  </tr>
+                  <!-- ./Etiquetado de Perú -->
+                  <?
+                }
+                ?>
               </table>
             </div>
 
@@ -1351,339 +1419,369 @@
                   <th class="txt-centrado bg-secondary" colspan="2">Etiquetados Europa-Asia</th>
                 </tr>
 
-                <!-- Etiquetado de Reino Unido -->
-                <?
-                foreach ($vnrs as $cve => $val) {
+                <? 
+                if (search_value($permisos_e, 'run')==true) {
                   ?>
-                  <tr>
-                    <th>Reino Unido<br>VNR - <img src="<?= base_url('uploads/flags/'.$vnrs[$cve][1]) ?>" class="flag"></th>
-                      <?
-                        $UkLabel = new Etiquetado_UK($producto->sodio/1000, $producto->azucaresa, $producto->acidosgs, $producto->lipidos, $producto->tipo, $vnrs[$cve][2]);
-                      ?>
-                    <td>
-                      <?
-                      $color = 'gray';
-                      $txt = 'ENERGÍA';
-                      ?>
-                      <div class="label_UK_small txt-centrado" style="background-color: <?= $color ?>;">
-                        <p class="label_UK_title_small"><?= $txt ?></p>
-                        <p class="label_UK_txt_small">
-                          Calorías
-                          <span class="label_UK_value_small">
-                            <?= number_format($producto->energia, 1) ?> kcal
-                          </span>
-                        </p>
-                        <p class="label_UK_ptc_small"><?= number_format(($producto->energia * 100)/2000, 1) ?>%</p>
-                      </div>
-                      <?
-                      $color = '';
-                      $txt = '';
-                      switch($UkLabel->getGrasaTotal()) {
-                        case 2:
-                          $color = '#f65627';
-                          $txt = 'ALTO';
-                          break;
-                        case 1:
-                          $color = '#f9b03f';
-                          $txt = 'MEDIO';
-                          break;
-                        case 0:
-                          $color = '#78c758';
-                          $txt = 'BAJO';
-                          break;
-                      }
-                      ?>
-                      <div class="label_UK_small txt-centrado" style="background-color: <?= $color ?>;">
-                        <p class="label_UK_title_small"><?= $txt ?></p>
-                        <p class="label_UK_txt_small">
-                          Grasa
-                          <span class="label_UK_value_small">
-                            <?= number_format($producto->lipidos, 1) ?> g
-                          </span>
-                        </p>
-                        <p class="label_UK_ptc_small"><?= number_format($UkLabel->getGrasaTotalPtc(), 1) ?>%</p>
-                      </div>
-                      <?
-                      $color = '';
-                      $txt = '';
-                      switch($UkLabel->getGrasasSat()) {
-                        case 2:
-                          $color = '#f65627';
-                          $txt = 'ALTO';
-                          break;
-                        case 1:
-                          $color = '#f9b03f';
-                          $txt = 'MEDIO';
-                          break;
-                        case 0:
-                          $color = '#78c758';
-                          $txt = 'BAJO';
-                          break;
-                      }
-                      ?>
-                      <div class="label_UK_small txt-centrado" style="background-color: <?= $color ?>;">
-                        <p class="label_UK_title_small"><?= $txt ?></p>
-                        <p class="label_UK_txt_small">
-                          Grasa Sat
-                          <span class="label_UK_value_small">
-                            <?= number_format($producto->acidosgs, 1) ?> g
-                          </span>
-                        </p>
-                        <p class="label_UK_ptc_small"><?= number_format($UkLabel->getGrasasSatPtc(), 1) ?>%</p>
-                      </div>
-
-                      <?
-                      $color = '';
-                      $txt = '';
-                      switch($UkLabel->getAzucares()) {
-                        case 2:
-                          $color = '#f65627';
-                          $txt = 'ALTO';
-                          break;
-                        case 1:
-                          $color = '#f9b03f';
-                          $txt = 'MEDIO';
-                          break;
-                        case 0:
-                          $color = '#78c758';
-                          $txt = 'BAJO';
-                          break;
-                      }
-                      ?>
-                      <div class="label_UK_small txt-centrado" style="background-color: <?= $color ?>;">
-                        <p class="label_UK_title_small"><?= $txt ?></p>
-                        <p class="label_UK_txt_small">
-                          Azúcar
-                          <span class="label_UK_value_small">
-                            <?= number_format($producto->azucaresa, 1) ?> g
-                          </span>
-                        </p>
-                        <p class="label_UK_ptc_small"><?= number_format($UkLabel->getAzucaresPtc(), 1) ?>%</p>
-                      </div>
-
-                      <?
-                      $color = '';
-                      $txt = '';
-                      switch($UkLabel->getSodio()) {
-                        case 2:
-                          $color = '#f65627';
-                          $txt = 'ALTO';
-                          break;
-                        case 1:
-                          $color = '#f9b03f';
-                          $txt = 'MEDIO';
-                          break;
-                        case 0:
-                          $color = '#78c758';
-                          $txt = 'BAJO';
-                          break;
-                      }
-                      ?>
-                      <div class="label_UK_small txt-centrado" style="background-color: <?= $color ?>;">
-                        <p class="label_UK_title_small"><?= $txt ?></p>
-                        <p class="label_UK_txt_small">
-                          Sodio
-                          <span class="label_UK_value_small">
-                            <?= number_format($producto->sodio, 1) ?> g
-                          </span>
-                        </p>
-                        <p class="label_UK_ptc_small"><?= number_format($UkLabel->getSodioPtc(), 1) ?>%</p>
-                      </div>
-                    </td>
-                    <?
-                    unset($UkLabel);
+                  <!-- Etiquetado de Reino Unido -->
+                  <?
+                  foreach ($vnrs as $cve => $val) {
                     ?>
-                  </tr>
-                  <?
-                }
-                ?>
-                <!-- ./Etiquetado de Reino Unido -->
-
-                <!-- Etiquetado de Francia -->
-                <tr>
-                  <th>Francia</th>
-                  <?
-                    $NutriScoreLabel = new NutriScore($producto->energia, $producto->azucaresa, $producto->acidosgs, $producto->lipidos, $producto->sodio, $producto->fruta + $producto->verdura, $producto->fibra, $producto->proteina, $producto->id_categoria, $producto->cantidad_porcion, $producto->tipo);
-                  ?>
-                  <td class="txt-centrado">
+                    <tr>
+                      <th>Reino Unido<br>VNR - <img src="<?= base_url('uploads/flags/'.$vnrs[$cve][1]) ?>" class="flag"></th>
                         <?
-                  switch ($NutriScoreLabel->getClase()) {
-                    case 'A':
-                      ?>
-                      <img src="<?= base_url('uploads/labels-francia/nutri-score-a.jpg') ?>" style="width: 50%;">
-                      <?
-                      break;
-                    case 'B':
-                      ?>
-                      <img src="<?= base_url('uploads/labels-francia/nutri-score-b.jpg') ?>" style="width: 50%;">
-                      <?
-                      break;
-                    case 'C':
-                      ?>
-                      <img src="<?= base_url('uploads/labels-francia/nutri-score-c.jpg') ?>" style="width: 50%;">
-                      <?
-                      break;
-                    case 'D':
-                      ?>
-                      <img src="<?= base_url('uploads/labels-francia/nutri-score-d.jpg') ?>" style="width: 50%;">
-                      <?
-                      break;
-                    case 'E':
-                      ?>
-                      <img src="<?= base_url('uploads/labels-francia/nutri-score-e.jpg') ?>" style="width:50%;">
-                      <?
-                      break;
-                  }
-                  ?>
-                  </td>
-                  <?
-                  unset($NutriScoreLabel);
-                  ?>
-                </tr>
-                <!-- ./Etiquetado de Francia -->
-
-                <!-- Etiquetado de Israel -->
-                <tr>
-                  <th>Israel </th>
-                  <?
-                    $IsraelLabel = new Etiquetado_israel($producto->sodio, $producto->azucaresa, $producto->acidosgs, $producto->tipo);
-                  ?>
-                  <td class="txt-centrado">
-                  <?
-                  if ($IsraelLabel->getSodio()==1) {
-                    ?>
-                    <img src="<?= base_url('uploads/labels-israel/sodio.jpg') ?>" style="width: 75px;">
-                    <?
-                  }
-
-                  if ($IsraelLabel->getAzucares()==1) {
-                    ?>
-                    <img src="<?= base_url('uploads/labels-israel/azucares.jpg') ?>" style="width: 75px;">
-                    <?
-                  }
-                  
-                  if ($IsraelLabel->getGrasasSat()==1) {
-                    ?>
-                    <img src="<?= base_url('uploads/labels-israel/grasas-sat.jpg') ?>" style="width: 75px;">
-                    <?
-                  }
-                  
-                  ?>
-                  </td>
-                  <?
-                  unset($IsraelLabel);
-                  ?>
-                </tr>
-                <!-- ./Etiquetado de Israel -->
-
-                <!-- Etiquetado de Italia - VNR Europa -->
-                <?
-                foreach ($vnrs as $cve => $val) {
-                  ?>
-                  <tr>
-                    <th>Italia<br>VNR - <img src="<?= base_url('uploads/flags/'.$vnrs[$cve][1]) ?>" class="flag"></th>
-                    <?
-                        $ItaliaLabel = new Etiquetado_italia($producto->energia, $producto->lipidos, $producto->acidosgs, $producto->azucaresa, $producto->sodio, $vnrs[$cve][2]);
+                          $UkLabel = new Etiquetado_UK($producto->sodio/1000, $producto->azucaresa, $producto->acidosgs, $producto->lipidos, $producto->tipo, $vnrs[$cve][2]);
                         ?>
-                        <td>
-                          <div class="battery-small">
-                            <div class="battery-title-1">
-                      <p><strong>ENERGIA</strong></p>
-                      <p><?= number_format($producto->energia*4.184) ?> kJ</p>
-                      <p><?= number_format($producto->energia) ?> kcal</p>
-                    </div>
-                    <div class="battery-body" style="background-size: <?= number_format($ItaliaLabel->getEnergia()) ?>% 100%">
-                      <?= number_format($ItaliaLabel->getEnergia()) ?>%
-                    </div>
-                    <span class="battery-head">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                          </div>
+                      <td>
+                        <?
+                        $color = 'gray';
+                        $txt = 'ENERGÍA';
+                        ?>
+                        <div class="label_UK_small txt-centrado" style="background-color: <?= $color ?>;">
+                          <p class="label_UK_title_small"><?= $txt ?></p>
+                          <p class="label_UK_txt_small">
+                            Calorías
+                            <span class="label_UK_value_small">
+                              <?= number_format($producto->energia, 1) ?> kcal
+                            </span>
+                          </p>
+                          <p class="label_UK_ptc_small"><?= number_format(($producto->energia * 100)/2000, 1) ?>%</p>
+                        </div>
+                        <?
+                        $color = '';
+                        $txt = '';
+                        switch($UkLabel->getGrasaTotal()) {
+                          case 2:
+                            $color = '#f65627';
+                            $txt = 'ALTO';
+                            break;
+                          case 1:
+                            $color = '#f9b03f';
+                            $txt = 'MEDIO';
+                            break;
+                          case 0:
+                            $color = '#78c758';
+                            $txt = 'BAJO';
+                            break;
+                        }
+                        ?>
+                        <div class="label_UK_small txt-centrado" style="background-color: <?= $color ?>;">
+                          <p class="label_UK_title_small"><?= $txt ?></p>
+                          <p class="label_UK_txt_small">
+                            Grasa
+                            <span class="label_UK_value_small">
+                              <?= number_format($producto->lipidos, 1) ?> g
+                            </span>
+                          </p>
+                          <p class="label_UK_ptc_small"><?= number_format($UkLabel->getGrasaTotalPtc(), 1) ?>%</p>
+                        </div>
+                        <?
+                        $color = '';
+                        $txt = '';
+                        switch($UkLabel->getGrasasSat()) {
+                          case 2:
+                            $color = '#f65627';
+                            $txt = 'ALTO';
+                            break;
+                          case 1:
+                            $color = '#f9b03f';
+                            $txt = 'MEDIO';
+                            break;
+                          case 0:
+                            $color = '#78c758';
+                            $txt = 'BAJO';
+                            break;
+                        }
+                        ?>
+                        <div class="label_UK_small txt-centrado" style="background-color: <?= $color ?>;">
+                          <p class="label_UK_title_small"><?= $txt ?></p>
+                          <p class="label_UK_txt_small">
+                            Grasa Sat
+                            <span class="label_UK_value_small">
+                              <?= number_format($producto->acidosgs, 1) ?> g
+                            </span>
+                          </p>
+                          <p class="label_UK_ptc_small"><?= number_format($UkLabel->getGrasasSatPtc(), 1) ?>%</p>
+                        </div>
 
-                          <div class="battery-small">
-                    <div class="battery-title-2">
-                      <p><strong>GRASSI</strong></p>
-                      <p><?= number_format($producto->lipidos , 2) ?> g</p>
-                      <p>&nbsp;</p>
-                    </div>
-                    <div class="battery-body" style="background-size: <?= number_format($ItaliaLabel->getGrasaTot()) ?>% 100%">
-                      <?= number_format($ItaliaLabel->getGrasaTot()) ?>%
-                    </div>
-                    <span class="battery-head">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                          </div>
+                        <?
+                        $color = '';
+                        $txt = '';
+                        switch($UkLabel->getAzucares()) {
+                          case 2:
+                            $color = '#f65627';
+                            $txt = 'ALTO';
+                            break;
+                          case 1:
+                            $color = '#f9b03f';
+                            $txt = 'MEDIO';
+                            break;
+                          case 0:
+                            $color = '#78c758';
+                            $txt = 'BAJO';
+                            break;
+                        }
+                        ?>
+                        <div class="label_UK_small txt-centrado" style="background-color: <?= $color ?>;">
+                          <p class="label_UK_title_small"><?= $txt ?></p>
+                          <p class="label_UK_txt_small">
+                            Azúcar
+                            <span class="label_UK_value_small">
+                              <?= number_format($producto->azucaresa, 1) ?> g
+                            </span>
+                          </p>
+                          <p class="label_UK_ptc_small"><?= number_format($UkLabel->getAzucaresPtc(), 1) ?>%</p>
+                        </div>
 
-                          <div class="battery-small">
-                    <div class="battery-title-2">
-                      <p><strong>GRASSI<br>SATURI</strong></p>
-                      <p><?= number_format($producto->acidosgs, 2) ?> g</p>
-                    </div>
-                    <div class="battery-body" style="background-size: <?= number_format($ItaliaLabel->getGrasasSat()) ?>% 100%">
-                      <?= number_format($ItaliaLabel->getGrasasSat()) ?>%
-                    </div>
-                    <span class="battery-head">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                          </div>
-
-                          <div class="battery-small">
-                    <div class="battery-title-2">
-                      <p><strong>ZUCCHERI</strong></p>
-                      <p><?= number_format($producto->azucaresa, 2) ?> g</p>
-                      <p>&nbsp;</p>
-                    </div>
-                    <div class="battery-body" style="background-size: <?= number_format($ItaliaLabel->getAzucares()) ?>% 100%">
-                      <?= number_format($ItaliaLabel->getAzucares()) ?>%
-                    </div>
-                    <span class="battery-head">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                          </div>
-
-                          <div class="battery-small">
-                    <div class="battery-title-2">
-                      <p><strong>SALE</strong></p>
-                      <p><?= number_format($producto->sodio, 2) ?> g</p>
-                      <p>&nbsp;</p>
-                    </div>
-                    <div class="battery-body" style="background-size: <?= number_format($ItaliaLabel->getSodio()) ?>% 100%">
-                      <?= number_format($ItaliaLabel->getSodio()) ?>%
-                    </div>
-                    <span class="battery-head">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                      </div>
-                    </td>
+                        <?
+                        $color = '';
+                        $txt = '';
+                        switch($UkLabel->getSodio()) {
+                          case 2:
+                            $color = '#f65627';
+                            $txt = 'ALTO';
+                            break;
+                          case 1:
+                            $color = '#f9b03f';
+                            $txt = 'MEDIO';
+                            break;
+                          case 0:
+                            $color = '#78c758';
+                            $txt = 'BAJO';
+                            break;
+                        }
+                        ?>
+                        <div class="label_UK_small txt-centrado" style="background-color: <?= $color ?>;">
+                          <p class="label_UK_title_small"><?= $txt ?></p>
+                          <p class="label_UK_txt_small">
+                            Sodio
+                            <span class="label_UK_value_small">
+                              <?= number_format($producto->sodio, 1) ?> g
+                            </span>
+                          </p>
+                          <p class="label_UK_ptc_small"><?= number_format($UkLabel->getSodioPtc(), 1) ?>%</p>
+                        </div>
+                      </td>
+                      <?
+                      unset($UkLabel);
+                      ?>
+                    </tr>
                     <?
-                    unset($ItaliaLabel);
-                    ?>
-                  </tr>
+                  }
+                  ?>
+                  <!-- ./Etiquetado de Reino Unido -->
                   <?
                 }
                 ?>
-                <!-- ./Etiquetado de Italia - VNR Europa -->
 
-                <!-- Etiquetado de Australia & Nueva Zelanda -->
-                <tr>
-                  <th>Australia & Nueva Zelanda</th>
-                  <?
-                    $AustraliaLabel = new Etiquetado_Australia_Nueva_Zelanda($producto->energia, $producto->acidosgs, $producto->sodio, $producto->azucaresa, $producto->calcio, $producto->verdura, $producto->proteina, $producto->fibra, $producto->id_categoria, $producto->tipo);
-                      ?>
-                  <td class="txt-centrado">
-                    <img src="<?= base_url("uploads/labels-australia/".$AustraliaLabel->getCategoria()."-estrellas.png") ?>" class="australia-img-small">
-                    <div class="australia-value-small">
-                      <p class="title">ENERGY</p>
-                      <p class="val"><?= number_format($producto->energia * 4.184, 1) ?> kJ</p>
-                    </div>
-                    <div class="australia-value-small">
-                      <p class="title">SAT FAT</p>
-                      <p class="val"><?= number_format($producto->acidosgs, 1) ?> g</p>
-                    </div>
-                    <div class="australia-value-small">
-                      <p class="title">SUGARS</p>
-                      <p class="val"><?= number_format($producto->azucaresa, 1) ?> g</p>
-                    </div>
-                    <div class="australia-value-small">
-                      <p class="title">SODIUM</p>
-                      <p class="val"><?= number_format($producto->sodio, 1) ?> g</p>
-                    </div>
-                  </td>
-                  <?
-                  unset($AustraliaLabel);
+                <? 
+                if (search_value($permisos_e, 'fra')==true) {
                   ?>
-                </tr>
-                <!-- ./Etiquetado de Australia & Nueva Zelanda -->
+                  <!-- Etiquetado de Francia -->
+                  <tr>
+                    <th>Francia</th>
+                    <?
+                      $NutriScoreLabel = new NutriScore($producto->energia, $producto->azucaresa, $producto->acidosgs, $producto->lipidos, $producto->sodio, $producto->fruta + $producto->verdura, $producto->fibra, $producto->proteina, $producto->id_categoria, $producto->cantidad_porcion, $producto->tipo);
+                    ?>
+                    <td class="txt-centrado">
+                          <?
+                    switch ($NutriScoreLabel->getClase()) {
+                      case 'A':
+                        ?>
+                        <img src="<?= base_url('uploads/labels-francia/nutri-score-a.jpg') ?>" style="width: 50%;">
+                        <?
+                        break;
+                      case 'B':
+                        ?>
+                        <img src="<?= base_url('uploads/labels-francia/nutri-score-b.jpg') ?>" style="width: 50%;">
+                        <?
+                        break;
+                      case 'C':
+                        ?>
+                        <img src="<?= base_url('uploads/labels-francia/nutri-score-c.jpg') ?>" style="width: 50%;">
+                        <?
+                        break;
+                      case 'D':
+                        ?>
+                        <img src="<?= base_url('uploads/labels-francia/nutri-score-d.jpg') ?>" style="width: 50%;">
+                        <?
+                        break;
+                      case 'E':
+                        ?>
+                        <img src="<?= base_url('uploads/labels-francia/nutri-score-e.jpg') ?>" style="width:50%;">
+                        <?
+                        break;
+                    }
+                    ?>
+                    </td>
+                    <?
+                    unset($NutriScoreLabel);
+                    ?>
+                  </tr>
+                  <!-- ./Etiquetado de Francia -->
+                  <?
+                }
+                ?>
+
+                <? 
+                if (search_value($permisos_e, 'isr')==true) {
+                  ?>
+                  <!-- Etiquetado de Israel -->
+                  <tr>
+                    <th>Israel </th>
+                    <?
+                      $IsraelLabel = new Etiquetado_israel($producto->sodio, $producto->azucaresa, $producto->acidosgs, $producto->tipo);
+                    ?>
+                    <td class="txt-centrado">
+                    <?
+                    if ($IsraelLabel->getSodio()==1) {
+                      ?>
+                      <img src="<?= base_url('uploads/labels-israel/sodio.jpg') ?>" style="width: 75px;">
+                      <?
+                    }
+
+                    if ($IsraelLabel->getAzucares()==1) {
+                      ?>
+                      <img src="<?= base_url('uploads/labels-israel/azucares.jpg') ?>" style="width: 75px;">
+                      <?
+                    }
+                    
+                    if ($IsraelLabel->getGrasasSat()==1) {
+                      ?>
+                      <img src="<?= base_url('uploads/labels-israel/grasas-sat.jpg') ?>" style="width: 75px;">
+                      <?
+                    }
+                    
+                    ?>
+                    </td>
+                    <?
+                    unset($IsraelLabel);
+                    ?>
+                  </tr>
+                  <!-- ./Etiquetado de Israel -->
+                  <?
+                }
+                ?>
+
+                <? 
+                if (search_value($permisos_e, 'ita')==true) {
+                  ?>
+                  <!-- Etiquetado de Italia - VNR Europa -->
+                  <?
+                  foreach ($vnrs as $cve => $val) {
+                    ?>
+                    <tr>
+                      <th>Italia<br>VNR - <img src="<?= base_url('uploads/flags/'.$vnrs[$cve][1]) ?>" class="flag"></th>
+                      <?
+                          $ItaliaLabel = new Etiquetado_italia($producto->energia, $producto->lipidos, $producto->acidosgs, $producto->azucaresa, $producto->sodio, $vnrs[$cve][2]);
+                          ?>
+                          <td>
+                            <div class="battery-small">
+                              <div class="battery-title-1">
+                        <p><strong>ENERGIA</strong></p>
+                        <p><?= number_format($producto->energia*4.184) ?> kJ</p>
+                        <p><?= number_format($producto->energia) ?> kcal</p>
+                      </div>
+                      <div class="battery-body" style="background-size: <?= number_format($ItaliaLabel->getEnergia()) ?>% 100%">
+                        <?= number_format($ItaliaLabel->getEnergia()) ?>%
+                      </div>
+                      <span class="battery-head">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                            </div>
+
+                            <div class="battery-small">
+                      <div class="battery-title-2">
+                        <p><strong>GRASSI</strong></p>
+                        <p><?= number_format($producto->lipidos , 2) ?> g</p>
+                        <p>&nbsp;</p>
+                      </div>
+                      <div class="battery-body" style="background-size: <?= number_format($ItaliaLabel->getGrasaTot()) ?>% 100%">
+                        <?= number_format($ItaliaLabel->getGrasaTot()) ?>%
+                      </div>
+                      <span class="battery-head">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                            </div>
+
+                            <div class="battery-small">
+                      <div class="battery-title-2">
+                        <p><strong>GRASSI<br>SATURI</strong></p>
+                        <p><?= number_format($producto->acidosgs, 2) ?> g</p>
+                      </div>
+                      <div class="battery-body" style="background-size: <?= number_format($ItaliaLabel->getGrasasSat()) ?>% 100%">
+                        <?= number_format($ItaliaLabel->getGrasasSat()) ?>%
+                      </div>
+                      <span class="battery-head">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                            </div>
+
+                            <div class="battery-small">
+                      <div class="battery-title-2">
+                        <p><strong>ZUCCHERI</strong></p>
+                        <p><?= number_format($producto->azucaresa, 2) ?> g</p>
+                        <p>&nbsp;</p>
+                      </div>
+                      <div class="battery-body" style="background-size: <?= number_format($ItaliaLabel->getAzucares()) ?>% 100%">
+                        <?= number_format($ItaliaLabel->getAzucares()) ?>%
+                      </div>
+                      <span class="battery-head">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                            </div>
+
+                            <div class="battery-small">
+                      <div class="battery-title-2">
+                        <p><strong>SALE</strong></p>
+                        <p><?= number_format($producto->sodio, 2) ?> g</p>
+                        <p>&nbsp;</p>
+                      </div>
+                      <div class="battery-body" style="background-size: <?= number_format($ItaliaLabel->getSodio()) ?>% 100%">
+                        <?= number_format($ItaliaLabel->getSodio()) ?>%
+                      </div>
+                      <span class="battery-head">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        </div>
+                      </td>
+                      <?
+                      unset($ItaliaLabel);
+                      ?>
+                    </tr>
+                    <?
+                  }
+                  ?>
+                  <!-- ./Etiquetado de Italia - VNR Europa -->
+                  <?
+                }
+                ?>
+
+                <? 
+                if (search_value($permisos_e, 'aus')==true) {
+                  ?>
+                  <!-- Etiquetado de Australia & Nueva Zelanda -->
+                  <tr>
+                    <th>Australia & Nueva Zelanda</th>
+                    <?
+                      $AustraliaLabel = new Etiquetado_Australia_Nueva_Zelanda($producto->energia, $producto->acidosgs, $producto->sodio, $producto->azucaresa, $producto->calcio, $producto->verdura, $producto->proteina, $producto->fibra, $producto->id_categoria, $producto->tipo);
+                        ?>
+                    <td class="txt-centrado">
+                      <img src="<?= base_url("uploads/labels-australia/".$AustraliaLabel->getCategoria()."-estrellas.png") ?>" class="australia-img-small">
+                      <div class="australia-value-small">
+                        <p class="title">ENERGY</p>
+                        <p class="val"><?= number_format($producto->energia * 4.184, 1) ?> kJ</p>
+                      </div>
+                      <div class="australia-value-small">
+                        <p class="title">SAT FAT</p>
+                        <p class="val"><?= number_format($producto->acidosgs, 1) ?> g</p>
+                      </div>
+                      <div class="australia-value-small">
+                        <p class="title">SUGARS</p>
+                        <p class="val"><?= number_format($producto->azucaresa, 1) ?> g</p>
+                      </div>
+                      <div class="australia-value-small">
+                        <p class="title">SODIUM</p>
+                        <p class="val"><?= number_format($producto->sodio, 1) ?> g</p>
+                      </div>
+                    </td>
+                    <?
+                    unset($AustraliaLabel);
+                    ?>
+                  </tr>
+                  <!-- ./Etiquetado de Australia & Nueva Zelanda -->
+                  <?
+                }
+                ?>
                 
               </table>
             </div>

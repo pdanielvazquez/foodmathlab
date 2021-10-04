@@ -95,6 +95,8 @@ $route['usuarios_as'] = 'Administrador/actualizar_subpermisos';
 $route['usuarios_ab'] = 'Administrador/actualizar_labs';
 $route['usuarios_al'] = 'Administrador/actualizar_labels';
 $route['usuarios_ai'] = 'Administrador/actualizar_index';
+$route['usuarios_nuevo'] = 'Administrador/usuario_nuevo';
+$route['usuarios_guardar_nuevo'] = 'Administrador/usuario_guardar_nuevo';
 
 /*Home*/
 $route['inicio'] = 'Home';

@@ -41,7 +41,7 @@ class Administrador extends CI_Controller {
 		}
 
 		/*Validación de permiso de acceso al método*/
-		$permisos_usuarios = $this->General_model->get('permisos_usuarios', array('id_usuario'=>$_SESSION['idUser'], 'opcion'=>'Productos'), array(), '');
+		$permisos_usuarios = $this->General_model->get('permisos_usuarios', array('id_usuario'=>$_SESSION['idUser'], 'opcion'=>'Administrador'), array(), '');
 		if ($permisos_usuarios==false) {
 			redirect('inicio');
 		}
@@ -51,17 +51,24 @@ class Administrador extends CI_Controller {
 		$usuarios = $this->General_model->get('usuarios', array(), array(), '');
 		$opciones = $this->General_model->get('menu_opciones', array(), array(), '');
 		$permisos = $this->General_model->get('permisos_menu', array(), array(), '');
+		$permisos_labs = $this->General_model->get('permisos_labs', array(), array(), '');
+		$permisos_etiquetados = $this->General_model->get('permisos_etiquetados', array(), array(), '');
+		$permisos_indices = $this->General_model->get('permisos_indices', array(), array(), '');
 
 		$data = array(
 			'usuarios'	=>	$usuarios,
 			'opciones'	=>	$opciones,
 			'permisos'	=>	$permisos,
 			'mensaje'	=>	$mensaje,
+			'permisos_labs'=>	$permisos_labs,
+			'permisos_labels'=>$permisos_etiquetados,
+			'permisos_indexes'=>$permisos_indices,
 		);
 
 		/*Configuración de la vista*/
 		$menu = $this->General_model->get('permisos_usuarios', array('activo'=>1, 'id_usuario'=>$_SESSION['idUser']), array('orden'=>'asc'), '');
 		$submenu = $this->General_model->get('submenu_opciones', array('activo_submenu'=>1), array(), '');
+		$permisos_submenu = $this->General_model->get('permisos_submenu', array('id_usuario'=>$_SESSION['idUser']), array(), '');
 		$usuarios = $this->General_model->get('usuarios', array('id_user'=>$this->session->idUser), array(), '');
 		$usuario = ($usuarios!=false)? $usuarios->row(0) : false ;
 
@@ -71,6 +78,7 @@ class Administrador extends CI_Controller {
 			'usuario'	=>	$usuario->nombre,
 			'menu'		=>	$menu,
 			'submenu'	=>	$submenu,
+			'permisos_submenu'=>$permisos_submenu,
 		);
 
 		$this->load->view('Plantillas/html_open_view', $config);
@@ -122,7 +130,7 @@ class Administrador extends CI_Controller {
 		}
 
 		/*Validación de permiso de acceso al método*/
-		$permisos_usuarios = $this->General_model->get('permisos_usuarios', array('id_usuario'=>$_SESSION['idUser'], 'opcion'=>'Productos'), array(), '');
+		$permisos_usuarios = $this->General_model->get('permisos_usuarios', array('id_usuario'=>$_SESSION['idUser'], 'opcion'=>'Administrador'), array(), '');
 		if ($permisos_usuarios==false) {
 			redirect('inicio');
 		}
@@ -140,13 +148,15 @@ class Administrador extends CI_Controller {
 		redirect(base_url('usuarios_editar/'.encripta($id_user).'/2'));
 	}
 
+
+
 	public function usuario_editar(){
 		if (!isset($_SESSION['idUser'])) {
 			redirect('App/logout');
 		}
 
 		/*Validación de permiso de acceso al método*/
-		$permisos_usuarios = $this->General_model->get('permisos_usuarios', array('id_usuario'=>$_SESSION['idUser'], 'opcion'=>'Productos'), array(), '');
+		$permisos_usuarios = $this->General_model->get('permisos_usuarios', array('id_usuario'=>$_SESSION['idUser'], 'opcion'=>'Administrador'), array(), '');
 		if ($permisos_usuarios==false) {
 			redirect('inicio');
 		}
@@ -180,6 +190,7 @@ class Administrador extends CI_Controller {
 		/*Configuración de la vista*/
 		$menu = $this->General_model->get('permisos_usuarios', array('activo'=>1, 'id_usuario'=>$_SESSION['idUser']), array('orden'=>'asc'), '');
 		$submenu = $this->General_model->get('submenu_opciones', array('activo_submenu'=>1), array(), '');
+		$permisos_submenu = $this->General_model->get('permisos_submenu', array('id_usuario'=>$_SESSION['idUser']), array(), '');
 		$usuarios = $this->General_model->get('usuarios', array('id_user'=>$this->session->idUser), array(), '');
 		$usuario = ($usuarios!=false)? $usuarios->row(0) : false ;
 
@@ -189,6 +200,7 @@ class Administrador extends CI_Controller {
 			'usuario'	=>	$usuario->nombre,
 			'menu'		=>	$menu,
 			'submenu'	=>	$submenu,
+			'permisos_submenu'=>$permisos_submenu,
 		);
 
 		$this->load->view('Plantillas/html_open_view', $config);
@@ -217,13 +229,105 @@ class Administrador extends CI_Controller {
 		$this->load->view('Plantillas/html_close_view');
 	}
 
+	public function usuario_nuevo(){
+		if (!isset($_SESSION['idUser'])) {
+			redirect('App/logout');
+		}
+
+		/*Validación de permiso de acceso al método*/
+		$permisos_usuarios = $this->General_model->get('permisos_usuarios', array('id_usuario'=>$_SESSION['idUser'], 'opcion'=>'Administrador'), array(), '');
+		if ($permisos_usuarios==false) {
+			redirect('inicio');
+		}
+
+		/*Consultas generales*/
+		$id_user = desencripta($this->uri->segment(2));
+		$edicion = ($this->uri->segment(3)!='')? $this->uri->segment(3) : 0;
+		$usuarios = $this->General_model->get('usuarios', array('id_user'=>$id_user), array(), '');
+		$opciones = $this->General_model->get('menu_opciones', array('activo'=>1), array('orden'=>'asc'), '');
+		$subopciones = $this->General_model->get('submenu_opciones', array('activo_submenu'=>1), array('id_opcion'=>'asc', 'orden_submenu'=>'asc'), '');
+		
+
+		$data = array(
+			'usuarios'	=>	$usuarios,
+			'opciones'	=>	$opciones,
+			'subopciones'=>	$subopciones,
+			'etiquetados'=>	$this->etiquetados,
+			'indices'	=>	$this->indices,
+			'edicion'	=>	$edicion,
+		);
+
+		/*Configuración de la vista*/
+		$menu = $this->General_model->get('permisos_usuarios', array('activo'=>1, 'id_usuario'=>$_SESSION['idUser']), array('orden'=>'asc'), '');
+		$submenu = $this->General_model->get('submenu_opciones', array('activo_submenu'=>1), array(), '');
+		$permisos_submenu = $this->General_model->get('permisos_submenu', array('id_usuario'=>$_SESSION['idUser']), array(), '');
+		$usuarios = $this->General_model->get('usuarios', array('id_user'=>$this->session->idUser), array(), '');
+		$usuario = ($usuarios!=false)? $usuarios->row(0) : false ;
+
+		$config = array(
+			'titulo'	=>	'Administrador',
+			'subtitulo'	=>	'> Nuevo usuario',
+			'usuario'	=>	$usuario->nombre,
+			'menu'		=>	$menu,
+			'submenu'	=>	$submenu,
+			'permisos_submenu'=>$permisos_submenu,
+		);
+
+		$this->load->view('Plantillas/html_open_view', $config);
+		$this->load->view('Plantillas/head_view');
+		$this->load->view('Plantillas/body_open_view');
+		$this->load->view('Plantillas/wraper_open_view');
+		$this->load->view('Plantillas/navbar_view');
+		$this->load->view('Plantillas/sidebar_view');
+		$this->load->view('Plantillas/content_wraper_open_view');
+		$this->load->view('Plantillas/content_wraper_header_view');
+		
+		/*Aqui va el contenido*/
+		$this->load->view('Administrador/usuarios_nuevo_view', $data);
+		$this->load->view('Administrador/usuarios_nuevo_modal_view', $data);
+
+		$this->load->view('Plantillas/content_wraper_close_view');
+		$this->load->view('Plantillas/footer_view');
+		$this->load->view('Plantillas/wraper_close_view');
+		$this->load->view('Plantillas/scripts_view');
+
+		/*funcionalidad Javascript*/
+		$this->load->view('Administrador/usuarios_nuevo_js_view', $data);
+
+		$this->load->view('Plantillas/body_close_view');
+		$this->load->view('Plantillas/html_close_view');
+	}
+
+	public function usuario_guardar_nuevo(){
+		if (!isset($_SESSION['idUser'])) {
+			redirect('App/logout');
+		}
+
+		/*Validación de permiso de acceso al método*/
+		$permisos_usuarios = $this->General_model->get('permisos_usuarios', array('id_usuario'=>$_SESSION['idUser'], 'opcion'=>'Administrador'), array(), '');
+		if ($permisos_usuarios==false) {
+			redirect('inicio');
+		}
+
+		/*Consultas generales*/
+		$valores = array(
+			'id_user'	=>	'',
+			'nombre'	=>	$this->input->post('nombre'),
+			'correo'	=>	$this->input->post('correo'),
+			'password'	=>	password_hash($this->input->post('password1'), PASSWORD_DEFAULT),
+		);
+		$this->General_model->set('usuarios', $valores);
+		$id_user = $this->General_model->index('usuarios', 'id_user');
+		redirect(base_url('usuarios_editar/'.encripta($id_user).'/5'));
+	}
+
 	public function usuario_eliminar(){
 		if (!isset($_SESSION['idUser'])) {
 			redirect('App/logout');
 		}
 
 		/*Validación de permiso de acceso al método*/
-		$permisos_usuarios = $this->General_model->get('permisos_usuarios', array('id_usuario'=>$_SESSION['idUser'], 'opcion'=>'Productos'), array(), '');
+		$permisos_usuarios = $this->General_model->get('permisos_usuarios', array('id_usuario'=>$_SESSION['idUser'], 'opcion'=>'Administrador'), array(), '');
 		if ($permisos_usuarios==false) {
 			redirect('inicio');
 		}
@@ -247,6 +351,7 @@ class Administrador extends CI_Controller {
 		/*Consultas generales*/
 		$id_user = desencripta($this->input->post('usuario_subpermisos'));
 		$this->General_model->delete('permisos_submenu', array('id_usuario'	=>	$id_user));
+		$this->General_model->delete('permisos_menu', array('id_usuario'=>$id_user));
 
 		foreach ($_POST as $cve => $val) {
 			$tipo = explode('_', $cve);
@@ -256,6 +361,10 @@ class Administrador extends CI_Controller {
 					'id_opcion'=>$tipo[1], 
 					'orden_submenu'=>$tipo[2]
 				);
+				$permiso_menu = $this->General_model->get('permisos_menu', array('id_usuario'=>$id_user, 'id_opcion'=>$tipo[1]), array(), '');
+				if ($permiso_menu==false) {
+					$this->General_model->set('permisos_menu', array('id_usuario'=>$id_user, 'id_opcion'=>$tipo[1]));				
+				}
 				$this->General_model->set('permisos_submenu', $datos);				
 			}
 		}

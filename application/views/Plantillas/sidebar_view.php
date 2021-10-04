@@ -48,20 +48,34 @@
                     <?
                     if ($submenu!=false) {
                       foreach ($submenu->result() as $subopcion) {
-                        if ($subopcion->id_opcion == $opcion->id_opcion) {
-                          $active = '';
-                          if ($this->uri->segment(1) == $subopcion->ruta_submenu) {
-                            $active= 'active';
+
+
+                        $sp = false;
+                        if ($permisos_submenu!=false) {
+                          foreach ($permisos_submenu->result() as $submenu_permiso) {
+                            if ($submenu_permiso->id_opcion == $opcion->id_opcion && $submenu_permiso->orden_submenu == $subopcion->orden_submenu) {
+                              $sp = true;
+                            }
                           }
-                          ?>
-                            <li class="nav-item" style="margin-left: 1rem;">
-                              <a href="<?= base_url($subopcion->ruta_submenu) ?>" class="nav-link <?= $active ?>">
-                                <i class="fas fa-angle-right"></i>
-                                <p><?= $subopcion->opcion_submenu ?></p>
-                              </a>
-                            </li>
-                          <?
                         }
+
+                        if ($sp==true) {
+                          if ($subopcion->id_opcion == $opcion->id_opcion) {
+                            $active = '';
+                            if ($this->uri->segment(1) == $subopcion->ruta_submenu) {
+                              $active= 'active';
+                            }
+                            ?>
+                              <li class="nav-item" style="margin-left: 1rem;">
+                                <a href="<?= base_url($subopcion->ruta_submenu) ?>" class="nav-link <?= $active ?>">
+                                  <i class="fas fa-angle-right"></i>
+                                  <p><?= $subopcion->opcion_submenu ?></p>
+                                </a>
+                              </li>
+                            <?
+                          }
+                        }
+
                       }
                     }
                     ?>
