@@ -29,21 +29,36 @@ class App extends CI_Controller {
 	}
 
 	public function login(){
-		$email = $this->input->post('email');
-		$password = $this->input->post('password');
-		$usuarios = $this->General_model->get('usuarios', array('correo'=>$email), array(), '');
-		if ($usuarios!=false) {
-			$usuario = $usuarios->row(0);
-			if (password_verify($password, $usuario->password)) {
-				$this->session->idUser = $usuario->id_user;
-				redirect(base_url('inicio'));
+		if (!isset($_POST['g-recaptcha-response'])) {
+			redirect(base_url('login/error/3'));
+		}
+
+		$reCaptcha = $this->input->post('g-recaptcha-response');
+		$secreto = '6Lc8_q4cAAAAABinHBlGPb-1EAof0ukN4cnJ7Eq9';
+		$url = 'https://www.google.com/recaptcha/api/siteverify';
+		$response = file_get_contents($url."?secret=$secreto&response=$reCaptcha");
+		$json = json_decode($response);
+		print_r($json);
+		if ($json->success==1) {
+			$email = $this->input->post('email');
+			$password = $this->input->post('password');
+			$usuarios = $this->General_model->get('usuarios', array('correo'=>$email), array(), '');
+			if ($usuarios!=false) {
+				$usuario = $usuarios->row(0);
+				if (password_verify($password, $usuario->password)) {
+					$this->session->idUser = $usuario->id_user;
+					redirect(base_url('inicio'));
+				}
+				else{
+					redirect(base_url('login/error/2'));		
+				}
 			}
 			else{
-				redirect(base_url('login/error/2'));		
+				redirect(base_url('login/error/1'));	
 			}
 		}
 		else{
-			redirect(base_url('login/error/1'));	
+			redirect(base_url('login/error/3'));
 		}
 	}
 

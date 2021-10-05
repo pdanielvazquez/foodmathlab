@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Food Math Lab</title>
+  <title>FoodMathLab</title>
+  <meta name="description" content="FoodMathLab es una software propiedad de Nutrimotor.com, todos los derechos reservados."/>
   <link rel="icon" type="img/icon" href="<?= base_url('vendor') ?>/dist/img/logos/nutrimotor-logo-bn.png">
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -39,7 +40,7 @@
 
       <form action="<?= base_url('App/login') ?>" method="post">
         <div class="input-group mb-3">
-          <input type="email" class="form-control" placeholder="Usuario" name="email" id="email">
+          <input type="email" class="form-control" placeholder="Usuario" name="email" id="email" required="required">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-user"></span>
@@ -47,12 +48,15 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="password" class="form-control" placeholder="Contraseña" name="password" id="password">
+          <input type="password" class="form-control" placeholder="Contraseña" name="password" id="password" required="required">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
             </div>
           </div>
+        </div>
+        <div class="input-group mb-3">
+          <div class="g-recaptcha" data-sitekey="6Lc8_q4cAAAAAOL3l_vno4GaPdCt8OrD-oerT5M8"></div>
         </div>
         <div class="row">
           <div class="col-8">       
@@ -64,8 +68,6 @@
           <!-- /.col -->
         </div>
       </form>
-
-      
 
       </div>
     <!-- /.card-body -->
@@ -89,6 +91,8 @@
 <script src="<?= base_url('vendor') ?>/plugins/sweetalert2/sweetalert2.min.js"></script>
 <!-- Toastr -->
 <script src="<?= base_url('vendor') ?>/plugins/toastr/toastr.min.js"></script>
+<!-- Recaptcha -->
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
 <script>
   $(function() {
@@ -105,9 +109,11 @@
     var mensaje = 'Acceso incorrecto';
     if (error==1){
       switch(tipo){
-        case 1: mensaje = 'El usuario no existe';
+        case 1: mensaje = ' El usuario no existe';
           break;
-        case 2: mensaje = 'La contraseña es incorrecta';
+        case 2: mensaje = ' La contraseña es incorrecta';
+          break;
+        case 3: mensaje = ' Indica que no eres un robot';
           break;
       }
       Toast.fire({
@@ -115,6 +121,10 @@
         title: mensaje,
       })  
     }
+
+    var onloadCallback = function() {
+      alert("grecaptcha is ready!");
+    };
 })
 </script>
 
