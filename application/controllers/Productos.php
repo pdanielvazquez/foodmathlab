@@ -336,6 +336,15 @@ class Productos extends CI_Controller {
 			'permisos_labs'=>$permisos_labs,
 		);
 
+		/*Registro de actividad en bitácora*/
+		$datos = array(
+			'id_bitacora'	=>	'',
+			'id_usuario'	=>	$_SESSION['idUser'],
+			'observacion'	=>	'Acceso a formulario de registro de nuevo producto',
+			'fecha'			=>	date("Y-m-d H:i:s"),
+			);
+		$this->General_model->set('bitacora', $datos);
+
 		/*Configuración de la vista*/
 		$menu = $this->General_model->get('permisos_usuarios', array('activo'=>1, 'id_usuario'=>$_SESSION['idUser']), array('orden'=>'asc'), '');
 		$submenu = $this->General_model->get('submenu_opciones', array('activo_submenu'=>1), array(), '');
@@ -345,7 +354,7 @@ class Productos extends CI_Controller {
 
 		$config = array(
 			'titulo'	=>	'Productos',
-			'subtitulo'	=>	'',
+			'subtitulo'	=>	'> Nuevo producto',
 			'usuario'	=>	$usuario->nombre,
 			'menu'		=>	$menu,
 			'submenu'	=>	$submenu,
@@ -388,6 +397,15 @@ class Productos extends CI_Controller {
 		if ($permisos_usuarios==false) {
 			redirect('inicio');
 		}
+
+		/*Registro de actividad en bitácora*/
+		$datos = array(
+			'id_bitacora'	=>	'',
+			'id_usuario'	=>	$_SESSION['idUser'],
+			'observacion'	=>	'Registro de nuevo producto',
+			'fecha'			=>	date("Y-m-d H:i:s"),
+			);
+		$this->General_model->set('bitacora', $datos);
 
 		$valores_productos = array(
 			'id_prod'		=>	'',
@@ -451,6 +469,15 @@ class Productos extends CI_Controller {
 			'grupos' 	=>	$grupos,
 		);
 
+		/*Registro de actividad en bitácora*/
+		$datos = array(
+			'id_bitacora'	=>	'',
+			'id_usuario'	=>	$_SESSION['idUser'],
+			'observacion'	=>	'Acceso a vista de productos registrados',
+			'fecha'			=>	date("Y-m-d H:i:s"),
+			);
+		$this->General_model->set('bitacora', $datos);
+
 		/*Configuración de la vista*/
 		$menu = $this->General_model->get('permisos_usuarios', array('activo'=>1, 'id_usuario'=>$_SESSION['idUser']), array('orden'=>'asc'), '');
 		$submenu = $this->General_model->get('submenu_opciones', array('activo_submenu'=>1), array(), '');
@@ -460,7 +487,7 @@ class Productos extends CI_Controller {
 
 		$config = array(
 			'titulo'	=>	'Productos',
-			'subtitulo'	=>	'',
+			'subtitulo'	=>	'> Registrados',
 			'usuario'	=>	$usuario->nombre,
 			'menu'		=>	$menu,
 			'submenu'	=>	$submenu,
@@ -504,6 +531,15 @@ class Productos extends CI_Controller {
 			redirect('inicio');
 		}
 
+		/*Registro de actividad en bitácora*/
+		$datos = array(
+			'id_bitacora'	=>	'',
+			'id_usuario'	=>	$_SESSION['idUser'],
+			'observacion'	=>	'Eliminación de un producto',
+			'fecha'			=>	date("Y-m-d H:i:s"),
+			);
+		$this->General_model->set('bitacora', $datos);
+
 		/*Id del grupo a eliminar*/
 		$id_prod = $this->uri->segment(2);
 
@@ -526,6 +562,15 @@ class Productos extends CI_Controller {
 		if ($permisos_usuarios==false) {
 			redirect('inicio');
 		}
+
+		/*Registro de actividad en bitácora*/
+		$datos = array(
+			'id_bitacora'	=>	'',
+			'id_usuario'	=>	$_SESSION['idUser'],
+			'observacion'	=>	'Acceso a vista de descripción de un producto',
+			'fecha'			=>	date("Y-m-d H:i:s"),
+			);
+		$this->General_model->set('bitacora', $datos);
 
 		$this->load->helper('Etiquetado_helper');
 
@@ -650,6 +695,15 @@ class Productos extends CI_Controller {
 				'edicion'	=>	$edicion,
 			);
 
+			/*Registro de actividad en bitácora*/
+			$datos = array(
+				'id_bitacora'	=>	'',
+				'id_usuario'	=>	$_SESSION['idUser'],
+				'observacion'	=>	'Acceso a formulario de edición de un producto',
+				'fecha'			=>	date("Y-m-d H:i:s"),
+				);
+			$this->General_model->set('bitacora', $datos);
+
 			/*Configuración de la vista*/
 			$menu = $this->General_model->get('permisos_usuarios', array('activo'=>1, 'id_usuario'=>$_SESSION['idUser']), array('orden'=>'asc'), '');
 			$submenu = $this->General_model->get('submenu_opciones', array('activo_submenu'=>1), array(), '');
@@ -659,7 +713,7 @@ class Productos extends CI_Controller {
 
 			$config = array(
 				'titulo'	=>	'Productos',
-				'subtitulo'	=>	'Edición',
+				'subtitulo'	=>	'> Edición',
 				'usuario'	=>	$usuario->nombre,
 				'menu'		=>	$menu,
 				'submenu'	=>	$submenu,
@@ -707,6 +761,15 @@ class Productos extends CI_Controller {
 		if ($permisos_usuarios==false) {
 			redirect('inicio');
 		}
+
+		/*Registro de actividad en bitácora*/
+		$datos = array(
+			'id_bitacora'	=>	'',
+			'id_usuario'	=>	$_SESSION['idUser'],
+			'observacion'	=>	'Registro de actualización de un producto',
+			'fecha'			=>	date("Y-m-d H:i:s"),
+			);
+		$this->General_model->set('bitacora', $datos);
 
 		$id_prod = desencripta($this->input->post('producto_id'));
 
@@ -769,6 +832,15 @@ class Productos extends CI_Controller {
 			'permisos_labs'	=> $permisos_labs,
 		);
 
+		/*Registro de actividad en bitácora*/
+		$datos = array(
+			'id_bitacora'	=>	'',
+			'id_usuario'	=>	$_SESSION['idUser'],
+			'observacion'	=>	'Acceso a vista de Laboratorios registrados',
+			'fecha'			=>	date("Y-m-d H:i:s"),
+			);
+		$this->General_model->set('bitacora', $datos);
+
 		/*Configuración de la vista*/
 		$menu = $this->General_model->get('permisos_usuarios', array('activo'=>1, 'id_usuario'=>$_SESSION['idUser']), array('orden'=>'asc'), '');
 		$submenu = $this->General_model->get('submenu_opciones', array('activo_submenu'=>1), array(), '');
@@ -778,7 +850,7 @@ class Productos extends CI_Controller {
 
 		$config = array(
 			'titulo'	=>	'Productos',
-			'subtitulo'	=>	'Labs',
+			'subtitulo'	=>	'> Labs',
 			'usuario'	=>	$usuario->nombre,
 			'menu'		=>	$menu,
 			'submenu'	=>	$submenu,
@@ -841,6 +913,15 @@ class Productos extends CI_Controller {
 			'edicion'	=> $edicion,
 		);
 
+		/*Registro de actividad en bitácora*/
+		$datos = array(
+			'id_bitacora'	=>	'',
+			'id_usuario'	=>	$_SESSION['idUser'],
+			'observacion'	=>	'Acceso a formulario de edición de un Lab',
+			'fecha'			=>	date("Y-m-d H:i:s"),
+			);
+		$this->General_model->set('bitacora', $datos);
+
 		/*Configuración de la vista*/
 		$menu = $this->General_model->get('permisos_usuarios', array('activo'=>1, 'id_usuario'=>$_SESSION['idUser']), array('orden'=>'asc'), '');
 		$submenu = $this->General_model->get('submenu_opciones', array('activo_submenu'=>1), array(), '');
@@ -850,7 +931,7 @@ class Productos extends CI_Controller {
 
 		$config = array(
 			'titulo'	=>	'Productos',
-			'subtitulo'	=>	'Grupos',
+			'subtitulo'	=>	'> Edición de Labs',
 			'usuario'	=>	$usuario->nombre,
 			'menu'		=>	$menu,
 			'submenu'	=>	$submenu,
@@ -893,6 +974,15 @@ class Productos extends CI_Controller {
 			redirect('inicio');
 		}
 
+		/*Registro de actividad en bitácora*/
+		$datos = array(
+			'id_bitacora'	=>	'',
+			'id_usuario'	=>	$_SESSION['idUser'],
+			'observacion'	=>	'Registro de un nuevo Lab',
+			'fecha'			=>	date("Y-m-d H:i:s"),
+			);
+		$this->General_model->set('bitacora', $datos);
+
 		if (isset($_POST['aceptar'])) {
 			$valores = array(
 				'id_grupo'	=> '',
@@ -917,6 +1007,15 @@ class Productos extends CI_Controller {
 		if ($permisos_usuarios==false) {
 			redirect('inicio');
 		}
+
+		/*Registro de actividad en bitácora*/
+		$datos = array(
+			'id_bitacora'	=>	'',
+			'id_usuario'	=>	$_SESSION['idUser'],
+			'observacion'	=>	'Eliminación de un Lab',
+			'fecha'			=>	date("Y-m-d H:i:s"),
+			);
+		$this->General_model->set('bitacora', $datos);
 
 		/*Id del grupo a eliminar*/
 		$id_grupo_borrar = desencripta($this->uri->segment(2));
@@ -1042,6 +1141,15 @@ class Productos extends CI_Controller {
 
 		$producto = ($productos!=false)? $productos->row(0) : false ;
 
+		/*Registro de actividad en bitácora*/
+		$datos = array(
+			'id_bitacora'	=>	'',
+			'id_usuario'	=>	$_SESSION['idUser'],
+			'observacion'	=>	'Formulario para agregar imagenes de producto',
+			'fecha'			=>	date("Y-m-d H:i:s"),
+			);
+		$this->General_model->set('bitacora', $datos);
+
 		/*Configuración de la vista*/
 		$menu = $this->General_model->get('permisos_usuarios', array('activo'=>1, 'id_usuario'=>$_SESSION['idUser']), array('orden'=>'asc'), '');
 		$submenu = $this->General_model->get('submenu_opciones', array('activo_submenu'=>1), array(), '');
@@ -1051,7 +1159,7 @@ class Productos extends CI_Controller {
 
 		$config = array(
 			'titulo'	=>	$producto->nombre,
-			'subtitulo'	=>	'Agregar imagenes',
+			'subtitulo'	=>	'> Agregar imagenes',
 			'usuario'	=>	$usuario->nombre,
 			'menu'		=>	$menu,
 			'submenu'	=>	$submenu,
@@ -1086,6 +1194,15 @@ class Productos extends CI_Controller {
 		if (!isset($_SESSION['idUser'])) {
 			redirect('App/logout');
 		}
+
+		/*Registro de actividad en bitácora*/
+		$datos = array(
+			'id_bitacora'	=>	'',
+			'id_usuario'	=>	$_SESSION['idUser'],
+			'observacion'	=>	'Eliminación de imagen de producto',
+			'fecha'			=>	date("Y-m-d H:i:s"),
+			);
+		$this->General_model->set('bitacora', $datos);
 
 		/*Validación de permiso de acceso al método*/
 		$permisos_usuarios = $this->General_model->get('permisos_usuarios', array('id_usuario'=>$_SESSION['idUser'], 'opcion'=>'Productos'), array(), '');
@@ -1150,6 +1267,15 @@ class Productos extends CI_Controller {
 			'grupos'    =>  $grupos,
 		);
 
+		/*Registro de actividad en bitácora*/
+		$datos = array(
+			'id_bitacora'	=>	'',
+			'id_usuario'	=>	$_SESSION['idUser'],
+			'observacion'	=>	'Acceso a lista de productos a reformular',
+			'fecha'			=>	date("Y-m-d H:i:s"),
+			);
+		$this->General_model->set('bitacora', $datos);
+
 		/*Configuración de la vista*/
 		$menu = $this->General_model->get('permisos_usuarios', array('activo'=>1, 'id_usuario'=>$_SESSION['idUser']), array('orden'=>'asc'), '');
 		$submenu = $this->General_model->get('submenu_opciones', array('activo_submenu'=>1), array(), '');
@@ -1159,7 +1285,7 @@ class Productos extends CI_Controller {
 
 		$config = array(
 			'titulo'	=>	'Productos',
-			'subtitulo'	=>	$tipo,
+			'subtitulo'	=>	'> Reformulación',
 			'usuario'	=>	$usuario->nombre,
 			'menu'		=>	$menu,
 			'submenu'	=>	$submenu,
@@ -1226,6 +1352,15 @@ class Productos extends CI_Controller {
 					'productos'	=>	$productos,
 					'edicion'	=>	$edicion,
 				);
+
+				/*Registro de actividad en bitácora*/
+				$datos = array(
+					'id_bitacora'	=>	'',
+					'id_usuario'	=>	$_SESSION['idUser'],
+					'observacion'	=>	'Acceso a formulario de reformulación de producto',
+					'fecha'			=>	date("Y-m-d H:i:s"),
+					);
+				$this->General_model->set('bitacora', $datos);
 
 				/*Configuración de la vista*/
 				$menu = $this->General_model->get('permisos_usuarios', array('activo'=>1, 'id_usuario'=>$_SESSION['idUser']), array('orden'=>'asc'), '');
@@ -1303,6 +1438,15 @@ class Productos extends CI_Controller {
 				'grupos' 	=>	$grupos,
 			);
 
+			/*Registro de actividad en bitácora*/
+			$datos = array(
+				'id_bitacora'	=>	'',
+				'id_usuario'	=>	$_SESSION['idUser'],
+				'observacion'	=>	'Acceso a resultado de reformulación',
+				'fecha'			=>	date("Y-m-d H:i:s"),
+				);
+			$this->General_model->set('bitacora', $datos);
+
 			/*Configuración de la vista*/
 			$menu = $this->General_model->get('permisos_usuarios', array('activo'=>1, 'id_usuario'=>$_SESSION['idUser']), array('orden'=>'asc'), '');
 			$submenu = $this->General_model->get('submenu_opciones', array('activo_submenu'=>1), array(), '');
@@ -1360,6 +1504,16 @@ class Productos extends CI_Controller {
 			if ($permisos_usuarios==false) {
 				redirect('inicio');
 			}
+
+			/*Registro de actividad en bitácora*/
+			$datos = array(
+				'id_bitacora'	=>	'',
+				'id_usuario'	=>	$_SESSION['idUser'],
+				'observacion'	=>	'Reformulación de producto',
+				'fecha'			=>	date("Y-m-d H:i:s"),
+				);
+			$this->General_model->set('bitacora', $datos);
+
 	        $id_prod_original=desencripta($this->input->post('producto_id'));
 			$valores_productos = array(
 				'id_prod'		=>	'',

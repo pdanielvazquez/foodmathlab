@@ -180,6 +180,15 @@ class Reportes extends CI_Controller {
 			'referencia_eeuu'=>	$this->valores_referencia_eeuu,
 		);
 
+		/*Registro de actividad en bitácora*/
+		$datos = array(
+			'id_bitacora'	=>	'',
+			'id_usuario'	=>	$_SESSION['idUser'],
+			'observacion'	=>	'Acceso a reporte de Labs',
+			'fecha'			=>	date("Y-m-d H:i:s"),
+			);
+		$this->General_model->set('bitacora', $datos);
+
 		/*Configuración de la vista*/
 		$menu = $this->General_model->get('permisos_usuarios', array('activo'=>1, 'id_usuario'=>$_SESSION['idUser']), array('orden'=>'asc'), '');
 		$submenu = $this->General_model->get('submenu_opciones', array('activo_submenu'=>1), array(), '');
@@ -190,7 +199,7 @@ class Reportes extends CI_Controller {
 
 		$config = array(
 			'titulo'	=>	'Reportes',
-			'subtitulo'	=>	$tipo,
+			'subtitulo'	=>	'> Labs',
 			'usuario'	=>	$usuario->nombre,
 			'menu'		=>	$menu,
 			'submenu'	=>	$submenu,
@@ -355,6 +364,15 @@ class Reportes extends CI_Controller {
 			'ingredientes'			=>	$ingredientes,
 		);
 
+		/*Registro de actividad en bitácora*/
+		$datos = array(
+			'id_bitacora'	=>	'',
+			'id_usuario'	=>	$_SESSION['idUser'],
+			'observacion'	=>	'Acceso a reporte por Tipo de alimentos',
+			'fecha'			=>	date("Y-m-d H:i:s"),
+			);
+		$this->General_model->set('bitacora', $datos);
+
 		/*Configuración de la vista*/
 		$menu = $this->General_model->get('permisos_usuarios', array('activo'=>1, 'id_usuario'=>$_SESSION['idUser']), array('orden'=>'asc'), '');
 		$submenu = $this->General_model->get('submenu_opciones', array('activo_submenu'=>1), array(), '');
@@ -364,7 +382,7 @@ class Reportes extends CI_Controller {
 
 		$config = array(
 			'titulo'	=>	'Reportes',
-			'subtitulo'	=>	$tipo,
+			'subtitulo'	=>	'> Tipos',
 			'usuario'	=>	$usuario->nombre,
 			'menu'		=>	$menu,
 			'submenu'	=>	$submenu,

@@ -65,6 +65,15 @@ class Administrador extends CI_Controller {
 			'permisos_indexes'=>$permisos_indices,
 		);
 
+		/*Registro de actividad en bitácora*/
+		$datos = array(
+			'id_bitacora'	=>	'',
+			'id_usuario'	=>	$_SESSION['idUser'],
+			'observacion'	=>	'Acceso a listado de Usuarios',
+			'fecha'			=>	date("Y-m-d H:i:s"),
+			);
+		$this->General_model->set('bitacora', $datos);
+
 		/*Configuración de la vista*/
 		$menu = $this->General_model->get('permisos_usuarios', array('activo'=>1, 'id_usuario'=>$_SESSION['idUser']), array('orden'=>'asc'), '');
 		$submenu = $this->General_model->get('submenu_opciones', array('activo_submenu'=>1), array(), '');
@@ -74,7 +83,7 @@ class Administrador extends CI_Controller {
 
 		$config = array(
 			'titulo'	=>	'Administrador',
-			'subtitulo'	=>	'usuarios',
+			'subtitulo'	=>	'> Usuarios',
 			'usuario'	=>	$usuario->nombre,
 			'menu'		=>	$menu,
 			'submenu'	=>	$submenu,
@@ -135,6 +144,15 @@ class Administrador extends CI_Controller {
 			redirect('inicio');
 		}
 
+		/*Registro de actividad en bitácora*/
+		$datos = array(
+			'id_bitacora'	=>	'',
+			'id_usuario'	=>	$_SESSION['idUser'],
+			'observacion'	=>	'Datos de usuario actualizado',
+			'fecha'			=>	date("Y-m-d H:i:s"),
+			);
+		$this->General_model->set('bitacora', $datos);
+
 		/*Consultas generales*/
 		$id_user = desencripta($this->input->post('usuario'));
 		$valores = array(
@@ -187,6 +205,15 @@ class Administrador extends CI_Controller {
 			'permisos_indices'	=>	$permisos_indices,
 		);
 
+		/*Registro de actividad en bitácora*/
+		$datos = array(
+			'id_bitacora'	=>	'',
+			'id_usuario'	=>	$_SESSION['idUser'],
+			'observacion'	=>	'Acceso a vista de edición de datos de Usuarios',
+			'fecha'			=>	date("Y-m-d H:i:s"),
+			);
+		$this->General_model->set('bitacora', $datos);
+
 		/*Configuración de la vista*/
 		$menu = $this->General_model->get('permisos_usuarios', array('activo'=>1, 'id_usuario'=>$_SESSION['idUser']), array('orden'=>'asc'), '');
 		$submenu = $this->General_model->get('submenu_opciones', array('activo_submenu'=>1), array(), '');
@@ -196,7 +223,7 @@ class Administrador extends CI_Controller {
 
 		$config = array(
 			'titulo'	=>	'Administrador',
-			'subtitulo'	=>	'usuarios',
+			'subtitulo'	=>	'> Edición de usuario',
 			'usuario'	=>	$usuario->nombre,
 			'menu'		=>	$menu,
 			'submenu'	=>	$submenu,
@@ -257,6 +284,15 @@ class Administrador extends CI_Controller {
 			'edicion'	=>	$edicion,
 		);
 
+		/*Registro de actividad en bitácora*/
+		$datos = array(
+			'id_bitacora'	=>	'',
+			'id_usuario'	=>	$_SESSION['idUser'],
+			'observacion'	=>	'Acceso a formulario de registro de nuevos Usuarios',
+			'fecha'			=>	date("Y-m-d H:i:s"),
+			);
+		$this->General_model->set('bitacora', $datos);
+
 		/*Configuración de la vista*/
 		$menu = $this->General_model->get('permisos_usuarios', array('activo'=>1, 'id_usuario'=>$_SESSION['idUser']), array('orden'=>'asc'), '');
 		$submenu = $this->General_model->get('submenu_opciones', array('activo_submenu'=>1), array(), '');
@@ -309,6 +345,15 @@ class Administrador extends CI_Controller {
 			redirect('inicio');
 		}
 
+		/*Registro de actividad en bitácora*/
+		$datos = array(
+			'id_bitacora'	=>	'',
+			'id_usuario'	=>	$_SESSION['idUser'],
+			'observacion'	=>	'Registro de datos de usuario nuevo',
+			'fecha'			=>	date("Y-m-d H:i:s"),
+			);
+		$this->General_model->set('bitacora', $datos);
+
 		/*Consultas generales*/
 		$valores = array(
 			'id_user'	=>	'',
@@ -332,6 +377,15 @@ class Administrador extends CI_Controller {
 			redirect('inicio');
 		}
 
+		/*Registro de actividad en bitácora*/
+		$datos = array(
+			'id_bitacora'	=>	'',
+			'id_usuario'	=>	$_SESSION['idUser'],
+			'observacion'	=>	'Usuario eliminado',
+			'fecha'			=>	date("Y-m-d H:i:s"),
+			);
+		$this->General_model->set('bitacora', $datos);
+
 		/*Consultas generales*/
 
 		$id_user = desencripta($this->uri->segment(2));
@@ -347,6 +401,15 @@ class Administrador extends CI_Controller {
 		if (!isset($_SESSION['idUser'])) {
 			redirect('App/logout');
 		}
+
+		/*Registro de actividad en bitácora*/
+		$datos = array(
+			'id_bitacora'	=>	'',
+			'id_usuario'	=>	$_SESSION['idUser'],
+			'observacion'	=>	'Actualización de permisos de acceso a secciones',
+			'fecha'			=>	date("Y-m-d H:i:s"),
+			);
+		$this->General_model->set('bitacora', $datos);
 
 		/*Consultas generales*/
 		$id_user = desencripta($this->input->post('usuario_subpermisos'));
@@ -377,6 +440,15 @@ class Administrador extends CI_Controller {
 			redirect('App/logout');
 		}
 
+		/*Registro de actividad en bitácora*/
+		$datos = array(
+			'id_bitacora'	=>	'',
+			'id_usuario'	=>	$_SESSION['idUser'],
+			'observacion'	=>	'Actualización de datos de Laboratorio',
+			'fecha'			=>	date("Y-m-d H:i:s"),
+			);
+		$this->General_model->set('bitacora', $datos);
+
 		/*Consultas generales*/
 		$id_user = desencripta($this->input->post('usuario_lab'));
 		$this->General_model->delete('permisos_labs', array('id_usuario'=>$id_user));
@@ -394,6 +466,15 @@ class Administrador extends CI_Controller {
 		if (!isset($_SESSION['idUser'])) {
 			redirect('App/logout');
 		}
+
+		/*Registro de actividad en bitácora*/
+		$datos = array(
+			'id_bitacora'	=>	'',
+			'id_usuario'	=>	$_SESSION['idUser'],
+			'observacion'	=>	'Actualización de permisos de etiquetado',
+			'fecha'			=>	date("Y-m-d H:i:s"),
+			);
+		$this->General_model->set('bitacora', $datos);
 
 		/*Consultas generales*/
 		$id_user = desencripta($this->input->post('usuario_labels'));
@@ -417,6 +498,15 @@ class Administrador extends CI_Controller {
 		if (!isset($_SESSION['idUser'])) {
 			redirect('App/logout');
 		}
+
+		/*Registro de actividad en bitácora*/
+		$datos = array(
+			'id_bitacora'	=>	'',
+			'id_usuario'	=>	$_SESSION['idUser'],
+			'observacion'	=>	'Actualización de permisos de índices',
+			'fecha'			=>	date("Y-m-d H:i:s"),
+			);
+		$this->General_model->set('bitacora', $datos);
 
 		/*Consultas generales*/
 		$id_user = desencripta($this->input->post('usuario_index'));

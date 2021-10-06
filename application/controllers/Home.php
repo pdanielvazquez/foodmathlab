@@ -23,6 +23,15 @@ class Home extends CI_Controller {
 		/*Consultas generales*/
 		/*No hay*/
 
+		/*Registro de actividad en bitácora*/
+		$datos = array(
+			'id_bitacora'	=>	'',
+			'id_usuario'	=>	$_SESSION['idUser'],
+			'observacion'	=>	'Acceso a menú de inicio',
+			'fecha'			=>	date("Y-m-d H:i:s"),
+			);
+		$this->General_model->set('bitacora', $datos);
+
 		/*Configuración de la vista*/
 		$menu = $this->General_model->get('permisos_usuarios', array('activo'=>1, 'id_usuario'=>$_SESSION['idUser']), array('orden'=>'asc'), '');
 		$submenu = $this->General_model->get('submenu_opciones', array('activo_submenu'=>1), array(), '');

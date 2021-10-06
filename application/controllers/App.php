@@ -16,7 +16,7 @@ class App extends CI_Controller {
 	{
 
 		if (isset($_SESSION['idUser'])) {
-			redirect(base_url('productos_registrados'));
+			redirect(base_url('inicio'));
 		}
 
 		$error = ($this->uri->segment(2)=='error') ? 1 : 0;
@@ -47,6 +47,14 @@ class App extends CI_Controller {
 				$usuario = $usuarios->row(0);
 				if (password_verify($password, $usuario->password)) {
 					$this->session->idUser = $usuario->id_user;
+					/*Registro de actividad en bitácora*/
+					$datos = array(
+						'id_bitacora'	=>	'',
+						'id_usuario'	=>	$_SESSION['idUser'],
+						'observacion'	=>	'Inicio de sesión',
+						'fecha'			=>	date("Y-m-d H:i:s"),
+						);
+					$this->General_model->set('bitacora', $datos);
 					redirect(base_url('inicio'));
 				}
 				else{
@@ -63,6 +71,14 @@ class App extends CI_Controller {
 	}
 
 	public function logout(){
+		/*Registro de actividad en bitácora*/
+		$datos = array(
+			'id_bitacora'	=>	'',
+			'id_usuario'	=>	$_SESSION['idUser'],
+			'observacion'	=>	'Cierre de sesión',
+			'fecha'			=>	date("Y-m-d H:i:s"),
+			);
+		$this->General_model->set('bitacora', $datos);
 		session_destroy();
 		redirect(base_url());
 	}

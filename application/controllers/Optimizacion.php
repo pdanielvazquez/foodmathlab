@@ -42,6 +42,15 @@ class Optimizacion extends CI_Controller {
 			'productos' => $productos,
 		);
 
+		/*Registro de actividad en bitácora*/
+		$datos = array(
+			'id_bitacora'	=>	'',
+			'id_usuario'	=>	$_SESSION['idUser'],
+			'observacion'	=>	'Crear un nuevo token',
+			'fecha'			=>	date("Y-m-d H:i:s"),
+			);
+		$this->General_model->set('bitacora', $datos);
+
 		/*Configuración de la vista*/
 		$menu = $this->General_model->get('permisos_usuarios', array('activo'=>1, 'id_usuario'=>$_SESSION['idUser']), array('orden'=>'asc'), '');
 		$submenu = $this->General_model->get('submenu_opciones', array('activo_submenu'=>1), array(), '');
@@ -124,6 +133,15 @@ class Optimizacion extends CI_Controller {
 			'productos'	=>	$productos,
 		);
 
+		/*Registro de actividad en bitácora*/
+		$datos = array(
+			'id_bitacora'	=>	'',
+			'id_usuario'	=>	$_SESSION['idUser'],
+			'observacion'	=>	'Acceso a Optimización MEX NOM-051',
+			'fecha'			=>	date("Y-m-d H:i:s"),
+			);
+		$this->General_model->set('bitacora', $datos);
+
 		/*Configuración de la vista*/
 		$menu = $this->General_model->get('permisos_usuarios', array('activo'=>1, 'id_usuario'=>$_SESSION['idUser']), array('orden'=>'asc'), '');
 		$submenu = $this->General_model->get('submenu_opciones', array('activo_submenu'=>1), array(), '');
@@ -133,7 +151,7 @@ class Optimizacion extends CI_Controller {
 
 		$config = array(
 			'titulo'	=>	'Optimizacion',
-			'subtitulo'	=>	'MEX NOM-051',
+			'subtitulo'	=>	'> MEX NOM-051',
 			'usuario'	=>	$usuario->nombre,
 			'menu'		=>	$menu,
 			'submenu'	=>	$submenu,
@@ -164,60 +182,6 @@ class Optimizacion extends CI_Controller {
 		$this->load->view('Plantillas/body_close_view');
 		$this->load->view('Plantillas/html_close_view');
 	}
-
-	/*public function nom051Formulas(){
-		$tipo			=	$this->input->post("tipo");
-		$Optional_Dec 	= 	0.1;
-		$CHO 			=	$this->input->post("CHO");
-		$Azucar 		= 	$this->input->post("A");
-		$GT 			=	$this->input->post("GT");
-		$GTRANS 		=	$this->input->post("GTRANS");
-		$GSAT 			=	$this->input->post("GSAT");
-		$Proteina 		=	$this->input->post("P");
-		$Sodio 			=	$this->input->post("Sodio");
-		$Fibra 			=	$this->input->post("F");
-		$texto 			= 	'';
-
-		if ( $tipo == "azucar")
-		  {
-		  	try {
-			    list($Energia,$CantEnergia,$CantGrasaTRans,$CantGrasaSat,$Azucar)= QuitaSelloAzucar($GT,$GTRANS,$GSAT,$CHO,$Azucar,$Proteina,$Fibra,$Optional_Dec);
-			    $texto = "El valor del Azucar para quitar el sello es: $Azucar";
-		  	} catch (Exception $e) {
-		  		$texto = "No fue posible eliminar el sello del Azucar";
-		  	}
-		}
-		elseif( $tipo == "grasa") 
-		{
-			try {
-			    list($Energia, $CantEnergia,$CantGrasaTrans,$GSAT,$GT) = QuitaSelloGrasaSat($GT,$GTRANS,$GSAT,$CHO,$Proteina,$Fibra,$Optional_Dec);
-				$texto = "El valor de Grasa Saturada para quitar el sello es: $GSAT";
-			} catch (Exception $e) {
-				$texto = "No fue posible eliminar el sello de la Grasa Saturada";
-			}
-		}
-		elseif( $tipo == "sodio")
-		{
-			try {
-			    $S = QuitaSelloSodio($GT,$GSAT,$GTRANS,$CHO, $Sodio,$Proteina, $Fibra,$Optional_Dec);
-			    // echo "La cantidad de Sodio para quitar el sello es: $S";
-			    $texto = "El valor de Sodio para quitar el sello es: $S";
-				
-			} catch (Exception $e) {
-				$texto = "No fue posible eliminar el sello del Sodio";
-			}
-		}
-		elseif( $tipo == "energia")
-		{
-			try {
-			  	list($GT,$A,$E)=QuitaSelloEnergia($GT,$GTRANS,$GSAT, $CHO,$Azucar, $Proteina,$Fibra,$Optional_Dec);
-			   	$texto =  "El valor de Grasa Total es: $GT, <br>El valor del Azucar es: $A <br>Energía para quitar el sello es: $E";
-			} catch (Exception $e) {
-				$texto = "No fue posible eliminar el sello de la Energía";
-			}
-		}
-		echo $texto;
-	}*/
 
 	public function nom051Formulas_ver2(){
 		$tipo			=	$this->input->post("tipo");
@@ -438,6 +402,15 @@ class Optimizacion extends CI_Controller {
 			'edicion'	=>	$edicion,
 		);
 
+		/*Registro de actividad en bitácora*/
+		$datos = array(
+			'id_bitacora'	=>	'',
+			'id_usuario'	=>	$_SESSION['idUser'],
+			'observacion'	=>	'Acceso a Optimización Nutri Score',
+			'fecha'			=>	date("Y-m-d H:i:s"),
+			);
+		$this->General_model->set('bitacora', $datos);
+
 		/*Configuración de la vista*/
 		$menu = $this->General_model->get('permisos_usuarios', array('activo'=>1, 'id_usuario'=>$_SESSION['idUser']), array('orden'=>'asc'), '');
 		$submenu = $this->General_model->get('submenu_opciones', array('activo_submenu'=>1), array(), '');
@@ -447,7 +420,7 @@ class Optimizacion extends CI_Controller {
 
 		$config = array(
 			'titulo'	=>	'Optimizacion',
-			'subtitulo'	=>	'FR Nutri Score',
+			'subtitulo'	=>	'> FR Nutri Score',
 			'usuario'	=>	$usuario->nombre,
 			'menu'		=>	$menu,
 			'submenu'	=>	$submenu,
@@ -489,6 +462,15 @@ class Optimizacion extends CI_Controller {
 		if ($permisos_usuarios==false) {
 			redirect('inicio');
 		}
+
+		/*Registro de actividad en bitácora*/
+		$datos = array(
+			'id_bitacora'	=>	'',
+			'id_usuario'	=>	$_SESSION['idUser'],
+			'observacion'	=>	'Solicitud de creación de un token',
+			'fecha'			=>	date("Y-m-d H:i:s"),
+			);
+		$this->General_model->set('bitacora', $datos);
 
 		/*Consultas generales*/
 		$productos = $this->General_model->get('productos_foodmathlab_v2', array('id_prod'=>$this->input->post('id_prod')), array(), '');
@@ -702,6 +684,15 @@ class Optimizacion extends CI_Controller {
 		if ($permisos_usuarios==false) {
 			redirect('inicio');
 		}
+
+		/*Registro de actividad en bitácora*/
+		$datos = array(
+			'id_bitacora'	=>	'',
+			'id_usuario'	=>	$_SESSION['idUser'],
+			'observacion'	=>	'Accceso a resultados de optimización',
+			'fecha'			=>	date("Y-m-d H:i:s"),
+			);
+		$this->General_model->set('bitacora', $datos);
 
 		/*Consultas generales*/
 		$token = $this->uri->segment(2);
@@ -921,7 +912,7 @@ class Optimizacion extends CI_Controller {
 
 		$config = array(
 			'titulo'	=>	$producto->nombre,
-			'subtitulo'	=>	'Resultados de la optimización',
+			'subtitulo'	=>	'> Resultados de la optimización',
 			'usuario'	=>	$usuario->nombre,
 			'menu'		=>	$menu,
 			'submenu'	=>	$submenu,
@@ -962,6 +953,15 @@ class Optimizacion extends CI_Controller {
 		if ($permisos_usuarios==false) {
 			redirect('inicio');
 		}
+
+		/*Registro de actividad en bitácora*/
+		$datos = array(
+			'id_bitacora'	=>	'',
+			'id_usuario'	=>	$_SESSION['idUser'],
+			'observacion'	=>	'Eliminación de token',
+			'fecha'			=>	date("Y-m-d H:i:s"),
+			);
+		$this->General_model->set('bitacora', $datos);
 
 		/*Consultas generales*/
 		$token = $this->uri->segment(2);
