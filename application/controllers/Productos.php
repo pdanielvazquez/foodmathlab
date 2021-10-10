@@ -308,8 +308,6 @@ class Productos extends CI_Controller {
 		}
 
 		/*Consultas generales*/
-		$marcas = $this->General_model->get('marcas', array(), array('marca'=>'asc'), 'marca');
-		//$categorias = $this->General_model->get('categorias', array(), array('categoria'=>'asc'), 'categoria');
 		$campos = $this->campos;
 		$grupos = $this->General_model->get('grupos', array('id_usuario'=>$_SESSION['idUser'], 'nombre<>'=>'Trash'), array('nombre'=>'asc'), '');
 		$productos = $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser']), array(), '');
@@ -1259,12 +1257,20 @@ class Productos extends CI_Controller {
 			'sodio'				=>	array('etiqueta'=>'Sodio'), 
 		);
 
+		$vnrs = array(
+			'eu' => array('Europa', 'europa.jpg', $this->valores_referencia_eu),
+			'mx' => array('México', 'mexico.jpg', $this->valores_referencia_co),
+			'co' => array('Colombia', 'colombia.jpg', $this->valores_referencia_mx),
+			'usa' => array('EE.UU.', 'usa.jpg', $this->valores_referencia_eeuu),
+		);
+
 		$data = array(
 			'productos' => $productos,
 			'productos_reform' => $productos_reform,
 			'campos'	=>	$campos,
 			'atributos'	=>	$atributos,
 			'grupos'    =>  $grupos,
+			'vnrs'		=>	$vnrs,
 		);
 
 		/*Registro de actividad en bitácora*/
