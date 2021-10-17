@@ -37,7 +37,7 @@
             <a class="nav-link btn-tab" href="#prod_3" data-toggle="tab">Etiquetado</a>
           </li>
         </ul>
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin: 0.4rem 0 0 0;">
+      <button type="button" class="close btn-close" data-dismiss="modal" aria-label="Close" style="margin: 0.4rem 0 0 0;">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
