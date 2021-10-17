@@ -64,6 +64,9 @@
           <!-- /.col -->
           <div class="col-12">
             <button type="submit" class="btn btn-danger btn-block btn-lg">Entrar</button>
+            <p style="text-align:center; margin: 1rem 0 0;">
+              <a href="" >Recuperar mi contraseña</a>
+            </p>
           </div>
           <!-- /.col -->
         </div>
@@ -72,8 +75,6 @@
       </div>
     <!-- /.card-body -->
       <div class="card-footer text-center">
-          <a href="<?= base_url('registro') ?>" class="btn btn-default bg-gray">Crear una cuenta</a>
-        <hr>
         <strong>Copyright &copy; 2021 <a href="https://www.nutrimonitor.com/" target="_blank">nutrimotor.com</a></strong> Todos los derechos reservados
       </div>
   </div>
