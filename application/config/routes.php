@@ -55,6 +55,7 @@ $route['translate_uri_dashes'] = FALSE;
 
 $route['login/(:any)/(:num)'] = 'App/index';
 $route['logout'] = 'App/logout';
+$route['exit'] = 'App/salida';
 $route['registro'] = 'App/registro';
 $route['nuevo_usuario'] = 'App/nuevo';
 

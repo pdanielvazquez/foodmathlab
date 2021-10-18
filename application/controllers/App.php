@@ -70,7 +70,8 @@ class App extends CI_Controller {
 		}
 	}
 
-	public function logout(){
+	public function salida()
+	{
 		/*Registro de actividad en bitácora*/
 		$datos = array(
 			'id_bitacora'	=>	'',
@@ -79,6 +80,10 @@ class App extends CI_Controller {
 			'fecha'			=>	date("Y-m-d H:i:s"),
 			);
 		$this->General_model->set('bitacora', $datos);
+		redirect('logout');
+	}
+
+	public function logout(){
 		session_destroy();
 		redirect(base_url());
 	}

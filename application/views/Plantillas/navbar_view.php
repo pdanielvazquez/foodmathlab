@@ -20,7 +20,7 @@
     </li>
 
     <li class="nav-item">
-      <a class="nav-link" href="<?= base_url('logout') ?>" role="button" title="Salir">
+      <a class="nav-link" href="<?= base_url('exit') ?>" role="button" title="Salir">
         <i class="fas fa-sign-out-alt"></i>
       </a>
     </li>
