@@ -1803,8 +1803,8 @@
 
 <script>
   $(function(){
-    $('.btn-close').on('click', function(){
-      $('#descripcion').modal('hide');
-    });
+    $(document).on('click', '.btn-close', function(){
+        $('#descripcion').modal('hide');
+      });
   })
 </script>
