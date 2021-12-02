@@ -89,12 +89,12 @@ class Reportes extends CI_Controller {
 		/*Consultas*/
 
 		$grupos = $this->General_model->get('grupos', array('id_usuario'=>$_SESSION['idUser']), array(), '');
-		$productos = $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser']), array(), '');
+		$productos = $this->General_model->get('productos_foodmathlab_v3', array('id_user'=>$_SESSION['idUser']), array(), '');
 
 		$promedios_gpos = array();
 		if ($grupos!=false) {
 			foreach ($grupos->result() as $grupo) {
-				$productos_gpo = $this->General_model->get('productos_foodmathlab_v2', array('id_grupo'=>$grupo->id_grupo), array(), '');
+				$productos_gpo = $this->General_model->get('productos_foodmathlab_v3', array('id_grupo'=>$grupo->id_grupo), array(), '');
 				if ($productos_gpo!=false) {
 					$conta = 0;
 					$conta_energia = 0;
@@ -110,19 +110,19 @@ class Reportes extends CI_Controller {
 					$conta_calcio =0;
 					$conta_cantidad_porcion =0;
 					foreach ($productos_gpo->result() as $producto) {
-						$conta_energia += $producto->energia;
-						$conta_azucar += $producto->azucaresa;
-						$conta_grasas_sat += $producto->acidosgs;
-						$conta_grasas_trans += $producto->acidostrans;
-						$conta_grasas_total += $producto->lipidos;
-						$conta_sodio += $producto->sodio;
+						$conta_energia += explode(" ", $producto->energia)[0];
+						$conta_azucar += explode(" ", $producto->azucaresa)[0];
+						$conta_grasas_sat += explode(" ", $producto->acidosgs)[0];
+						$conta_grasas_trans += explode(" ", $producto->acidostrans)[0];
+						$conta_grasas_total += explode(" ", $producto->lipidos)[0];
+						$conta_sodio += explode(" ", $producto->sodio)[0];
 						
-						$conta_fruta += $producto->fruta;
-						$conta_verdura += $producto->verdura;
-						$conta_fibra += $producto->fibra;
-						$conta_proteina += $producto->proteina;
-						$conta_calcio += $producto->calcio;
-						$conta_cantidad_porcion += $producto->cantidad_porcion;
+						$conta_fruta += explode(" ", $producto->fruta)[0];
+						$conta_verdura += explode(" ", $producto->verdura)[0];
+						$conta_fibra += explode(" ", $producto->fibra)[0];
+						$conta_proteina += explode(" ", $producto->proteina)[0];
+						$conta_calcio += explode(" ", $producto->calcio)[0];
+						$conta_cantidad_porcion += explode(" ", $producto->cantidad_porcion)[0];
 						$conta++;
 					}
 					$promedios_gpos[$grupo->id_grupo]['energia'] = $conta_energia/$conta;

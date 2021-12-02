@@ -411,8 +411,8 @@ class Productos extends CI_Controller {
 			'id_grupo'		=>	$this->input->post('producto_grupo'),
 			'id_categoria'	=>  ($this->input->post('producto_categoria')=='si')? 49 : 0,
 			'nombre'		=>	$this->input->post('producto_nombre'),
-			'cantidad_neta'	=>	$this->input->post('producto_cantidad_neta'),
-			'cantidad_porcion'	=>	$this->input->post('producto_cantidad_porcion'),
+			'cantidad_neta'	=>	$this->input->post('producto_cantidad_neta')." ".$this->input->post('um_neta'),
+			'cantidad_porcion'	=>	$this->input->post('producto_cantidad_porcion')." ".$this->input->post('um_porcion'),
 			'precio'		=>	$this->input->post('producto_precio'),
 			'moneda'		=>	$this->input->post('producto_moneda'),
 			'fecha'			=>	date("Y-m-d H:i:s"),
@@ -426,22 +426,23 @@ class Productos extends CI_Controller {
 
 		foreach ($_POST as $campo => $valor) {
 			if ((strpos($campo, 'producto_')<-1) && (strpos($campo, 'um_')<-1)) {
-				$valores_productos[$campo] = $valor;
+				$valores_productos[$campo] = ($valor!=''? $valor : '0')." ".$_POST['um_'.$campo];
 			}
 		}
-		//print_r($valores_productos);
 
 		/*Verificación de unidades de energía*/
 		if ($this->input->post('um_energia')=="kcal") {
-			$valores_productos['energia'] = $this->input->post('energia');
-			$valores_productos['energia_kj'] = $this->input->post('energia')*4.184;
+			$valores_productos['energia'] = $this->input->post('energia')." kcal";
+			$valores_productos['energia_kj'] = $this->input->post('energia')*4.184." kJ";
 		}
 		else{
-			$valores_productos['energia'] = floatval($valores_productos['energia']) / 4.184; 
-			$valores_productos['energia_kj'] = $this->input->post('energia'); 
+			$valores_productos['energia'] = floatval($valores_productos['energia']) / 4.184." kcal"; 
+			$valores_productos['energia_kj'] = $this->input->post('energia')." kJ"; 
 		}
-		$this->General_model->set('productos_foodmathlab_v2', $valores_productos);
+		$this->General_model->set('productos_foodmathlab_v3', $valores_productos);
 		redirect(base_url('productos_registrados'));
+
+		//print_r($valores_productos);
 	}
 
 	public function registrados(){
@@ -459,7 +460,7 @@ class Productos extends CI_Controller {
 		/*Consultas generales*/
 		/*$productos = $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser']), array(), '');*/
 		$imagenes = $this->General_model->get('productos_imagenes', array('id_user'=>$_SESSION['idUser']), array(), '');
-		$productos = $this->General_model->get('productos_grupos', array('id_user'=>$_SESSION['idUser']), array(), '');
+		$productos = $this->General_model->get('productos_grupos_v2', array('id_user'=>$_SESSION['idUser']), array(), '');
 		$grupos = $this->General_model->get('grupos', array('id_usuario'=>$_SESSION['idUser']), array('nombre'=>'desc'), '');
 		$data = array(
 			'productos'	=>	$productos,
@@ -575,26 +576,26 @@ class Productos extends CI_Controller {
 		/*Consultas generales*/
 		$id_producto = $this->input->post('id');
 		$lab = ($this->input->post('lab')!==false)? $this->input->post('lab') : false ;
-		$productos = $this->General_model->get('productos_foodmathlab_v2', array('id_prod'=>$id_producto), array(), '');
+		$productos = $this->General_model->get('productos_foodmathlab_v3', array('id_prod'=>$id_producto), array(), '');
 		$producto = ($productos!=false) ? $productos->row(0) : false;
 
 		$grupos = $this->General_model->get('grupos', array('id_usuario'=>$_SESSION['idUser']), array(), '');
 
 		$campos = $this->campos;
 		
-		$productos_energia = ($lab!=false)? $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser'], 'id_grupo'=>$lab), array('energia'=>'asc'), '') : $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser']), array('energia'=>'asc'), '');
+		$productos_energia = ($lab!=false)? $this->General_model->get('productos_foodmathlab_v3', array('id_user'=>$_SESSION['idUser'], 'id_grupo'=>$lab), array('energia'=>'asc'), '') : $this->General_model->get('productos_foodmathlab_v3', array('id_user'=>$_SESSION['idUser']), array('energia'=>'asc'), '');
 
-		$productos_lipidos = ($lab!=false)? $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser'], 'id_grupo'=>$lab), array('lipidos'=>'asc'), '') : $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser']), array('lipidos'=>'asc'), '');
+		$productos_lipidos = ($lab!=false)? $this->General_model->get('productos_foodmathlab_v3', array('id_user'=>$_SESSION['idUser'], 'id_grupo'=>$lab), array('lipidos'=>'asc'), '') : $this->General_model->get('productos_foodmathlab_v3', array('id_user'=>$_SESSION['idUser']), array('lipidos'=>'asc'), '');
 
-		$productos_azucares = ($lab!=false)? $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser'], 'id_grupo'=>$lab), array('azucaresa'=>'asc'), '') : $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser']), array('azucaresa'=>'asc'), '');
+		$productos_azucares = ($lab!=false)? $this->General_model->get('productos_foodmathlab_v3', array('id_user'=>$_SESSION['idUser'], 'id_grupo'=>$lab), array('azucaresa'=>'asc'), '') : $this->General_model->get('productos_foodmathlab_v3', array('id_user'=>$_SESSION['idUser']), array('azucaresa'=>'asc'), '');
 
-		$productos_grasasSat = ($lab!=false)? $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser'], 'id_grupo'=>$lab), array('acidosgs'=>'asc'), '') : $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser']), array('acidosgs'=>'asc'), '');
+		$productos_grasasSat = ($lab!=false)? $this->General_model->get('productos_foodmathlab_v3', array('id_user'=>$_SESSION['idUser'], 'id_grupo'=>$lab), array('acidosgs'=>'asc'), '') : $this->General_model->get('productos_foodmathlab_v3', array('id_user'=>$_SESSION['idUser']), array('acidosgs'=>'asc'), '');
 
-		$productos_grasasTrans = ($lab!=false)? $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser'], 'id_grupo'=>$lab), array('acidostrans'=>'asc'), '') : $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser']), array('acidostrans'=>'asc'), '');
+		$productos_grasasTrans = ($lab!=false)? $this->General_model->get('productos_foodmathlab_v3', array('id_user'=>$_SESSION['idUser'], 'id_grupo'=>$lab), array('acidostrans'=>'asc'), '') : $this->General_model->get('productos_foodmathlab_v3', array('id_user'=>$_SESSION['idUser']), array('acidostrans'=>'asc'), '');
 
-		$productos_sodio = ($lab!=false)? $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser'], 'id_grupo'=>$lab), array('sodio'=>'asc'), '') : $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser']), array('sodio'=>'asc'), '');
+		$productos_sodio = ($lab!=false)? $this->General_model->get('productos_foodmathlab_v3', array('id_user'=>$_SESSION['idUser'], 'id_grupo'=>$lab), array('sodio'=>'asc'), '') : $this->General_model->get('productos_foodmathlab_v3', array('id_user'=>$_SESSION['idUser']), array('sodio'=>'asc'), '');
 
-		$productos_indices = ($lab!=false)? $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser'], 'id_grupo'=>$lab), array(), '') : $this->General_model->get('productos_foodmathlab_v2', array('id_user'=>$_SESSION['idUser']), array(), '');
+		$productos_indices = ($lab!=false)? $this->General_model->get('productos_foodmathlab_v3', array('id_user'=>$_SESSION['idUser'], 'id_grupo'=>$lab), array(), '') : $this->General_model->get('productos_foodmathlab_v3', array('id_user'=>$_SESSION['idUser']), array(), '');
 
 		$campos_productos_indices = array(
 			'proteinas'			=> 	array('campo'=>'proteina'), 
@@ -678,7 +679,7 @@ class Productos extends CI_Controller {
 
 		/*Consultas generales*/
 		$categorias = $this->General_model->get('categorias', array(), array('categoria'=>'asc'), 'categoria');
-		$productos = $this->General_model->get('productos_foodmathlab_v2', array('id_prod'=>$id_prod), array(), '');
+		$productos = $this->General_model->get('productos_foodmathlab_v3', array('id_prod'=>$id_prod), array(), '');
 
 		if ($productos!=false) {
 			$campos = $this->campos;
@@ -775,8 +776,8 @@ class Productos extends CI_Controller {
 			'id_grupo'		=>	$this->input->post('producto_grupo'),
 			'id_categoria'	=>  ($this->input->post('producto_categoria')=='si')? 49 : 0,
 			'nombre'		=>	$this->input->post('producto_nombre'),
-			'cantidad_neta'	=>	$this->input->post('producto_cantidad_neta'),
-			'cantidad_porcion'	=>	$this->input->post('producto_cantidad_porcion'),
+			'cantidad_neta'	=>	$this->input->post('producto_cantidad_neta')." ".$this->input->post('um_neta'),
+			'cantidad_porcion'	=>	$this->input->post('producto_cantidad_porcion')." ".$this->input->post('um_porcion'),
 			'precio'		=>	$this->input->post('producto_precio'),
 			'moneda'		=>	$this->input->post('producto_moneda'),
 			'fecha'			=>	date("Y-m-d H:i:s"),
@@ -786,26 +787,26 @@ class Productos extends CI_Controller {
 			'reclamaciones'	=>	$this->input->post('producto_reclamaciones'),
 			'upc'			=>	$this->input->post('producto_upc'),
 		);
-		//print_r($valores_productos);
 
 		foreach ($_POST as $campo => $valor) {
 			echo "$campo -> $valor<br>";
 			if ((strpos($campo, 'producto_')<-1) && (strpos($campo, 'um_')<-1)) {
-				$valores_productos[$campo] = $valor;
+				$valores_productos[$campo] = ($valor!=''? $valor : '0')." ".$_POST['um_'.$campo];
 			}
 		}
 		
 		/*Verificación de unidades de energía*/
 		if ($this->input->post('um_energia')=="kcal") {
-			$valores_productos['energia'] = $this->input->post('energia');
-			$valores_productos['energia_kj'] = $this->input->post('energia')*4.184;
+			$valores_productos['energia'] = $this->input->post('energia')." kcal";
+			$valores_productos['energia_kj'] = $this->input->post('energia')*4.184." kJ";
 		}
 		else{
-			$valores_productos['energia'] = floatval($valores_productos['energia']) / 4.184; 
-			$valores_productos['energia_kj'] = $this->input->post('energia'); 
+			$valores_productos['energia'] = floatval($valores_productos['energia']) / 4.184." kcal"; 
+			$valores_productos['energia_kj'] = $this->input->post('energia')." kJ"; 
 		}
-		$this->General_model->update('productos_foodmathlab_v2', array('id_prod'=>$id_prod), $valores_productos);
+		$this->General_model->update('productos_foodmathlab_v3', array('id_prod'=>$id_prod), $valores_productos);
 		redirect(base_url('productos_editar/'.encripta($id_prod).'/1'));
+		// print_r($valores_productos);
 	}
 
 	public function grupos(){

@@ -1,6 +1,66 @@
 <? 
 $input = new Input(); 
 $producto = ($productos!=false)? $productos->row(0) : false;
+$cantidad_neta = explode(" ", $producto->cantidad_neta);
+
+$c_neta = array(
+  'valor' =>  $cantidad_neta[0], 
+  'unidad'=>  (count($cantidad_neta)>0) ? $cantidad_neta[1]: 'g',
+);
+
+$cantidad_porcion = explode(" ", $producto->cantidad_porcion);
+$c_porcion = array(
+  'valor' =>  $cantidad_porcion[0],
+  'unidad' =>  (count($cantidad_porcion)>0) ? $cantidad_porcion[1]: 'g',
+);
+
+$energia_kj = explode(" ", $producto->energia_kj);
+$e_kj = array(
+  'valor' =>  $energia_kj[0],
+  'unidad' =>  (count($energia_kj)>0) ? $energia_kj[1]: 'kJ',
+);
+
+$energia_kcal = explode(" ", $producto->energia);
+$e_kcal = array(
+  'valor' =>  $energia_kcal[0],
+  'unidad' =>  (count($energia_kcal)>0) ? $energia_kcal[1]: 'kcal',
+);
+
+$lipidos = explode(" ", $producto->lipidos);
+$lipids = array(
+  'valor' =>  $lipidos[0],
+  'unidad' =>  (count($lipidos)>0) ? $lipidos[1] : 'g' ,
+);
+
+$sodio = explode(" ", $producto->sodio);
+$sodium = array(
+  'valor' =>  $sodio[0],
+  'unidad' =>  (count($sodio)>0) ? $sodio[1] : 'mg' ,
+);
+
+$hidratos = explode(" ", $producto->hidratos);
+$carbo = array(
+  'valor' =>  $hidratos[0],
+  'unidad' =>  (count($hidratos)>0) ? $hidratos[1] : 'g' ,
+);
+
+$fibra = explode(" ", $producto->fibra);
+$fiber = array(
+  'valor' =>  $fibra[0],
+  'unidad' =>  (count($fibra)>0) ? $fibra[1] : 'g' ,
+);
+
+$azucar = explode(" ", $producto->azucaresa);
+$sugar = array(
+  'valor' =>  $azucar[0],
+  'unidad' =>  (count($azucar)>0) ? $azucar[1] : 'g' ,
+);
+
+$proteinas = explode(" ", $producto->proteinas);
+$protein = array(
+  'valor' =>  $proteinas[0],
+  'unidad' =>  (count($proteinas)>0) ? $proteinas[1] : 'g' ,
+);
 ?>
 
 <!-- Main content -->
@@ -70,13 +130,13 @@ $producto = ($productos!=false)? $productos->row(0) : false;
                   'step'=>'0.1',
                   'min'=>'0',
                   'style'=>'text-align:center',
-                  'value'=> number_format($producto->cantidad_neta, 1),
+                  'value'=> number_format($c_neta['valor'], 1),
                 ), 'number') ?>
                 <div class="input-group-append">
                   <span class="input-group-text">
                     <select name="um_neta" id="um_neta" >
-                      <option <?= ($producto->tipo=='solido')? 'selected="selected"' : '' ?> >g</option>
-                      <option <?= ($producto->tipo=='liquido')? 'selected="selected"' : '' ?> >ml</option>
+                      <option <?= ($c_neta['unidad']=='g')? 'selected="selected"' : '' ?> >g</option>
+                      <option <?= ($c_neta['unidad']=='ml')? 'selected="selected"' : '' ?> >ml</option>
                     </select>
                   </span>
                 </div>
@@ -100,13 +160,13 @@ $producto = ($productos!=false)? $productos->row(0) : false;
                   'step'=>'0.1',
                   'min'=>'0',
                   'style'=>'text-align:center',
-                  'value'=> number_format($producto->cantidad_porcion, 1),
+                  'value'=> number_format($c_porcion['valor'], 1),
                 ), 'number') ?>
                 <div class="input-group-append">
                   <span class="input-group-text">
                     <select name="um_porcion" id="um_porcion" >
-                      <option <?= ($producto->tipo=='solido')? 'selected="selected"' : '' ?> >g</option>
-                      <option <?= ($producto->tipo=='liquido')? 'selected="selected"' : '' ?> >ml</option>
+                      <option <?= ($c_porcion['unidad']=='g')? 'selected="selected"' : '' ?> >g</option>
+                      <option <?= ($c_porcion['unidad']=='ml')? 'selected="selected"' : '' ?> >ml</option>
                     </select>
                   </span>
                 </div>
@@ -197,8 +257,12 @@ $producto = ($productos!=false)? $productos->row(0) : false;
               <legend><i class="fas fa-info-circle"></i> Información nutrimental</legend>
               <div class="row">
                 <?
+                $unidades = array('g', 'mg', 'mcg', '%', 'UI', 'l', 'ml');
                 foreach ($campos as $campo) {
                   $atributo = $campo['atributo'];
+                  $meta = explode(" ", $producto->$atributo);
+                  $valor = $meta[0];
+                  $unidad = (count($meta)>0)? $meta[1] : $campo['unidad'];
                   ?>
                   <div class="col-xs-12 col-md-4 col-lg-2">
                     <div class="form-group">
@@ -212,16 +276,17 @@ $producto = ($productos!=false)? $productos->row(0) : false;
                           'step'=>'0.01',
                           'style'=>'text-align:center',
                           // 'value'=> number_format($producto->$atributo, 2),
-                          'value' => ($producto->$atributo>0) ? number_format(($campo['unidad']=='mg')? $producto->$atributo*1000 : $producto->$atributo, 2) : '' ,
+                          'value' => $valor ,
                         ), 'number') ?>
                         <div class="input-group-append">
                           <span class="input-group-text">
                             <select name="um_<?= $campo['atributo'] ?>" id="um_<?= $campo['atributo'] ?>" >
-                              <?foreach ($campo['unidad'] as $unidad) {
-                                ?>
-                                <option value="<?= $unidad ?>" ><?= $unidad ?></option>
-                                <?
-                              }
+                              <?
+                                foreach ($unidades as $uni) {
+                                  ?>
+                                    <option <?= ($unidad==$uni)? 'selected="selected"': '' ?> value="<?= $uni ?>" ><?= $uni ?></option>
+                                  <?
+                                }
                               ?>
                             </select>
                           </span>

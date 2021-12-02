@@ -16,37 +16,105 @@
               <tr class="bg-secondary">
                 <th>No.</th>
                 <th>Nombre</th>
-                <!--<th>CHO (Carbohidratos)</th>-->
                 <th>Azúcares</th>
                 <th>Grasa Total</th>
                 <th>Grasa Saturada</th>
                 <th>Grasa Trans</th>
                 <th>Sodio</th>
-                <!--<th>Proteína</th>
-                <th>Fibra</th>-->
                 <th>Sellos</th>
                 <th>Extras</th>
               </tr>
             </thead>
             <tbody>
               <?
-                if ($productos) {
+                if ($productos!=false) {
+
                   $conta = 0;
                   foreach ($productos->result() as $producto) {
-                    $cadena_valores = $producto->hidratos.','.$producto->azucaresa.','.$producto->lipidos.','.$producto->acidosgs.','.$producto->acidostrans.','.$producto->sodio.','.$producto->proteina.','.$producto->fibra;
-                    $MexLabel = new Etiquetado_mexico($producto->energia, $producto->azucaresa, $producto->acidosgs, $producto->acidostrans, $producto->sodio, $producto->tipo);
+
+                    $cantidad_neta = explode(" ", $producto->cantidad_neta);
+                    $c_neta = array(
+                      'valor' =>  $cantidad_neta[0], 
+                      'unidad'=>  (count($cantidad_neta)>0) ? $cantidad_neta[1]: 'g',
+                    );
+
+                    $cantidad_porcion = explode(" ", $producto->cantidad_porcion);
+                    $c_porcion = array(
+                      'valor' =>  $cantidad_porcion[0],
+                      'unidad' =>  (count($cantidad_porcion)>0) ? $cantidad_porcion[1]: 'g',
+                    );
+
+                    $energia_kj = explode(" ", $producto->energia_kj);
+                    $e_kj = array(
+                      'valor' =>  $energia_kj[0],
+                      'unidad' =>  (count($energia_kj)>0) ? $energia_kj[1]: 'kJ',
+                    );
+
+                    $energia_kcal = explode(" ", $producto->energia);
+                    $e_kcal = array(
+                      'valor' =>  $energia_kcal[0],
+                      'unidad' =>  (count($energia_kcal)>0) ? $energia_kcal[1]: 'kcal',
+                    );
+
+                    $lipidos = explode(" ", $producto->lipidos);
+                    $lipids = array(
+                      'valor' =>  $lipidos[0],
+                      'unidad' =>  (count($lipidos)>0) ? $lipidos[1] : 'g' ,
+                    );
+
+                    $sodio = explode(" ", $producto->sodio);
+                    $sodium = array(
+                      'valor' =>  $sodio[0],
+                      'unidad' =>  (count($sodio)>0) ? $sodio[1] : 'mg' ,
+                    );
+
+                    $hidratos = explode(" ", $producto->hidratos);
+                    $carbo = array(
+                      'valor' =>  $hidratos[0],
+                      'unidad' =>  (count($hidratos)>0) ? $hidratos[1] : 'g' ,
+                    );
+
+                    $fibra = explode(" ", $producto->fibra);
+                    $fiber = array(
+                      'valor' =>  $fibra[0],
+                      'unidad' =>  (count($fibra)>0) ? $fibra[1] : 'g' ,
+                    );
+
+                    $azucar = explode(" ", $producto->azucaresa);
+                    $sugar = array(
+                      'valor' =>  $azucar[0],
+                      'unidad' =>  (count($azucar)>0) ? $azucar[1] : 'g' ,
+                    );
+
+                    $proteinas = explode(" ", $producto->proteinas);
+                    $protein = array(
+                      'valor' =>  $proteinas[0],
+                      'unidad' =>  (count($proteinas)>0) ? $proteinas[1] : 'g' ,
+                    );
+
+                    $grasasSat = explode(" ", $producto->acidosgs);
+                    $fatty_sat = array(
+                      'valor' =>  $grasasSat[0],
+                      'unidad' =>  (count($grasasSat)>0) ? $grasasSat[1] : 'g' ,
+                    );
+
+                    $grasasTrans = explode(" ", $producto->acidostrans);
+                    $fatty_trans = array(
+                      'valor' =>  $grasasTrans[0],
+                      'unidad' =>  (count($grasasTrans)>0) ? $grasasTrans[1] : 'g' ,
+                    );
+                    
+                    $cadena_valores = $carbo['valor'].','.$sugar['valor'].','.$lipids['valor'].','.$fatty_sat['valor'].','.$fatty_trans['valor'].','.$sodium['valor'].','.$protein[''].','.$fiber['valor'];
+                    $MexLabel = new Etiquetado_mexico($e_kcal['valor'], $sugar['valor'], $fatty_sat['valor'], $fatty_trans['valor'], $sodium['valor'], $producto->tipo);
                     ?>
                     <tr>
                       <td><?= ++$conta ?></td>
                       <td><?= $producto->nombre ?></td>
-                      <!--<td><?= number_format($producto->hidratos, 2) ?> g</td>-->
-                      <td><?= number_format($producto->azucaresa, 2) ?> g</td>
-                      <td><?= number_format($producto->lipidos, 2) ?> g</td>
-                      <td><?= number_format($producto->acidosgs, 2) ?> g</td>
-                      <td><?= number_format($producto->acidostrans, 2) ?> g</td>
-                      <td><?= number_format($producto->sodio, 2) ?> g</td>
-                      <!--<td><?= number_format($producto->proteina, 2) ?> g</td>
-                      <td><?= number_format($producto->fibra, 2) ?> g</td>-->
+                      <td><?= number_format($sugar['valor'], 2) ?> g</td>
+                      <td><?= number_format($lipids['valor'], 2) ?> g</td>
+                      <td><?= number_format($fatty_sat['valor'], 2) ?> g</td>
+                      <td><?= number_format($fatty_trans['valor'], 2) ?> g</td>
+                      <td><?= number_format($sodium['valor'], 2) ?> g</td>
                       <td>
                         <?
                         $sellos = 0;
@@ -107,14 +175,11 @@
               <tr class="bg-secondary">
                 <th>No.</th>
                 <th>Nombre</th>
-                <!--<th>CHO (Carbohidratos)</th>-->
                 <th>Azúcares</th>
                 <th>Grasa Total</th>
                 <th>Grasa Saturada</th>
                 <th>Grasa Trans</th>
                 <th>Sodio</th>
-                <!--<th>Proteína</th>
-                <th>Fibra</th>-->
                 <th>Sellos</th>
                 <th>Extras</th>
               </tr>
@@ -124,65 +189,6 @@
         <!-- /.card-body -->
     </div>
     <!-- /.card -->
-
-	<!-- <div class="card card-danger">
-		<div class="card-header">
-			<h4 class="card-title">
-				<i class="fas fa-tachometer-alt"></i> Datos para formulas
-			</h4>
-		</div>
-		<div class="card-body">
-			<div class="row">
-				<div class="form-group col-xs-12 col-md-6 col-lg-3">
-					<label>CHO (Carbohidratos)</label>
-					<input type="number" id="CHO" class="form-control" placeholder="0" step="0.05">
-				</div>
-				<div class="form-group col-xs-12 col-md-6 col-lg-3">
-					<label>Azúcares</label>
-					<input type="number" id="A" class="form-control" placeholder="0" step="0.05">
-				</div>
-				<div class="form-group col-xs-12 col-md-6 col-lg-3">
-					<label>Grasa Total</label>
-					<input type="number" id="GT" class="form-control" placeholder="0" step="0.05">
-				</div>
-				<div class="form-group col-xs-12 col-md-6 col-lg-3">
-					<label>Grasa Saturada</label>
-					<input type="number" id="GSAT" class="form-control" placeholder="0" step="0.05">
-				</div>
-				<div class="form-group col-xs-12 col-md-6 col-lg-3">
-					<label>Grasa Trans</label>
-					<input type="number" id="GTRANS" class="form-control" placeholder="0" step="0.05">
-				</div>
-				<div class="form-group col-xs-12 col-md-6 col-lg-3">
-					<label>Sodio</label>
-					<input type="number" id="sodio" class="form-control" placeholder="0" step="0.05">
-				</div>
-				<div class="form-group col-xs-12 col-md-6 col-lg-3">
-					<label>Proteína</label>
-					<input type="number" id="P" class="form-control" placeholder="0" step="0.05">
-				</div>
-				<div class="form-group col-xs-12 col-md-6 col-lg-3">
-					<label>Fibra</label>
-					<input type="number" id="F" class="form-control" placeholder="0" step="0.05">
-				</div>
-			</div>
-		</div>
-		<div class="card-footer">
-			<div class="btn-group">
-                <button type="button" class="btn btn-lg btn-secondary">Quitar</button>
-                <button type="button" class="btn btn-lg btn-secondary dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
-                    <span class="sr-only">Toggle Dropdown</span>
-                    <div class="dropdown-menu" role="menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(-1px, 37px, 0px); top: 0px; left: 0px; will-change: transform;">
-                        <a class="dropdown-item btn-quitar" href="#" data="azucar">Azucar</a>
-                        <a class="dropdown-item btn-quitar" href="#" data="grasas">Grasas saturadas</a>
-                        <a class="dropdown-item btn-quitar" href="#" data="sodio">Sodio</a>
-                        <a class="dropdown-item btn-quitar" href="#" data="energia">Energía</a>
-                    </div>
-                </button>
-            </div>
-
-		</div>
-	</div> -->
 
   <!-- Modal -->
       <div class="modal fade" id="respuesta" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
