@@ -62,6 +62,13 @@
 			table = $('#example1').DataTable();
 			table.columns(2).search(criteria);
 			table.draw();
+
+			/*cambio de colores en los botones*/
+			$('.btn-filter').attr('class', 'btn btn-default text-red float-right btn-filter');
+			$('.btn-all').attr('class', 'btn btn-default text-red float-right btn-all');
+			$(this).attr('class', 'btn btn-primary float-right btn-filter')
+			
+
 		});
 
 		$(document).on('click', '.btn-close', function(){

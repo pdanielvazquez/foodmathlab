@@ -81,7 +81,7 @@ $route['grupos_reform'] = 'Productos/grupo_reform_view';
 $route['registrar_reform'] = 'Productos/registro_reform';
 
 /*Reportes*/
-$route['reporte/(:any)'] = 'Reportes/index';
+$route['reportes'] = 'Reportes/index';
 $route['reporte_grupos'] = 'Reportes/grupos';
 $route['reporte_tipos'] = 'Reportes/tipos';
 
@@ -107,6 +107,7 @@ $route['sellos'] = 'Sellos/quitar';
 $route['sellos_formulas'] = 'Sellos/formulas';
 
 /*Optimización*/
+$route['optimizacion']	= 'Optimizacion/index';
 $route['agregar_token'] = 'Optimizacion/agregar';
 $route['guardar_token'] = 'Optimizacion/guardar';
 $route['nom051'] = 'Optimizacion/nom051';

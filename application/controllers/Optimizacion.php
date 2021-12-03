@@ -150,7 +150,7 @@ class Optimizacion extends CI_Controller {
 		$usuario = ($usuarios!=false)? $usuarios->row(0) : false ;
 
 		$config = array(
-			'titulo'	=>	'Optimizacion',
+			'titulo'	=>	'Optimización',
 			'subtitulo'	=>	'> MEX NOM-051',
 			'usuario'	=>	$usuario->nombre,
 			'menu'		=>	$menu,
@@ -419,7 +419,7 @@ class Optimizacion extends CI_Controller {
 		$usuario = ($usuarios!=false)? $usuarios->row(0) : false ;
 
 		$config = array(
-			'titulo'	=>	'Optimizacion',
+			'titulo'	=>	'Optimización',
 			'subtitulo'	=>	'> FR Nutri Score',
 			'usuario'	=>	$usuario->nombre,
 			'menu'		=>	$menu,

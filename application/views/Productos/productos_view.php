@@ -27,13 +27,13 @@
                   $active = ($conta == 0) ? 'active' : '';
                   ?>
                     <a class="btn btn-default text-red float-right btn-filter" href="#" style="margin:2px" data="<?= $grupo->nombre ?>"><?= $grupo->nombre ?>
-                    <span class="badge badge-primary" style="position:relative; top:-0.5rem; right: 0.1rem;"><?= $no_prods ?></span>
+                    <span class="badge badge-warning" style="position:relative; top:-0.5rem; right: 0.1rem;"><?= $no_prods ?></span>
                     </a>
                   <?
               }
             }
             ?>
-            <a class="btn btn-primary float-right" href="<?= base_url('productos_registrados') ?>" style="margin:2px" >Ver todos
+            <a class="btn btn-primary float-right btn-all" href="<?= base_url('productos_registrados') ?>" style="margin:2px" >Ver todos
               <span class="badge badge-warning" style="position:relative; top:-0.5rem; right: 0.1rem;"><?= $conta ?></span>
             </a>
           
