@@ -17,7 +17,7 @@
                       <i class="<?= $opcion->icono ?>"></i>
                     </div>
                     <a href="<?= $opcion->ruta ?>" class="small-box-footer">
-                      Ir a <?= $opcion->opcion ?> <i class="fas fa-arrow-circle-right"></i>
+                      Ir a <?= $opcion->opcion_larga ?> <i class="fas fa-arrow-circle-right"></i>
                     </a>
               </div>
             </div>
