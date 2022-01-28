@@ -1,9 +1,8 @@
 <script>
-    var canvas = ['energiaChart', 'lipidosChart', 'azucaresChart', 'grasasSatChart', 'grasasTransChart', 'sodioChart', 'ffChart', 'qualityChart'];
+    var canvas = ['canvaChart'];
 
     for(i in canvas){
-        if (document.getElementById(canvas[i]) !== null) 
-            generaGraficaBarras(canvas[i]);
+        generaGraficaBarras(canvas[i]);
     }
 
     function generaGraficaBarras(id){

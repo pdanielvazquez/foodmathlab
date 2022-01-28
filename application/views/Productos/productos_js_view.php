@@ -72,8 +72,12 @@
 		});
 
 		$(document).on('click', '.btn-close', function(){
-	      $('#descripcion').modal('hide');
+	    	$('#descripcion').modal('hide');
 	    });
+
+	    /*$('#btn-editar-producto').on('click', function(){
+	    	window.open()
+	    });*/
 
 	})
 

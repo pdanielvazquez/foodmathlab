@@ -633,6 +633,7 @@ class Productos extends CI_Controller {
 		$permisos_indices = $this->General_model->get('permisos_indices', array('id_usuario'=>$_SESSION['idUser']), array(), '');
 
 		$data = array(
+			'id_producto'		=>	$id_producto,
 			'producto'			=>	$producto,
 			'referencia_eu'		=>	$this->valores_referencia_eu,
 			'referencia_co'		=>	$this->valores_referencia_co,
@@ -654,11 +655,89 @@ class Productos extends CI_Controller {
 		);
 
 		$this->load->view('Productos/descripcion_producto_view', $data);
+		
 		$this->load->view('Productos/descripcion_producto_charts_view', $data);
-		$this->load->view('Productos/descripcion_producto_nrf93_js_view', $data);
-		$this->load->view('Productos/descripcion_producto_sainlim_js_view', $data);
-		$this->load->view('Productos/descripcion_producto_sens_js_view', $data);
+		
+		if (search_index($permisos_i, 'nrf')==true) 
+			$this->load->view('Productos/descripcion_producto_nrf93_js_view', $data);
+		
+		if (search_index($permisos_i, 'sai')==true) 
+			$this->load->view('Productos/descripcion_producto_sainlim_js_view', $data);
+		
+		if (search_index($permisos_i, 'sen')==true) 
+			$this->load->view('Productos/descripcion_producto_sens_js_view', $data);
+		
 		$this->load->view('Productos/descripcion_producto_radio_view', $data);
+	}
+
+	public function grafica_maximize(){
+
+		if (!isset($_SESSION['idUser'])) {
+			redirect('App/logout');
+		}
+
+		/*Validación de permiso de acceso al método*/
+		$permisos_usuarios = $this->General_model->get('permisos_usuarios', array('id_usuario'=>$_SESSION['idUser'], 'opcion'=>'Productos'), array(), '');
+		if ($permisos_usuarios==false) {
+			redirect('inicio');
+		}
+
+		/*Consultas generales*/
+		$tipo_chart = $this->uri->segment(2);
+		$nutriente = $this->uri->segment(3);
+		$id_producto = $this->uri->segment(4);
+		$lab = false ;
+		$productos = $this->General_model->get('productos_foodmathlab_v3', array('id_prod'=>$id_producto), array(), '');
+		$producto = ($productos!=false) ? $productos->row(0) : false;
+
+		$grupos = $this->General_model->get('grupos', array('id_usuario'=>$_SESSION['idUser']), array(), '');
+
+		$campos = $this->campos;
+
+		$productos_nutriente = $this->General_model->get('productos_foodmathlab_v3', array('id_user'=>$_SESSION['idUser'], 'id_grupo'=>$producto->id_grupo), array($nutriente=>'asc'), '');
+
+		$prods_nutrimentos = [];
+		$nutrientes_arr = [];
+		if ($productos_nutriente!=false) {
+			foreach ($productos_nutriente->result() as $prod) {
+				$prods_nutrimentos[] = array(
+					'id_prod'	=>	$prod->id_prod,
+					'nombre' 	=>	$prod->nombre,
+					'nutriente'	=> 	floatval(explode(" ", $prod->$nutriente)[0]),
+				);
+				$nutrientes_arr[] = floatval(explode(" ", $prod->$nutriente)[0]);
+			}
+		}
+
+		$permisos_etiquetados = $this->General_model->get('permisos_etiquetados', array('id_usuario'=>$_SESSION['idUser']), array(), '');
+		$permisos_indices = $this->General_model->get('permisos_indices', array('id_usuario'=>$_SESSION['idUser']), array(), '');
+
+		$data = array(
+			'id_producto'		=>	$id_producto,
+			'producto'			=>	$producto,
+			'referencia_eu'		=>	$this->valores_referencia_eu,
+			'referencia_co'		=>	$this->valores_referencia_co,
+			'referencia_mx'		=>	$this->valores_referencia_mx,
+			'referencia_eeuu'	=>	$this->valores_referencia_eeuu,
+			'campos'			=>	$campos,
+			'grupos'			=>	$grupos,
+			'nutriente'			=>	$nutriente,
+			'productos_nutriente'	=>	$productos_nutriente,
+			'prods_nutrimentos'	=>	$prods_nutrimentos,
+			'nutrientes_arr'	=>	$nutrientes_arr,
+			
+			'permisos_etiquetados'	=>	$permisos_etiquetados,
+			'permisos_indices'	=>	$permisos_indices,
+		);
+
+		$this->load->view('Plantillas/head_view');
+		$this->load->view('Plantillas/scripts_view');
+		$this->load->view('Productos/grafica_maximize_producto_view', $data);
+		if ($tipo_chart=='radar') {
+			$this->load->view('Productos/descripcion_producto_radio_charts_view', $data);
+		}else{
+			$this->load->view('Productos/descripcion_producto_bars_charts_view', $data);
+		}
 	}
 
 	public function editar(){
@@ -739,6 +818,239 @@ class Productos extends CI_Controller {
 			/*funcionalidad Javascript*/
 			$this->load->view('Productos/editar_producto_js_view', $data);
 			$this->load->view('Productos/nuevo_producto_js_view');
+
+			$this->load->view('Plantillas/body_close_view');
+			$this->load->view('Plantillas/html_close_view');
+		}
+		else{
+			redirect('productos');
+		}
+		
+	}
+
+	public function informacion(){
+
+		if (!isset($_SESSION['idUser'])) {
+			redirect('App/logout');
+		}
+
+		/*Validación de permiso de acceso al método*/
+		$permisos_usuarios = $this->General_model->get('permisos_usuarios', array('id_usuario'=>$_SESSION['idUser'], 'opcion'=>'Productos'), array(), '');
+		if ($permisos_usuarios==false) {
+			redirect('inicio');
+		}
+
+		/*Identificador del producto a editar*/
+		$id_prod = desencripta($this->uri->segment(2));
+
+		/*Consultas generales*/
+		$productos = $this->General_model->get('productos_foodmathlab_v3', array('id_prod'=>$id_prod), array(), '');
+
+		if ($productos!=false) {
+
+			$producto = $productos->row(0);
+			$grupo = $producto->id_grupo;
+			$campos = $this->campos;
+
+			$grupos = $this->General_model->get('grupos', array('id_usuario'=>$_SESSION['idUser']), array(), '');
+
+			$productos_energia = $this->General_model->get('productos_foodmathlab_v3', array('id_user'=>$_SESSION['idUser'], 'id_grupo'=>$grupo), array('energia'=>'asc'), '');
+
+			$prods_nutrimentos = [];
+			$prods_lipidos 	= [];
+			$prods_azucares	= [];
+			$prods_acidosgs	= [];
+			$prods_acidostrans	= [];
+			$prods_sodio	= [];
+			$energias 		= [];
+			$lipidos_arr 	= [];
+			$azucares_arr	= [];
+			$acidosgs_arr	= [];
+			$acidostrans_arr= [];
+			$sodio_arr		= [];
+			if ($productos_energia!=false) {
+				foreach ($productos_energia->result() as $prod) {
+					
+					$prods_nutrimentos[] = array(
+						'id_prod'	=>	$prod->id_prod,
+						'nombre' 	=>	$prod->nombre,
+						'energia'	=> 	floatval(explode(" ", $prod->energia)[0]),
+					);
+					$energias[] = floatval(explode(" ", $prod->energia)[0]);
+
+					$prods_lipidos[] = array(
+						'id_prod'	=>	$prod->id_prod,
+						'nombre' 	=>	$prod->nombre,
+						'lipidos'	=> 	floatval(explode(" ", $prod->lipidos)[0]),
+					);
+					$lipidos_arr[] = floatval(explode(" ", $prod->lipidos)[0]);
+
+					$prods_azucares[] = array(
+						'id_prod'	=>	$prod->id_prod,
+						'nombre' 	=>	$prod->nombre,
+						'azucaresa'	=> 	floatval(explode(" ", $prod->azucaresa)[0]),
+					);
+					$azucares_arr[]	= floatval(explode(" ", $prod->azucaresa)[0]);
+
+					$prods_acidosgs[] = array(
+						'id_prod'	=>	$prod->id_prod,
+						'nombre' 	=>	$prod->nombre,
+						'acidosgs'	=> 	floatval(explode(" ", $prod->acidosgs)[0]),
+					);
+					$acidosgs_arr[]	= floatval(explode(" ", $prod->acidosgs)[0]);
+
+					$prods_acidostrans[] = array(
+						'id_prod'	=>	$prod->id_prod,
+						'nombre' 	=>	$prod->nombre,
+						'acidostrans'	=> 	floatval(explode(" ", $prod->acidostrans)[0]),
+					);
+					$acidostrans_arr[]	= floatval(explode(" ", $prod->acidostrans)[0]);
+
+					$prods_sodio[] = array(
+						'id_prod'	=>	$prod->id_prod,
+						'nombre' 	=>	$prod->nombre,
+						'sodio'	=> 	floatval(explode(" ", $prod->sodio)[0]),
+					);
+					$sodio_arr[]	= floatval(explode(" ", $prod->sodio)[0]);
+
+				}
+			}
+
+			$productos_lipidos = $this->General_model->get('productos_foodmathlab_v3', array('id_user'=>$_SESSION['idUser'], 'id_grupo'=>$grupo), array('lipidos'=>'asc'), '');
+
+			$productos_azucares = $this->General_model->get('productos_foodmathlab_v3', array('id_user'=>$_SESSION['idUser'], 'id_grupo'=>$grupo), array('azucaresa'=>'asc'), '');
+
+			$productos_grasasSat = $this->General_model->get('productos_foodmathlab_v3', array('id_user'=>$_SESSION['idUser'], 'id_grupo'=>$grupo), array('acidosgs'=>'asc'), '');
+
+			$productos_grasasTrans = $this->General_model->get('productos_foodmathlab_v3', array('id_user'=>$_SESSION['idUser'], 'id_grupo'=>$grupo), array('acidostrans'=>'asc'), '');
+
+			$productos_sodio = $this->General_model->get('productos_foodmathlab_v3', array('id_user'=>$_SESSION['idUser'], 'id_grupo'=>$grupo), array('sodio'=>'asc'), '');
+
+			$productos_indices = $this->General_model->get('productos_foodmathlab_v3', array('id_user'=>$_SESSION['idUser'], 'id_grupo'=>$grupo), array(), '');
+
+			$campos_productos_indices = array(
+				'proteinas'			=> 	array('campo'=>'proteina'), 
+				'fibras'			=>	array('campo'=>'fibra'), 
+				'vitamina_A'		=>	array('campo'=>'vitaa'), 
+				'vitamina_C'		=>	array('campo'=>'acidoascord'), 
+				'vitamina_D'		=>	array('campo'=>'vitad'), 
+				'vitamina_E'		=>	array('campo'=>'vitaminae'), 
+				'vitamina_B1'		=>	array('campo'=>'tiamina'), 
+				'vitamina_B2'		=>	array('campo'=>'riboflavina'), 
+				'calcio'			=>	array('campo'=>'calcio'),
+				'hierro'			=>	array('campo'=>'hierro'),
+				'magnesio'			=>	array('campo'=>'magnesio'),
+				'zinc'				=>	array('campo'=>'zinc'),
+				'potasio'			=>	array('campo'=>'potasio'),
+				'acido_linoleico'	=>	array('campo'=>'acidolino'),
+				'sodio'				=>	array('campo'=>'sodio'), 
+				'energia'			=>	array('campo'=>'energia'), 
+				'grasas_sat'		=>	array('campo'=>'acidosgs'), 
+				'grasas_tot'		=>	array('campo'=>'lipidos'), 
+				'azucares'			=>	array('campo'=>'azucaresa'), 
+				'fruta'				=>	array('campo'=>'fruta'), 
+				'verdura'			=>	array('campo'=>'verdura'), 
+				'lipidos'			=>	array('campo'=>'lipidos'), 
+			);
+
+			$vnrs = array(
+				'eu' => array('Europa', 'europa.jpg', $this->valores_referencia_eu),
+				'mx' => array('México', 'mexico.jpg', $this->valores_referencia_co),
+				'co' => array('Colombia', 'colombia.jpg', $this->valores_referencia_mx),
+				'usa' => array('EE.UU.', 'usa.jpg', $this->valores_referencia_eeuu),
+			);
+
+			$permisos_etiquetados = $this->General_model->get('permisos_etiquetados', array('id_usuario'=>$_SESSION['idUser']), array(), '');
+			$permisos_indices = $this->General_model->get('permisos_indices', array('id_usuario'=>$_SESSION['idUser']), array(), '');
+
+			$data = array(
+				'campos'	=>	$campos,
+				'grupos'	=>	$grupos,
+				'productos'	=>	$productos,
+				'edicion'	=>	$edicion,
+				'producto'	=>	$producto,
+				'prods_nutrimentos'	=>	$prods_nutrimentos,
+				'energias'			=>	$energias,
+				'prods_lipidos'		=>	$prods_lipidos,
+				'lipidos_arr'		=>	$lipidos_arr,
+				'prods_azucares'	=>	$prods_azucares,
+				'azucares_arr'		=>	$azucares_arr,
+				'prods_acidosgs'	=>	$prods_acidosgs,
+				'acidosgs_arr'		=>	$acidosgs_arr,
+				'prods_acidostrans'	=>	$prods_acidostrans,
+				'acidostrans_arr'	=>	$acidostrans_arr,
+				'prods_sodio'		=>	$prods_sodio,
+				'sodio_arr'			=>	$sodio_arr,
+
+				
+				'productos_indices'	=>	$productos_indices,
+				'campos_productos_indices' => $campos_productos_indices,
+				'permisos_etiquetados'	=>	$permisos_etiquetados,
+				'permisos_indices'	=>	$permisos_indices,
+
+				'vnrs'				=>	$vnrs,
+
+				'referencia_eu'		=>	$this->valores_referencia_eu,
+				'referencia_co'		=>	$this->valores_referencia_co,
+				'referencia_mx'		=>	$this->valores_referencia_mx,
+				'referencia_eeuu'	=>	$this->valores_referencia_eeuu,
+			);
+
+			/*Registro de actividad en bitácora*/
+			$datos = array(
+				'id_bitacora'	=>	'',
+				'id_usuario'	=>	$_SESSION['idUser'],
+				'observacion'	=>	'Acceso a formulario de edición de un producto',
+				'fecha'			=>	date("Y-m-d H:i:s"),
+				);
+			$this->General_model->set('bitacora', $datos);
+
+			/*Configuración de la vista*/
+			$menu = $this->General_model->get('permisos_usuarios', array('activo'=>1, 'id_usuario'=>$_SESSION['idUser']), array('orden'=>'asc'), '');
+			$submenu = $this->General_model->get('submenu_opciones', array('activo_submenu'=>1), array(), '');
+			$permisos_submenu = $this->General_model->get('permisos_submenu', array('id_usuario'=>$_SESSION['idUser']), array(), '');
+			$usuarios = $this->General_model->get('usuarios', array('id_user'=>$this->session->idUser), array(), '');
+			$usuario = ($usuarios!=false)? $usuarios->row(0) : false ;
+
+			$config = array(
+				'titulo'	=>	'Productos',
+				'subtitulo'	=>	'> '.$producto->nombre,
+				'usuario'	=>	$usuario->nombre,
+				'menu'		=>	$menu,
+				'submenu'	=>	$submenu,
+				'permisos_submenu'=>$permisos_submenu,
+			);
+
+			$this->load->view('Plantillas/html_open_view', $config);
+			$this->load->view('Plantillas/head_view');
+			$this->load->view('Plantillas/body_open_view');
+			$this->load->view('Plantillas/wraper_open_view');
+			$this->load->view('Plantillas/navbar_view');
+			$this->load->view('Plantillas/sidebar_view');
+			$this->load->view('Plantillas/content_wraper_open_view');
+			$this->load->view('Plantillas/content_wraper_header_view');
+			
+			/*Aqui va el contenido*/
+			$this->load->view('Productos/producto_informacion_view', $data);
+
+			$this->load->view('Plantillas/content_wraper_close_view');
+			$this->load->view('Plantillas/footer_view');
+			$this->load->view('Plantillas/wraper_close_view');
+			$this->load->view('Plantillas/scripts_view');
+
+			/*funcionalidad Javascript*/
+			$this->load->view('Productos/descripcion_producto_charts_view', $data);
+		
+			if (search_index($permisos_indices, 'nrf')==true) 
+				$this->load->view('Productos/descripcion_producto_nrf93_js_view', $data);
+			
+			if (search_index($permisos_indices, 'sai')==true) 
+				$this->load->view('Productos/descripcion_producto_sainlim_js_view', $data);
+			
+			if (search_index($permisos_indices, 'sen')==true) 
+				$this->load->view('Productos/descripcion_producto_sens_js_view', $data);
+			
+			$this->load->view('Productos/descripcion_producto_radio_view', $data);
 
 			$this->load->view('Plantillas/body_close_view');
 			$this->load->view('Plantillas/html_close_view');

@@ -1,11 +1,14 @@
-<? $input = new Input(); ?>
-<?
+<? 
+  $input = new Input();
   $permisos_e = ($permisos_etiquetados!=false)? $permisos_etiquetados->result(): false;
   $permisos_i = ($permisos_indices!=false)? $permisos_indices->result(): false;
 ?>
 <style>
   .flag{
     width: 30px;
+  }
+  .flag-1{
+    width: 75px;
   }
   .nutrimentos td:nth-child(1n+2){
     text-align: center;
@@ -19,29 +22,32 @@
     position: relative;
     top: 4px;
   }
+  .btn-tool{
+    color: #adb5bd !important;
+  }
 </style>
 <link rel="stylesheet" href="<?= base_url('vendor') ?>/dist/css/foodmathlab_charts.css">
 
-<div class="modal-dialog modal-xl" role="document">
-  <div class="modal-content">
-    <div class="modal-header bg-danger d-flex p-0">
-      <h5 class="modal-title" id="descripcionLabel" style="margin: 1rem 0 0 1rem;"><?= $producto->nombre ?> </h5>
-        <ul class="nav nav-pills ml-auto p-2">
-          <li class="nav-item">
-            <a class="nav-link active btn-tab" href="#prod_1" data-toggle="tab">Información general</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link btn-tab" href="#prod_2" data-toggle="tab">Información completa</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link btn-tab" href="#prod_3" data-toggle="tab">Etiquetado</a>
-          </li>
-        </ul>
-      <button type="button" class="close btn-close" data-dismiss="modal" aria-label="Close" style="margin: 0.4rem 0 0 0;">
-        <span aria-hidden="true">&times;</span>
-      </button>
+<!-- Main content -->
+<section class="content">
+
+  <div class="card card-danger">
+    <div class="card-header">
+      
+      <ul class="nav nav-pills ml-auto">
+        <li class="nav-item">
+          <a class="nav-link active btn-tab" href="#prod_1" data-toggle="tab">Información general</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link btn-tab" href="#prod_2" data-toggle="tab">Información completa</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link btn-tab" href="#prod_3" data-toggle="tab">Etiquetado</a>
+        </li>
+      </ul>
+
     </div>
-    <div class="modal-body" id="descripcionBody">
+    <div class="card-body">
       <div class="tab-content">
 
         <div class="tab-pane active" id="prod_1">
@@ -52,61 +58,61 @@
               $cantidad_neta = explode(" ", $producto->cantidad_neta);
               $c_neta = array(
                 'valor' =>  $cantidad_neta[0], 
-                'unidad'=>  (count($cantidad_neta)>0) ? $cantidad_neta[1]: 'g',
+                'unidad'=>  (count($cantidad_neta)>0) ? ($cantidad_neta[1]!='') ? $cantidad_neta[1]: 'g' : 'g',
               );
 
               $cantidad_porcion = explode(" ", $producto->cantidad_porcion);
               $c_porcion = array(
                 'valor' =>  $cantidad_porcion[0],
-                'unidad' =>  (count($cantidad_porcion)>0) ? $cantidad_porcion[1]: 'g',
+                'unidad' =>  (count($cantidad_porcion)>0) ? ($cantidad_porcion[1]!='') ? $cantidad_porcion[1] : 'g' : 'g',
               );
 
               $energia_kj = explode(" ", $producto->energia_kj);
               $e_kj = array(
                 'valor' =>  $energia_kj[0],
-                'unidad' =>  (count($energia_kj)>0) ? $energia_kj[1]: 'kJ',
+                'unidad' =>  (count($energia_kj)>0) ? ($energia_kj[1]!='') ? $energia_kj[1] : 'kJ' : 'kJ',
               );
 
               $energia_kcal = explode(" ", $producto->energia);
               $e_kcal = array(
                 'valor' =>  $energia_kcal[0],
-                'unidad' =>  (count($energia_kcal)>0) ? $energia_kcal[1]: 'kcal',
+                'unidad' =>  (count($energia_kcal)>0) ? ($energia_kcal[1]!='') ? $energia_kcal[1]: 'kcal' : 'kcal',
               );
 
               $lipidos = explode(" ", $producto->lipidos);
               $lipids = array(
                 'valor' =>  $lipidos[0],
-                'unidad' =>  (count($lipidos)>0) ? $lipidos[1] : 'g' ,
+                'unidad' =>  (count($lipidos)>0) ? ($lipidos[1]!='') ? $lipidos[1]: 'g' : 'g' ,
               );
 
               $sodio = explode(" ", $producto->sodio);
               $sodium = array(
                 'valor' =>  $sodio[0],
-                'unidad' =>  (count($sodio)>0) ? $sodio[1] : 'mg' ,
+                'unidad' =>  (count($sodio)>0) ? ($sodio[1]!='') ? $sodio[1]: 'mg' : 'mg' ,
               );
 
               $hidratos = explode(" ", $producto->hidratos);
               $carbo = array(
                 'valor' =>  $hidratos[0],
-                'unidad' =>  (count($hidratos)>0) ? $hidratos[1] : 'g' ,
+                'unidad' =>  (count($hidratos)>0) ? ($hidratos[1]!='') ? $hidratos[1]: 'g' : 'g' ,
               );
 
               $fibra = explode(" ", $producto->fibra);
               $fiber = array(
                 'valor' =>  $fibra[0],
-                'unidad' =>  (count($fibra)>0) ? $fibra[1] : 'g' ,
+                'unidad' =>  (count($fibra)>0) ? ($fibra[1]!='') ? $fibra[1]: 'g' : 'g' ,
               );
 
               $azucar = explode(" ", $producto->azucaresa);
               $sugar = array(
                 'valor' =>  $azucar[0],
-                'unidad' =>  (count($azucar)>0) ? $azucar[1] : 'g' ,
+                'unidad' =>  (count($azucar)>0) ? ($azucar[1]!='') ? $azucar[1]: 'g' : 'g' ,
               );
 
-              $proteinas = explode(" ", $producto->proteinas);
+              $proteinas = explode(" ", $producto->proteina);
               $protein = array(
                 'valor' =>  $proteinas[0],
-                'unidad' =>  (count($proteinas)>0) ? $proteinas[1] : 'g' ,
+                'unidad' =>  (count($proteinas)>0) ? ($proteinas[1]!='') ? $proteinas[1]: 'g' : 'g' ,
               );
 
               ?>
@@ -127,8 +133,10 @@
                   <tr>
                     <td class="x3-borde">Contenido energético por envase</td>
                     <td colspan="4" class="x3-borde">
+                      <strong>
                       <?= number_format(($c_neta['valor']/$c_porcion['valor'])*$e_kj['valor']) ?> kJ (<?= number_format(($c_neta['valor']/$c_porcion['valor'])*$e_kcal['valor']);
                       ?> kcal)
+                      </strong>
                     </td>
                   </tr>
                   <tr>
@@ -149,42 +157,42 @@
                       <td><img src="<?= base_url('uploads/flags/usa.jpg') ?>" class="flag"></td>
                   </tr>
                   <tr class="nutrimentos">
-                    <td>Grasas totales: <?= number_format($lipids['valor']*100, 3)." ".$lipids['unidad'] ?></td>
+                    <td>Grasas totales: <strong><?= number_format($lipids['valor']*100, 3)." ".$lipids['unidad'] ?></strong></td>
                     <td><?= number_format(($lipids['valor']*100)/$referencia_eu['ref_grasas_tot']) ?>%</td>
                     <td><?= number_format(($lipids['valor']*100)/$referencia_mx['ref_grasas_tot']) ?>%</td>
                     <td><?= number_format(($lipids['valor']*100)/$referencia_co['ref_grasas_tot']) ?>%</td>
                     <td><?= number_format(($lipids['valor']*100)/$referencia_eeuu['ref_grasas_tot']) ?>%</td>
                   </tr>
                   <tr class="nutrimentos">
-                    <td>Sodio: <?= number_format($sodium['valor'], 3)." ".$sodium['unidad'] ?></td>
+                    <td>Sodio: <strong><?= number_format($sodium['valor'], 3)." ".$sodium['unidad'] ?></strong></td>
                     <td><?= number_format((($sodium['valor']*100))/$referencia_eu['ref_sodio']) ?> %</td>
                     <td><?= number_format((($sodium['valor']*100))/$referencia_mx['ref_sodio']) ?> %</td>
                     <td><?= number_format((($sodium['valor']*100))/$referencia_co['ref_sodio']) ?> %</td>
                     <td><?= number_format((($sodium['valor']*100))/$referencia_eeuu['ref_sodio']) ?> %</td>
                   </tr>
                   <tr class="nutrimentos">
-                    <td>Carbohidratos: <?= number_format($carbo['valor'], 3)." ".$carbo['unidad'] ?> </td>
+                    <td>Carbohidratos: <strong><?= number_format($carbo['valor'], 3)." ".$carbo['unidad'] ?></strong></td>
                     <td><?= number_format(($carbo['valor']*100)/$referencia_eu['ref_hidratos']) ?> %</td>
                     <td><?= number_format(($carbo['valor']*100)/$referencia_mx['ref_hidratos']) ?> %</td>
                     <td><?= number_format(($carbo['valor']*100)/$referencia_co['ref_hidratos']) ?> %</td>
                     <td><?= number_format(($carbo['valor']*100)/$referencia_eeuu['ref_hidratos']) ?> %</td>
                   </tr>
                   <tr class="nutrimentos">
-                    <td>Fibra dietética: <?= number_format($fiber['valor'], 3)." ".$fiber['unidad'] ?></td>
+                    <td>Fibra dietética: <strong><?= number_format($fiber['valor'], 3)." ".$fiber['unidad'] ?></strong></td>
                     <td><?= number_format(($fiber['valor']*100)/$referencia_eu['ref_fibra']) ?> %</td>
                     <td><?= number_format(($fiber['valor']*100)/$referencia_mx['ref_fibra']) ?> %</td>
                     <td><?= number_format(($fiber['valor']*100)/$referencia_co['ref_fibra']) ?> %</td>
                     <td><?= number_format(($fiber['valor']*100)/$referencia_eeuu['ref_fibra']) ?> %</td>
                   </tr>
                   <tr class="nutrimentos">
-                    <td>Azúcares: <?= number_format($sugar['valor'], 3)." ".$sugar['unidad'] ?></td>
+                    <td>Azúcares: <strong><?= number_format($sugar['valor'], 3)." ".$sugar['unidad'] ?></strong></td>
                     <td><?= number_format(($sugar['valor']*100)/$referencia_eu['ref_azucares']) ?> %</td>
                     <td><?= number_format(($sugar['valor']*100)/$referencia_mx['ref_azucares']) ?> %</td>
                     <td><?= number_format(($sugar['valor']*100)/$referencia_co['ref_azucares']) ?> %</td>
                     <td><?= number_format(($sugar['valor']*100)/$referencia_eeuu['ref_azucares']) ?> %</td>
                   </tr>
                   <tr class="nutrimentos">
-                    <td>Proteinas: <?= number_format($protein['valor'], 3)." ".$protein['unidad'] ?></td>
+                    <td>Proteinas: <strong><?= number_format($protein['valor'], 3)." ".$protein['unidad'] ?></strong></td>
                     <td><?= number_format(($protein['valor']*100)/$referencia_eu['ref_proteina']) ?> %</td>
                     <td><?= number_format(($protein['valor']*100)/$referencia_mx['ref_proteina']) ?> %</td>
                     <td><?= number_format(($protein['valor']*100)/$referencia_co['ref_proteina']) ?> %</td>
@@ -214,14 +222,19 @@
           <div class="row">
             <?
             if ($producto!=false) {
+
+              // print_r($energias);
               
-              if ($productos_energia!=false) {
+              /*if ($productos_energia!=false) {*/
+              if (count($prods_nutrimentos)>0) {
+
+                array_multisort($energias, SORT_ASC, $prods_nutrimentos);
 
                 /*Graficando la energia del producto en comparacion a los otros productos*/
                 $etiquetas = array();
                 $colors = array();
                 $energias = array();
-                foreach ($productos_energia->result() as $total) {
+                /*foreach ($productos_energia->result() as $total) {
                   array_push($etiquetas, substr($total->nombre, 0, 20));
                   array_push($energias, explode(" ", $total->energia)[0]);
                   if ($total->id_prod == $producto->id_prod) {
@@ -230,9 +243,19 @@
                   else{
                     array_push($colors, 0);
                   }
+                }*/
+                foreach ($prods_nutrimentos as $index=>$value) {
+                  array_push($etiquetas, substr($value['nombre'], 0, 20));
+                  array_push($energias, $value['energia']);
+                  if ($value['id_prod'] == $producto->id_prod) {
+                    array_push($colors, 1);
+                  }
+                  else{
+                    array_push($colors, 0);
+                  }
                 }
                 ?>
-                <div class="col-xs-12 col-md-6 col-lg-4">
+                <div class="col-xs-12 col-md-4 col-lg-3">
                   <div class="card collapsed-card">
                     <div class="card-header">
                       <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
@@ -243,7 +266,7 @@
                       </button>
                       <div class="card-tools">
                         
-                        <a href="<?= base_url('producto_grafica_maximize/bars/energia/').$id_producto ?>" target="_blank" class="btn btn-tool" title="Presiona para maximizar/minimizar la gráfica" onclick="window.open(this.href, this.target, 'width=650, height=800'); return false;">
+                        <a href="<?= base_url('producto_grafica_maximize/bars/energia/').$producto->id_prod ?>" target="_blank" class="btn btn-tool" title="Presiona para maximizar/minimizar la gráfica" onclick="window.open(this.href, this.target, 'width=650, height=800'); return false;">
                           <i class="fas fa-search"></i>
                         </a>
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
@@ -259,7 +282,7 @@
                 </div>
 
                 <!-- Radar -->
-                <div class="col-xs-12 col-md-6 col-lg-4">
+                <div class="col-xs-12 col-md-4 col-lg-3">
                   <div class="card collapsed-card">
                     <div class="card-header">
                       <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
@@ -270,7 +293,7 @@
                       </button>
                       <div class="card-tools">
                         
-                        <a href="<?= base_url('producto_grafica_maximize/radar/energia/').$id_producto ?>" target="_blank" class="btn btn-tool" title="Presiona para maximizar/minimizar la gráfica" onclick="window.open(this.href, this.target, 'width=650, height=800'); return false;">
+                        <a href="<?= base_url('producto_grafica_maximize/radar/energia/').$producto->id_prod ?>" target="_blank" class="btn btn-tool" title="Presiona para maximizar/minimizar la gráfica" onclick="window.open(this.href, this.target, 'width=650, height=800'); return false;">
                           <i class="fas fa-search"></i>
                         </a>
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
@@ -288,16 +311,22 @@
                 <?
               }
 
-              if ($productos_lipidos!=false) {
+              if (count($prods_lipidos)>0) {
+
+                /*print_r($prods_lipidos);
+                echo "<hr>---------------";
+                print_r($lipidos_arr);*/
+
+                array_multisort($lipidos_arr, SORT_ASC, $prods_lipidos);
 
                 /*Graficando la energia del producto en comparacion a los otros productos*/
                 $etiquetas = array();
                 $colors = array();
                 $lipidos = array();
-                foreach ($productos_lipidos->result() as $total) {
-                  array_push($etiquetas, substr($total->nombre, 0, 20));
-                  array_push($lipidos, explode(" ", $total->lipidos)[0] );
-                  if ($total->id_prod == $producto->id_prod) {
+                foreach ($prods_lipidos as $index=>$value) {
+                  array_push($etiquetas, substr($value['nombre'], 0, 20));
+                  array_push($lipidos, $value['lipidos']);
+                  if ($value['id_prod'] == $producto->id_prod) {
                     array_push($colors, 1);
                   }
                   else{
@@ -306,7 +335,7 @@
                 }
                 ?>
                 <!-- Barras -->
-                <div class="col-xs-12 col-md-6 col-lg-4">
+                <div class="col-xs-12 col-md-4 col-lg-3">
                   <div class="card collapsed-card">
                     <div class="card-header">
                       <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
@@ -316,9 +345,11 @@
                         </h3>
                       </button>
                       <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="maximize" title="Presiona para maximizar/minimizar la gráfica">
-                          <i class="fas fa-expand"></i>
-                        </button>
+
+                        <a href="<?= base_url('producto_grafica_maximize/bars/lipidos/').$producto->id_prod ?>" target="_blank" class="btn btn-tool" title="Presiona para maximizar la gráfica" onclick="window.open(this.href, this.target, 'width=650, height=800'); return false;">
+                          <i class="fas fa-search"></i>
+                        </a>
+
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
                           <i class="fas fa-plus"></i>
                         </button>
@@ -332,7 +363,7 @@
                 <!-- /.Barras -->
 
                 <!-- Radar -->
-                <div class="col-xs-12 col-md-6 col-lg-4">
+                <div class="col-xs-12 col-md-4 col-lg-3">
                   <div class="card collapsed-card">
                     <div class="card-header">
                       <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
@@ -342,7 +373,7 @@
                         </h3>
                       </button>
                       <div class="card-tools">
-                        <a href="<?= base_url('producto_grafica_maximize/radar/lipidos/').$id_producto ?>" target="_blank" class="btn btn-tool" title="Presiona para maximizar/minimizar la gráfica" onclick="window.open(this.href, this.target, 'width=650, height=800'); return false;">
+                        <a href="<?= base_url('producto_grafica_maximize/radar/lipidos/').$producto->id_prod ?>" target="_blank" class="btn btn-tool" title="Presiona para maximizar/minimizar la gráfica" onclick="window.open(this.href, this.target, 'width=650, height=800'); return false;">
                           <i class="fas fa-search"></i>
                         </a>
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
@@ -359,16 +390,18 @@
                 <?
               }
 
-              if ($productos_azucares!=false) {
+              if (count($prods_azucares)>0) {
+
+                array_multisort($azucares_arr, SORT_ASC, $prods_azucares);
 
                 /*Graficando los azucares del producto en comparacion a los otros productos*/
                 $etiquetas = array();
                 $colors = array();
                 $azucares = array();
-                foreach ($productos_azucares->result() as $total) {
-                  array_push($etiquetas, substr($total->nombre, 0, 20));
-                  array_push($azucares, explode(" ", $total->azucaresa)[0]);
-                  if ($total->id_prod == $producto->id_prod) {
+                foreach ($prods_azucares as $index=>$value) {
+                  array_push($etiquetas, substr($value['nombre'], 0, 20));
+                  array_push($azucares, $value['azucaresa']);
+                  if ($value['id_prod'] == $producto->id_prod) {
                     array_push($colors, 1);
                   }
                   else{
@@ -377,7 +410,7 @@
                 }
                 ?>
                 <!-- Barras -->
-                <div class="col-xs-12 col-md-6 col-lg-4">
+                <div class="col-xs-12 col-md-4 col-lg-3">
                   <div class="card collapsed-card">
                     <div class="card-header">
                       <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
@@ -387,9 +420,11 @@
                         </h3>
                       </button>
                       <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="maximize" title="Presiona para maximizar/minimizar la gráfica">
-                          <i class="fas fa-expand"></i>
-                        </button>
+                        
+                        <a href="<?= base_url('producto_grafica_maximize/bars/azucaresa/').$producto->id_prod ?>" target="_blank" class="btn btn-tool" title="Presiona para maximizar la gráfica" onclick="window.open(this.href, this.target, 'width=650, height=800'); return false;">
+                          <i class="fas fa-search"></i>
+                        </a>
+
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
                           <i class="fas fa-plus"></i>
                         </button>
@@ -403,7 +438,7 @@
                 <!-- /.Barras -->
 
                 <!-- Radar -->
-                <div class="col-xs-12 col-md-6 col-lg-4">
+                <div class="col-xs-12 col-md-4 col-lg-3">
                   <div class="card collapsed-card">
                     <div class="card-header">
                       <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
@@ -413,7 +448,7 @@
                         </h3>
                       </button>
                       <div class="card-tools">
-                        <a href="<?= base_url('producto_grafica_maximize/radar/azucaresa/').$id_producto ?>" target="_blank" class="btn btn-tool" title="Presiona para maximizar/minimizar la gráfica" onclick="window.open(this.href, this.target, 'width=650, height=800'); return false;">
+                        <a href="<?= base_url('producto_grafica_maximize/radar/azucaresa/').$producto->id_prod ?>" target="_blank" class="btn btn-tool" title="Presiona para maximizar/minimizar la gráfica" onclick="window.open(this.href, this.target, 'width=650, height=800'); return false;">
                           <i class="fas fa-search"></i>
                         </a>
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
@@ -430,16 +465,18 @@
                 <?
               }
 
-              if ($productos_grasasSat!=false) {
+              if (count($prods_acidosgs)>0) {
+
+                array_multisort($acidosgs_arr, SORT_ASC, $prods_acidosgs);
 
                 /*Graficando los azucares del producto en comparacion a los otros productos*/
                 $etiquetas = array();
                 $colors = array();
                 $grasas = array();
-                foreach ($productos_grasasSat->result() as $total) {
-                  array_push($etiquetas, substr($total->nombre, 0, 20));
-                  array_push($grasas, explode(" ", $total->acidosgs)[0]);
-                  if ($total->id_prod == $producto->id_prod) {
+                foreach ($prods_acidosgs as $index=>$value) {
+                  array_push($etiquetas, substr($value['nombre'], 0, 20));
+                  array_push($grasas, $value['acidosgs']);
+                  if ($value['id_prod'] == $producto->id_prod) {
                     array_push($colors, 1);
                   }
                   else{
@@ -448,19 +485,21 @@
                 }
                 ?>
                 <!-- Barras -->
-                <div class="col-xs-12 col-md-6 col-lg-4">
+                <div class="col-xs-12 col-md-4 col-lg-3">
                   <div class="card collapsed-card">
                     <div class="card-header">
                       <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
                         <h3 class="card-title card-title-chart">
                           <span class="material-icons">equalizer</span>
-                          Grasas Saturadas
+                          Grasas Sat.
                         </h3>
                       </button>
                       <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="maximize" title="Presiona para maximizar/minimizar la gráfica">
-                          <i class="fas fa-expand"></i>
-                        </button>
+                        
+                        <a href="<?= base_url('producto_grafica_maximize/bars/acidosgs/').$producto->id_prod ?>" target="_blank" class="btn btn-tool" title="Presiona para maximizar la gráfica" onclick="window.open(this.href, this.target, 'width=650, height=800'); return false;">
+                          <i class="fas fa-search"></i>
+                        </a>
+
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
                           <i class="fas fa-plus"></i>
                         </button>
@@ -474,17 +513,17 @@
                 <!-- /.Barras -->
 
                 <!-- Radar -->
-                <div class="col-xs-12 col-md-6 col-lg-4">
+                <div class="col-xs-12 col-md-4 col-lg-3">
                   <div class="card collapsed-card">
                     <div class="card-header">
                       <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
                         <h3 class="card-title card-title-chart">
                           <span class="material-icons">radar</span>
-                          Grasas Saturadas
+                          Grasas Sat.
                         </h3>
                       </button>
                       <div class="card-tools">
-                        <a href="<?= base_url('producto_grafica_maximize/radar/acidosgs/').$id_producto ?>" target="_blank" class="btn btn-tool" title="Presiona para maximizar/minimizar la gráfica" onclick="window.open(this.href, this.target, 'width=650, height=800'); return false;">
+                        <a href="<?= base_url('producto_grafica_maximize/radar/acidosgs/').$producto->id_prod ?>" target="_blank" class="btn btn-tool" title="Presiona para maximizar/minimizar la gráfica" onclick="window.open(this.href, this.target, 'width=650, height=800'); return false;">
                           <i class="fas fa-search"></i>
                         </a>
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
@@ -501,16 +540,18 @@
                 <?
               }
 
-              if ($productos_grasasTrans!=false) {
+              if (count($prods_acidostrans)>0) {
+
+                array_multisort($acidostrans_arr, SORT_ASC, $prods_acidostrans);
 
                 /*Graficando las grasas trans del producto en comparacion a los otros productos*/
                 $etiquetas = array();
                 $colors = array();
                 $grasas = array();
-                foreach ($productos_grasasTrans->result() as $total) {
-                  array_push($etiquetas, substr($total->nombre, 0, 20));
-                  array_push($grasas, explode(" ", $total->acidostrans)[0] );
-                  if ($total->id_prod == $producto->id_prod) {
+                foreach ($prods_acidostrans as $index=>$value) {
+                  array_push($etiquetas, substr($value['nombre'], 0, 20));
+                  array_push($grasas, $value['acidostrans']);
+                  if ($value['id_prod'] == $producto->id_prod) {
                     array_push($colors, 1);
                   }
                   else{
@@ -519,7 +560,7 @@
                 }
                 ?>
                 <!-- Barras -->
-                <div class="col-xs-12 col-md-6 col-lg-4">
+                <div class="col-xs-12 col-md-4 col-lg-3">
                   <div class="card collapsed-card">
                     <div class="card-header">
                       <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
@@ -529,9 +570,11 @@
                         </h3>
                       </button>
                       <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="maximize" title="Presiona para maximizar/minimizar la gráfica">
-                          <i class="fas fa-expand"></i>
-                        </button>
+                        
+                        <a href="<?= base_url('producto_grafica_maximize/bars/acidostrans/').$producto->id_prod ?>" target="_blank" class="btn btn-tool" title="Presiona para maximizar/minimizar la gráfica" onclick="window.open(this.href, this.target, 'width=650, height=800'); return false;">
+                          <i class="fas fa-search"></i>
+                        </a>
+
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
                           <i class="fas fa-plus"></i>
                         </button>
@@ -545,7 +588,7 @@
                 <!-- /.Barras -->
 
                 <!-- Radar -->
-                <div class="col-xs-12 col-md-6 col-lg-4">
+                <div class="col-xs-12 col-md-4 col-lg-3">
                   <div class="card collapsed-card">
                     <div class="card-header">
                       <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
@@ -555,7 +598,7 @@
                         </h3>
                       </button>
                       <div class="card-tools">
-                        <a href="<?= base_url('producto_grafica_maximize/radar/acidostrans/').$id_producto ?>" target="_blank" class="btn btn-tool" title="Presiona para maximizar/minimizar la gráfica" onclick="window.open(this.href, this.target, 'width=650, height=800'); return false;">
+                        <a href="<?= base_url('producto_grafica_maximize/radar/acidostrans/').$producto->id_prod ?>" target="_blank" class="btn btn-tool" title="Presiona para maximizar/minimizar la gráfica" onclick="window.open(this.href, this.target, 'width=650, height=800'); return false;">
                           <i class="fas fa-search"></i>
                         </a>
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
@@ -572,16 +615,18 @@
                 <?
               }
 
-              if ($productos_sodio!=false) {
+              if (count($prods_sodio)>0) {
+
+                array_multisort($sodio_arr, SORT_ASC, $prods_sodio);
 
                 /*Graficando el del producto en comparacion a los otros productos*/
                 $etiquetas = array();
                 $colors = array();
                 $sodio = array();
-                foreach ($productos_sodio->result() as $total) {
-                  array_push($etiquetas, substr($total->nombre, 0, 20));
-                  array_push($sodio, explode(" ", $total->sodio)[0] * 1000);
-                  if ($total->id_prod == $producto->id_prod) {
+                foreach ($prods_sodio as $index=>$value) {
+                  array_push($etiquetas, substr($value['nombre'], 0, 20));
+                  array_push($sodio, $value['sodio']);
+                  if ($value['id_prod'] == $producto->id_prod) {
                     array_push($colors, 1);
                   }
                   else{
@@ -590,7 +635,7 @@
                 }
                 ?>
                 <!-- Barras -->
-                <div class="col-xs-12 col-md-6 col-lg-4">
+                <div class="col-xs-12 col-md-4 col-lg-3">
                   <div class="card collapsed-card">
                     <div class="card-header">
                       <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
@@ -600,9 +645,11 @@
                         </h3>
                       </button>
                       <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="maximize" title="Presiona para maximizar/minimizar la gráfica">
-                          <i class="fas fa-expand"></i>
-                        </button>
+                        
+                        <a href="<?= base_url('producto_grafica_maximize/bars/sodio/').$producto->id_prod ?>" target="_blank" class="btn btn-tool" title="Presiona para maximizar/minimizar la gráfica" onclick="window.open(this.href, this.target, 'width=650, height=800'); return false;">
+                          <i class="fas fa-search"></i>
+                        </a>
+
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
                           <i class="fas fa-plus"></i>
                         </button>
@@ -616,7 +663,7 @@
                 <!-- /.Barras -->
 
                 <!-- Radar -->
-                <div class="col-xs-12 col-md-6 col-lg-4">
+                <div class="col-xs-12 col-md-4 col-lg-3">
                   <div class="card collapsed-card">
                     <div class="card-header">
                       <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
@@ -626,7 +673,7 @@
                         </h3>
                       </button>
                       <div class="card-tools">
-                        <a href="<?= base_url('producto_grafica_maximize/radar/sodio/').$id_producto ?>" target="_blank" class="btn btn-tool" title="Presiona para maximizar/minimizar la gráfica" onclick="window.open(this.href, this.target, 'width=650, height=800'); return false;">
+                        <a href="<?= base_url('producto_grafica_maximize/radar/sodio/').$producto->id_prod ?>" target="_blank" class="btn btn-tool" title="Presiona para maximizar/minimizar la gráfica" onclick="window.open(this.href, this.target, 'width=650, height=800'); return false;">
                           <i class="fas fa-search"></i>
                         </a>
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
@@ -647,7 +694,7 @@
                 $conta=1;
                 foreach ($vnrs as $cve => $val) {
                   ?>
-                    <div class="col-xs-12 col-md-6 col-lg-4">
+                    <div class="col-xs-12 col-md-4 col-lg-3">
                       <div class="card collapsed-card">
                           <div class="card-header">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
@@ -706,7 +753,7 @@
               <?
               if (search_index($permisos_i, 'sai')==true) {
                 ?>
-                <div class="col-xs-12 col-md-6 col-lg-4">
+                <div class="col-xs-12 col-md-4 col-lg-3">
                   <div class="card collapsed-card">
                       <div class="card-header">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
@@ -762,7 +809,7 @@
               <?
               if (search_index($permisos_i, 'fuf')==true) {
                 ?>
-                <div class="col-xs-12 col-md-6 col-lg-4">
+                <div class="col-xs-12 col-md-4 col-lg-3">
                   <div class="card collapsed-card">
                       <div class="card-header">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
@@ -816,7 +863,7 @@
               <?
               if (search_index($permisos_i, 'mes')==true) {
                 ?>
-                <div class="col-xs-12 col-md-6 col-lg-4">
+                <div class="col-xs-12 col-md-4 col-lg-3">
                   <div class="card collapsed-card">
                       <div class="card-header">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
@@ -871,7 +918,7 @@
               <?
               if (search_index($permisos_i, 'sen')==true) {
                 ?>
-                <div class="col-xs-12 col-md-6 col-lg-4">
+                <div class="col-xs-12 col-md-4 col-lg-3">
                   <div class="card collapsed-card">
                       <div class="card-header">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
@@ -988,7 +1035,7 @@
                 'unidad' =>  (count($azucar)>0) ? $azucar[1] : 'g' ,
               );
 
-              $proteinas = explode(" ", $producto->proteinas);
+              $proteinas = explode(" ", $producto->proteina);
               $protein = array(
                 'valor' =>  $proteinas[0],
                 'unidad' =>  (count($proteinas)>0) ? $proteinas[1] : 'g' ,
@@ -1345,7 +1392,10 @@
                       ?>
                       <!-- Etiquetado de Chile -->
                       <tr>
-                        <th>Chile</th>
+                        <th>
+                          <img src="<?= base_url('uploads/flags/chile.jpg') ?>" alt="bandera-chile" class="flag-1 mr-2">
+                          Chile
+                        </th>
                           <?
                             $chileLabel = new Etiquetado_chile($e_kcal['valor'], $sodium['valor'], $sugar['valor'], $total_lipids['valor'], $producto->tipo);
                           ?>
@@ -1391,7 +1441,10 @@
                       ?>
                       <!-- Etiquetado de Ecuador -->
                       <tr>
-                        <th>Ecuador</th>
+                        <th>
+                          <img src="<?= base_url('uploads/flags/ecuador.jpg') ?>" alt="bandera-ecuador" class="flag-1 mr-2">
+                          Ecuador
+                        </th>
                         <?
                             $ecuadorLabel = new Etiquetado_ecuador($lipids['valor'], $sugar['valor'], $sodium['valor'], $producto->tipo);
                             ?>
@@ -1473,7 +1526,10 @@
                       ?>
                       <!-- Etiquetado de México -->
                       <tr>
-                        <th>México</th>
+                        <th>
+                          <img src="<?= base_url('uploads/flags/mexico.jpg') ?>" alt="bandera-mexico" class="flag-1 mr-2">
+                          México
+                        </th>
                         <?
                             $MexLabel = new Etiquetado_mexico($e_kcal['valor'], $sugar['valor'], $total_lipids['valor'], $trans['valor'], $sodium['valor'], $producto->tipo);
                             ?>
@@ -1525,7 +1581,10 @@
                       ?>
                       <!-- Etiquetado de Colombia -->
                       <tr>
-                        <th>Colombia</th>
+                        <th>
+                          <img src="<?= base_url('uploads/flags/colombia.jpg') ?>" alt="bandera-colombia" class="flag-1 mr-2">
+                          Colombia
+                        </th>
                         <?
                             $ColombiaLabel = new Etiquetado_colombia($sodium['valor'], $sugar['valor'], $total_lipids['valor'], $producto->tipo);
                             ?>
@@ -1565,7 +1624,10 @@
                       ?>
                       <!-- Etiquetado de Uruguay -->
                       <tr>
-                        <th>Uruguay</th>
+                        <th>
+                          <img src="<?= base_url('uploads/flags/uruguay.jpg') ?>" alt="bandera-uruguay" class="flag-1 mr-2">
+                          Uruguay
+                        </th>
                         <?
                           $UruguayLabel = new Etiquetado_uruguay($e_kcal['valor'], $lipids['valor'], $total_lipids['valor'], $sodium['valor'], $sugar['valor'], $producto->tipo);
                             ?>
@@ -1611,7 +1673,10 @@
                       ?>
                       <!-- Etiquetado de Perú -->
                       <tr>
-                        <th>Perú</th>
+                        <th>
+                          <img src="<?= base_url('uploads/flags/peru.jpg') ?>" alt="bandera-peru" class="flag-1 mr-2">
+                          Perú
+                        </th>
                         <?
                             if (strtotime(date("Y-m-d")) >= strtotime("2021-10-27")){
                               $peruLabel = new Etiquetado_peru_2a_fase($sugar['valor'], $sodium['valor'], $total_lipids['valor'], $trans['valor'], $producto->tipo);
@@ -1673,7 +1738,9 @@
                       foreach ($vnrs as $cve => $val) {
                         ?>
                         <tr>
-                          <th>Reino Unido<br>VNR - <img src="<?= base_url('uploads/flags/'.$vnrs[$cve][1]) ?>" class="flag"></th>
+                          <th>
+                            <img src="<?= base_url('uploads/flags/uk.jpg') ?>" alt="bandera-uk" class="flag-1 mr-2">
+                            Reino Unido<br>VNR - <img src="<?= base_url('uploads/flags/'.$vnrs[$cve][1]) ?>" class="flag"></th>
                             <?
                               $UkLabel = new Etiquetado_UK($sodium['valor']/1000, $sugar['valor'], $total_lipids['valor'], $lipids['valor'], $producto->tipo, $vnrs[$cve][2]);
                             ?>
@@ -1824,7 +1891,10 @@
                       ?>
                       <!-- Etiquetado de Francia -->
                       <tr>
-                        <th>Francia</th>
+                        <th>
+                          <img src="<?= base_url('uploads/flags/francia.jpg') ?>" alt="bandera-francia" class="flag-1 mr-2">
+                          Francia
+                        </th>
                         <?
                           $NutriScoreLabel = new NutriScore($e_kcal['valor'], $sugar['valor'], $total_lipids['valor'], $lipids['valor'], $sodium['valor'], $fruit['valor'] + $vegetable['valor'], $fiber['valor'], $protein['valor'], $producto->id_categoria, $c_porcion['valor'], $producto->tipo);
                         ?>
@@ -1873,7 +1943,10 @@
                       ?>
                       <!-- Etiquetado de Israel -->
                       <tr>
-                        <th>Israel </th>
+                        <th>
+                          <img src="<?= base_url('uploads/flags/israel.jpg') ?>" alt="bandera-israel" class="flag-1 mr-2">
+                          Israel 
+                        </th>
                         <?
                           $IsraelLabel = new Etiquetado_israel($sodium['valor'], $sugar['valor'], $total_lipids['valor'], $producto->tipo);
                         ?>
@@ -1916,7 +1989,9 @@
                       foreach ($vnrs as $cve => $val) {
                         ?>
                         <tr>
-                          <th>Italia<br>VNR - <img src="<?= base_url('uploads/flags/'.$vnrs[$cve][1]) ?>" class="flag"></th>
+                          <th>
+                            <img src="<?= base_url('uploads/flags/italia.jpg') ?>" alt="bandera-italia" class="flag-1 mr-2">
+                            Italia<br>VNR - <img src="<?= base_url('uploads/flags/'.$vnrs[$cve][1]) ?>" class="flag"></th>
                           <?
                               $ItaliaLabel = new Etiquetado_italia($e_kcal['valor'], $lipids['valor'], $total_lipids['valor'], $sugar['valor'], $sodium['valor'], $vnrs[$cve][2]);
                               ?>
@@ -1997,7 +2072,9 @@
                       ?>
                       <!-- Etiquetado de Australia & Nueva Zelanda -->
                       <tr>
-                        <th>Australia & Nueva Zelanda</th>
+                        <th>
+                          <img src="<?= base_url('uploads/flags/australia.jpg') ?>" alt="bandera-australia" class="flag-1 mr-2">
+                          Australia & Nueva Zelanda</th>
                         <?
                           $AustraliaLabel = new Etiquetado_Australia_Nueva_Zelanda($e_kcal['valor'], $total_lipids['valor'], $sodium['valor'], $sugar['valor'], $calcium['valor'], $vegetable['valor'], $protein['valor'], $fiber['valor'], $producto->id_categoria, $producto->tipo);
                             ?>
@@ -2046,19 +2123,10 @@
         </div>
 
       </div>  
-      
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary btn-close">Cerrar</button>
-    </div>
-  </div>
-</div>
 
-<script>
-  $(function(){
-    $(document).on('click', '.btn-close', function(){
-        $('.modal-backdrop').remove();
-        $('.modal').hide();
-      });
-  })
-</script>
+    </div>
+    <div class="card-footer">
+      <button class="btn btn-secondary btn-lg" onclick="history.back();">Regresar</button>
+    </div>
+</section>
+<!-- /.content -->

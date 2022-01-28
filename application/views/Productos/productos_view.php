@@ -1,4 +1,4 @@
-  <!-- Main content -->
+<!-- Main content -->
 <section class="content">
 
       <!-- Tabla de productos registrados -->
@@ -77,12 +77,18 @@
                           }
                         }
                         ?>
+
+                        <!-- <a href="<?= base_url('productos_descripcion/'.encripta($producto->id_prod).'/0') ?>" class="btn btn-success btn-ver-producto" title="Ver el producto" target="_blank" onclick="window.open(this.href, this.target, 'width=1000, height=800'); return false;"><i class="fas fa-search" alt="Ver el producto"></i></a> -->
+
                       </td>
                       <td><?= $producto->grupo ?></td>
                       <!-- <td><?= number_format($producto->cantidad_neta, 1) ?> g</td>
                       <td><?= number_format($producto->cantidad_porcion, 1) ?> g</td> -->
                       <td>
-                        <a href="<?= base_url('productos_editar/'.encripta($producto->id_prod).'/0') ?>" class="btn btn-success btn-editar-producto" data="<?= $conta ?>" title="Editar el producto"><i class="fas fa-edit" alt="Editar producto"></i></a>
+                        
+                        <a href="<?= base_url('productos_informacion/'.encripta($producto->id_prod)) ?>" class="btn btn-warning" data="<?= $conta ?>" title="Ver la información del producto" ><i class="fas fa-search" alt="Ver la información del producto"></i></a>
+                        
+                        <a href="<?= base_url('productos_editar/'.encripta($producto->id_prod).'/0') ?>" class="btn btn-success btn-editar-producto" data="<?= $conta ?>" title="Editar el producto" ><i class="fas fa-edit" alt="Editar producto"></i></a>
 
                         <a href="<?= base_url('productos_imagenes/'.encripta($producto->id_prod)."/0") ?>" class="btn btn-primary" data="<?= $conta ?>" title="Agregar imagen"><i class="fas fa-images" alt="Agregar imagen"></i></a>
 

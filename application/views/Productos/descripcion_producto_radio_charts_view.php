@@ -1,12 +1,11 @@
 <script>
-    var canvas = ['energiaChart', 'lipidosChart', 'azucaresChart', 'grasasSatChart', 'grasasTransChart', 'sodioChart', 'ffChart', 'qualityChart'];
+    var canvas = ['canvaChart'];
 
     for(i in canvas){
-        if (document.getElementById(canvas[i]) !== null) 
-            generaGraficaBarras(canvas[i]);
+        generaGraficaRadio(canvas[i]);
     }
 
-    function generaGraficaBarras(id){
+    function generaGraficaRadio(id){
         var ctx = document.getElementById(id);
         var valores = ctx.getAttribute('data-values').split(',');
         var etiquetas = ctx.getAttribute('data-labels').split(',');
@@ -26,7 +25,7 @@
             }
         });
         var myChart = new Chart(ctx, {
-            type: 'bar',
+            type: 'radar',
             data: {
                 labels: etiquetas,
                 datasets: [{
@@ -73,7 +72,7 @@
                     },
                     y: {
                         ticks: {
-                            display: true
+                            display: false
                         }
                     },
                 },
