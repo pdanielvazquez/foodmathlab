@@ -60,7 +60,8 @@
                     <tr>
                       <td><?= ++$conta ?></td>
                       <td>
-                        <a href="" data-id="<?= $producto->id_prod ?>" data-toggle="modal" data-target="#descripcion" class="btn-descripcion-lab" data-lab="<?= $producto->id_grupo ?>">
+                        <!-- <a href="" data-id="<?= $producto->id_prod ?>" data-toggle="modal" data-target="#descripcion" class="btn-descripcion-lab" data-lab="<?= $producto->id_grupo ?>"> -->
+                        <a href="<?= base_url('productos_informacion/'.encripta($producto->id_prod)) ?>" class="" data="<?= $conta ?>" title="Ver la información del producto" >
                         <?= $producto->producto ?>
                         </a>
                         <?
