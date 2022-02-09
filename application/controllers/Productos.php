@@ -694,7 +694,17 @@ class Productos extends CI_Controller {
 
 		$campos = $this->campos;
 
-		$productos_nutriente = $this->General_model->get('productos_foodmathlab_v3', array('id_user'=>$_SESSION['idUser'], 'id_grupo'=>$producto->id_grupo), array($nutriente=>'asc'), '');
+		$productos_nutriente=false;
+		switch ($nutriente) {
+
+			case 'fullness':
+				$productos_nutriente = $this->General_model->get('productos_foodmathlab_v3', array('id_user'=>$_SESSION['idUser'], 'id_grupo'=>$producto->id_grupo), array(), '');
+				break;
+			
+			default:
+				$productos_nutriente = $this->General_model->get('productos_foodmathlab_v3', array('id_user'=>$_SESSION['idUser'], 'id_grupo'=>$producto->id_grupo), array($nutriente=>'asc'), '');
+				break;
+		}
 
 		$prods_nutrimentos = [];
 		$nutrientes_arr = [];
@@ -733,10 +743,198 @@ class Productos extends CI_Controller {
 		$this->load->view('Plantillas/head_view');
 		$this->load->view('Plantillas/scripts_view');
 		$this->load->view('Productos/grafica_maximize_producto_view', $data);
-		if ($tipo_chart=='radar') {
+		switch ($tipo_chart) {
+			case 'radar':
+				$this->load->view('Productos/descripcion_producto_radio_charts_view', $data);
+				break;
+			case 'bars':
+				$this->load->view('Productos/descripcion_producto_bars_charts_view', $data);
+				break;
+		}
+		
+		/*if ($tipo_chart=='radar') {
 			$this->load->view('Productos/descripcion_producto_radio_charts_view', $data);
 		}else{
 			$this->load->view('Productos/descripcion_producto_bars_charts_view', $data);
+		}*/
+	}
+
+	public function grafica_maximize_nrf(){
+
+		if (!isset($_SESSION['idUser'])) {
+			redirect('App/logout');
+		}
+
+		/*Validación de permiso de acceso al método*/
+		$permisos_usuarios = $this->General_model->get('permisos_usuarios', array('id_usuario'=>$_SESSION['idUser'], 'opcion'=>'Productos'), array(), '');
+		if ($permisos_usuarios==false) {
+			redirect('inicio');
+		}
+
+		/*Parámetros URL*/
+		$vnr = $this->uri->segment(2);
+		$id_producto = $this->uri->segment(3);
+
+		/*Consultas generales*/
+		$productos = $this->General_model->get('productos_foodmathlab_v3', array('id_prod'=>$id_producto), array(), '');
+		$producto = ($productos!=false) ? $productos->row(0) : false;
+
+		if ($producto!=false) {
+
+			$grupo = $producto->id_grupo;
+
+			$productos_indices = $this->General_model->get('productos_foodmathlab_v3', array('id_user'=>$_SESSION['idUser'], 'id_grupo'=>$grupo), array(), '');
+
+			$campos_productos_indices = array(
+				'proteinas'			=> 	array('campo'=>'proteina'), 
+				'fibras'			=>	array('campo'=>'fibra'), 
+				'vitamina_A'		=>	array('campo'=>'vitaa'), 
+				'vitamina_C'		=>	array('campo'=>'acidoascord'), 
+				'vitamina_D'		=>	array('campo'=>'vitad'), 
+				'vitamina_E'		=>	array('campo'=>'vitaminae'), 
+				'vitamina_B1'		=>	array('campo'=>'tiamina'), 
+				'vitamina_B2'		=>	array('campo'=>'riboflavina'), 
+				'calcio'			=>	array('campo'=>'calcio'),
+				'hierro'			=>	array('campo'=>'hierro'),
+				'magnesio'			=>	array('campo'=>'magnesio'),
+				'zinc'				=>	array('campo'=>'zinc'),
+				'potasio'			=>	array('campo'=>'potasio'),
+				'acido_linoleico'	=>	array('campo'=>'acidolino'),
+				'sodio'				=>	array('campo'=>'sodio'), 
+				'energia'			=>	array('campo'=>'energia'), 
+				'grasas_sat'		=>	array('campo'=>'acidosgs'), 
+				'grasas_tot'		=>	array('campo'=>'lipidos'), 
+				'azucares'			=>	array('campo'=>'azucaresa'), 
+				'fruta'				=>	array('campo'=>'fruta'), 
+				'verdura'			=>	array('campo'=>'verdura'), 
+				'lipidos'			=>	array('campo'=>'lipidos'), 
+			);
+
+			$vnrs = array(
+				'eu' => array('Europa', 'europa.jpg', $this->valores_referencia_eu),
+				'mx' => array('México', 'mexico.jpg', $this->valores_referencia_co),
+				'co' => array('Colombia', 'colombia.jpg', $this->valores_referencia_mx),
+				'usa' => array('EE.UU.', 'usa.jpg', $this->valores_referencia_eeuu),
+			);
+
+			$data = array(
+				'id_producto'		=>	$id_producto,
+				'producto'			=>	$producto,
+				'productos_indices'	=>	$productos_indices,
+				'campos_productos_indices'=>$campos_productos_indices,
+				'vnr'				=>	$vnr,
+				'vnrs'				=>	$vnrs,
+			);
+
+			$this->load->view('Plantillas/head_view');
+			$this->load->view('Plantillas/scripts_view');
+			$this->load->view('Productos/grafica_maximize_producto_nrf_view', $data);
+			$this->load->view('Productos/descripcion_producto_nrf_charts_view', $data);
+		}
+		else{
+			redirect('productos');
+		}
+	}
+
+	public function grafica_maximize_others(){
+
+		if (!isset($_SESSION['idUser'])) {
+			redirect('App/logout');
+		}
+
+		/*Validación de permiso de acceso al método*/
+		$permisos_usuarios = $this->General_model->get('permisos_usuarios', array('id_usuario'=>$_SESSION['idUser'], 'opcion'=>'Productos'), array(), '');
+		if ($permisos_usuarios==false) {
+			redirect('inicio');
+		}
+
+		/*Parámetros URL*/
+		$tipo_chart = $this->uri->segment(2);
+		$id_producto = $this->uri->segment(3);
+
+		/*Consultas generales*/
+		$productos = $this->General_model->get('productos_foodmathlab_v3', array('id_prod'=>$id_producto), array(), '');
+
+		if ($productos!=false) {
+
+			$producto = $productos->row(0);
+			$grupo = $producto->id_grupo;
+
+			$productos_indices = $this->General_model->get('productos_foodmathlab_v3', array('id_user'=>$_SESSION['idUser'], 'id_grupo'=>$grupo), array(), '');
+
+			$campos_productos_indices = array(
+				'proteinas'			=> 	array('campo'=>'proteina'), 
+				'fibras'			=>	array('campo'=>'fibra'), 
+				'vitamina_A'		=>	array('campo'=>'vitaa'), 
+				'vitamina_C'		=>	array('campo'=>'acidoascord'), 
+				'vitamina_D'		=>	array('campo'=>'vitad'), 
+				'vitamina_E'		=>	array('campo'=>'vitaminae'), 
+				'vitamina_B1'		=>	array('campo'=>'tiamina'), 
+				'vitamina_B2'		=>	array('campo'=>'riboflavina'), 
+				'calcio'			=>	array('campo'=>'calcio'),
+				'hierro'			=>	array('campo'=>'hierro'),
+				'magnesio'			=>	array('campo'=>'magnesio'),
+				'zinc'				=>	array('campo'=>'zinc'),
+				'potasio'			=>	array('campo'=>'potasio'),
+				'acido_linoleico'	=>	array('campo'=>'acidolino'),
+				'sodio'				=>	array('campo'=>'sodio'), 
+				'energia'			=>	array('campo'=>'energia'), 
+				'grasas_sat'		=>	array('campo'=>'acidosgs'), 
+				'grasas_tot'		=>	array('campo'=>'lipidos'), 
+				'azucares'			=>	array('campo'=>'azucaresa'), 
+				'fruta'				=>	array('campo'=>'fruta'), 
+				'verdura'			=>	array('campo'=>'verdura'), 
+				'lipidos'			=>	array('campo'=>'lipidos'), 
+			);
+
+			$titulo = '';
+			switch ($tipo_chart) {
+				case 'sain':
+					$titulo = 'SAIN-LIM';
+					break;
+				case 'sens':
+					$titulo = 'SENS';
+					break;
+				case 'ff':
+					$titulo = 'FULLNESS FACTOR';
+					break;
+				case 'mes':
+					$titulo = 'MEDIA ESTANDAR';
+					break;
+			}
+
+
+			$data = array(
+				'id_producto'		=>	$id_producto,
+				'producto'			=>	$producto,
+				'productos_indices'	=>	$productos_indices,
+				'campos_productos_indices'=>$campos_productos_indices,
+				'tipo_chart'		=>	$tipo_chart,
+				'titulo'			=>	$titulo,
+			);
+
+			$this->load->view('Plantillas/head_view');
+			$this->load->view('Plantillas/scripts_view');
+			$this->load->view('Productos/grafica_maximize_producto_others_view', $data);
+
+			$titulo = '';
+			switch ($tipo_chart) {
+				case 'sain':
+					$this->load->view('Productos/descripcion_producto_sainlim_js_view', $data);
+					break;
+				case 'sens':
+					$this->load->view('Productos/descripcion_producto_sens_js_view', $data);
+					break;
+				case 'ff':
+					$this->load->view('Productos/descripcion_producto_fuf_view', $data);
+					break;
+				case 'mes':
+					$this->load->view('Productos/descripcion_producto_mes_view', $data);
+					break;
+			}
+		}
+		else{
+			redirect('productos');
 		}
 	}
 
@@ -862,12 +1060,24 @@ class Productos extends CI_Controller {
 			$prods_acidosgs	= [];
 			$prods_acidostrans	= [];
 			$prods_sodio	= [];
+			$prods_hidratos	= [];
+			$prods_fibra	= [];
+			$prods_proteina	= [];
+			$prods_neta		= [];
+			$prods_porcion	= [];
+
 			$energias 		= [];
 			$lipidos_arr 	= [];
 			$azucares_arr	= [];
 			$acidosgs_arr	= [];
 			$acidostrans_arr= [];
 			$sodio_arr		= [];
+			$hidratos_arr	= [];
+			$fibra_arr		= [];
+			$proteina_arr	= [];
+			$neta_arr		= [];
+			$porcion_arr	= [];
+
 			if ($productos_energia!=false) {
 				foreach ($productos_energia->result() as $prod) {
 					
@@ -913,18 +1123,43 @@ class Productos extends CI_Controller {
 					);
 					$sodio_arr[]	= floatval(explode(" ", $prod->sodio)[0]);
 
+					$prods_hidratos[] = array(
+						'id_prod'	=>	$prod->id_prod,
+						'nombre' 	=>	$prod->nombre,
+						'hidratos'	=>	floatval(explode(" ", $prod->hidratos)[0]),
+					);
+					$hidratos_arr[]	= floatval(explode(" ", $prod->hidratos)[0]);
+
+					$prods_fibra[] = array(
+						'id_prod'	=>	$prod->id_prod,
+						'nombre' 	=>	$prod->nombre,
+						'fibra'		=>	floatval(explode(" ", $prod->fibra)[0]),
+					);
+					$fibra_arr[]	= floatval(explode(" ", $prod->fibra)[0]);
+
+					$prods_proteina[] = array(
+						'id_prod'	=>	$prod->id_prod,
+						'nombre' 	=>	$prod->nombre,
+						'proteina'	=>	floatval(explode(" ", $prod->proteina)[0]),
+					);
+					$proteina_arr[]	= floatval(explode(" ", $prod->proteina)[0]);
+
+					$prods_neta[] = array(
+						'id_prod'	=>	$prod->id_prod,
+						'nombre' 	=>	$prod->nombre,
+						'cantidad_neta'	=>	floatval(explode(" ", $prod->cantidad_neta)[0]),
+					);
+					$neta_arr[]	= floatval(explode(" ", $prod->cantidad_neta)[0]);
+
+					$prods_porcion[] = array(
+						'id_prod'	=>	$prod->id_prod,
+						'nombre' 	=>	$prod->nombre,
+						'cantidad_porcion'	=>	floatval(explode(" ", $prod->cantidad_porcion)[0]),
+					);
+					$porcion_arr[]	= floatval(explode(" ", $prod->cantidad_porcion)[0]);
+
 				}
 			}
-
-			$productos_lipidos = $this->General_model->get('productos_foodmathlab_v3', array('id_user'=>$_SESSION['idUser'], 'id_grupo'=>$grupo), array('lipidos'=>'asc'), '');
-
-			$productos_azucares = $this->General_model->get('productos_foodmathlab_v3', array('id_user'=>$_SESSION['idUser'], 'id_grupo'=>$grupo), array('azucaresa'=>'asc'), '');
-
-			$productos_grasasSat = $this->General_model->get('productos_foodmathlab_v3', array('id_user'=>$_SESSION['idUser'], 'id_grupo'=>$grupo), array('acidosgs'=>'asc'), '');
-
-			$productos_grasasTrans = $this->General_model->get('productos_foodmathlab_v3', array('id_user'=>$_SESSION['idUser'], 'id_grupo'=>$grupo), array('acidostrans'=>'asc'), '');
-
-			$productos_sodio = $this->General_model->get('productos_foodmathlab_v3', array('id_user'=>$_SESSION['idUser'], 'id_grupo'=>$grupo), array('sodio'=>'asc'), '');
 
 			$productos_indices = $this->General_model->get('productos_foodmathlab_v3', array('id_user'=>$_SESSION['idUser'], 'id_grupo'=>$grupo), array(), '');
 
@@ -981,7 +1216,6 @@ class Productos extends CI_Controller {
 				'acidostrans_arr'	=>	$acidostrans_arr,
 				'prods_sodio'		=>	$prods_sodio,
 				'sodio_arr'			=>	$sodio_arr,
-
 				
 				'productos_indices'	=>	$productos_indices,
 				'campos_productos_indices' => $campos_productos_indices,
@@ -1040,16 +1274,23 @@ class Productos extends CI_Controller {
 
 			/*funcionalidad Javascript*/
 			$this->load->view('Productos/descripcion_producto_charts_view', $data);
+
+			if ($permisos_indices!=false) {
+				foreach ($permisos_indices->result() as $permiso_i) {
+					switch ($permiso_i->indice) {
+						case 'nrf': 
+							$this->load->view('Productos/descripcion_producto_nrf93_js_view', $data);
+						break;
+						case 'sai': 
+							$this->load->view('Productos/descripcion_producto_sainlim_js_view', $data);
+						break;
+						case 'sen': 
+							$this->load->view('Productos/descripcion_producto_sens_js_view', $data);
+						break;
+					}
+				}
+			}
 		
-			if (search_index($permisos_indices, 'nrf')==true) 
-				$this->load->view('Productos/descripcion_producto_nrf93_js_view', $data);
-			
-			if (search_index($permisos_indices, 'sai')==true) 
-				$this->load->view('Productos/descripcion_producto_sainlim_js_view', $data);
-			
-			if (search_index($permisos_indices, 'sen')==true) 
-				$this->load->view('Productos/descripcion_producto_sens_js_view', $data);
-			
 			$this->load->view('Productos/descripcion_producto_radio_view', $data);
 
 			$this->load->view('Plantillas/body_close_view');

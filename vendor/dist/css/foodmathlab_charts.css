@@ -7,7 +7,12 @@
 }
 
 #sensChart {
+	/*background-color: white;
+	background-image: url('../../../vendor/dist/img/bg-sens-1.png');
+	background-size: 80% 80%;*/
 	background-color: white;
-	background-image: url('../../../vendor/dist/img/bg-sens-2.png');
-	background-size: 100%;
+    background-image: url(../../../vendor/dist/img/bg-sens-1.png);
+    background-size: 95% 93%;
+    background-repeat: no-repeat;
+    background-position-x: right;
 }

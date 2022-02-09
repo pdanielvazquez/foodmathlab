@@ -1,13 +1,14 @@
 <script>
-    var canvasIndex = ['ffChart'];
+    var canvasQuality = ['qualityChart'];
 
-    for(i in canvasIndex){
-        generaGraficaSens(canvasIndex[i]);
+    for(i in canvasQuality){
+        if (document.getElementById(canvasQuality[i]) !== null) 
+            generaGraficaBarras(canvasQuality[i]);
     }
 
-    function generaGraficaSens(id){
+    function generaGraficaBarras(id){
         var ctx = document.getElementById(id);
-        var valores = document.getElementById('data-values');
+        var valores = ctx.getAttribute('data-values').split(',');
         var etiquetas = ctx.getAttribute('data-labels').split(',');
         var colores = ctx.getAttribute('data-color').split(',');
         var unidad = ctx.getAttribute('data-unit');
@@ -29,6 +30,7 @@
             data: {
                 labels: etiquetas,
                 datasets: [{
+                    label: unidad,
                     data: valores,
                     backgroundColor: bgColor,
                     borderColor: brColor,
@@ -36,26 +38,12 @@
                 }]
             },
             options: {
-                scales: {
-                    x: {
-                        ticks: {
-                            display: false
-                        }
-                    },
-                    y: {
-                        ticks: {
-                            display: true
-                        }
-                    },
-                },
                 responsive: true,
                 plugins: {
                     legend: {
                         display: false,
-                        position: 'bottom',
                         labels: {
-                          boxWidth: 80,
-                          fontColor: 'black'
+                            fontColor: "#000080",
                         }
                     },
                     title:{
@@ -76,10 +64,21 @@
                 interaction: {
                   intersect: false
                 },
+                
+                scales: {
+                    x: {
+                        ticks: {
+                            display: false
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            display: true
+                        }
+                    },
+                },
             }
         });
     }
-
-    
 
 </script>

@@ -25,6 +25,9 @@
   .btn-tool{
     color: #adb5bd !important;
   }
+  .small{
+    font-size: 0.7rem;
+  }
 </style>
 <link rel="stylesheet" href="<?= base_url('vendor') ?>/dist/css/foodmathlab_charts.css">
 
@@ -700,13 +703,15 @@
                             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
                               <h3 class="card-title card-title-chart">
                                 <span class="material-icons">scatter_plot</span>
-                                NRF 9.3 <small>VNR - <img src="<?= base_url('uploads/flags/'.$vnrs[$cve][1]) ?>" class="flag"></small>
+                                NRF 9.3 <span class="small">VNR</span> <img src="<?= base_url('uploads/flags/'.$vnrs[$cve][1]) ?>" class="flag">
                               </h3>
                             </button>
                             <div class="card-tools">
-                              <button type="button" class="btn btn-tool" data-card-widget="maximize" title="Presiona para maximizar/minimizar la gráfica">
-                                <i class="fas fa-expand"></i>
-                              </button>
+                              
+                              <a href="<?= base_url('producto_grafica_maximize_nrf/'.$cve.'/'.$producto->id_prod) ?>" target="_blank" class="btn btn-tool" title="Presiona para maximizar/minimizar la gráfica" onclick="window.open(this.href, this.target, 'width=650, height=530'); return false;">
+                                <i class="fas fa-search"></i>
+                              </a>
+
                               <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
                                 <i class="fas fa-plus"></i>
                               </button>
@@ -763,9 +768,11 @@
                           </h3>
                         </button>
                         <div class="card-tools">
-                          <button type="button" class="btn btn-tool" data-card-widget="maximize" title="Presiona para maximizar/minimizar la gráfica">
-                            <i class="fas fa-expand"></i>
-                          </button>
+                          
+                          <a href="<?= base_url('producto_grafica_maximize_others/sain/'.$producto->id_prod) ?>" target="_blank" class="btn btn-tool" title="Presiona para maximizar/minimizar la gráfica" onclick="window.open(this.href, this.target, 'width=650, height=530'); return false;">
+                            <i class="fas fa-search"></i>
+                          </a>
+
                           <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
                             <i class="fas fa-plus"></i>
                           </button>
@@ -815,13 +822,15 @@
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
                           <h3 class="card-title card-title-chart">
                             <span class="material-icons">equalizer</span>
-                            Fullness Factor
+                            <span class="h5">Fullness Factor</span>
                           </h3>
                         </button>
                         <div class="card-tools">
-                          <button type="button" class="btn btn-tool" data-card-widget="maximize" title="Presiona para maximizar/minimizar la gráfica">
-                            <i class="fas fa-expand"></i>
-                          </button>
+                          
+                          <a href="<?= base_url('producto_grafica_maximize_others/ff/').$producto->id_prod ?>" target="_blank" class="btn btn-tool" title="Presiona para maximizar/minimizar la gráfica" onclick="window.open(this.href, this.target, 'width=650, height=530'); return false;">
+                            <i class="fas fa-search"></i>
+                          </a>
+
                           <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
                             <i class="fas fa-plus"></i>
                           </button>
@@ -829,6 +838,8 @@
                       </div>
                       <div class="card-body">
                         <?
+                        $ffs_arr = array();
+                        $ffs_values = array();
                         $ffs = array();
                         $colors = array();
                         $labels = array();
@@ -840,19 +851,33 @@
                                     $valores[$atributo] = number_format(explode(" ", $prod_ff->$atributo)[0] , 2);
                                 }
                                 $ff = new FullnessFactor($valores);
-                                array_push($ffs, $ff->getFactor());
-                                array_push($labels, substr($prod_ff->nombre, 0, 15));
-                                if ($prod_ff->id_prod == $producto->id_prod) {
-                                  array_push($colors, 1);
-                                }
-                                else{
-                                  array_push($colors, 0);
-                                }
+                                array_push($ffs_arr, $ff->getFactor());
+                                $ffs[] = array(
+                                    'id_prod'   =>  $prod_ff->id_prod,
+                                    'nombre'    =>  $prod_ff->nombre,
+                                    'ff'        =>  $ff->getFactor(),
+                                );
+                                
                                 unset($ff);
                             }
                         }
+
+                        array_multisort($ffs_arr, SORT_ASC, $ffs);
+
+                        foreach ($ffs as $index=>$value) {
+                            array_push($labels, $value['nombre']);
+                            array_push($ffs_values, $value['ff']);
+                            if ($value['id_prod'] == $producto->id_prod) {
+                                array_push($colors, 1);
+                            }
+                            else{
+                                array_push($colors, 0);
+                            }
+                        }
+
+
                         ?>
-                        <canvas id="ffChart"  data-values="<?= implode(',', $ffs) ?>" data-labels="<?= implode(',', $labels) ?>" data-color="<?= implode(',', $colors) ?>" data-unit="FF" data-title="Fullness Factor" height="200" class="chartCanvas"></canvas>
+                        <canvas id="ffChart"  data-values="<?= implode(',', $ffs_values) ?>" data-labels="<?= implode(',', $labels) ?>" data-color="<?= implode(',', $colors) ?>" data-unit="FF" data-title="Fullness Factor" height="200" class="chartCanvas"></canvas>
                       </div>
                     </div> 
                 </div>
@@ -869,13 +894,15 @@
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
                           <h3 class="card-title card-title-chart">
                             <span class="material-icons">equalizer</span>
-                            Media Estandar
+                            <span class="h5">Media Estandar</span>
                           </h3>
                         </button>
                         <div class="card-tools">
-                          <button type="button" class="btn btn-tool" data-card-widget="maximize" title="Presiona para maximizar/minimizar la gráfica">
-                            <i class="fas fa-expand"></i>
-                          </button>
+                          
+                            <a href="<?= base_url('producto_grafica_maximize_others/mes/').$producto->id_prod ?>" target="_blank" class="btn btn-tool" title="Presiona para maximizar/minimizar la gráfica" onclick="window.open(this.href, this.target, 'width=650, height=530'); return false;">
+                                <i class="fas fa-search"></i>
+                            </a>
+
                           <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
                             <i class="fas fa-plus"></i>
                           </button>
@@ -883,6 +910,8 @@
                       </div>
                       <div class="card-body">
                         <?
+                        $mes_arr = array();
+                        $mes_values = array();
                         $calidades = array();
                         $colors = array();
                         $labels = array();
@@ -895,19 +924,32 @@
                                     //echo "valor: ".$valores[$atributo]."<br>";
                                 }
                                 $calidad = new MediaEstandarizada($valores, $productos_indices);
-                                array_push($calidades, $calidad->getME());
-                                array_push($labels, substr($prod_quality->nombre, 0, 15));
-                                if ($prod_quality->id_prod == $producto->id_prod) {
-                                  array_push($colors, 1);
-                                }
-                                else{
-                                  array_push($colors, 0);
-                                }
+                                array_push($mes_arr, $calidad->getME());
+                                $calidades[] = array(
+                                    'id_prod'   =>  $prod_quality->id_prod,
+                                    'nombre'    =>  $prod_quality->nombre,
+                                    'calidad'   =>  $calidad->getME(),
+                                );
+                                
                                 unset($ff);
                             }
                         }
+
+                        array_multisort($mes_arr, SORT_ASC, $calidades);
+
+                        foreach ($calidades as $index=>$value) {
+                            array_push($labels, $value['nombre']);
+                            array_push($mes_values, $value['calidad']);
+                            if ($value['id_prod'] == $producto->id_prod) {
+                                array_push($colors, 1);
+                            }
+                            else{
+                                array_push($colors, 0);
+                            }
+                        }
+
                         ?>
-                        <canvas id="qualityChart"  data-values="<?= implode(',', $calidades) ?>" data-labels="<?= implode(',', $labels) ?>" data-color="<?= implode(',', $colors) ?>" data-unit="Media Estandarizada" data-title="Calidad de los Alimentos" height="200" class="chartCanvas"></canvas>
+                        <canvas id="qualityChart"  data-values="<?= implode(',', $mes_values) ?>" data-labels="<?= implode(',', $labels) ?>" data-color="<?= implode(',', $colors) ?>" data-unit="Media Estandarizada" data-title="Calidad de los Alimentos" height="200" class="chartCanvas"></canvas>
                       </div>
                     </div>
                 </div>
@@ -928,9 +970,11 @@
                           </h3>
                         </button>
                         <div class="card-tools">
-                          <button type="button" class="btn btn-tool" data-card-widget="maximize" title="Presiona para maximizar/minimizar la gráfica">
-                            <i class="fas fa-expand"></i>
-                          </button>
+                          
+                          <a href="<?= base_url('producto_grafica_maximize_others/sens/'.$producto->id_prod) ?>" target="_blank" class="btn btn-tool" title="Presiona para maximizar/minimizar la gráfica" onclick="window.open(this.href, this.target, 'width=650, height=530'); return false;">
+                            <i class="fas fa-search"></i>
+                          </a>
+
                           <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Presiona para ver/ocultar la gráfica">
                             <i class="fas fa-plus"></i>
                           </button>

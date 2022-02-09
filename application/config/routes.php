@@ -75,6 +75,8 @@ $route['productos_imagenes/(:any)/(:any)']	= 'Productos/nueva_imagen';
 $route['eliminar_imagenes/(:any)/(:any)']	= 'Productos/eliminar_imagen';
 $route['productos_grupos_editar/(:any)/(:any)']	= 'Productos/grupo_editar';
 $route['producto_grafica_maximize/(:any)/(:any)/(:any)']	= 'Productos/grafica_maximize';
+$route['producto_grafica_maximize_nrf/(:any)/(:any)']	= 'Productos/grafica_maximize_nrf';
+$route['producto_grafica_maximize_others/(:any)/(:any)']	= 'Productos/grafica_maximize_others';
 $route['productos_informacion/(:any)']	= 'Productos/informacion';
 
 $route['productos_reformulation'] = 'Productos/reformulation';
