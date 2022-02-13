@@ -140,7 +140,7 @@
                                   <?
                                   if ($MexLabel->getExcesoAzucares()==1){
                                     ?>
-    			                           <a class="dropdown-item btn-quitar" href="#" data="azucar" data-info="<?= $cadena_valores ?>">Azucar</a>
+    			                           <a class="dropdown-item btn-quitar" href="#" data="azucar" data-info="<?= $cadena_valores ?>">Azúcar</a>
                                     <?
                                   }
                                   if ($MexLabel->getExcesoGrasasSat()==1){

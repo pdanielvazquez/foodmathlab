@@ -79,10 +79,10 @@ $route['producto_grafica_maximize_nrf/(:any)/(:any)']	= 'Productos/grafica_maxim
 $route['producto_grafica_maximize_others/(:any)/(:any)']	= 'Productos/grafica_maximize_others';
 $route['productos_informacion/(:any)']	= 'Productos/informacion';
 
-$route['productos_reformulation'] = 'Productos/reformulation';
+/*$route['productos_reformulation'] = 'Productos/reformulation';
 $route['productos_reform_editar/(:any)/(:any)'] = 'Productos/editar_reform';
 $route['grupos_reform'] = 'Productos/grupo_reform_view';
-$route['registrar_reform'] = 'Productos/registro_reform';
+$route['registrar_reform'] = 'Productos/registro_reform';*/
 
 /*Reportes*/
 $route['reportes'] = 'Reportes/index';
@@ -122,3 +122,10 @@ $route['nom051_formulas'] = 'Optimizacion/nom051Formulas_ver2';
 $route['crear_token'] = 'Optimizacion/token';
 $route['recuperar_token/(:any)'] = 'Optimizacion/getToken';
 $route['borrar_token/(:any)'] = 'Optimizacion/deleteToken';
+
+/*Reformulación*/
+$route['reformulacion'] 			= 'Reformulacion/index';
+$route['productos_reformulation'] 	= 'Reformulacion/reformulation';
+$route['productos_reform_editar/(:any)/(:any)'] = 'Reformulacion/editar_reform';
+$route['grupos_reform'] 			= 'Reformulacion/grupo_reform_view';
+$route['registrar_reform'] 			= 'Reformulacion/registro_reform';
