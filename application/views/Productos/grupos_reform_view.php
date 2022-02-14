@@ -15,85 +15,87 @@
   	<div class="row">
     	<div class="col-12">
 			<div class="card">
-                <div class="card-header d-flex p-0 bg-danger">
-                    <h3 class="card-title p-3">
-                	  <i class="fas fa-archive"></i>
-                	     Reformulación de un Producto
-                    </h3>
-										
-                </div><!-- /.card-header -->
-				<?foreach ($productos->result() as $producto) {?>
+        <div class="card-header d-flex p-0 bg-danger">
+            <h3 class="card-title p-3">
+        	  <i class="fas fa-archive"></i>
+        	     <?= $id ?>Reformulación de un Producto
+            </h3>
+						
+        </div><!-- /.card-header -->
+				<?
+				foreach ($productos->result() as $producto) {
+					?>
 				<h2><?= $producto->nombre ?></h2>
 				<?}?>
 				<table id="example1" class="table table-bordered table-striped table-hover">
-                    <thead>
-                       <tr class="bg-secondary" align="center">
-                         <th>Concepto</th>
+          <thead>
+             <tr class="bg-secondary" align="center">
+               <th>Concepto</th>
 						 <th>Original </th>   
 						 <?foreach ($productos_reform->result() as $producto) {?>
-                              <th> Reformulación </th>
+                <th> Reformulación </th>
 						 <?}?>
 					   
-						
 					   </tr>
 					</thead>
 					<tbody>
-                      <?
-                		if ($campos!=false) {
-                			foreach ($campos as $indice => $valor) {
-                								$unidad = 'g';
-                								if ($indice=='energia') 
-                									$unidad = 'kcal';
-                								else if ($indice=='sodio') {
-                									$unidad = 'mg';
-                								}
-												
-                								?>
-		                						<tr>
-		                							<th><?= $valor['etiqueta'] ?></th>
-		                							<!--<td class="txt-centrado"><?= number_format($promedios[$grupo->id_grupo][$indice], 2).' '.$unidad ?></td>-->
-		                							<?
-		                							if ($productos!=false) {
-		                								foreach ($productos->result() as $producto) {
-		                									//if ($producto->id_grupo == $grupo->id_grupo) {
-			                									?>
-			                									<td class="txt-centrado"><?= number_format($producto->$indice, 1).' '.$unidad;  ?></td>
-																<!--td> <?= $producto->id_prod ?></td>-->
-			                									<?
-		                									//}
-		                								}
-		                							}
-		                							?>
-		                						
-												
-		                							
-		                							<?
-		                							if ($productos_reform!=false) {
-		                								foreach ($productos_reform->result() as $producto) {
-		                									//if ($producto->id_grupo == $grupo->id_grupo) {
-			                									?>
-			                									<td class="txt-centrado"><?= number_format($producto->$indice, 1).' '.$unidad ?></td>
-																<!--<td> <?= $producto->id_prod ?></td>-->
-			                									<?
-		                									//}
-		                								}
-		                							}
-		                							?>
-		                						</tr>
-                								<?
-                							}
-                						}
-                						?>
-                        
-						    
-                      <!-- </tr>-->
-					   <?
-					   if ($productos!=false) {
-                			?>
-	                		<tr>
-	                		<th class="txt-centrado bg-secondary" colspan="<?= count($productos_reform->result()) + 2 ?>">Etiquetados LATAM</th>
-	                		</tr>
-					   <?}?>
+            <?
+	      		if ($campos!=false) {
+	      			foreach ($campos as $indice => $valor) {
+								$unidad = 'g';
+								if ($indice=='energia') 
+									$unidad = 'kcal';
+								else if ($indice=='sodio') {
+									$unidad = 'mg';
+								}
+				
+								?>
+    						<tr>
+    							<th><?= $valor['etiqueta'] ?></th>
+    							<!--<td class="txt-centrado"><?= number_format($promedios[$grupo->id_grupo][$indice], 2).' '.$unidad ?></td>-->
+    							<?
+    							if ($productos!=false) {
+    								foreach ($productos->result() as $producto) {
+    									//if ($producto->id_grupo == $grupo->id_grupo) {
+      									?>
+      									<td class="txt-centrado"><?= number_format($producto->$indice, 1).' '.$unidad;  ?></td>
+								<!--td> <?= $producto->id_prod ?></td>-->
+      									<?
+    									//}
+    								}
+    							}
+    							?>
+    						
+				
+    							
+    							<?
+    							if ($productos_reform!=false) {
+    								foreach ($productos_reform->result() as $producto) {
+    									//if ($producto->id_grupo == $grupo->id_grupo) {
+      									?>
+      									<td class="txt-centrado"><?= number_format($producto->$indice, 1).' '.$unidad ?></td>
+								<!--<td> <?= $producto->id_prod ?></td>-->
+      									<?
+    									//}
+    								}
+    							}
+    							?>
+    						</tr>
+								<?
+							}
+						}
+						?>
+            <!-- </tr>-->
+					  
+					  <?
+					  if ($productos!=false) {
+        			?>
+          		<tr>
+          		<th class="txt-centrado bg-secondary" colspan="<?= count($productos_reform->result()) + 2 ?>">Etiquetados LATAM</th>
+          		</tr>
+					  <?
+						}
+						?>
                 	  <!-- Etiquetado de Chile -->
                 		<tr>
                 			<th>Chile</th>
@@ -101,7 +103,7 @@
                 		     		<?
 						       		    foreach ($productos->result() as $producto) {
 			                				//if ($producto->id_grupo == $grupo->id_grupo) {
-			                				    $chileLabel = new Etiquetado_chile($producto->energia, $producto->sodio, $producto->azucaresa, $producto->acidosgs, $producto->tipo);
+			                				    $chileLabel = new Etiquetado_chile(explode(' ', $producto->energia)[0], explode(' ', $producto->sodio)[0], explode(' ', $producto->azucaresa)[0], explode(' ', $producto->acidosgs)[0], $producto->tipo);
 				                				?>
 				                			<td class="txt-centrado">
 				                			<?
@@ -136,7 +138,7 @@
 			                						}
 	                                           foreach ($productos_reform->result() as $producto) {
 			                				//if ($producto->id_grupo == $grupo->id_grupo) {
-			                				    $chileLabel = new Etiquetado_chile($producto->energia, $producto->sodio, $producto->azucaresa, $producto->acidosgs, $producto->tipo);
+			                				    $chileLabel = new Etiquetado_chile(explode(' ', $producto->energia)[0], explode(' ', $producto->sodio)[0], explode(' ', $producto->azucaresa)[0], explode(' ', $producto->acidosgs)[0], $producto->tipo);
 				                				?>
 				                			<td class="txt-centrado">
 				                			<?
@@ -180,7 +182,7 @@
                 								<?
                 								foreach ($productos->result() as $producto) {
 		                							//if ($producto->id_grupo == $grupo->id_grupo) {
-		                								$ecuadorLabel = new Etiquetado_ecuador($producto->lipidos, $producto->azucaresa, $producto->sodio, $producto->tipo);
+		                								$ecuadorLabel = new Etiquetado_ecuador(explode(' ', $producto->lipidos)[0], explode(' ', $producto->azucaresa)[0], explode(' ', $producto->sodio)[0], $producto->tipo);
 			                							?>
 			                							<td>
 			                								<label>Grasa Total</label>
@@ -254,8 +256,8 @@
 												
                 								foreach ($productos_reform->result() as $producto) {
 		                							//if ($producto->id_grupo == $grupo->id_grupo) {
-		                								$ecuadorLabel = new Etiquetado_ecuador($producto->lipidos, $producto->azucaresa, $producto->sodio, $producto->tipo);
-			                							?>
+		                								$ecuadorLabel = new Etiquetado_ecuador(explode(' ', $producto->lipidos)[0], explode(' ', $producto->azucaresa)[0], explode(' ', $producto->sodio)[0], $producto->tipo);
+			                							?> 
 			                							<td>
 			                								<label>Grasa Total</label>
 			                								<?
@@ -336,7 +338,7 @@
                 								<?
                 								foreach ($productos->result() as $producto) {
 		                							//if ($producto->id_grupo == $grupo->id_grupo) {
-		                								$MexLabel = new Etiquetado_mexico($producto->energia, $producto->azucaresa, $producto->acidosgs, $producto->acidostrans, $producto->sodio, $producto->tipo);
+		                								$MexLabel = new Etiquetado_mexico(explode(' ', $producto->energia)[0], explode(' ', $producto->azucaresa)[0], explode(' ', $producto->acidosgs)[0], explode(' ', $producto->acidostrans)[0], explode(' ', $producto->sodio)[0], $producto->tipo);
 			                							?>
 			                							<td class="txt-centrado">
 			                								<?
@@ -380,7 +382,7 @@
 												
                 								foreach ($productos_reform->result() as $producto) {
 		                							//if ($producto->id_grupo == $grupo->id_grupo) {
-		                								$MexLabel = new Etiquetado_mexico($producto->energia, $producto->azucaresa, $producto->acidosgs, $producto->acidostrans, $producto->sodio, $producto->tipo);
+		                								$MexLabel = new Etiquetado_mexico(explode(' ', $producto->energia)[0], explode(' ', $producto->azucaresa)[0], explode(' ', $producto->acidosgs)[0], explode(' ', $producto->acidostrans)[0], explode(' ', $producto->sodio)[0], $producto->tipo);
 			                							?>
 			                							<td class="txt-centrado">
 			                								<?
@@ -431,7 +433,7 @@
                 								<?
                 								foreach ($productos->result() as $producto) {
 		                							//if ($producto->id_grupo == $grupo->id_grupo) {
-		                								$ColombiaLabel = new Etiquetado_colombia($producto->sodio, $producto->azucaresa, $producto->acidosgs, $producto->tipo);
+		                								$ColombiaLabel = new Etiquetado_colombia(explode(' ', $producto->sodio)[0], explode(' ', $producto->azucaresa)[0], explode(' ', $producto->acidosgs)[0], $producto->tipo);
 			                							?>
 			                							<td class="txt-centrado">
 			                								<?
@@ -463,7 +465,7 @@
 												
                 								foreach ($productos_reform->result() as $producto) {
 		                							//if ($producto->id_grupo == $grupo->id_grupo) {
-		                								$ColombiaLabel = new Etiquetado_colombia($producto->sodio, $producto->azucaresa, $producto->acidosgs, $producto->tipo);
+		                								$ColombiaLabel = new Etiquetado_colombia(explode(' ', $producto->sodio)[0], explode(' ', $producto->azucaresa)[0], explode(' ', $producto->acidosgs)[0], $producto->tipo);
 			                							?>
 			                							<td class="txt-centrado">
 			                								<?
@@ -504,7 +506,7 @@
                 								<?
                 								foreach ($productos->result() as $producto) {
 		                							//if ($producto->id_grupo == $grupo->id_grupo) {
-		                								$UruguayLabel = new Etiquetado_uruguay($producto->energia, $producto->lipidos, $producto->acidosgs, $producto->sodio, $producto->azucaresa, $producto->tipo);
+		                								$UruguayLabel = new Etiquetado_uruguay(explode(' ', $producto->energia)[0], explode(' ', $producto->lipidos)[0], explode(' ', $producto->acidosgs)[0], explode(' ', $producto->sodio)[0], explode(' ', $producto->azucaresa)[0], $producto->tipo);
 			                							?>
 			                							<td class="txt-centrado">
 			                								<?
@@ -541,7 +543,7 @@
 												
 												foreach ($productos_reform->result() as $producto) {
 		                							//if ($producto->id_grupo == $grupo->id_grupo) {
-		                								$UruguayLabel = new Etiquetado_uruguay($producto->energia, $producto->lipidos, $producto->acidosgs, $producto->sodio, $producto->azucaresa, $producto->tipo);
+		                								$UruguayLabel = new Etiquetado_uruguay(explode(' ', $producto->energia)[0], explode(' ', $producto->lipidos)[0], explode(' ', $producto->acidosgs)[0], explode(' ', $producto->sodio)[0], explode(' ', $producto->azucaresa)[0], $producto->tipo);
 			                							?>
 			                							<td class="txt-centrado">
 			                								<?
@@ -585,10 +587,10 @@
                 								foreach ($productos->result() as $producto) {
 		                							//if ($producto->id_grupo == $grupo->id_grupo) {
 		                								if (strtotime(date("Y-m-d")) >= strtotime("2021-10-27")){
-																			$peruLabel = new Etiquetado_peru_2a_fase($producto->azucaresa, $producto->sodio, $producto->acidosgs, $producto->acidostrans, $producto->tipo);
+																			$peruLabel = new Etiquetado_peru_2a_fase(explode(' ', $producto->azucaresa)[0], explode(' ', $producto->sodio)[0], explode(' ', $producto->acidosgs)[0], explode(' ', $producto->acidostrans)[0], $producto->tipo);
 																		}
 																		else{
-																			$peruLabel = new Etiquetado_peru_1a_fase($producto->azucaresa, $producto->sodio, $producto->acidosgs, $producto->acidostrans, $producto->tipo);
+																			$peruLabel = new Etiquetado_peru_1a_fase(explode(' ', $producto->azucaresa)[0], explode(' ', $producto->sodio)[0], explode(' ', $producto->acidosgs)[0], explode(' ', $producto->acidostrans)[0], $producto->tipo);
 																		}
 							                							?>
 							                							<td class="txt-centrado">
@@ -628,10 +630,10 @@
                 								foreach ($productos_reform->result() as $producto) {
 		                							//if ($producto->id_grupo == $grupo->id_grupo) {
 		                								if (strtotime(date("Y-m-d")) >= strtotime("2021-10-27")){
-																			$peruLabel = new Etiquetado_peru_2a_fase($producto->azucaresa, $producto->sodio, $producto->acidosgs, $producto->acidostrans, $producto->tipo);
+																			$peruLabel = new Etiquetado_peru_2a_fase(explode(' ', $producto->azucaresa)[0], explode(' ', $producto->sodio)[0], explode(' ', $producto->acidosgs)[0], explode(' ', $producto->acidostrans)[0], $producto->tipo);
 																		}
 																		else{
-																			$peruLabel = new Etiquetado_peru_1a_fase($producto->azucaresa, $producto->sodio, $producto->acidosgs, $producto->acidostrans, $producto->tipo);
+																			$peruLabel = new Etiquetado_peru_1a_fase(explode(' ', $producto->azucaresa)[0], explode(' ', $producto->sodio)[0], explode(' ', $producto->acidosgs)[0], explode(' ', $producto->acidostrans)[0], $producto->tipo);
 																		}
 							                							?>
 							                							<td class="txt-centrado">
@@ -678,12 +680,12 @@
 			foreach ($vnrs as $cve => $val) {
 			?>											
 				<!-- Etiquetado de Reino Unido -->
-	            <tr>
-	               	<th>Reino Unido<br>VNR - <img src="<?= base_url('uploads/flags/'.$vnrs[$cve][1]) ?>" class="flag"></th>
-	               	<td>
-		                <?
-		                foreach ($productos->result() as $producto) {
-				            $UkLabel = new Etiquetado_UK($producto->sodio/1000, $producto->azucaresa, $producto->acidosgs, $producto->lipidos, $producto->tipo, $vnrs[$cve][2]);
+        <tr>
+           	<th>Reino Unido<br>VNR - <img src="<?= base_url('uploads/flags/'.$vnrs[$cve][1]) ?>" class="flag"></th>
+           	<td>
+              <?
+              foreach ($productos->result() as $producto) {
+	            $UkLabel = new Etiquetado_UK(explode(' ', $producto->sodio)[0]/1000, explode(' ', $producto->azucaresa)[0], explode(' ', $producto->acidosgs)[0], explode(' ', $producto->lipidos)[0], $producto->tipo, $vnrs[$cve][2]);
 							$color = 'gray';
 							$txt = 'ENERGÍA';
 							?>
@@ -692,10 +694,10 @@
 								<p class="label_UK_txt_small">
 									Calorías
 									<span class="label_UK_value_small">
-										<?= number_format($producto->energia, 1) ?> kcal
+										<?= number_format(explode(' ', $producto->energia)[0], 1) ?> kcal
 									</span>
 								</p>
-								<p class="label_UK_ptc_small"><?= number_format(($producto->energia * 100)/2000, 1) ?>%</p>
+								<p class="label_UK_ptc_small"><?= number_format((explode(' ', $producto->energia)[0] * 100)/2000, 1) ?>%</p>
 							</div>
 							<?
 							$color = '';
@@ -720,7 +722,7 @@
 								<p class="label_UK_txt_small">
 									Grasa
 									<span class="label_UK_value_small">
-										<?= number_format($producto->lipidos, 1) ?> g
+										<?= number_format(explode(' ', $producto->lipidos)[0], 1) ?> g
 									</span>
 								</p>
 								<p class="label_UK_ptc_small">
@@ -750,7 +752,7 @@
 								<p class="label_UK_txt_small">
 									Grasa Sat
 									<span class="label_UK_value_small">
-										<?= number_format($producto->acidosgs, 1) ?> g
+										<?= number_format(explode(' ', $producto->acidosgs)[0], 1) ?> g
 									</span>
 								</p>
 								<p class="label_UK_ptc_small">
@@ -781,7 +783,7 @@
 								<p class="label_UK_txt_small">
 									Azúcar
 									<span class="label_UK_value_small">
-										<?= number_format($producto->azucaresa, 1) ?> g
+										<?= number_format(explode(' ', $producto->azucaresa)[0], 1) ?> g
 									</span>
 								</p>
 								<p class="label_UK_ptc_small"><?= number_format($UkLabel->getAzucaresPtc(), 1) ?>%</p>
@@ -809,7 +811,7 @@
 								<p class="label_UK_txt_small">
 									Sodio
 									<span class="label_UK_value_small">
-										<?= number_format($producto->sodio/1000, 1) ?> g
+										<?= number_format(explode(' ', $producto->sodio)[0]/1000, 1) ?> g
 									</span>
 								</p>
 								<p class="label_UK_ptc_small">
@@ -823,7 +825,7 @@
 													
 					<?
 					foreach ($productos_reform->result() as $producto) {
-				        $UkLabel = new Etiquetado_UK($producto->sodio/1000, $producto->azucaresa, $producto->acidosgs, $producto->lipidos, $producto->tipo, $vnrs[$cve][2]);
+				        $UkLabel = new Etiquetado_UK(explode(' ', $producto->sodio)[0]/1000, explode(' ', $producto->azucaresa)[0], explode(' ', $producto->acidosgs)[0], explode(' ', $producto->lipidos)[0], $producto->tipo, $vnrs[$cve][2]);
 						$color = 'gray';
 						$txt = 'ENERGÍA';
 						?>
@@ -833,11 +835,11 @@
 								<p class="label_UK_txt_small">
 									Calorías
 									<span class="label_UK_value_small">
-										<?= number_format($producto->energia, 1) ?> kcal
+										<?= number_format(explode(' ', $producto->energia)[0], 1) ?> kcal
 									</span>
 								</p>
 								<p class="label_UK_ptc_small">
-									<?= number_format(($producto->energia * 100)/2000, 1) ?>%
+									<?= number_format((explode(' ', $producto->energia)[0] * 100)/2000, 1) ?>%
 								</p>
 							</div>
 							<?
@@ -863,7 +865,7 @@
 								<p class="label_UK_txt_small">
 									Grasa
 									<span class="label_UK_value_small">
-										<?= number_format($producto->lipidos, 1) ?> g
+										<?= number_format(explode(' ', $producto->lipidos)[0], 1) ?> g
 									</span>
 								</p>
 								<p class="label_UK_ptc_small"><?= number_format($UkLabel->getGrasaTotalPtc(), 1) ?>%</p>
@@ -891,7 +893,7 @@
 								<p class="label_UK_txt_small">
 									Grasa Sat
 									<span class="label_UK_value_small">
-										<?= number_format($producto->acidosgs, 1) ?> g
+										<?= number_format(explode(' ', $producto->acidosgs)[0], 1) ?> g
 									</span>
 								</p>
 								<p class="label_UK_ptc_small"><?= number_format($UkLabel->getGrasasSatPtc(), 1) ?>%</p>
@@ -919,7 +921,7 @@
 								<p class="label_UK_txt_small">
 									Azúcar
 									<span class="label_UK_value_small">
-										<?= number_format($producto->azucaresa, 1) ?> g
+										<?= number_format(explode(' ', $producto->azucaresa)[0], 1) ?> g
 									</span>
 								</p>
 								<p class="label_UK_ptc_small">
@@ -949,7 +951,7 @@
 								<p class="label_UK_txt_small">
 									Sodio
 									<span class="label_UK_value_small">
-										<?= number_format($producto->sodio/1000, 1) ?> g
+										<?= number_format(explode(' ', $producto->sodio)[0]/1000, 1) ?> g
 									</span>
 								</p>
 								<p class="label_UK_ptc_small"><?= number_format($UkLabel->getSodioPtc(), 1) ?>%</p>
@@ -970,7 +972,7 @@
                 								<?
                 								foreach ($productos->result() as $producto) {
 		                							//if ($producto->id_grupo == $grupo->id_grupo) {
-		                								$NutriScoreLabel = new NutriScore($producto->energia, $producto->azucaresa, $producto->acidosgs, $producto->lipidos, $producto->sodio, $producto->fruta + $producto->verdura, $producto->fibra, $producto->proteina, $producto->id_categoria, $producto->cantidad_porcion, $producto->tipo);
+		                								$NutriScoreLabel = new NutriScore(explode(' ', $producto->energia)[0], explode(' ', $producto->azucaresa)[0], explode(' ', $producto->acidosgs)[0], explode(' ', $producto->lipidos)[0], explode(' ', $producto->sodio)[0], $producto->fruta + $producto->verdura, $producto->fibra, $producto->proteina, $producto->id_categoria, $producto->cantidad_porcion, $producto->tipo);
 			                							?>
 			                							<td class="txt-centrado">
 			                								<?
@@ -1010,7 +1012,7 @@
                 								
 												foreach ($productos_reform->result() as $producto) {
 		                							//if ($producto->id_grupo == $grupo->id_grupo) {
-		                								$NutriScoreLabel = new NutriScore($producto->energia, $producto->azucaresa, $producto->acidosgs, $producto->lipidos, $producto->sodio, $producto->fruta + $producto->verdura, $producto->fibra, $producto->proteina, $producto->id_categoria, $producto->cantidad_porcion, $producto->tipo);
+		                								$NutriScoreLabel = new NutriScore(explode(' ', $producto->energia)[0], explode(' ', $producto->azucaresa)[0], explode(' ', $producto->acidosgs)[0], explode(' ', $producto->lipidos)[0], explode(' ', $producto->sodio)[0], $producto->fruta + $producto->verdura, $producto->fibra, $producto->proteina, $producto->id_categoria, $producto->cantidad_porcion, $producto->tipo);
 			                							?>
 			                							<td class="txt-centrado">
 			                								<?
@@ -1057,7 +1059,7 @@
                 								<?
                 								foreach ($productos->result() as $producto) {
 		                							//if ($producto->id_grupo == $grupo->id_grupo) {
-		                								$IsraelLabel = new Etiquetado_israel($producto->sodio, $producto->azucaresa, $producto->acidosgs, $producto->tipo);
+		                								$IsraelLabel = new Etiquetado_israel(explode(' ', $producto->sodio)[0], explode(' ', $producto->azucaresa)[0], explode(' ', $producto->acidosgs)[0], $producto->tipo);
 			                							?>
 			                							<td class="txt-centrado">
 			                								<?
@@ -1088,7 +1090,7 @@
                 								
                 								foreach ($productos_reform->result() as $producto) {
 		                							//if ($producto->id_grupo == $grupo->id_grupo) {
-		                								$IsraelLabel = new Etiquetado_israel($producto->sodio, $producto->azucaresa, $producto->acidosgs, $producto->tipo);
+		                								$IsraelLabel = new Etiquetado_israel(explode(' ', $producto->sodio)[0], explode(' ', $producto->azucaresa)[0], explode(' ', $producto->acidosgs)[0], $producto->tipo);
 			                							?>
 			                							<td class="txt-centrado">
 			                								<?
@@ -1128,13 +1130,13 @@
                 								</th>
                 								<td>
                 									<?
-			                						$ItaliaLabel = new Etiquetado_italia($producto->energia, $producto->lipidos, $producto->acidosgs, $producto->azucaresa, $producto->sodio, $vnrs[$cve][2]);	
+			                						$ItaliaLabel = new Etiquetado_italia(explode(' ', $producto->energia)[0], explode(' ', $producto->lipidos)[0], explode(' ', $producto->acidosgs)[0], explode(' ', $producto->azucaresa)[0], explode(' ', $producto->sodio)[0], $vnrs[$cve][2]);	
 														?>
 			                								<div class="battery-small">
 				                								<div class="battery-title-1">
 																	<p><strong>ENERGIA</strong></p>
-																	<p><?= number_format($producto->energia*4.184) ?> kJ</p>
-																	<p><?= number_format($producto->energia) ?> kcal</p>
+																	<p><?= number_format(explode(' ', $producto->energia)[0]*4.184) ?> kJ</p>
+																	<p><?= number_format(explode(' ', $producto->energia)[0]) ?> kcal</p>
 																</div>
 																<div class="battery-body" style="background-size: <?= number_format($ItaliaLabel->getEnergia()) ?>% 100%">
 																	<?= number_format($ItaliaLabel->getEnergia()) ?>%
@@ -1144,7 +1146,7 @@
 						                					<div class="battery-small">
 																<div class="battery-title-2">
 																	<p><strong>GRASSI</strong></p>
-																	<p><?= number_format($producto->lipidos	, 2) ?> g</p>
+																	<p><?= number_format(explode(' ', $producto->lipidos)[0]	, 2) ?> g</p>
 																	<p>&nbsp;</p>
 																</div>
 																<div class="battery-body" style="background-size: <?= number_format($ItaliaLabel->getGrasaTot()) ?>% 100%">
@@ -1155,7 +1157,7 @@
 						                					<div class="battery-small">
 																<div class="battery-title-2">
 																	<p><strong>GRASSI<br>SATURI</strong></p>
-																	<p><?= number_format($producto->acidosgs, 2) ?> g</p>
+																	<p><?= number_format(explode(' ', $producto->acidosgs)[0], 2) ?> g</p>
 																</div>
 																<div class="battery-body" style="background-size: <?= number_format($ItaliaLabel->getGrasasSat()) ?>% 100%">
 																	<?= number_format($ItaliaLabel->getGrasasSat()) ?>%
@@ -1165,7 +1167,7 @@
 						                					<div class="battery-small">
 																<div class="battery-title-2">
 																	<p><strong>ZUCCHERI</strong></p>
-																	<p><?= number_format($producto->azucaresa, 2) ?> g</p>
+																	<p><?= number_format(explode(' ', $producto->azucaresa)[0], 2) ?> g</p>
 																	<p>&nbsp;</p>
 																</div>
 																<div class="battery-body" style="background-size: <?= number_format($ItaliaLabel->getAzucares()) ?>% 100%">
@@ -1176,7 +1178,7 @@
 						                					<div class="battery-small">
 																<div class="battery-title-2">
 																	<p><strong>SALE</strong></p>
-																	<p><?= number_format($producto->sodio, 2) ?> g</p>
+																	<p><?= number_format(explode(' ', $producto->sodio)[0], 2) ?> g</p>
 																	<p>&nbsp;</p>
 																</div>
 																<div class="battery-body" style="background-size: <?= number_format($ItaliaLabel->getSodio()) ?>% 100%">
@@ -1191,14 +1193,14 @@
                 								<?
 												   foreach ($productos_reform->result() as $producto) {?>
 													<td>
-		                							<?$ItaliaLabel = new Etiquetado_italia($producto->energia, $producto->lipidos, $producto->acidosgs, $producto->azucaresa, $producto->sodio, $vnrs[$cve][2]);
+		                							<?$ItaliaLabel = new Etiquetado_italia(explode(' ', $producto->energia)[0], explode(' ', $producto->lipidos)[0], explode(' ', $producto->acidosgs)[0], explode(' ', $producto->azucaresa)[0], explode(' ', $producto->sodio)[0], $vnrs[$cve][2]);
 			                							?>
 			                							
 			                								<div class="battery-small">
 				                								<div class="battery-title-1">
 																				<p><strong>ENERGIA</strong></p>
-																				<p><?= number_format($producto->energia*4.184) ?> kJ</p>
-																				<p><?= number_format($producto->energia) ?> kcal</p>
+																				<p><?= number_format(explode(' ', $producto->energia)[0]*4.184) ?> kJ</p>
+																				<p><?= number_format(explode(' ', $producto->energia)[0]) ?> kcal</p>
 																			</div>
 																			<div class="battery-body" style="background-size: <?= number_format($ItaliaLabel->getEnergia()) ?>% 100%">
 																				<?= number_format($ItaliaLabel->getEnergia()) ?>%
@@ -1209,7 +1211,7 @@
 						                								<div class="battery-small">
 																			<div class="battery-title-2">
 																				<p><strong>GRASSI</strong></p>
-																				<p><?= number_format($producto->lipidos	, 2) ?> g</p>
+																				<p><?= number_format(explode(' ', $producto->lipidos)[0]	, 2) ?> g</p>
 																				<p>&nbsp;</p>
 																			</div>
 																			<div class="battery-body" style="background-size: <?= number_format($ItaliaLabel->getGrasaTot()) ?>% 100%">
@@ -1221,7 +1223,7 @@
 						                								<div class="battery-small">
 																			<div class="battery-title-2">
 																				<p><strong>GRASSI<br>SATURI</strong></p>
-																				<p><?= number_format($producto->acidosgs, 2) ?> g</p>
+																				<p><?= number_format(explode(' ', $producto->acidosgs)[0], 2) ?> g</p>
 																			</div>
 																			<div class="battery-body" style="background-size: <?= number_format($ItaliaLabel->getGrasasSat()) ?>% 100%">
 																				<?= number_format($ItaliaLabel->getGrasasSat()) ?>%
@@ -1232,7 +1234,7 @@
 						                								<div class="battery-small">
 																			<div class="battery-title-2">
 																				<p><strong>ZUCCHERI</strong></p>
-																				<p><?= number_format($producto->azucaresa, 2) ?> g</p>
+																				<p><?= number_format(explode(' ', $producto->azucaresa)[0], 2) ?> g</p>
 																				<p>&nbsp;</p>
 																			</div>
 																			<div class="battery-body" style="background-size: <?= number_format($ItaliaLabel->getAzucares()) ?>% 100%">
@@ -1244,7 +1246,7 @@
 						                								<div class="battery-small">
 																			<div class="battery-title-2">
 																				<p><strong>SALE</strong></p>
-																				<p><?= number_format($producto->sodio, 2) ?> g</p>
+																				<p><?= number_format(explode(' ', $producto->sodio)[0], 2) ?> g</p>
 																				<p>&nbsp;</p>
 																			</div>
 																			<div class="battery-body" style="background-size: <?= number_format($ItaliaLabel->getSodio()) ?>% 100%">
@@ -1271,25 +1273,25 @@
                 								<?
                 								foreach ($productos->result() as $producto) {
 		                							//if ($producto->id_grupo == $grupo->id_grupo) {
-		                								$AustraliaLabel = new Etiquetado_Australia_Nueva_Zelanda($producto->energia, $producto->acidosgs, $producto->sodio, $producto->azucaresa, $producto->calcio, $producto->verdura, $producto->proteina, $producto->fibra, $producto->id_categoria, $producto->tipo);
+		                								$AustraliaLabel = new Etiquetado_Australia_Nueva_Zelanda(explode(' ', $producto->energia)[0], explode(' ', $producto->acidosgs)[0], explode(' ', $producto->sodio)[0], explode(' ', $producto->azucaresa)[0], $producto->calcio, $producto->verdura, $producto->proteina, $producto->fibra, $producto->id_categoria, $producto->tipo);
 			                							?>
 			                							<td class="txt-centrado">
 			                								<img src="<?= base_url("uploads/labels-australia/".$AustraliaLabel->getCategoria()."-estrellas.png") ?>" class="australia-img-small">
 																			<div class="australia-value-small">
 																				<p class="title">ENERGY</p>
-																				<p class="val"><?= number_format($producto->energia * 4.184, 1) ?> kJ</p>
+																				<p class="val"><?= number_format(explode(' ', $producto->energia)[0] * 4.184, 1) ?> kJ</p>
 																			</div>
 																			<div class="australia-value-small">
 																				<p class="title">SAT FAT</p>
-																				<p class="val"><?= number_format($producto->acidosgs, 1) ?> g</p>
+																				<p class="val"><?= number_format(explode(' ', $producto->acidosgs)[0], 1) ?> g</p>
 																			</div>
 																			<div class="australia-value-small">
 																				<p class="title">SUGARS</p>
-																				<p class="val"><?= number_format($producto->azucaresa, 1) ?> g</p>
+																				<p class="val"><?= number_format(explode(' ', $producto->azucaresa)[0], 1) ?> g</p>
 																			</div>
 																			<div class="australia-value-small">
 																				<p class="title">SODIUM</p>
-																				<p class="val"><?= number_format($producto->sodio, 1) ?> g</p>
+																				<p class="val"><?= number_format(explode(' ', $producto->sodio)[0], 1) ?> g</p>
 																			</div>
 			                							</td>
 			                							<?
@@ -1299,25 +1301,25 @@
                 								
 												foreach ($productos_reform->result() as $producto) {
 		                							//if ($producto->id_grupo == $grupo->id_grupo) {
-		                								$AustraliaLabel = new Etiquetado_Australia_Nueva_Zelanda($producto->energia, $producto->acidosgs, $producto->sodio, $producto->azucaresa, $producto->calcio, $producto->verdura, $producto->proteina, $producto->fibra, $producto->id_categoria, $producto->tipo);
+		                								$AustraliaLabel = new Etiquetado_Australia_Nueva_Zelanda(explode(' ', $producto->energia)[0], explode(' ', $producto->acidosgs)[0], explode(' ', $producto->sodio)[0], explode(' ', $producto->azucaresa)[0], $producto->calcio, $producto->verdura, $producto->proteina, $producto->fibra, $producto->id_categoria, $producto->tipo);
 			                							?>
 			                							<td class="txt-centrado">
 			                								<img src="<?= base_url("uploads/labels-australia/".$AustraliaLabel->getCategoria()."-estrellas.png") ?>" class="australia-img-small">
 																			<div class="australia-value-small">
 																				<p class="title">ENERGY</p>
-																				<p class="val"><?= number_format($producto->energia * 4.184, 1) ?> kJ</p>
+																				<p class="val"><?= number_format(explode(' ', $producto->energia)[0] * 4.184, 1) ?> kJ</p>
 																			</div>
 																			<div class="australia-value-small">
 																				<p class="title">SAT FAT</p>
-																				<p class="val"><?= number_format($producto->acidosgs, 1) ?> g</p>
+																				<p class="val"><?= number_format(explode(' ', $producto->acidosgs)[0], 1) ?> g</p>
 																			</div>
 																			<div class="australia-value-small">
 																				<p class="title">SUGARS</p>
-																				<p class="val"><?= number_format($producto->azucaresa, 1) ?> g</p>
+																				<p class="val"><?= number_format(explode(' ', $producto->azucaresa)[0], 1) ?> g</p>
 																			</div>
 																			<div class="australia-value-small">
 																				<p class="title">SODIUM</p>
-																				<p class="val"><?= number_format($producto->sodio, 1) ?> g</p>
+																				<p class="val"><?= number_format(explode(' ', $producto->sodio)[0], 1) ?> g</p>
 																			</div>
 			                							</td>
 			                							<?

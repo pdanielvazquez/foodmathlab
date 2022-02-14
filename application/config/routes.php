@@ -127,5 +127,5 @@ $route['borrar_token/(:any)'] = 'Optimizacion/deleteToken';
 $route['reformulacion'] 			= 'Reformulacion/index';
 $route['productos_reformulation'] 	= 'Reformulacion/reformulation';
 $route['productos_reform_editar/(:any)/(:any)'] = 'Reformulacion/editar_reform';
-$route['grupos_reform'] 			= 'Reformulacion/grupo_reform_view';
+$route['grupos_reform/(:any)'] 			= 'Reformulacion/grupos_reform';
 $route['registrar_reform'] 			= 'Reformulacion/registro_reform';

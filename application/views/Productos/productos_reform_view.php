@@ -51,7 +51,7 @@
                         <?
                         if ($conta_r>0) {
                            ?>
-                            <a href="<?=base_url('Productos/grupos_reform/').encripta($producto->id_prod)?>" class="btn btn-labeled btn-info" title="Ver reformulaciones del producto">
+                            <a href="<?=base_url('grupos_reform/').encripta($producto->id_prod)?>" class="btn btn-labeled btn-info" title="Ver reformulaciones del producto">
                               <i class="fas fa-search" alt="Cantidad de Reformulaciones"></i>
                             </a>  
                            <?

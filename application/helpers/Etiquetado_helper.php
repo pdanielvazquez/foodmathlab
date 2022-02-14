@@ -465,7 +465,7 @@ class Etiquetado_UK
 	}
 
 	public function getGrasaTotalPtc(){
-		return ($this->grasas_tot * 100) / $this->ref_grasas_tot;
+		return ( floatval( $this->grasas_tot) * 100) / $this->ref_grasas_tot;
 	}
 }
 
