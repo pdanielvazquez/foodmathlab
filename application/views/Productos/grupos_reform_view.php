@@ -18,11 +18,12 @@
         <div class="card-header d-flex p-0 bg-danger">
             <h3 class="card-title p-3">
         	  <i class="fas fa-archive"></i>
-        	     <?= $id ?>Reformulación de un Producto
+        	     Reformulación de un Producto
             </h3>
 						
         </div><!-- /.card-header -->
 				<?
+				$conta = 0;
 				foreach ($productos->result() as $producto) {
 					?>
 				<h2><?= $producto->nombre ?></h2>
@@ -33,7 +34,7 @@
                <th>Concepto</th>
 						 <th>Original </th>   
 						 <?foreach ($productos_reform->result() as $producto) {?>
-                <th> Reformulación </th>
+                <th> Reformulación <?= ++$conta ?></th>
 						 <?}?>
 					   
 					   </tr>
