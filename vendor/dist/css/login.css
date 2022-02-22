@@ -20,3 +20,9 @@
   bottom: 0;
   /*background: rgba(0, 0, 0, 0.5);*/
 }
+
+#body-register {
+  background-image: url('../../../vendor/dist/img/grey-vector.jpg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+}

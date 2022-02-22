@@ -3,8 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>FoodMathLab</title>
-  <meta name="description" content="FoodMathLab es una software propiedad de Nutrimotor.com, todos los derechos reservados."/>
+  <title>Foodmathlab | Recuperar contraseña</title>
+
+  <title>Food Math Lab</title>
   <link rel="icon" type="img/icon" href="<?= base_url('vendor') ?>/dist/img/logos/nutrimotor-logo-bn.png">
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -18,69 +19,50 @@
   <link rel="stylesheet" href="<?= base_url('vendor') ?>/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
   <!-- Toastr -->
   <link rel="stylesheet" href="<?= base_url('vendor') ?>/plugins/toastr/toastr.min.css">
+
   <!-- Estilos propios -->
-  <link rel="stylesheet" href="<?= base_url('vendor') ?>/dist/css/login.css">
+  <link rel="stylesheet" href="<?= base_url('vendor/dist/css/login.css') ?>">
+
 </head>
-<body class="hold-transition login-page">
-
-  <video autoplay muted loop id="myVideo">
-    <source src="<?= base_url('vendor/dist/video/video.mp4') ?>" type="video/mp4">
-  </video>
-
-<div id="grid"></div>
-
-<div class="login-box">
-  <!-- /.login-logo -->
+<body class="hold-transition register-page" id="body-register">
+<div class="register-box">
   <div class="card card-outline card-danger">
     <div class="card-header text-center">
       <a href="<?= base_url() ?>" class="h1"><b>Food</b>MATHLAB</a>
     </div>
     <div class="card-body">
-      <p class="login-box-msg">Inicio de sesión</p>
+      <p class="login-box-msg">Recuperación de contraseña</p>
 
-      <form action="<?= base_url('App/login') ?>" method="post">
+      <form id="formRegister" method="post" action="<?= base_url('buscar_correo') ?>">
+
         <div class="input-group mb-3">
-          <input type="email" class="form-control" placeholder="Usuario" name="email" id="email" required="required">
+          <input type="email" class="form-control" placeholder="Correo electrónico" name="correo" id="correo" required="required">
           <div class="input-group-append">
             <div class="input-group-text">
-              <span class="fas fa-user"></span>
-            </div>
-          </div>
-        </div>
-        <div class="input-group mb-3">
-          <input type="password" class="form-control" placeholder="Contraseña" name="password" id="password" required="required">
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-lock"></span>
+              <span class="fas fa-envelope"></span>
             </div>
           </div>
         </div>
         <div class="input-group mb-3">
           <div class="g-recaptcha" data-sitekey="6Lc8_q4cAAAAAOL3l_vno4GaPdCt8OrD-oerT5M8"></div>
         </div>
-        <div class="row">
-          <div class="col-8">       
-          </div>
-          <!-- /.col -->
-          <div class="col-12">
-            <button type="submit" class="btn btn-danger btn-block btn-lg">Entrar</button>
-            <p style="text-align:center; margin: 1rem 0 0;">
-              <a href="<?= base_url('recuperar_contrasena/').encripta(0) ?>" >Olvidé mi contraseña</a>
-            </p>
-          </div>
-          <!-- /.col -->
+        <div class="input-group mb-3">
+          <button type="submit" class="btn btn-danger btn-block">Enviar correo</button>
         </div>
+        
       </form>
 
-      </div>
-    <!-- /.card-body -->
-      <div class="card-footer text-center">
+      
+    </div>
+    <!-- /.form-box -->
+    <div class="card-footer text-center">
+          <a href="<?= base_url() ?>" class="btn btn-default bg-gray">Ya tengo una cuenta</a>
+        <hr>
         <strong>Copyright &copy; 2021 <a href="https://www.nutrimonitor.com/" target="_blank">nutrimotor.com</a></strong> Todos los derechos reservados
       </div>
-  </div>
-  <!-- /.card -->
+  </div><!-- /.card -->
 </div>
-<!-- /.login-box -->
+<!-- /.register-box -->
 
 <!-- jQuery -->
 <script src="<?= base_url('vendor') ?>/plugins/jquery/jquery.min.js"></script>
@@ -92,10 +74,16 @@
 <script src="<?= base_url('vendor') ?>/plugins/sweetalert2/sweetalert2.min.js"></script>
 <!-- Toastr -->
 <script src="<?= base_url('vendor') ?>/plugins/toastr/toastr.min.js"></script>
+
 <!-- Recaptcha -->
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-
+  
 <script>
+
+  var onloadCallback = function() {
+      alert("grecaptcha is ready!");
+    };
+
   $(function() {
     var Toast = Swal.mixin({
       toast: true,
@@ -106,32 +94,35 @@
     });
 
     var error = <?= $error ?>;
-    var tipo  = <?= $tipo ?>;
-    var mensaje = 'Acceso incorrecto';
+    var mensaje = '';
     var icono = 'error';
-    if (error==1){
-      switch(tipo){
-        case 1: mensaje = ' El usuario no existe';
+    if (error>0) {
+
+      switch(error){
+        case 1:
+          mensaje = ' El correo no esta registrado';
           break;
-        case 2: mensaje = ' La contraseña es incorrecta';
+        case 2:
+          mensaje = 'Indica que no eres un robot';
           break;
-        case 3: mensaje = ' Indica que no eres un robot';
-          break;
-        case 4: 
-          mensaje = 'La contraseña se actualizó correctamente';
+        case 3:
+          mensaje = 'El correo de recuperación fue enviado exitosamente';
           icono = 'success';
           break;
+        case 4:
+          mensaje = 'Hubo un error en el envío del correo de recuperación';
+          break;
       }
+
       Toast.fire({
         icon: icono,
         title: mensaje,
-      })  
-    }
+      });  
 
-    var onloadCallback = function() {
-      alert("grecaptcha is ready!");
-    };
-})
+    }
+    
+  });
+
 </script>
 
 </body>

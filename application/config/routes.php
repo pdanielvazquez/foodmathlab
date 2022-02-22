@@ -58,6 +58,10 @@ $route['logout'] = 'App/logout';
 $route['exit'] = 'App/salida';
 $route['registro'] = 'App/registro';
 $route['nuevo_usuario'] = 'App/nuevo';
+$route['recuperar_contrasena/(:any)'] = 'App/recuperar';
+$route['buscar_correo'] = 'App/enviar_correo_recuperacion';
+$route['actualizar_contrasena/(:any)/(:any)/(:any)/(:any)'] = 'App/actualizar';
+$route['nueva_contrasena'] = 'App/nueva';
 
 /*Productos*/
 $route['productos'] = 'Productos/index';
