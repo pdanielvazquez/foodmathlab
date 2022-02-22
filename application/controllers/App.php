@@ -191,9 +191,9 @@ class App extends CI_Controller {
 
 	public function nueva(){
 
-		$correo 	= $this->input->post('info1');
-		$id_user 	= $this->input->post('info2');
-		$fecha 		= $this->input->post('info3');
+		$correo 	= desencripta($this->input->post('info1'));
+		$id_user 	= desencripta($this->input->post('info2'));
+		$fecha 		= desencripta($this->input->post('info3'));
 
 		if (!isset($_POST['g-recaptcha-response'])) {
 			redirect(base_url('actualizar_contrasena/'.encripta($correo).'/'.encripta($id_user).'/'.encripta($fecha).'/'.encripta(2)));
@@ -212,10 +212,10 @@ class App extends CI_Controller {
 			$error 		= ($pass1 != $pass2) ? 1 : 0;
 
 			if ($error == 0) {
-				// $this->General_model->update('usuarios', array('id_user'=>$id_user), array('password'=>password_hash($pass1, PASSWORD_DEFAULT)));
-				// redirect(base_url().'/error/4');
-				echo "$pass1 <br>";
-				echo password_hash($pass1, PASSWORD_DEFAULT);
+				$this->General_model->update('usuarios', array('id_user'=>$id_user), array('password'=>password_hash($pass1, PASSWORD_DEFAULT)));
+				redirect(base_url().'login/error/4');
+				// echo "$pass1 <br>";
+				// echo password_hash($pass1, PASSWORD_DEFAULT);
 			}
 			else{
 				$liga = base_url('actualizar_contrasena/'.encripta($correo).'/'.encripta($id_user).'/'.encripta($fecha).'/'.encripta(1));

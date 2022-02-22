@@ -33,7 +33,7 @@
     <div class="card-body">
 
       <?
-      if ($activo==1) {
+      if ($activo==0) {
         ?>
         <form method="post" action="<?= base_url('nueva_contrasena') ?>">
 
