@@ -8,6 +8,36 @@
             <i class="fas fa-archive"></i> 
             Productos registrados
           </h3>
+
+          <?
+            $conta=0;
+            if ($grupos!=false) {
+              
+              foreach ($grupos->result() as $grupo) {
+                  $no_prods=0;
+                  /*Verificar el numero de productos por Laboratorio*/
+                  if ($productos!=false) {
+                    foreach ($productos->result() as $producto) {
+                      if ($producto->id_grupo == $grupo->id_grupo) {
+                        $no_prods++;
+                        $conta++;
+                      }
+                    }
+                  }
+
+                  $active = ($conta == 0) ? 'active' : '';
+                  ?>
+                    <a class="btn btn-default text-red float-right btn-filter" href="#" style="margin:2px" data="<?= $grupo->nombre ?>"><?= $grupo->nombre ?>
+                    <span class="badge badge-warning" style="position:relative; top:-0.5rem; right: 0.1rem;"><?= $no_prods ?></span>
+                    </a>
+                  <?
+              }
+            }
+            ?>
+            <a class="btn btn-primary float-right btn-all" href="<?= base_url('nom051') ?>" style="margin:2px" >Ver todos
+              <span class="badge badge-warning" style="position:relative; top:-0.5rem; right: 0.1rem;"><?= $conta ?></span>
+            </a>
+
         </div>
         <!-- /.card-header -->
         <div class="card-body">
@@ -16,6 +46,7 @@
               <tr class="bg-secondary">
                 <th>No.</th>
                 <th>Nombre</th>
+                <th>Lab</th>
                 <th>Azúcares</th>
                 <th>Grasa Total</th>
                 <th>Grasa Saturada</th>
@@ -109,7 +140,26 @@
                     ?>
                     <tr>
                       <td><?= ++$conta ?></td>
-                      <td><?= $producto->nombre ?></td>
+                      <td>
+                        <a href="<?= base_url('productos_informacion/'.encripta($producto->id_prod)) ?>" class="" data="<?= $conta ?>" title="Ver la información del producto" >
+                        <?= $producto->producto ?>
+                        </a>
+                        <?
+                        if ($imagenes!=false) {
+                          $contaI = 0;
+                          foreach ($imagenes->result() as $imagen) {
+                            if ($producto->id_prod == $imagen->id_prod) {
+                              ?>
+                              <a href="<?= base_url('uploads/productos/').$imagen->nombre_archivo ?>" title="<?= $producto->producto.'-'.++$contaI ?>" target="_blank" onclick="window.open(this.href, this.target, 'width=500, height=300, scrollbars=1'); return false;" >
+                                <img src="<?= base_url('uploads/productos/').$imagen->nombre_archivo ?>" class="img-circle elevation-2" alt="Imagen del producto" style="width: 28px; height: 28px; margin: 0 0.2rem;">
+                             </a>
+                              <?
+                            }
+                          }
+                        }
+                        ?>
+                      </td>
+                      <td><?= $producto->grupo ?></td>
                       <td><?= number_format($sugar['valor'], 2) ?> g</td>
                       <td><?= number_format($lipids['valor'], 2) ?> g</td>
                       <td><?= number_format($fatty_sat['valor'], 2) ?> g</td>
@@ -171,19 +221,6 @@
                 }
               ?>
             </tbody>
-            <tfoot>
-              <tr class="bg-secondary">
-                <th>No.</th>
-                <th>Nombre</th>
-                <th>Azúcares</th>
-                <th>Grasa Total</th>
-                <th>Grasa Saturada</th>
-                <th>Grasa Trans</th>
-                <th>Sodio</th>
-                <th>Sellos</th>
-                <th>Extras</th>
-              </tr>
-            </tfoot>
           </table>
         </div>
         <!-- /.card-body -->

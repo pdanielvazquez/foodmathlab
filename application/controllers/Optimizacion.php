@@ -127,10 +127,14 @@ class Optimizacion extends CI_Controller {
 		$this->load->helper('Etiquetado_helper');
 
 		/*Consultas generales*/
-		$productos = $this->General_model->get('productos_foodmathlab_v3', array('id_user'=>$_SESSION['idUser']), array(), '');
+		$imagenes = $this->General_model->get('productos_imagenes', array('id_user'=>$_SESSION['idUser']), array(), '');
+		$productos = $this->General_model->get('productos_grupos_v3', array('id_user'=>$_SESSION['idUser']), array(), '');
+		$grupos = $this->General_model->get('grupos', array('id_usuario'=>$_SESSION['idUser']), array('nombre'=>'desc'), '');
 		
 		$data = array(
 			'productos'	=>	$productos,
+			'grupos'	=>	$grupos,
+			'imagenes'	=>	$imagenes,
 		);
 
 		/*Registro de actividad en bitácora*/
