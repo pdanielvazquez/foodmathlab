@@ -263,7 +263,10 @@ class Optimizacion extends CI_Controller {
 
 		$edicion = ($this->uri->segment(2)=='')? 0 : $this->uri->segment(2);
 
-		$productos = $this->General_model->get('productos_foodmathlab_v3', array('id_user'=>$_SESSION['idUser']), array(), '');
+		/*Consultas generales*/
+		$imagenes = $this->General_model->get('productos_imagenes', array('id_user'=>$_SESSION['idUser']), array(), '');
+		$productos = $this->General_model->get('productos_grupos_v3', array('id_user'=>$_SESSION['idUser']), array(), '');
+		$grupos = $this->General_model->get('grupos', array('id_usuario'=>$_SESSION['idUser']), array('nombre'=>'desc'), '');
 
 		/*Campos a recopilar*/
 
@@ -398,6 +401,8 @@ class Optimizacion extends CI_Controller {
 		
 		$data = array(
 			'productos'	=>	$productos,
+			'imagenes'	=>	$imagenes,
+			'grupos'	=>	$grupos,
 			'campos_max_values' => $campos_max_values,
 			'campos_min_values' => $campos_min_values,
 			'campos_bloqueados' => $campos_bloqueados,
