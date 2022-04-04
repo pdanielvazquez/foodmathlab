@@ -17,6 +17,12 @@ Instalación
 
 Descarge y modifique el archivo config.php para indicar el nombre del servidor y su dominio. Modifique database.php para indicar los datos de conexión a BD.
 
+************
+Token
+************
+
+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
+
 *******
 Licencia
 *******
