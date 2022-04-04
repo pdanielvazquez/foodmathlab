@@ -1,0 +1,15 @@
+import Nutriscore as N
+import json
+
+file = open('C:/xampp0/htdocs/foodmathlab-main/vendor/python/parametros.json', 'r')
+data = json.load(file)
+nutri = N.Nutriscore(10)
+
+token = []
+token.append({'valor': nutri.getValor()})
+token.append({'azucar': data['azucar']})
+token.append({'sodio': data['sodio']})
+token.append({'otros': data['otros']})
+
+# print("valor: {}, azucar: {}, sodio: {}, otros: {}".format(nutri.getValor(), data['azucar'], data['sodio'], data['otros']))
+print(json.dumps(token))

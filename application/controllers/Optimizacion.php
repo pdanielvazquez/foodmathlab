@@ -44,7 +44,7 @@ class Optimizacion extends CI_Controller {
 
 		/*Registro de actividad en bitácora*/
 		$datos = array(
-			'id_bitacora'	=>	'',
+			
 			'id_usuario'	=>	$_SESSION['idUser'],
 			'observacion'	=>	'Crear un nuevo token',
 			'fecha'			=>	date("Y-m-d H:i:s"),
@@ -139,7 +139,7 @@ class Optimizacion extends CI_Controller {
 
 		/*Registro de actividad en bitácora*/
 		$datos = array(
-			'id_bitacora'	=>	'',
+			
 			'id_usuario'	=>	$_SESSION['idUser'],
 			'observacion'	=>	'Acceso a Optimización MEX NOM-051',
 			'fecha'			=>	date("Y-m-d H:i:s"),
@@ -413,7 +413,7 @@ class Optimizacion extends CI_Controller {
 
 		/*Registro de actividad en bitácora*/
 		$datos = array(
-			'id_bitacora'	=>	'',
+			
 			'id_usuario'	=>	$_SESSION['idUser'],
 			'observacion'	=>	'Acceso a Optimización Nutri Score',
 			'fecha'			=>	date("Y-m-d H:i:s"),
@@ -446,7 +446,8 @@ class Optimizacion extends CI_Controller {
 		$this->load->view('Plantillas/content_wraper_header_view');
 		
 		/*Aqui va el contenido*/
-		$this->load->view('Optimizacion/nutriscore_view', $data);
+		// $this->load->view('Optimizacion/nutriscore_view', $data);
+		$this->load->view('Optimizacion/nutriscore_ver2_view', $data);
 		
 		$this->load->view('Plantillas/content_wraper_close_view');
 		$this->load->view('Plantillas/footer_view');
@@ -459,6 +460,227 @@ class Optimizacion extends CI_Controller {
 
 		$this->load->view('Plantillas/body_close_view');
 		$this->load->view('Plantillas/html_close_view');
+	}
+
+	public function optimizar(){
+		if (!isset($_SESSION['idUser'])) {
+			redirect('App/logout');
+		}
+
+		/*Validación de permiso de acceso al método*/
+		$permisos_usuarios = $this->General_model->get('permisos_usuarios', array('id_usuario'=>$_SESSION['idUser'], 'opcion'=>'Optimizacion'), array(), '');
+		if ($permisos_usuarios==false) {
+			redirect('inicio');
+		}
+
+		/*Registro de actividad en bitácora*/
+		$datos = array(
+			'id_usuario'	=>	$_SESSION['idUser'],
+			'observacion'	=>	'Solicitud de optimización',
+			'fecha'			=>	date("Y-m-d H:i:s"),
+			);
+		$this->General_model->set('bitacora', $datos);
+
+		/*Consultas generales*/
+		$productos = $this->General_model->get('productos_foodmathlab_v3', array('id_prod'=>$this->input->post('id_prod')), array(), '');
+
+		$producto = ($productos!=false) ? $productos->row(0) : false ;
+
+		if ($producto!=false) {
+
+			$cantidad_neta = explode(" ", $producto->cantidad_neta);
+      $c_neta = array(
+        'valor' =>  $cantidad_neta[0], 
+        'unidad'=>  (count($cantidad_neta)>0) ? $cantidad_neta[1]: 'g',
+      );
+
+      $cantidad_porcion = explode(" ", $producto->cantidad_porcion);
+      $c_porcion = array(
+        'valor' =>  $cantidad_porcion[0],
+        'unidad' =>  (count($cantidad_porcion)>0) ? $cantidad_porcion[1]: 'g',
+      );
+
+      $energia_kj = explode(" ", $producto->energia_kj);
+      $e_kj = array(
+        'valor' =>  $energia_kj[0],
+        'unidad' =>  (count($energia_kj)>0) ? $energia_kj[1]: 'kJ',
+      );
+
+      $energia_kcal = explode(" ", $producto->energia);
+      $e_kcal = array(
+        'valor' =>  $energia_kcal[0],
+        'unidad' =>  (count($energia_kcal)>0) ? $energia_kcal[1]: 'kcal',
+      );
+
+      $lipidos = explode(" ", $producto->lipidos);
+      $lipids = array(
+        'valor' =>  $lipidos[0],
+        'unidad' =>  (count($lipidos)>0) ? $lipidos[1] : 'g' ,
+      );
+
+      $sodio = explode(" ", $producto->sodio);
+      $sodium = array(
+        'valor' =>  $sodio[0],
+        'unidad' =>  (count($sodio)>0) ? $sodio[1] : 'mg' ,
+      );
+
+      $hidratos = explode(" ", $producto->hidratos);
+      $carbo = array(
+        'valor' =>  $hidratos[0],
+        'unidad' =>  (count($hidratos)>0) ? $hidratos[1] : 'g' ,
+      );
+
+      $fibra = explode(" ", $producto->fibra);
+      $fiber = array(
+        'valor' =>  $fibra[0],
+        'unidad' =>  (count($fibra)>0) ? $fibra[1] : 'g' ,
+      );
+
+      $azucar = explode(" ", $producto->azucaresa);
+      $sugar = array(
+        'valor' =>  $azucar[0],
+        'unidad' =>  (count($azucar)>0) ? $azucar[1] : 'g' ,
+      );
+
+      $proteinas = explode(" ", $producto->proteinas);
+      $protein = array(
+        'valor' =>  $proteinas[0],
+        'unidad' =>  (count($proteinas)>0) ? $proteinas[1] : 'g' ,
+      );
+
+      $grasasSat = explode(" ", $producto->acidosgs);
+      $fatty_sat = array(
+        'valor' =>  $grasasSat[0],
+        'unidad' =>  (count($grasasSat)>0) ? $grasasSat[1] : 'g' ,
+      );
+
+      $grasasTrans = explode(" ", $producto->acidostrans);
+      $fatty_trans = array(
+        'valor' =>  $grasasTrans[0],
+        'unidad' =>  (count($grasasTrans)>0) ? $grasasTrans[1] : 'g' ,
+      );
+
+      $frutas = explode(" ", $producto->frutas);
+      $fruits = array(
+        'valor' =>  $frutas[0],
+        'unidad' =>  (count($frutas)>0) ? $frutas[1] : 'g' ,
+      );
+
+      $verdura = explode(" ", $producto->verdura);
+      $vegetable = array(
+        'valor' =>  $verdura[0],
+        'unidad' =>  (count($verdura)>0) ? $verdura[1] : 'g' ,
+      );
+
+			//Inicia json a enviar
+			$postdata["referenceFood"] = [
+				"sugar" 	=> floatval($sugar['valor']),
+		    "carbs" 	=> floatval($carbo['valor']),
+		    "totalFat"=> floatval($lipids['valor']),
+		    "satFat" 	=> floatval($grasasSat['valor']),
+		    "sodium" 	=> floatval($sodium['valor']),
+		    "f&v" 		=> floatval($fruits['valor'] + $vegetable['valor']),
+		    "fiber" 	=> floatval($fiber['valor']),
+		    "protein" => floatval($protein['valor']),
+		    "energy" 	=> floatval($e_kcal['valor']),
+			];
+
+			//Si maneja maximos valores los agrega al json
+			if($this->input->post("azucar_max") != "")
+				$postdata["maxValues"]["sugar"] = floatval($this->input->post("azucar_max"));
+
+			if($this->input->post("grasasSat_max") != "")
+				$postdata["maxValues"]["satFat"] = floatval($this->input->post("grasasSat_max"));
+
+			if($this->input->post("sodio_max") != "")
+				$postdata["maxValues"]["sodium"] = floatval($this->input->post("sodio_max"));
+
+			if($this->input->post("fv_max") != "")
+				$postdata["maxValues"]["f&v"] = floatval($this->input->post("fv_max"));
+
+			if($this->input->post("fibra_max") != "")
+				$postdata["maxValues"]["fiber"] = floatval($this->input->post("fibra_max"));
+
+			if($this->input->post("proteina_max") != "")
+				$postdata["maxValues"]["protein"] = floatval($this->input->post("proteina_max"));
+
+			//Si maneja minimos valores los agrega al json
+			if($this->input->post("azucar_min") != "")
+				$postdata["minValues"]["sugar"] = floatval($this->input->post("azucar_min"));
+
+			if($this->input->post("grasasSat_min") != "")
+				$postdata["minValues"]["satFat"] = floatval($this->input->post("grasasSat_min"));
+
+			if($this->input->post("sodio_min") != "")
+				$postdata["minValues"]["sodium"] = floatval($this->input->post("sodio_min"));
+
+			if($this->input->post("fv_min") != "")
+				$postdata["minValues"]["f&v"] = floatval($this->input->post("fv_min"));
+
+			if($this->input->post("fibra_min") != "")
+				$postdata["minValues"]["fiber"] = floatval($this->input->post("fibra_min"));
+
+			if($this->input->post("proteina_min") != "")
+				$postdata["minValues"]["protein"] = floatval($this->input->post("proteina_min"));
+
+			$postdata["lockValues"] = [
+				"sugar"		=> $this->input->post("azucar_bloq"),
+		    "satFat" 	=> $this->input->post("grasasSat_bloq"),
+		    "sodium" 	=> $this->input->post("sodio_bloq"),
+		    "f&v" 		=> $this->input->post("fv_bloq"),
+		    "fiber" 	=> $this->input->post("fibra_bloq"),
+		    "protein" => $this->input->post("proteina_bloq")
+			];
+
+			$postdata["params"] = [
+				"weightNutriscore"=> floatval($this->input->post("param_peso")),
+		    "population" 			=> floatval($this->input->post("param_poblacion")),
+		    "treplace" 				=> floatval($this->input->post("param_reemplazo")),
+		    "generations" 		=> floatval($this->input->post("param_generaciones")),
+		    "seed" 						=> floatval($this->input->post("param_semilla")),
+			];
+
+			$postdata["foodProperties"] = [
+				"cheese"	=> ($producto->id_categoria == 49) ? true : false,
+		    "drink" 	=> ($producto->tipo == "liquido") ? true : false,
+		    "method" 	=> $this->input->post("metodo"),
+			];
+
+			$postdata["forceLetter"] = $this->input->post("forzarLetra");
+
+			$json = json_encode($postdata);
+			$bytes = file_put_contents("c:/xampp0/htdocs/foodmathlab-main/vendor/python/postdata.json", $json); 
+			echo "JSON creado...";
+			//Fin json a enviar
+
+			//Api StartNutriScoreOptimization
+			/*
+			$curl = curl_init();
+			curl_setopt_array($curl, array(
+				CURLOPT_URL => "http://localhost:5000/StartNutriscoreOptimization",
+				CURLOPT_RETURNTRANSFER => true,
+				CURLOPT_ENCODING => "",
+				CURLOPT_MAXREDIRS => 10,
+				CURLOPT_TIMEOUT => 300,
+				CURLOPT_SSL_VERIFYPEER => FALSE,
+				CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+				CURLOPT_CUSTOMREQUEST => "POST",
+				CURLOPT_POSTFIELDS => json_encode($postdata),
+				CURLOPT_HTTPHEADER => array(
+					"Cache-Control: no-cache",
+					"Content-Type: application/json",
+				)		
+			));
+			$response = curl_exec($curl);
+			$err = curl_error($curl);
+			curl_close($curl);
+			$response = json_decode($response);
+			*/
+
+		}
+		else{
+			redirect(base_url('inicio'));
+		}
 	}
 
 	public function token(){
@@ -474,7 +696,7 @@ class Optimizacion extends CI_Controller {
 
 		/*Registro de actividad en bitácora*/
 		$datos = array(
-			'id_bitacora'	=>	'',
+			
 			'id_usuario'	=>	$_SESSION['idUser'],
 			'observacion'	=>	'Solicitud de creación de un token',
 			'fecha'			=>	date("Y-m-d H:i:s"),
@@ -780,7 +1002,7 @@ class Optimizacion extends CI_Controller {
 
 		/*Registro de actividad en bitácora*/
 		$datos = array(
-			'id_bitacora'	=>	'',
+			
 			'id_usuario'	=>	$_SESSION['idUser'],
 			'observacion'	=>	'Accceso a resultados de optimización',
 			'fecha'			=>	date("Y-m-d H:i:s"),
@@ -1049,7 +1271,7 @@ class Optimizacion extends CI_Controller {
 
 		/*Registro de actividad en bitácora*/
 		$datos = array(
-			'id_bitacora'	=>	'',
+			
 			'id_usuario'	=>	$_SESSION['idUser'],
 			'observacion'	=>	'Eliminación de token',
 			'fecha'			=>	date("Y-m-d H:i:s"),

@@ -126,6 +126,7 @@ $route['nom051_formulas'] = 'Optimizacion/nom051Formulas_ver2';
 $route['crear_token'] = 'Optimizacion/token';
 $route['recuperar_token/(:any)'] = 'Optimizacion/getToken';
 $route['borrar_token/(:any)'] = 'Optimizacion/deleteToken';
+$route['optimizar'] = 'Optimizacion/optimizar';
 
 /*Reformulación*/
 $route['reformulacion'] 			= 'Reformulacion/index';
